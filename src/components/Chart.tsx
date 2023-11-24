@@ -12,46 +12,64 @@ import {
 
 const data = [
   {
-    name: "Page A",
+    month: "1",
     uv: 4000,
     pv: 2400,
-    amt: 2400,
   },
   {
-    name: "Page B",
+    month: "2",
     uv: 3000,
     pv: 1398,
-    amt: 2210,
   },
   {
-    name: "Page C",
+    month: "3",
     uv: 2000,
     pv: 9800,
-    amt: 2290,
   },
   {
-    name: "Page D",
+    month: "4",
     uv: 2780,
     pv: 3908,
-    amt: 2000,
   },
   {
-    name: "Page E",
+    month: "5",
     uv: 1890,
     pv: 4800,
-    amt: 2181,
   },
   {
-    name: "Page F",
+    month: "6",
     uv: 2390,
     pv: 3800,
-    amt: 2500,
   },
   {
-    name: "Page G",
+    month: "7",
     uv: 3490,
     pv: 4300,
-    amt: 2100,
+  },
+  {
+    month: "8",
+    uv: 3690,
+    pv: 1300,
+  },
+  {
+    month: "9",
+    uv: 2490,
+    pv: 8900,
+  },
+  {
+    month: "10",
+    uv: 8790,
+    pv: 9300,
+  },
+  {
+    month: "11",
+    uv: 5490,
+    pv: 6300,
+  },
+  {
+    month: "12",
+    uv: 6220,
+    pv: 7200,
   },
 ];
 
@@ -69,23 +87,42 @@ const Chart = () => {
           bottom: 0,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
+        <CartesianGrid
+          vertical={false}
+          stroke="#484849"
+          strokeDasharray="6 4"
+          horizontalCoordinatesGenerator={() => [20, 70, 120, 170, 220]}
+        />
+        <XAxis
+          dataKey="month"
+          strokeWidth={0.5}
+          tickLine={false}
+          style={{ fontSize: 14 }}
+        />
+        <YAxis
+          axisLine={false}
+          tickLine={false}
+          style={{ fontSize: 14 }}
+          tickFormatter={(tick) => {
+            return tick.toLocaleString();
+          }}
+        />
         <Tooltip />
         <Area
           type="monotone"
           dataKey="uv"
-          stroke="#8884d8"
-          fill="#8884d8"
-          fillOpacity={0.2}
+          strokeWidth={2}
+          stroke="#30C9C9"
+          fill="#30C9C9"
+          fillOpacity={0.06}
         />
         <Area
           type="monotone"
           dataKey="pv"
-          stroke="#82ca9d"
-          fill="#82ca9d"
-          fillOpacity={0.2}
+          strokeWidth={2}
+          stroke="#306FFF"
+          fill="#306FFF"
+          fillOpacity={0.06}
         />
       </AreaChart>
     </ResponsiveContainer>

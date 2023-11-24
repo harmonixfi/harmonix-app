@@ -7,12 +7,22 @@ export default function Vault() {
       <div className="grid grid-cols-2 gap-x-8">
         <div>
           {/* Chart */}
-          <div className="bg-secondary rounded-lg px-4 pt-2 pb-8">
-            <div className="w-full h-[400px]">
+          <div className="bg-secondary rounded-lg px-4 pt-4 pb-8">
+            <div className="flex items-center gap-16 ml-4 mb-8">
+              <div>
+                <p className="text-caption">TVL</p>
+                <p className="text-cta text-xl font-semibold">1000 ETH</p>
+              </div>
+              <div>
+                <p className="text-caption">APR to date</p>
+                <p className="text-success text-xl font-semibold">40%</p>
+              </div>
+            </div>
+            <div className="w-full h-[300px]">
               <Chart />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 mt-8">
               <div className="flex items-center justify-between text-sm">
                 <p>3.56M ETH</p>
                 <p>5.51M ETH</p>

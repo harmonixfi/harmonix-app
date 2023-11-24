@@ -14,6 +14,7 @@ const config: Config = {
         stroke: "#CCCCCC",
         caption: "#858584",
         cta: "#A259FF",
+        success: "#00AC4F",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
