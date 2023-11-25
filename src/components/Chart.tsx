@@ -7,82 +7,59 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
+import dayjs from "dayjs";
 
-const data = [
-  {
-    month: "1",
-    uv: 4000,
-    pv: 2400,
-  },
-  {
-    month: "2",
-    uv: 3000,
-    pv: 1398,
-  },
-  {
-    month: "3",
-    uv: 2000,
-    pv: 9800,
-  },
-  {
-    month: "4",
-    uv: 2780,
-    pv: 3908,
-  },
-  {
-    month: "5",
-    uv: 1890,
-    pv: 4800,
-  },
-  {
-    month: "6",
-    uv: 2390,
-    pv: 3800,
-  },
-  {
-    month: "7",
-    uv: 3490,
-    pv: 4300,
-  },
-  {
-    month: "8",
-    uv: 3690,
-    pv: 1300,
-  },
-  {
-    month: "9",
-    uv: 2490,
-    pv: 8900,
-  },
-  {
-    month: "10",
-    uv: 8790,
-    pv: 9300,
-  },
-  {
-    month: "11",
-    uv: 5490,
-    pv: 6300,
-  },
-  {
-    month: "12",
-    uv: 6220,
-    pv: 7200,
-  },
-];
+export type ChartData = {
+  date_added: string;
+  cum_return: number;
+  benchmark_ret: number;
+}[];
 
-const Chart = () => {
+type ChartProps = {
+  data: ChartData;
+};
+
+const CustomTooltip = ({ payload, label, active }: any) => {
+  if (active) {
+    return (
+      <div className="flex flex-col gap-1 bg-primary px-4 py-3 rounded-lg">
+        <p className="text-gray-400">
+          {dayjs(payload[0].payload.date_added).format("MMMM D, YYYY")}
+        </p>
+        <p>
+          <span className="mr-1">Cum return:</span>
+          <span>{`${Math.round(payload[0].value * 100) / 100}%`}</span>
+        </p>
+        <p>
+          <span className="mr-1">Benchmark return:</span>
+          <span>{`${Math.round(payload[1].value * 100) / 100}%`}</span>
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const renderLegendText = (value: string) => {
+  return (
+    <span>{value === "cum_return" ? "Cum return" : "Benchmark return"}</span>
+  );
+};
+
+const Chart = (props: ChartProps) => {
+  const { data } = props;
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
-        width={500}
-        height={400}
         data={data}
         margin={{
-          top: 10,
-          right: 30,
+          top: 0,
+          right: 10,
           left: 0,
           bottom: 0,
         }}
@@ -91,26 +68,37 @@ const Chart = () => {
           vertical={false}
           stroke="#484849"
           strokeDasharray="6 4"
-          horizontalCoordinatesGenerator={() => [20, 70, 120, 170, 220]}
         />
         <XAxis
-          dataKey="month"
+          dataKey="date_added"
           strokeWidth={0.5}
           tickLine={false}
           style={{ fontSize: 14 }}
+          tickFormatter={(tick) => {
+            return dayjs(tick).format("DD/MM");
+          }}
         />
         <YAxis
           axisLine={false}
           tickLine={false}
           style={{ fontSize: 14 }}
           tickFormatter={(tick) => {
-            return tick.toLocaleString();
+            return `${Math.round(tick * 100) / 100}%`;
           }}
         />
-        <Tooltip />
+        <Tooltip cursor={false} content={<CustomTooltip />} />
+        <Legend
+          align="right"
+          verticalAlign="top"
+          iconType="rect"
+          formatter={renderLegendText}
+          wrapperStyle={{
+            top: -60,
+          }}
+        />
         <Area
           type="monotone"
-          dataKey="uv"
+          dataKey="cum_return"
           strokeWidth={2}
           stroke="#30C9C9"
           fill="#30C9C9"
@@ -118,7 +106,7 @@ const Chart = () => {
         />
         <Area
           type="monotone"
-          dataKey="pv"
+          dataKey="benchmark_ret"
           strokeWidth={2}
           stroke="#306FFF"
           fill="#306FFF"

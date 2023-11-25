@@ -1,34 +1,69 @@
-import Chart from "@/components/Chart";
+import { getVaultInfo, getVaultPerformance } from "@/api/vault";
+import Chart, { ChartData } from "@/components/Chart";
 import Ethereum from "@/components/icons/Ethereum";
+import dayjs from "dayjs";
 
-export default function Vault() {
+async function getData() {
+  const [vaultInfo, vaultPerformance] = await Promise.all([
+    getVaultInfo(),
+    getVaultPerformance(),
+  ]);
+
+  return { vaultInfo, vaultPerformance };
+}
+
+export default async function Vault() {
+  const {
+    vaultInfo: {
+      apr,
+      max_drawdown,
+      total_deposit,
+      vault_currency,
+      vault_capacity,
+    },
+    vaultPerformance: { cum_return, benchmark_ret },
+  } = await getData();
+
+  const percentCapacity = (total_deposit / vault_capacity) * 100;
+
+  const chartData: ChartData = cum_return.map((item, index) => ({
+    cum_return: item,
+    benchmark_ret: benchmark_ret[index],
+    date_added: dayjs()
+      .subtract(cum_return.length - index + 1, "day")
+      .toISOString(),
+  }));
+
   return (
     <main className="flex min-h-screen max-w-7xl flex-col items-center justify-between mx-auto p-24">
       <div className="grid grid-cols-2 gap-x-8">
         <div>
           {/* Chart */}
           <div className="bg-secondary rounded-lg px-4 pt-4 pb-8">
-            <div className="flex items-center gap-16 ml-4 mb-8">
-              <div>
-                <p className="text-caption">TVL</p>
-                <p className="text-cta text-xl font-semibold">1000 ETH</p>
-              </div>
-              <div>
-                <p className="text-caption">APR to date</p>
-                <p className="text-success text-xl font-semibold">40%</p>
-              </div>
+            <div className="ml-4 mb-2">
+              <p className="text-caption">APR to date</p>
+              <p className="text-success text-xl font-semibold">{`${Math.round(
+                apr
+              )}%`}</p>
             </div>
             <div className="w-full h-[300px]">
-              <Chart />
+              <Chart data={chartData} />
             </div>
 
             <div className="flex flex-col gap-2 mt-8">
               <div className="flex items-center justify-between text-sm">
-                <p>3.56M ETH</p>
-                <p>5.51M ETH</p>
+                <p>{`${Intl.NumberFormat("en", { notation: "compact" }).format(
+                  total_deposit
+                )} ${vault_currency}`}</p>
+                <p>{`${Intl.NumberFormat("en", { notation: "compact" }).format(
+                  vault_capacity
+                )} ${vault_currency}`}</p>
               </div>
               <div className="w-full h-1 bg-black rounded-full">
-                <div className="w-2/3 h-1 bg-[#69BEBE] rounded-full"></div>
+                <div
+                  className="h-1 bg-[#69BEBE] rounded-full"
+                  style={{ width: percentCapacity }}
+                ></div>
               </div>
               <div className="flex items-center justify-between text-sm text-caption">
                 <p>Total Deposits</p>
@@ -81,11 +116,11 @@ export default function Vault() {
                 <h5 className="text-xl">Rock Onyx Vault</h5>
                 <div className="flex items-center justify-between">
                   <p className="text-caption">APR to date:</p>
-                  <p>40%</p>
+                  <p>{`${Math.round(apr)}%`}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-caption">Max Drawdown:</p>
-                  <p>20%</p>
+                  <p>{`${Math.round(max_drawdown)}%`}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-caption">Withdrawals:</p>
@@ -94,7 +129,7 @@ export default function Vault() {
               </div>
 
               <div>
-                <h5 className="mb-2">ETH Amount</h5>
+                <h5 className="mb-2">{`${vault_currency} Amount`}</h5>
                 <div className="relative">
                   <Ethereum className="absolute top-1/2 left-2 -translate-y-1/2" />
                   <input
@@ -133,3 +168,5 @@ export default function Vault() {
     </main>
   );
 }
+
+export const revalidate = 60 * 60;
