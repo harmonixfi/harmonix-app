@@ -9,6 +9,7 @@ type VaultInfo = {
 };
 
 export type VaultPerformance = {
+  date: string[];
   cum_return: number[];
   benchmark_ret: number[];
 };
