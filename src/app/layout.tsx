@@ -19,8 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-primary">
       <body className={workSans.className}>
+        <div className="sm:mt-24 md:mt-12">{children}</div>
         <Navbar />
-        {children}
         <Footer />
       </body>
     </html>
