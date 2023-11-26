@@ -85,7 +85,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="">
-            <div>
+            {/* <div>
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Governance
               </h2>
@@ -112,7 +112,7 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
         <hr className="my-4 border-caption sm:mx-auto" />
