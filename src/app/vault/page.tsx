@@ -114,6 +114,13 @@ export default async function Vault() {
                     Max
                   </button>
                 </div>
+                <button
+                  type="button"
+                  disabled
+                  className="flex items-center justify-center gap-1 w-full bg-cta bg-opacity-40 text-black font-semibold mt-4 px-6 py-3 rounded-[20px] mx-auto sm:mx-0"
+                >
+                  Deposit
+                </button>
               </div>
             </div>
           </div>
@@ -122,15 +129,15 @@ export default async function Vault() {
             <p className="mb-2 text-base">Vault Fees</p>
             <div className="flex items-center justify-between">
               <p>Withdrawal Penalty:</p>
-              <p>0.75%</p>
+              <p>0.5%</p>
             </div>
             <div className="flex items-center justify-between">
-              <p>Vault usage (per anum):</p>
-              <p>2%</p>
+              <p>Platform fee (per anum):</p>
+              <p>1%</p>
             </div>
             <div className="flex items-center justify-between">
-              <p>Yield (annual equivalent):</p>
-              <p>20%</p>
+              <p>Performance fee:</p>
+              <p>10%</p>
             </div>
           </div>
         </div>
@@ -143,28 +150,18 @@ export default async function Vault() {
             Description
           </h3>
           <p>
-            In the ever-evolving landscape of cryptocurrency trading, innovation
-            and risk management are paramount.
+            The Stable coin vault - hedging vault utilizing a set of strategies
+            from Options to collect premium fee as yield while dynamically
+            adjusting the allocation of assets during a market downturn, and
+            decreasing the proportion of assets relative to cash when the market
+            experiences a substantial uptrend. This approach aims to optimize
+            the yield from asset holdings.
           </p>
-          <p>
-            Welcome to our crypto trading vault, a cutting-edge solution
-            designed for discerning investors. Our platform offers a unique
-            combination of features that sets us apart from the competition.
-          </p>
-          <p>
-            At the core of our offering is a secure vault where users can
-            deposit their valuable ETH assets. But what truly distinguishes us
-            is our approach to maximizing yield while minimizing risk. We employ
-            a strategic trifecta: staking to earn yield, LP, and a sophisticated
-            options strategy. This multi-pronged approach not only safeguards
-            your investment but also seeks to enhance your holdings, even in
-            turbulent markets.
-          </p>
-          <p>
-            Join us as we delve into the intricacies of our vault, highlighting
-            its exceptional risk profile and unwavering commitment to reducing
-            losses during downtrends while optimizing ETH gains through staking,
-            liquidity provision, and options premium writing.
+          <p className="mt-2">
+            The Long only ETH - delta neutral high APR vault generating yield by
+            holding ETH as collateral while shorting eth perp from different set
+            of Perp Dex through our Automated Models to define best funding rate
+            from different Perp dex across EVM chains
           </p>
         </div>
       </div>
