@@ -128,15 +128,16 @@ export default async function Vault() {
           <div className="w-1/2 mt-4 text-sm text-caption">
             <p className="mb-2 text-base">Vault Fees</p>
             <div className="flex items-center justify-between">
-              <p>Withdrawal Penalty:</p>
+              <p>Exit Fee:</p>
               <p>0.5%</p>
+              <small>If less than 1 month</small>
             </div>
             <div className="flex items-center justify-between">
-              <p>Platform fee (per anum):</p>
+              <p>Management Fee (per anum):</p>
               <p>1%</p>
             </div>
             <div className="flex items-center justify-between">
-              <p>Performance fee:</p>
+              <p>Performance fee (per anum):</p>
               <p>10%</p>
             </div>
           </div>
