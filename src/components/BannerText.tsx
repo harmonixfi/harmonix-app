@@ -10,7 +10,7 @@ const BannerText = () => {
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold capitalize">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold capitalize">
         Automatic hedging vaults while earning good yields with low risk
       </h1>
       <p className="mt-6 mb-12 capitalize">
