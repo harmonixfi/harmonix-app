@@ -8,13 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+        inconsolata: "var(--font-inconsolata)",
+      },
       colors: {
-        primary: "#2B2B2B",
-        secondary: "#3B3B3B",
-        stroke: "#CCCCCC",
-        caption: "#858584",
-        cta: "#A259FF",
-        success: "#00AC4F",
+        rock: {
+          dark: "#0C060A",
+          muted: "#121319",
+          foreground: "#5B5A5A",
+          gray: "#84889A",
+          button: "#1C1C22",
+        },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -1,51 +1,92 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "./icons";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary text-stroke">
-      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/images/logo.png"
-              alt="Rock Onyx Logo"
-              width="0"
-              height="0"
-              sizes="60px"
-              className="w-auto h-full"
-            />
-            <span className="self-center text-white text-2xl font-semibold whitespace-nowrap ml-4">
-              Rock Onyx
-            </span>
-          </Link>
-          <span className="text-sm text-stroke font-light sm:text-center">
-            © Rock Onyx - {new Date().getFullYear()}
-          </span>
-        </div>
-
-        <hr className="my-4 border-caption border-opacity-25 sm:mx-auto" />
-
-        <div className="flex flex-col sm:flex-row items-baseline gap-16">
-          <div>
-            <h5 className="text-white text-lg">Essential Resources</h5>
-            <a href="#" className="block font-normal">
-              Docs
-            </a>
-            <a href="#" className="block font-normal">
-              Audit
-            </a>
+    <footer className="bg-rock-foreground bg-opacity-10 px-20 pt-24 pb-12 mb-16 mx-auto rounded-3xl">
+      <div className="grid grid-cols-2 items-start">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/images/logo.png"
+            alt="Rock Onyx Logo"
+            width={32}
+            height={40}
+          />
+          <h4 className="uppercase text-3xl font-semibold">Rock Onyx</h4>
+        </Link>
+        <div>
+          <div className="grid grid-cols-3">
+            <div>
+              <p className="text-rock-gray text-lg font-semibold">About</p>
+              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
+                <li>
+                  <Link href="/">Faq</Link>
+                </li>
+                <li>
+                  <Link href="/">Blog</Link>
+                </li>
+                <li>
+                  <Link href="/">Team</Link>
+                </li>
+                <li>
+                  <Link href="/">Audit</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-rock-gray text-lg font-semibold">Community</p>
+              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
+                <li>
+                  <Link href="/">Github</Link>
+                </li>
+                <li>
+                  <Link href="/">Discord</Link>
+                </li>
+                <li>
+                  <Link href="/">Twitter</Link>
+                </li>
+                <li>
+                  <Link href="/">Media Kit</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-rock-gray text-lg font-semibold">Dashboard</p>
+            </div>
           </div>
-          <div>
-            <h5 className="text-white text-lg">Connect with Us</h5>
-            <a href="#" className="block font-normal">
-              Discord
-            </a>
-            <a href="#" className="block font-normal">
-              Twitter
-            </a>
-          </div>
         </div>
+      </div>
+
+      <div className="flex justify-between mt-48">
+        <p className="text-sm text-white font-normal">{`© Copyright • Rock Onyx • ${new Date().getFullYear()}`}</p>
+        <ul className="flex gap-6">
+          <li>
+            <a href="#">
+              <LinkedinIcon />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <TwitterIcon />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <FacebookIcon />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <InstagramIcon />
+            </a>
+          </li>
+        </ul>
       </div>
     </footer>
   );
