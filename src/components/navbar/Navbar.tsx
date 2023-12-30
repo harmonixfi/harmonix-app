@@ -4,18 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MenuIcon, CloseIcon, ChevronDownIcon } from "../icons";
+import { MenuIcon, CloseIcon } from "../icons";
 import NavbarMenu from "./NavbarMenu";
 
 const Navbar = () => {
   const pathname = usePathname();
 
   const [navbarOpen, setNavbarOpen] = useState(false);
-
-  const baseNavItemClass =
-    "flex items-center gap-1 py-2 px-3 text-sm text-white uppercase";
-
-  const activeNavItemClass = "font-bold";
 
   useEffect(() => {
     if (navbarOpen) {
@@ -73,12 +68,22 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <Link
-            href="/launch-app"
-            className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
-          >
-            Launch app
-          </Link>
+          {pathname === "/" ? (
+            <Link
+              href="/launch-app"
+              className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+            >
+              Launch app
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+            >
+              Connect wallet
+            </button>
+          )}
+
           <button
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-600"
