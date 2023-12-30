@@ -23,7 +23,9 @@ const Footer = () => {
         <div>
           <div className="grid grid-cols-3">
             <div>
-              <p className="text-rock-gray text-lg font-semibold">About</p>
+              <p className="text-rock-gray text-lg font-medium uppercase">
+                About
+              </p>
               <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
                 <li>
                   <Link href="/">Faq</Link>
@@ -40,7 +42,9 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <p className="text-rock-gray text-lg font-semibold">Community</p>
+              <p className="text-rock-gray text-lg font-medium uppercase">
+                Community
+              </p>
               <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
                 <li>
                   <Link href="/">Github</Link>
@@ -57,7 +61,9 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <p className="text-rock-gray text-lg font-semibold">Dashboard</p>
+              <p className="text-rock-gray text-lg font-medium uppercase">
+                Dashboard
+              </p>
             </div>
           </div>
         </div>

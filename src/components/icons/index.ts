@@ -17,3 +17,7 @@ export { default as DiscordLineIcon } from "./DiscordLine";
 export { default as GithubLineIcon } from "./GithubLine";
 export { default as TSymbolIcon } from "./TSymbol";
 export { default as CurrencySymbolIcon } from "./CurrencySymbol";
+export { default as VaultIcon } from "./Vault";
+export { default as TVaultIcon } from "./TVault";
+export { default as CurrencyVaultIcon } from "./CurrencyVault";
+export { default as InformationIcon } from "./Information";

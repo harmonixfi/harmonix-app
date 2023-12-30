@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Inconsolata } from "next/font/google";
-import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -29,11 +28,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${inconsolata.className} bg-rock-dark`}
+      className={`${inter.variable} ${inconsolata.className} bg-rock-bg`}
     >
       <body>
-        <main className="max-w-[90%] mx-auto">
-          <Navbar />
+        <main className="relative max-w-[90%] mx-auto pb-4">
           <div>{children}</div>
           <Footer />
         </main>
