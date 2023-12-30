@@ -82,7 +82,7 @@ export default function Home() {
               <p className="text-sm opacity-40 font-light">
                 Stable coin vault TVL
               </p>
-              <p className="font-bold">$1.44M</p>
+              <p className="font-bold">$7,492</p>
             </div>
           </div>
 
