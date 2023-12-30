@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import { Inter, Inconsolata } from "next/font/google";
+import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const workSans = Work_Sans({ subsets: ["latin"] });
+export const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+export const inconsolata = Inconsolata({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inconsolata",
+});
 
 export const metadata: Metadata = {
   title: "Rock Onyx",
@@ -17,11 +27,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-primary">
-      <body className={workSans.className}>
-        <div className="sm:mt-24 md:mt-12">{children}</div>
-        <Navbar />
-        <Footer />
+    <html
+      lang="en"
+      className={`${inter.variable} ${inconsolata.className} bg-rock-dark`}
+    >
+      <body>
+        <main className="max-w-[90%] mx-auto">
+          <Navbar />
+          <div>{children}</div>
+          <Footer />
+        </main>
       </body>
     </html>
   );

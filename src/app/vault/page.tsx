@@ -1,6 +1,5 @@
 import { getVaultInfo, getVaultPerformance } from "@/api/vault";
 import Chart, { ChartData } from "@/components/Chart";
-import Ethereum from "@/components/icons/Ethereum";
 import dayjs from "dayjs";
 
 async function getData() {
@@ -101,7 +100,6 @@ export default async function Vault() {
               <div>
                 <h5 className="mb-2">{`${vault_currency} Amount`}</h5>
                 <div className="relative">
-                  <Ethereum className="absolute top-1/2 left-2 -translate-y-1/2" />
                   <input
                     type="text"
                     className="w-full bg-primary rounded-xl px-12 py-3 border-none outline-none ring-0 focus:ring-1 focus:ring-gray-700"
