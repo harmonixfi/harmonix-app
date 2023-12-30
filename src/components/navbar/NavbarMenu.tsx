@@ -24,7 +24,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
   }
 
   return (
-    <div className="relative group">
+    <div className="relative group z-[99]">
       <span className="flex items-center gap-1 py-2 px-3 text-sm text-white uppercase cursor-default">
         {text}
         <ChevronDownIcon className="w-5 h-5" />
