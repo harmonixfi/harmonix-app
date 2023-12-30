@@ -19,6 +19,12 @@ const config: Config = {
           foreground: "#5B5A5A",
           gray: "#84889A",
           button: "#1C1C22",
+          bg: "#030309",
+          "bg-tab": "#121218",
+          blue: "#24284B",
+          secondary: "#6F719D",
+          highlight: "#076EDE",
+          tooltip: "#141416",
         },
       },
       backgroundImage: {
