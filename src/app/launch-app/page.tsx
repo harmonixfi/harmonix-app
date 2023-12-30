@@ -109,7 +109,7 @@ export default function LaunchApp() {
                 <p className="text-sm font-semibold text-rock-gray">
                   Total Projected Yield (APY)
                 </p>
-                <Tooltip
+                {/* <Tooltip
                   message={
                     <div>
                       <div className="grid grid-cols-2 gap-y-2 text-xs text-rock-gray">
@@ -131,30 +131,30 @@ export default function LaunchApp() {
                       </p>
                     </div>
                   }
-                >
-                  <InformationIcon />
-                </Tooltip>
+                > */}
+                <InformationIcon />
+                {/* </Tooltip> */}
               </div>
-              <p className="text-2xl font-semibold">68.68%</p>
+              <p className="text-2xl font-semibold">392%</p>
             </div>
 
             <div>
               <p className="text-sm font-semibold text-rock-gray">
                 Total value locked TVL
               </p>
-              <p className="text-2xl font-semibold">$2,178,473</p>
+              <p className="text-2xl font-semibold">$7,945</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-8">
               <div className="w-full h-1 bg-rock-button rounded-full">
                 <div
                   className="h-1 bg-white rounded-full"
-                  style={{ width: "10%" }}
+                  style={{ width: "0.2%" }}
                 ></div>
               </div>
               <div className="flex items-center justify-between text-sm text-caption">
                 <p className="text-rock-gray">Max Capacity</p>
-                <p>200%</p>
+                <p>4M</p>
               </div>
             </div>
           </div>
