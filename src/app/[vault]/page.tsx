@@ -1,11 +1,36 @@
 import Select from "@/components/Select";
 import { InformationIcon, VaultIcon } from "@/components/icons";
 import Navbar from "@/components/navbar/Navbar";
-import maxImg from "../../../public/images/max.png";
-import Image from "next/image";
-import NewChart from "@/components/NewChart";
+import { LineChartData } from "@/components/LineChart";
+import { getVaultInfo, getVaultPerformance } from "@/api/vault";
+import VaultChart from "@/components/VaultChart";
+import VaultActionCard from "@/components/VaultActionCard";
 
-export default function LaunchApp() {
+async function getData() {
+  const [vaultInfo, vaultPerformance] = await Promise.all([
+    getVaultInfo(),
+    getVaultPerformance(),
+  ]);
+
+  return { vaultInfo, vaultPerformance };
+}
+
+export default async function LaunchApp() {
+  const {
+    vaultInfo: { apr },
+    vaultPerformance: { date, cum_return, benchmark_ret },
+  } = await getData();
+
+  const marketData: LineChartData[] = date.map((item, index) => ({
+    time: item,
+    value: benchmark_ret[index],
+  }));
+
+  const onyxData: LineChartData[] = date.map((item, index) => ({
+    time: item,
+    value: cum_return[index],
+  }));
+
   return (
     <>
       <Navbar />
@@ -49,9 +74,11 @@ export default function LaunchApp() {
             </div>
 
             <div className="border-t border-rock-divider pt-6">
-              <div className="h-[300px]">
-                <NewChart />
-              </div>
+              <VaultChart
+                apr={apr}
+                marketData={marketData}
+                onyxData={onyxData}
+              />
             </div>
           </div>
 
@@ -186,73 +213,7 @@ export default function LaunchApp() {
           </div>
         </div>
         <div className="col-span-2 z-20">
-          <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-9">
-            <ul className="flex w-full">
-              <li className="flex-1">
-                <button
-                  type="button"
-                  className="w-full bg-rock-button rounded-full py-2.5 uppercase"
-                >
-                  Deposit
-                </button>
-              </li>
-              <li className="flex-1">
-                <button type="button" className="w-full py-2.5 uppercase">
-                  Withdraw
-                </button>
-              </li>
-            </ul>
-
-            <div className="mt-10">
-              <p className="text-3xl font-semibold uppercase text-rock-gray">
-                Rock onyx vault
-              </p>
-              <div className="flex flex-col gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-6 p-7">
-                <div className="flex items-center justify-between">
-                  <p className="text-rock-gray">APR to date:</p>
-                  <p>14%</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-rock-gray">Withdrawals</p>
-                  <p>Instants</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between mt-12">
-              <p className="text-3xl text-rock-gray font-semibold uppercase">
-                USDT AMOUNT
-              </p>
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm text-rock-gray">
-                  Wallet Balance: 0000 USDT
-                </p>
-                <button type="button">
-                  <Image src={maxImg} alt="Max" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-4 p-3">
-              <VaultIcon className="w-12 h-12 rounded-md bg-rock-blue p-2" />
-              <div>
-                <p>1.4444444</p>
-                <p className="text-rock-gray">(0.0)</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-rock-gray mt-12">
-              <p>Current Deposit</p>
-              <p>0.0 USDT</p>
-            </div>
-
-            <button
-              type="button"
-              className="w-full bg-white text-rock-muted rounded-full uppercase mt-8 py-2.5"
-            >
-              Deposit
-            </button>
-          </div>
+          <VaultActionCard />
         </div>
       </div>
 
@@ -278,3 +239,5 @@ export default function LaunchApp() {
     </>
   );
 }
+
+export const revalidate = 60 * 60;
