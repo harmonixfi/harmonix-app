@@ -1,23 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
-import logoImg from "../../../public/images/logo.png";
-import {
-  CurrencyVaultIcon,
-  InformationIcon,
-  TVaultIcon,
-  VaultIcon,
-} from "@/components/icons";
-import Tooltip from "@/components/Tooltip";
-import Select from "@/components/Select";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import Select from '@/components/Select';
+import Tooltip from '@/components/Tooltip';
+import { CurrencyVaultIcon, InformationIcon, TVaultIcon, VaultIcon } from '@/components/icons';
+
+import logoImg from '../../../public/images/logo.png';
 
 export default function LaunchApp() {
   return (
     <>
       <nav className="w-full flex flex-wrap items-center justify-between py-8">
-        <Link
-          href="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
             src={logoImg}
             alt="Rock Onyx Logo"
@@ -46,7 +40,7 @@ export default function LaunchApp() {
         className="w-full h-[1px]"
         style={{
           background:
-            "linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)",
+            'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
         }}
       />
 
@@ -55,9 +49,9 @@ export default function LaunchApp() {
           <Select
             placeholder="Strategy"
             options={[
-              { label: "Strategy 1", value: "Strategy 1" },
-              { label: "Strategy 2", value: "Strategy 2" },
-              { label: "Strategy 3", value: "Strategy 3" },
+              { label: 'Strategy 1', value: 'Strategy 1' },
+              { label: 'Strategy 2', value: 'Strategy 2' },
+              { label: 'Strategy 3', value: 'Strategy 3' },
             ]}
           />
         </div>
@@ -65,9 +59,9 @@ export default function LaunchApp() {
           <Select
             placeholder="Deposit asset"
             options={[
-              { label: "Deposit asset 1", value: "Deposit asset 1" },
-              { label: "Deposit asset 2", value: "Deposit asset 2" },
-              { label: "Deposit asset 3", value: "Deposit asset 3" },
+              { label: 'Deposit asset 1', value: 'Deposit asset 1' },
+              { label: 'Deposit asset 2', value: 'Deposit asset 2' },
+              { label: 'Deposit asset 3', value: 'Deposit asset 3' },
             ]}
           />
         </div>
@@ -75,17 +69,14 @@ export default function LaunchApp() {
           <Select
             placeholder="Sort by"
             options={[
-              { label: "Ascending", value: "asc" },
-              { label: "Descending", value: "desc" },
+              { label: 'Ascending', value: 'asc' },
+              { label: 'Descending', value: 'desc' },
             ]}
           />
         </div>
       </div>
 
-      <Link
-        href="/stable-coin-vault"
-        className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60"
-      >
+      <Link href="/stable-coin-vault" className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60">
         <div className="bg-rock-bg-tab rounded-2xl">
           <div className="relative bg-rock-secondary bg-opacity-10 p-6 pb-14">
             <div className="flex items-center gap-2">
@@ -103,15 +94,11 @@ export default function LaunchApp() {
           </div>
 
           <div className="flex flex-col gap-6 px-6 pt-16 pb-6">
-            <p className=" text-3xl font-semibold uppercase">
-              Stable Coin Vault
-            </p>
+            <p className=" text-3xl font-semibold uppercase">Stable Coin Vault</p>
 
             <div>
               <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold text-rock-gray">
-                  Total Projected Yield (APY)
-                </p>
+                <p className="text-sm font-semibold text-rock-gray">Total Projected Yield (APY)</p>
                 {/* <Tooltip
                   message={
                     <div>
@@ -142,18 +129,13 @@ export default function LaunchApp() {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-rock-gray">
-                Total value locked TVL
-              </p>
+              <p className="text-sm font-semibold text-rock-gray">Total value locked TVL</p>
               <p className="text-2xl font-semibold">$7,945</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-8">
               <div className="w-full h-1 bg-rock-button rounded-full">
-                <div
-                  className="h-1 bg-white rounded-full"
-                  style={{ width: "0.2%" }}
-                ></div>
+                <div className="h-1 bg-white rounded-full" style={{ width: '0.2%' }}></div>
               </div>
               <div className="flex items-center justify-between text-sm text-caption">
                 <p className="text-rock-gray">Max Capacity</p>
@@ -168,8 +150,7 @@ export default function LaunchApp() {
         <div
           className="w-full h-full absolute top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
           style={{
-            background:
-              "linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)",
+            background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
           }}
         />
       </div>

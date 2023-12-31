@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Information = ({ className }: IconProps) => {
   return (
@@ -11,13 +11,7 @@ const Information = ({ className }: IconProps) => {
       fill="none"
     >
       <mask id="path-1-inside-1_222_195" fill="white">
-        <rect
-          x="7.11108"
-          y="7.11111"
-          width="1.77778"
-          height="5.33333"
-          rx="0.888857"
-        />
+        <rect x="7.11108" y="7.11111" width="1.77778" height="5.33333" rx="0.888857" />
       </mask>
       <rect
         x="7.11108"
@@ -38,13 +32,7 @@ const Information = ({ className }: IconProps) => {
         stroke="#84889A"
         strokeWidth="6.33001e-05"
       />
-      <circle
-        cx="8"
-        cy="8"
-        r="7.55557"
-        stroke="#84889A"
-        strokeWidth="0.888857"
-      />
+      <circle cx="8" cy="8" r="7.55557" stroke="#84889A" strokeWidth="0.888857" />
     </svg>
   );
 };

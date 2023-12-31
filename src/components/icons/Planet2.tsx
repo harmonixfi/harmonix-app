@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Planet2 = ({ className }: IconProps) => {
   return (
@@ -24,16 +24,8 @@ const Planet2 = ({ className }: IconProps) => {
           colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feBlend
-            mode="normal"
-            in="SourceGraphic"
-            in2="BackgroundImageFix"
-            result="shape"
-          />
-          <feGaussianBlur
-            stdDeviation="5"
-            result="effect1_foregroundBlur_103_1755"
-          />
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+          <feGaussianBlur stdDeviation="5" result="effect1_foregroundBlur_103_1755" />
         </filter>
         <linearGradient
           id="paint0_linear_103_1755"

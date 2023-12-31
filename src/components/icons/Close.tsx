@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Close = ({ className }: IconProps) => {
   return (

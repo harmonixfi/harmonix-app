@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Planet3 = ({ className }: IconProps) => {
   return (
@@ -11,12 +11,7 @@ const Planet3 = ({ className }: IconProps) => {
       fill="none"
     >
       <g filter="url(#filter0_f_103_1751)">
-        <circle
-          cx="35.5"
-          cy="35.5"
-          r="25.5"
-          fill="url(#paint0_linear_103_1751)"
-        />
+        <circle cx="35.5" cy="35.5" r="25.5" fill="url(#paint0_linear_103_1751)" />
       </g>
       <defs>
         <filter
@@ -29,16 +24,8 @@ const Planet3 = ({ className }: IconProps) => {
           colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feBlend
-            mode="normal"
-            in="SourceGraphic"
-            in2="BackgroundImageFix"
-            result="shape"
-          />
-          <feGaussianBlur
-            stdDeviation="5"
-            result="effect1_foregroundBlur_103_1751"
-          />
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+          <feGaussianBlur stdDeviation="5" result="effect1_foregroundBlur_103_1751" />
         </filter>
         <linearGradient
           id="paint0_linear_103_1751"

@@ -1,8 +1,10 @@
-"use client";
+'use client';
 
-import { Fragment, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "./icons";
+import { Fragment, useState } from 'react';
+
+import { Listbox, Transition } from '@headlessui/react';
+
+import { ChevronDownIcon } from './icons';
 
 type SelectOption = {
   label: string;
@@ -19,8 +21,8 @@ const Select = (props: SelectProps) => {
   const { placeholder, options, onChange } = props;
 
   const [selected, setSelected] = useState<SelectOption>({
-    label: "",
-    value: "",
+    label: '',
+    value: '',
   });
 
   const handleChange = (selectedValue: string) => {
@@ -52,7 +54,7 @@ const Select = (props: SelectProps) => {
                 key={opt.value}
                 className={({ active }) =>
                   `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active ? "text-white" : "text-rock-gray"
+                    active ? 'text-white' : 'text-rock-gray'
                   }`
                 }
                 value={opt.value}
@@ -61,7 +63,7 @@ const Select = (props: SelectProps) => {
                   <>
                     <span
                       className={`block truncate uppercase ${
-                        selected ? "font-medium" : "font-normal"
+                        selected ? 'font-medium' : 'font-normal'
                       }`}
                     >
                       {opt.label}

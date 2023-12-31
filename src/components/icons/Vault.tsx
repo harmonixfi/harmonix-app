@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Vault = ({ className }: IconProps) => {
   return (
@@ -10,7 +10,7 @@ const Vault = ({ className }: IconProps) => {
       viewBox="0 0 22 22"
       fill="none"
     >
-      <g style={{ mixBlendMode: "hard-light" }}>
+      <g style={{ mixBlendMode: 'hard-light' }}>
         <path
           d="M12.6281 12.672L11.5633 15.5936C11.5369 15.6728 11.5369 15.7608 11.5633 15.8488L13.3937 20.8736L15.5145 19.6504L12.9713 12.672C12.9097 12.5136 12.6897 12.5136 12.6281 12.672Z"
           fill="white"

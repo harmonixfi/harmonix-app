@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const CurrencyVault = ({ className }: IconProps) => {
   return (
@@ -42,11 +42,7 @@ const CurrencyVault = ({ className }: IconProps) => {
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.24197" />
-          <feComposite
-            in2="SourceAlpha"
-            operator="in"
-            result="effect1_backgroundBlur_222_191"
-          />
+          <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_222_191" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -65,11 +61,7 @@ const CurrencyVault = ({ className }: IconProps) => {
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.24197" />
-          <feComposite
-            in2="SourceAlpha"
-            operator="in"
-            result="effect1_backgroundBlur_222_191"
-          />
+          <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_222_191" />
           <feBlend
             mode="normal"
             in="SourceGraphic"

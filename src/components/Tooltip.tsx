@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState } from 'react';
 
 type TooltipProps = {
   message: ReactNode;
@@ -22,7 +22,7 @@ const Tooltip = (props: TooltipProps) => {
       </span>
       <div
         className={`absolute bottom-full -translate-y-2 flex flex-col items-center group-hover:flex ${
-          !show ? "hidden" : null
+          !show ? 'hidden' : null
         }`}
       >
         <div className="relative z-10 p-4 text-xs leading-none text-white w-72 bg-rock-tooltip shadow-lg rounded-md">

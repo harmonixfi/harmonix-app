@@ -1,4 +1,4 @@
-import LineChart, { LineChartData } from "./LineChart";
+import LineChart, { LineChartData } from './LineChart';
 
 type VaultChartProps = {
   apr: number;
@@ -16,10 +16,7 @@ const VaultChart = (props: VaultChartProps) => {
           <button type="button" className="rounded-full px-3 text-rock-gray">
             Week
           </button>
-          <button
-            type="button"
-            className="bg-rock-button rounded-full px-6 py-2"
-          >
+          <button type="button" className="bg-rock-button rounded-full px-6 py-2">
             Month
           </button>
           <button type="button" className="rounded-full px-3 text-rock-gray">
@@ -47,14 +44,14 @@ const VaultChart = (props: VaultChartProps) => {
         <LineChart
           options={[
             {
-              id: "market",
+              id: 'market',
               data: marketData,
-              lineColor: "#9EB50E",
+              lineColor: '#9EB50E',
             },
             {
-              id: "onyx",
+              id: 'onyx',
               data: onyxData,
-              lineColor: "#0057FF",
+              lineColor: '#0057FF',
             },
           ]}
         />

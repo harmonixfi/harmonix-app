@@ -1,4 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+
 import {
   CurrencySymbolIcon,
   DiscordLineIcon,
@@ -12,11 +14,11 @@ import {
   Planet3Icon,
   TSymbolIcon,
   TwitterLineIcon,
-} from "@/components/icons";
-import centerRockImg from "../../public/images/center-rock.png";
-import blackSmallRockImg from "../../public/images/black-small-rock.png";
-import Link from "next/link";
-import Navbar from "@/components/navbar/Navbar";
+} from '@/components/icons';
+import Navbar from '@/components/navbar/Navbar';
+
+import blackSmallRockImg from '../../public/images/black-small-rock.png';
+import centerRockImg from '../../public/images/center-rock.png';
 
 export default function Home() {
   return (
@@ -40,8 +42,7 @@ export default function Home() {
           <div
             className="w-2/3 h-2/3 absolute left-[16%] rounded-full mix-blend-difference blur-[292px] rotate-[-17deg]"
             style={{
-              background:
-                "linear-gradient(245deg, #D3382C -0.61%, #001AFF 82.92%)",
+              background: 'linear-gradient(245deg, #D3382C -0.61%, #001AFF 82.92%)',
             }}
           />
           <div className="absolute top-[-26%] xl:top-[-36%] left-[2%] w-[102px] h-[100px] xl:w-[205px] xl:h-[201px]">
@@ -50,7 +51,7 @@ export default function Home() {
               alt="Rock Onyx"
               fill
               sizes="100vw"
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: 'cover' }}
             />
           </div>
 
@@ -60,7 +61,7 @@ export default function Home() {
               alt="Rock Onyx"
               fill
               sizes="100vw"
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: 'cover' }}
             />
           </div>
           <EllipseLine1Icon className="absolute top-[30%] 2xl:top-[33%] left-[26%] 2xl:left-[19%] w-[46%] 2xl:w-[61%]" />
@@ -82,9 +83,7 @@ export default function Home() {
             <TSymbolIcon />
             <CurrencySymbolIcon />
             <div>
-              <p className="text-sm opacity-40 font-light">
-                Stable coin vault TVL
-              </p>
+              <p className="text-sm opacity-40 font-light">Stable coin vault TVL</p>
               <p className="font-bold">$7,492</p>
             </div>
           </Link>

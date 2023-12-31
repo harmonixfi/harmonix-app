@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const TVault = ({ className }: IconProps) => {
   return (
@@ -38,11 +38,7 @@ const TVault = ({ className }: IconProps) => {
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.24197" />
-          <feComposite
-            in2="SourceAlpha"
-            operator="in"
-            result="effect1_backgroundBlur_222_186"
-          />
+          <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_222_186" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -61,11 +57,7 @@ const TVault = ({ className }: IconProps) => {
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.24197" />
-          <feComposite
-            in2="SourceAlpha"
-            operator="in"
-            result="effect1_backgroundBlur_222_186"
-          />
+          <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_222_186" />
           <feBlend
             mode="normal"
             in="SourceGraphic"

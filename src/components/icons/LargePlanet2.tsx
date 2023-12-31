@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const LargePlanet2 = ({ className }: IconProps) => {
   return (
@@ -19,7 +19,7 @@ const LargePlanet2 = ({ className }: IconProps) => {
           fill="url(#paint0_linear_176_31)"
         />
       </g>
-      <g style={{ mixBlendMode: "soft-light" }}>
+      <g style={{ mixBlendMode: 'soft-light' }}>
         <path
           d="M72.4684 72.545C74.0828 68.3547 72.1216 65.9488 67.3235 63.4105C63.9159 61.5465 63.5661 60.3126 64.2116 58.6371C64.8571 56.9615 66.4708 56.3455 68.8649 57.2678C71.0204 58.0982 71.942 59.2785 71.8478 61.305C71.8301 61.7108 72.0975 62.0877 72.4567 62.2261L74.3737 62.9647C74.8537 63.1496 75.3513 62.9287 75.5362 62.4488L75.5827 62.328C76.1181 59.5077 74.7465 56.6424 72.0851 55.3432L73.1923 52.4691C73.3772 51.9892 73.1564 51.4915 72.604 51.1434L70.8077 50.4514C70.3278 50.2665 69.8301 50.4873 69.482 51.0397L68.4212 53.793C64.6438 52.8889 61.4453 54.4061 60.2915 57.4008C58.7691 61.3526 60.563 63.8326 65.3623 66.3681C68.4859 68.258 69.2869 69.3917 68.5484 71.3087C67.8098 73.2257 65.6272 73.8964 63.3509 73.0195C60.2384 71.8204 59.6677 70.0889 60.0005 68.1542C60.0647 67.6277 59.7974 67.2508 59.4381 67.1124L57.4033 66.3285C56.9233 66.1436 56.4257 66.3644 56.2408 66.8444L56.1943 66.9651C55.5205 70.1447 56.6042 73.0376 60.3256 75.1579L59.2184 78.0319C59.0335 78.5119 59.2543 79.0095 59.8067 79.3577L61.603 80.0497C62.083 80.2346 62.5806 80.0137 62.9288 79.4613L64.036 76.5873C67.8571 77.3696 71.2228 75.7782 72.4684 72.545Z"
           fill="white"
@@ -40,16 +40,8 @@ const LargePlanet2 = ({ className }: IconProps) => {
           colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feBlend
-            mode="normal"
-            in="SourceGraphic"
-            in2="BackgroundImageFix"
-            result="shape"
-          />
-          <feGaussianBlur
-            stdDeviation="1.61823"
-            result="effect1_foregroundBlur_176_31"
-          />
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+          <feGaussianBlur stdDeviation="1.61823" result="effect1_foregroundBlur_176_31" />
         </filter>
         <linearGradient
           id="paint0_linear_176_31"

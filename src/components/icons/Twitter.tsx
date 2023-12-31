@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const Twitter = ({ className }: IconProps) => {
   return (
@@ -24,12 +24,7 @@ const Twitter = ({ className }: IconProps) => {
       </g>
       <defs>
         <clipPath id="clip0_62_1536">
-          <rect
-            width="17"
-            height="17"
-            fill="white"
-            transform="translate(12 12)"
-          />
+          <rect width="17" height="17" fill="white" transform="translate(12 12)" />
         </clipPath>
       </defs>
     </svg>

@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const EllipseLine2 = ({ className }: IconProps) => {
   return (

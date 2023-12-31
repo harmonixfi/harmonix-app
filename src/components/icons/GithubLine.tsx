@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const GithubLine = ({ className }: IconProps) => {
   return (
@@ -20,12 +20,7 @@ const GithubLine = ({ className }: IconProps) => {
       </g>
       <defs>
         <clipPath id="clip0_68_626">
-          <rect
-            width="20"
-            height="19.5918"
-            fill="white"
-            transform="translate(0 0.204102)"
-          />
+          <rect width="20" height="19.5918" fill="white" transform="translate(0 0.204102)" />
         </clipPath>
       </defs>
     </svg>

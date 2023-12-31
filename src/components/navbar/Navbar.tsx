@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { MenuIcon, CloseIcon } from "../icons";
-import NavbarMenu from "./NavbarMenu";
-import logoImg from "../../../public/images/logo.png";
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import logoImg from '../../../public/images/logo.png';
+import { CloseIcon, MenuIcon } from '../icons';
+import NavbarMenu from './NavbarMenu';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -15,20 +17,17 @@ const Navbar = () => {
 
   useEffect(() => {
     if (navbarOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
   }, [navbarOpen]);
 
   return (
     <nav className="w-full">
       <div className="flex flex-wrap items-center justify-between z-30 mx-auto p-4">
-        {pathname === "/" ? (
-          <Link
-            href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+        {pathname === '/' ? (
+          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Image
               src={logoImg}
               alt="Rock Onyx Logo"
@@ -38,10 +37,7 @@ const Navbar = () => {
             />
           </Link>
         ) : (
-          <Link
-            href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Image
               src={logoImg}
               alt="Rock Onyx Logo"
@@ -59,10 +55,10 @@ const Navbar = () => {
               <NavbarMenu
                 text="About"
                 items={[
-                  { text: "Faq", url: "#" },
-                  { text: "Blog", url: "#" },
-                  { text: "Team", url: "#" },
-                  { text: "Audit", url: "#" },
+                  { text: 'Faq', url: '#' },
+                  { text: 'Blog', url: '#' },
+                  { text: 'Team', url: '#' },
+                  { text: 'Audit', url: '#' },
                 ]}
               />
             </li>
@@ -70,10 +66,10 @@ const Navbar = () => {
               <NavbarMenu
                 text="Community"
                 items={[
-                  { text: "Github", url: "#" },
-                  { text: "Discord", url: "#" },
-                  { text: "Twitter", url: "#" },
-                  { text: "Media Kit", url: "#" },
+                  { text: 'Github', url: '#' },
+                  { text: 'Discord', url: '#' },
+                  { text: 'Twitter', url: '#' },
+                  { text: 'Media Kit', url: '#' },
                 ]}
               />
             </li>
@@ -86,7 +82,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse z-30">
-          {pathname === "/" ? (
+          {pathname === '/' ? (
             <Link
               href="/launch-app"
               className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
@@ -108,11 +104,7 @@ const Navbar = () => {
             onClick={() => setNavbarOpen(!navbarOpen)}
           >
             <span className="sr-only">Open menu</span>
-            {navbarOpen ? (
-              <MenuIcon className="w-5 h-5" />
-            ) : (
-              <CloseIcon className="w-5 h-5" />
-            )}
+            {navbarOpen ? <MenuIcon className="w-5 h-5" /> : <CloseIcon className="w-5 h-5" />}
           </button>
         </div>
       </div>

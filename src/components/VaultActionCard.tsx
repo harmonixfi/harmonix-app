@@ -1,16 +1,14 @@
-import Image from "next/image";
-import { VaultIcon } from "./icons";
-import maxImg from "../../public/images/max.png";
+import Image from 'next/image';
+
+import maxImg from '../../public/images/max.png';
+import { VaultIcon } from './icons';
 
 const VaultActionCard = () => {
   return (
     <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-9">
       <ul className="flex w-full">
         <li className="flex-1">
-          <button
-            type="button"
-            className="w-full bg-rock-button rounded-full py-2.5 uppercase"
-          >
+          <button type="button" className="w-full bg-rock-button rounded-full py-2.5 uppercase">
             Deposit
           </button>
         </li>
@@ -22,9 +20,7 @@ const VaultActionCard = () => {
       </ul>
 
       <div className="mt-10">
-        <p className="text-3xl font-semibold uppercase text-rock-gray">
-          Rock onyx vault
-        </p>
+        <p className="text-3xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
         <div className="flex flex-col gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-6 p-7">
           <div className="flex items-center justify-between">
             <p className="text-rock-gray">APR to date:</p>
@@ -38,9 +34,7 @@ const VaultActionCard = () => {
       </div>
 
       <div className="flex items-center justify-between mt-12">
-        <p className="text-3xl text-rock-gray font-semibold uppercase">
-          USDT AMOUNT
-        </p>
+        <p className="text-3xl text-rock-gray font-semibold uppercase">USDT AMOUNT</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">Wallet Balance: 0000 USDT</p>
           <button type="button">

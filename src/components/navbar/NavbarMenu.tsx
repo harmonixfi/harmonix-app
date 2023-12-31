@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "../icons";
+import { ChevronDownIcon } from '../icons';
 
 type NavbarMenuProps = {
   text: string;
@@ -14,10 +14,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
 
   if (url) {
     return (
-      <a
-        href={url}
-        className="flex items-center gap-1 py-2 px-3 text-sm text-white uppercase"
-      >
+      <a href={url} className="flex items-center gap-1 py-2 px-3 text-sm text-white uppercase">
         {text}
       </a>
     );
@@ -29,9 +26,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
         {text}
         <ChevronDownIcon className="w-5 h-5" />
       </span>
-      <div
-        className={`hidden group-hover:block absolute w-full bg-rock-button rounded-lg py-2`}
-      >
+      <div className={`hidden group-hover:block absolute w-full bg-rock-button rounded-lg py-2`}>
         {items?.map((x) => (
           <a
             key={x.text}

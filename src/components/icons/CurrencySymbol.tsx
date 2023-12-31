@@ -1,4 +1,4 @@
-import { IconProps } from "@/@types/common";
+import { IconProps } from '@/@types/common';
 
 const CurrencySymbol = ({ className }: IconProps) => {
   return (
