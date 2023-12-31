@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuIcon, CloseIcon } from "../icons";
 import NavbarMenu from "./NavbarMenu";
+import logoImg from "../../../public/images/logo.png";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -22,20 +23,37 @@ const Navbar = () => {
 
   return (
     <nav className="w-full">
-      <div className="flex flex-wrap items-center justify-between z-20 mx-auto p-4">
-        <Link
-          href="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          <Image
-            src="/images/logo.png"
-            alt="Rock Onyx Logo"
-            width={64}
-            height={80}
-            className="w-auto h-full"
-          />
-        </Link>
-        <div className="items-center justify-between hidden w-full sm:flex sm:w-auto sm:order-1">
+      <div className="flex flex-wrap items-center justify-between z-30 mx-auto p-4">
+        {pathname === "/" ? (
+          <Link
+            href="/"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
+            <Image
+              src={logoImg}
+              alt="Rock Onyx Logo"
+              width={64}
+              height={80}
+              className="w-auto h-full"
+            />
+          </Link>
+        ) : (
+          <Link
+            href="/"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
+            <Image
+              src={logoImg}
+              alt="Rock Onyx Logo"
+              width={28}
+              height={36}
+              className="w-auto h-full"
+            />
+            <p className="text-3xl uppercase">Rock Onyx</p>
+          </Link>
+        )}
+
+        <div className="items-center justify-between hidden w-full sm:flex sm:w-auto sm:order-1 z-30">
           <ul className="flex flex-col p-4 sm:p-0 mt-4 rounded-lg sm:space-x-12 rtl:space-x-reverse sm:flex-row sm:mt-0 sm:border-0">
             <li>
               <NavbarMenu
@@ -67,7 +85,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse z-30">
           {pathname === "/" ? (
             <Link
               href="/launch-app"

@@ -82,7 +82,10 @@ export default function LaunchApp() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60">
+      <Link
+        href="/stable-coin-vault"
+        className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60"
+      >
         <div className="bg-rock-bg-tab rounded-2xl">
           <div className="relative bg-rock-secondary bg-opacity-10 p-6 pb-14">
             <div className="flex items-center gap-2">
@@ -159,11 +162,11 @@ export default function LaunchApp() {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
 
-      <div className="absolute top-[56%] 2xl:top-[46%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
+      <div className="absolute top-[56%] 2xl:top-[40%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
         <div
-          className="w-full h-full absolute top-[85%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
+          className="w-full h-full absolute top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
           style={{
             background:
               "linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)",

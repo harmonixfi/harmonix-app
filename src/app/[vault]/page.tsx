@@ -3,19 +3,20 @@ import { InformationIcon, VaultIcon } from "@/components/icons";
 import Navbar from "@/components/navbar/Navbar";
 import maxImg from "../../../public/images/max.png";
 import Image from "next/image";
+import NewChart from "@/components/NewChart";
 
 export default function LaunchApp() {
   return (
     <>
       <Navbar />
 
-      <div className="grid grid-cols-5 gap-6 my-24">
+      <div className="grid grid-cols-5 gap-20 my-24">
         <div className="col-span-3">
           <div className="flex flex-col gap-14">
             <h5 className="text-4xl font-normal uppercase">
               Stable Coin vault
             </h5>
-            <div className="relative flex justify-center gap-24 w-3/4 bg-rock-bg-tab rounded-2xl px-12 py-6">
+            <div className="relative flex justify-center gap-24 w-2/3 bg-rock-bg-tab rounded-2xl px-8 py-6">
               <div className="flex-1 flex flex-col items-center justify-between gap-4">
                 <div className="flex items-center gap-4 text-2xl text-rock-gray font-semibold">
                   <p>APY</p>
@@ -47,8 +48,11 @@ export default function LaunchApp() {
               />
             </div>
 
-            {/* TODO: Chart */}
-            <div className="h-[400px] border">Chart</div>
+            <div className="border-t border-rock-divider pt-6">
+              <div className="h-[300px]">
+                <NewChart />
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-24 mt-48">
@@ -181,7 +185,7 @@ export default function LaunchApp() {
             </div>
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="col-span-2 z-20">
           <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-9">
             <ul className="flex w-full">
               <li className="flex-1">
@@ -252,16 +256,19 @@ export default function LaunchApp() {
         </div>
       </div>
 
-      <div
-        className="w-[900px] h-[900px] absolute top-[0%] right-[-52%] rounded-full mix-blend-difference blur-[290px] rotate-[-45deg]"
-        style={{
-          background: "linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)",
-        }}
-      />
-
-      <div className="absolute top-[75%] 2xl:top-[70%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
+      <div className="w-[50vw] h-[200vh] absolute top-0 right-[-5%] overflow-hidden z-10">
         <div
-          className="w-full h-full absolute top-[85%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
+          className="w-full h-1/2 absolute top-0 -right-full rounded-full mix-blend-difference blur-[290px] rotate-[-45deg]"
+          style={{
+            background:
+              "linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)",
+          }}
+        />
+      </div>
+
+      <div className="absolute top-[75%] 2xl:top-[65%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
+        <div
+          className="w-full h-full absolute top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
           style={{
             background:
               "linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)",
