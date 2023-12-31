@@ -75,7 +75,10 @@ export default function Home() {
         </div>
 
         <div className="flex justify-between items-center w-full mb-16">
-          <div className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer">
+          <Link
+            href="/stable-coin-vault"
+            className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
+          >
             <TSymbolIcon />
             <CurrencySymbolIcon />
             <div>
@@ -84,7 +87,7 @@ export default function Home() {
               </p>
               <p className="font-bold">$7,492</p>
             </div>
-          </div>
+          </Link>
 
           <ul className="flex gap-8 backdrop-blur-md w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-5">
             <li>

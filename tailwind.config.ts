@@ -25,6 +25,8 @@ const config: Config = {
           secondary: "#6F719D",
           highlight: "#076EDE",
           tooltip: "#141416",
+          green: "#0ECB81",
+          divider: "#2B2F39",
         },
       },
       backgroundImage: {
