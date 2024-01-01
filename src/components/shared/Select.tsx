@@ -38,7 +38,7 @@ const Select = (props: SelectProps) => {
       <div className="relative mt-1">
         <Listbox.Button className="relative flex items-center justify-center gap-2 w-full cursor-pointer rounded-full bg-rock-button bg-opacity-40 px-5 py-3 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
           <span className="block text-base font-medium truncate uppercase">
-            {selected?.value || placeholder}
+            {selected?.label || placeholder}
           </span>
           <ChevronDownIcon />
         </Listbox.Button>
@@ -53,8 +53,8 @@ const Select = (props: SelectProps) => {
               <Listbox.Option
                 key={opt.value}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active ? 'text-white' : 'text-rock-gray'
+                  `relative cursor-pointer select-none py-2 pl-8 pr-4 ${
+                    active ? 'text-white font-semibold' : 'text-gray-300'
                   }`
                 }
                 value={opt.value}

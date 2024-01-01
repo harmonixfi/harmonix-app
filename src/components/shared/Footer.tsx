@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { SOCIAL_URLS } from '@/constants/socials';
 
-import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
+// import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
 const Footer = () => {
   return (
@@ -61,7 +61,7 @@ const Footer = () => {
 
       <div className="flex justify-between mt-48">
         <p className="text-sm text-white font-normal">{`© Copyright • Rock Onyx • ${new Date().getFullYear()}`}</p>
-        <ul className="flex gap-6">
+        {/* <ul className="flex gap-6">
           <li>
             <a href="#">
               <LinkedinIcon />
@@ -82,7 +82,7 @@ const Footer = () => {
               <InstagramIcon />
             </a>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </footer>
   );

@@ -63,13 +63,12 @@ export default async function LaunchApp() {
       />
 
       <div className="flex gap-6 w-fit mt-12 mx-auto">
-        <div className="w-40">
+        <div className="w-48">
           <Select
-            placeholder="Strategy"
+            placeholder="Strategy type"
             options={[
-              { label: 'Strategy 1', value: 'Strategy 1' },
-              { label: 'Strategy 2', value: 'Strategy 2' },
-              { label: 'Strategy 3', value: 'Strategy 3' },
+              { value: 'deltaNeutral', label: 'Delta neutral' },
+              { value: 'hedging', label: 'Hedging' },
             ]}
           />
         </div>
@@ -77,9 +76,9 @@ export default async function LaunchApp() {
           <Select
             placeholder="Deposit asset"
             options={[
-              { label: 'Deposit asset 1', value: 'Deposit asset 1' },
-              { label: 'Deposit asset 2', value: 'Deposit asset 2' },
-              { label: 'Deposit asset 3', value: 'Deposit asset 3' },
+              { value: 'usdc', label: 'USDC' },
+              { value: 'eth', label: 'ETH' },
+              { value: 'btc', label: 'BTC' },
             ]}
           />
         </div>
@@ -87,8 +86,9 @@ export default async function LaunchApp() {
           <Select
             placeholder="Sort by"
             options={[
-              { label: 'Ascending', value: 'asc' },
-              { label: 'Descending', value: 'desc' },
+              { value: 'name', label: 'Name' },
+              { value: 'apy', label: 'APY' },
+              { value: 'tvl', label: 'TVL' },
             ]}
           />
         </div>

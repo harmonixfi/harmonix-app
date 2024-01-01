@@ -17,6 +17,7 @@ import {
   TwitterLineIcon,
 } from '@/components/shared/icons';
 import Navbar from '@/components/shared/navbar/Navbar';
+import { SOCIAL_URLS } from '@/constants/socials';
 
 import blackSmallRockImg from '../../public/images/black-small-rock.png';
 import centerRockImg from '../../public/images/center-rock.png';
@@ -107,17 +108,17 @@ export default async function Home() {
 
           <ul className="flex gap-8 backdrop-blur-md w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-5">
             <li>
-              <a href="#">
+              <a href={SOCIAL_URLS.Twitter} target="_blank">
                 <TwitterLineIcon />
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={SOCIAL_URLS.Discord} target="_blank">
                 <DiscordLineIcon />
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={SOCIAL_URLS.Github} target="_blank">
                 <GithubLineIcon />
               </a>
             </li>
