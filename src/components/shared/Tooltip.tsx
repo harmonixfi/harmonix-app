@@ -25,7 +25,7 @@ const Tooltip = (props: TooltipProps) => {
           !show ? 'hidden' : null
         }`}
       >
-        <div className="relative z-10 p-4 text-xs leading-none text-white w-72 bg-rock-tooltip shadow-lg rounded-md">
+        <div className="relative p-4 text-sm normal-case leading-5 text-white w-72 bg-rock-tooltip shadow-lg rounded-md">
           {message}
         </div>
         <div className="w-4 h-4 -mt-2 rotate-45 bg-rock-button" />

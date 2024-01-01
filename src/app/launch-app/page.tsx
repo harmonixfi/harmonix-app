@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Select from '@/components/Select';
-import Tooltip from '@/components/Tooltip';
-import { CurrencyVaultIcon, InformationIcon, TVaultIcon, VaultIcon } from '@/components/icons';
+import Select from '@/components/shared/Select';
+import Tooltip from '@/components/shared/Tooltip';
+import {
+  CurrencyVaultIcon,
+  InformationIcon,
+  TVaultIcon,
+  VaultIcon,
+} from '@/components/shared/icons';
 
 import logoImg from '../../../public/images/logo.png';
 
@@ -76,8 +81,8 @@ export default function LaunchApp() {
         </div>
       </div>
 
-      <Link href="/stable-coin-vault" className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60">
-        <div className="bg-rock-bg-tab rounded-2xl">
+      <div className="grid grid-cols-3 w-4/5 mx-auto mt-32 mb-60">
+        <Link href="/stable-coin-vault" className="bg-rock-bg-tab rounded-2xl">
           <div className="relative bg-rock-secondary bg-opacity-10 p-6 pb-14">
             <div className="flex items-center gap-2">
               <p className="w-fit bg-rock-blue bg-opacity-40 rounded-lg px-4 py-2 uppercase">
@@ -143,8 +148,8 @@ export default function LaunchApp() {
               </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       <div className="absolute top-[56%] 2xl:top-[40%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
         <div

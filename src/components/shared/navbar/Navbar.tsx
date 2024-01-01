@@ -6,7 +6,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import logoImg from '../../../public/images/logo.png';
+import { SOCIAL_URLS } from '@/constants/socials';
+
+import logoImg from '../../../../public/images/logo.png';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
@@ -66,10 +68,9 @@ const Navbar = () => {
               <NavbarMenu
                 text="Community"
                 items={[
-                  { text: 'Github', url: '#' },
-                  { text: 'Discord', url: '#' },
-                  { text: 'Twitter', url: '#' },
-                  { text: 'Media Kit', url: '#' },
+                  { text: 'Github', url: SOCIAL_URLS.Github },
+                  { text: 'Discord', url: SOCIAL_URLS.Discord },
+                  { text: 'Twitter', url: SOCIAL_URLS.Twitter },
                 ]}
               />
             </li>

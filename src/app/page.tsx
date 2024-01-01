@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { getVaultInfo } from '@/api/vault';
 import {
   CurrencySymbolIcon,
   DiscordLineIcon,
@@ -14,13 +15,23 @@ import {
   Planet3Icon,
   TSymbolIcon,
   TwitterLineIcon,
-} from '@/components/icons';
-import Navbar from '@/components/navbar/Navbar';
+} from '@/components/shared/icons';
+import Navbar from '@/components/shared/navbar/Navbar';
 
 import blackSmallRockImg from '../../public/images/black-small-rock.png';
 import centerRockImg from '../../public/images/center-rock.png';
 
-export default function Home() {
+async function getData() {
+  const vaultInfo = await getVaultInfo();
+
+  return { vaultInfo };
+}
+
+export default async function Home() {
+  const {
+    vaultInfo: { total_deposit },
+  } = await getData();
+
   return (
     <>
       <Navbar />
@@ -84,7 +95,13 @@ export default function Home() {
             <CurrencySymbolIcon />
             <div>
               <p className="text-sm opacity-40 font-light">Stable coin vault TVL</p>
-              <p className="font-bold">$7,492</p>
+              <p className="font-bold">
+                {total_deposit.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                  maximumFractionDigits: 0,
+                })}
+              </p>
             </div>
           </Link>
 

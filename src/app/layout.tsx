@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { Inconsolata, Inter } from 'next/font/google';
 
-import Footer from '@/components/Footer';
+import Footer from '@/components/shared/Footer';
 
 import './globals.css';
 

@@ -1,4 +1,4 @@
-import LineChart, { LineChartData } from './LineChart';
+import LineChart, { LineChartData } from '../shared/chart/LineChart';
 
 type VaultChartProps = {
   apr: number;
@@ -11,7 +11,7 @@ const VaultChart = (props: VaultChartProps) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <button type="button" className="rounded-full px-3 text-rock-gray">
             Week
@@ -34,12 +34,12 @@ const VaultChart = (props: VaultChartProps) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-3 mt-6 pl-4">
+      {/* <div className="flex items-center gap-3 pl-4">
         <p className="text-xl">APR</p>
         <span className="px-2 py-0.5 border border-rock-green border-opacity-40 rounded-md text-rock-green font-semibold">
           {`${Math.round(apr)}%`}
         </span>
-      </div>
+      </div> */}
       <div className="h-[300px]">
         <LineChart
           options={[

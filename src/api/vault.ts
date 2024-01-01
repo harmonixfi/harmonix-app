@@ -2,6 +2,8 @@ import apiFetch from '@/utils/api';
 
 type VaultInfo = {
   apr: number;
+  monthly_apy: number;
+  weekly_apy: number;
   max_drawdown: number;
   total_deposit: number;
   vault_capacity: number;

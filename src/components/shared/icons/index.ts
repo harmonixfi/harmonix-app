@@ -21,3 +21,4 @@ export { default as VaultIcon } from './Vault';
 export { default as TVaultIcon } from './TVault';
 export { default as CurrencyVaultIcon } from './CurrencyVault';
 export { default as InformationIcon } from './Information';
+export { default as QuestionIcon } from './Question';
