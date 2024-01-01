@@ -4,6 +4,7 @@ import { Inconsolata, Inter } from 'next/font/google';
 
 import Footer from '@/components/shared/Footer';
 
+import Providers from './_providers/Providers';
 import './globals.css';
 
 export const inter = Inter({
@@ -27,10 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${inconsolata.className} bg-rock-bg`}>
       <body>
-        <main className="relative max-w-[90%] mx-auto pb-4">
-          <div>{children}</div>
-          <Footer />
-        </main>
+        <Providers>
+          <main className="relative max-w-[90%] mx-auto pb-4">
+            <div>{children}</div>
+            <Footer />
+          </main>
+        </Providers>
       </body>
     </html>
   );

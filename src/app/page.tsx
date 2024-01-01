@@ -36,6 +36,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
+
       <div className="flex flex-col items-center mt-8">
         <div className="z-50 text-center">
           <h3 className="text-8xl font-bold uppercase  mt-16">Rock Onyx</h3>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { ConnectWallet } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -83,7 +84,8 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse z-30">
-          {pathname === '/' ? (
+          <ConnectWallet />
+          {/* {pathname === '/' ? (
             <Link
               href="/launch-app"
               className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
@@ -97,7 +99,7 @@ const Navbar = () => {
             >
               Connect wallet
             </button>
-          )}
+          )} */}
 
           <button
             type="button"
