@@ -7,7 +7,13 @@ import Image from 'next/image';
 import maxImg from '../../../public/images/max.png';
 import { VaultIcon } from '../shared/icons';
 
-const VaultActionCard = () => {
+type VaultActionCardProps = {
+  apr: number;
+};
+
+const VaultActionCard = (props: VaultActionCardProps) => {
+  const { apr } = props;
+
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
   return (
@@ -43,7 +49,7 @@ const VaultActionCard = () => {
           <div className="flex flex-col gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-6 p-7">
             <div className="flex items-center justify-between">
               <p className="text-rock-gray">APR to date:</p>
-              <p>14%</p>
+              <p>{`${Math.round(apr)}%`}</p>
             </div>
             <div className="flex items-center justify-between">
               <p className="text-rock-gray">Withdrawals</p>

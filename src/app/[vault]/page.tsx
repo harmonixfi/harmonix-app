@@ -169,7 +169,7 @@ export default async function LaunchApp() {
           </div>
         </div>
         <div className="col-span-2">
-          <VaultActionCard />
+          <VaultActionCard apr={apr} />
         </div>
       </div>
 
