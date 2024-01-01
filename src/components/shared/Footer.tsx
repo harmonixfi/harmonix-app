@@ -36,13 +36,19 @@ const Footer = () => {
               <p className="text-rock-gray text-lg font-medium uppercase">Community</p>
               <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
                 <li>
-                  <a href={SOCIAL_URLS.Github}>Github</a>
+                  <a href={SOCIAL_URLS.Github} target="_blank">
+                    Github
+                  </a>
                 </li>
                 <li>
-                  <a href={SOCIAL_URLS.Discord}>Discord</a>
+                  <a href={SOCIAL_URLS.Discord} target="_blank">
+                    Discord
+                  </a>
                 </li>
                 <li>
-                  <a href={SOCIAL_URLS.Twitter}>Twitter</a>
+                  <a href={SOCIAL_URLS.Twitter} target="_blank">
+                    Twitter
+                  </a>
                 </li>
               </ul>
             </div>

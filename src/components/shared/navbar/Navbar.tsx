@@ -68,9 +68,9 @@ const Navbar = () => {
               <NavbarMenu
                 text="Community"
                 items={[
-                  { text: 'Github', url: SOCIAL_URLS.Github },
-                  { text: 'Discord', url: SOCIAL_URLS.Discord },
-                  { text: 'Twitter', url: SOCIAL_URLS.Twitter },
+                  { text: 'Github', url: SOCIAL_URLS.Github, target: '_blank' },
+                  { text: 'Discord', url: SOCIAL_URLS.Discord, target: '_blank' },
+                  { text: 'Twitter', url: SOCIAL_URLS.Twitter, target: '_blank' },
                 ]}
               />
             </li>

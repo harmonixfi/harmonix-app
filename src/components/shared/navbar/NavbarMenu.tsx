@@ -1,3 +1,5 @@
+import { HTMLAttributeAnchorTarget } from 'react';
+
 import { ChevronDownIcon } from '../icons';
 
 type NavbarMenuProps = {
@@ -6,6 +8,7 @@ type NavbarMenuProps = {
   items?: {
     text: string;
     url: string;
+    target?: HTMLAttributeAnchorTarget;
   }[];
 };
 
@@ -31,6 +34,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
           <a
             key={x.text}
             href={x.url}
+            target={x.target}
             className="block w-full text-gray-300 text-sm text-center font-inter font-normal px-4 py-2 hover:text-white"
           >
             {x.text}
