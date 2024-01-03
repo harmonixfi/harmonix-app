@@ -2,10 +2,22 @@
 
 import { useState } from 'react';
 
+import {
+  Web3Button,
+  useAddress,
+  useContract,
+  useContractRead,
+  useContractWrite,
+} from '@thirdweb-dev/react';
+import { BigNumber } from 'ethers';
 import Image from 'next/image';
+
+import rockOnyxAbi from '@/abi/RockOnyxUSDTVault.json';
 
 import maxImg from '../../../public/images/max.png';
 import { VaultIcon } from '../shared/icons';
+
+const contractAddress = '0x9CF034CdFAcA16Ae8d691D9E2023983aDa4e1Ce8';
 
 type VaultActionCardProps = {
   apr: number;
@@ -16,8 +28,26 @@ const VaultActionCard = (props: VaultActionCardProps) => {
 
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
+  const { contract } = useContract(contractAddress, rockOnyxAbi);
+  const { mutateAsync, isLoading, error } = useContractWrite(contract, 'deposit');
+  const address = useAddress();
+
+  const { data: balanceOf } = useContractRead(contract, 'balanceOf', [address]);
+
   return (
     <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-9">
+      {balanceOf !== undefined && <p>Your balance: {BigNumber.from(balanceOf._hex).toString()}</p>}
+      <Web3Button
+        contractAddress={contractAddress}
+        contractAbi={rockOnyxAbi}
+        action={() =>
+          mutateAsync({
+            args: [1],
+          })
+        }
+      >
+        Execute Action
+      </Web3Button>
       <ul className="flex w-full">
         <li className="flex-1">
           <button
