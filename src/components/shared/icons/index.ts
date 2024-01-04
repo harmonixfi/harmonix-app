@@ -22,3 +22,4 @@ export { default as TVaultIcon } from './TVault';
 export { default as CurrencyVaultIcon } from './CurrencyVault';
 export { default as InformationIcon } from './Information';
 export { default as QuestionIcon } from './Question';
+export { default as TCurrencyIcon } from './TCurrency';

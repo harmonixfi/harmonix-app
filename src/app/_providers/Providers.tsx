@@ -8,6 +8,7 @@ import {
   metamaskWallet,
 } from '@thirdweb-dev/react';
 
+import NotistackProvider from './NotistackProvider';
 import { ThirdwebProvider } from './ThirdwebProvider';
 
 type ProviderType = {
@@ -21,7 +22,7 @@ const Providers = ({ children }: ProviderType) => {
       activeChain={Sepolia}
       clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
     >
-      {children}
+      <NotistackProvider>{children}</NotistackProvider>
     </ThirdwebProvider>
   );
 };

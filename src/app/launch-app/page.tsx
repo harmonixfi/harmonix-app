@@ -1,7 +1,9 @@
+import { ConnectWallet } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { getVaultInfo } from '@/api/vault';
+import WalletConnectButton from '@/components/WalletConnectButton';
 import Select from '@/components/shared/Select';
 import Tooltip from '@/components/shared/Tooltip';
 import {
@@ -47,12 +49,7 @@ export default async function LaunchApp() {
             Portfolio
           </li>
         </ul>
-        <button
-          type="button"
-          className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
-        >
-          Connect wallet
-        </button>
+        <WalletConnectButton />
       </nav>
       <div
         className="w-full h-[1px]"
