@@ -17,11 +17,9 @@ export type VaultPerformance = {
 };
 
 export const getVaultInfo = async () =>
-  await apiFetch<VaultInfo>(
-    'https://api.rockonyx.xyz/api/v1/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48',
-  );
+  await apiFetch<VaultInfo>('/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48');
 
 export const getVaultPerformance = async () =>
   await apiFetch<VaultPerformance>(
-    'https://api.rockonyx.xyz/api/v1/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48/performance',
+    '/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48/performance',
   );

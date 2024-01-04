@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import WalletConnectButton from '@/components/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';
@@ -91,12 +92,13 @@ const Navbar = () => {
               Launch app
             </Link>
           ) : (
-            <button
-              type="button"
-              className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
-            >
-              Connect wallet
-            </button>
+            <WalletConnectButton />
+            // <button
+            //   type="button"
+            //   className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+            // >
+            //   Connect wallet
+            // </button>
           )}
 
           <button
