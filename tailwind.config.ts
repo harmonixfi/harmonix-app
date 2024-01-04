@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ['var(--font-inter)'],
-        inconsolata: 'var(--font-inconsolata)',
+        inconsolata: ['var(--font-inconsolata)'],
+        'bruno-ace': ['var(--font-bruno-ace)'],
       },
       colors: {
         rock: {
@@ -27,6 +27,7 @@ const config: Config = {
           tooltip: '#141416',
           green: '#0ECB81',
           divider: '#2B2F39',
+          yellow: '#FFE456',
         },
       },
       backgroundImage: {

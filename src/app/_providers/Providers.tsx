@@ -6,9 +6,9 @@ import { Sepolia } from '@thirdweb-dev/chains';
 import {
   coinbaseWallet, // import the wallets you want
   metamaskWallet,
+  walletConnect,
 } from '@thirdweb-dev/react';
 
-import NotistackProvider from './NotistackProvider';
 import { ThirdwebProvider } from './ThirdwebProvider';
 
 type ProviderType = {
@@ -18,11 +18,11 @@ type ProviderType = {
 const Providers = ({ children }: ProviderType) => {
   return (
     <ThirdwebProvider
-      supportedWallets={[metamaskWallet(), coinbaseWallet()]}
+      supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       activeChain={Sepolia}
       clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
     >
-      <NotistackProvider>{children}</NotistackProvider>
+      {children}
     </ThirdwebProvider>
   );
 };

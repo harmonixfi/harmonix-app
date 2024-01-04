@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import WalletConnectButton from '@/components/WalletConnectButton';
+import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';

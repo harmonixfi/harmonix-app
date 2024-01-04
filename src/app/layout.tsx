@@ -1,22 +1,23 @@
 import type { Metadata } from 'next';
 
-import { Inconsolata, Inter } from 'next/font/google';
+import { Bruno_Ace, Inconsolata } from 'next/font/google';
 
 import Footer from '@/components/shared/Footer';
 
 import Providers from './_providers/Providers';
 import './globals.css';
 
-export const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-
 export const inconsolata = Inconsolata({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inconsolata',
+});
+
+export const brunoAce = Bruno_Ace({
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bruno-ace',
 });
 
 export const metadata: Metadata = {
@@ -26,8 +27,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${inconsolata.className} bg-rock-bg`}>
-      <body>
+    <html lang="en" className={`${brunoAce.variable} ${inconsolata.variable} bg-rock-bg`}>
+      <body className="font-inconsolata">
         <Providers>
           <main className="relative max-w-[90%] mx-auto pb-4">
             <div>{children}</div>

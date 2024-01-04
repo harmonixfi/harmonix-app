@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import {
   useAddress,
   useBalance,
+  useConnectionStatus,
   useContract,
   useContractRead,
   useContractWrite,
@@ -12,14 +13,15 @@ import {
 } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 import Image from 'next/image';
-import { enqueueSnackbar } from 'notistack';
 
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import usdcAbi from '@/abi/usdc.json';
 import { FLOAT_REGEX } from '@/constants/regex';
+import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import maxImg from '../../../public/images/max.png';
-import { TCurrencyIcon } from '../shared/icons';
+import TransactionStatusDialog from '../shared/TransactionStatusDialog';
+import { TCurrencyIcon, WarningIcon } from '../shared/icons';
 
 const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 const tokenAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS ?? '';
@@ -27,6 +29,10 @@ const tokenAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS ?? '';
 const VaultDeposit = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoadingDeposit, setIsLoadingDeposit] = useState(false);
+
+  const { isOpen, type, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
+
+  const connectionStatus = useConnectionStatus();
 
   const address = useAddress();
   const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
@@ -60,14 +66,11 @@ const VaultDeposit = () => {
         await rockContract.connect(signer);
         const depositAction = await rockContract.deposit(amount);
         await depositAction.wait();
-        enqueueSnackbar('You have deposited successfully', {
-          variant: 'success',
-          autoHideDuration: 5000,
-        });
+        onOpenDialog('success');
         setInputValue('');
       } catch (error) {
         console.log(error);
-        enqueueSnackbar(JSON.stringify(error), { variant: 'error', autoHideDuration: 5000 });
+        onOpenDialog('failed');
       } finally {
         setIsLoadingDeposit(false);
       }
@@ -83,12 +86,20 @@ const VaultDeposit = () => {
   const handleClickMax = () => {
     setInputValue(tokenBalance?.displayValue ?? '');
   };
+  const isConnectedWallet = connectionStatus === 'connected';
 
-  const disabledButton = isLoadingDeposit || !inputValue;
+  const disabledButton = !isConnectedWallet || isLoadingDeposit || !inputValue;
 
   return (
     <div>
-      <div className="flex items-center justify-between mt-12">
+      {!isConnectedWallet && (
+        <div className="flex items-center gap-2 mt-12">
+          <WarningIcon />
+          <p className="text-sm font-normal text-rock-yellow">Please connect wallet to deposit</p>
+        </div>
+      )}
+
+      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-12">
         <p className="text-xl text-rock-gray font-semibold uppercase">USDC AMOUNT</p>
         <div className="flex items-center justify-between gap-2">
           {tokenBalance && (
@@ -108,6 +119,7 @@ const VaultDeposit = () => {
           className="w-full h-16 block bg-[#5A5A5A] rounded-xl bg-opacity-10 pl-[72px] pr-3 text-lg text-rock-gray focus:ring-2 focus:outline-none"
           type="text"
           placeholder="0.0"
+          disabled={!isConnectedWallet}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
@@ -128,6 +140,8 @@ const VaultDeposit = () => {
       >
         {isLoadingDeposit ? 'Depositing...' : 'Deposit'}
       </button>
+
+      <TransactionStatusDialog isOpen={isOpen} type={type} onClose={onCloseDialog} />
     </div>
   );
 };

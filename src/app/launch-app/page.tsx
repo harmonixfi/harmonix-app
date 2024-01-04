@@ -3,9 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { getVaultInfo } from '@/api/vault';
-import WalletConnectButton from '@/components/WalletConnectButton';
 import Select from '@/components/shared/Select';
 import Tooltip from '@/components/shared/Tooltip';
+import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import {
   CurrencyVaultIcon,
   InformationIcon,
