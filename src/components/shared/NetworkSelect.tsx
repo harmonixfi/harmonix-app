@@ -25,7 +25,7 @@ const NetworkSelect = () => {
         {chain?.name}
         <ChevronDownIcon />
       </button>
-      <NetworkSelector open={open} onClose={() => setOpen(false)} />
+      <NetworkSelector theme="dark" open={open} onClose={() => setOpen(false)} />
     </div>
   );
 };

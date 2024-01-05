@@ -5,12 +5,14 @@ const useAppConfig = () => {
     return {
       transactionBaseUrl: 'https://arbiscan.io/tx',
       activeChain: Arbitrum,
+      supportedChains: [Arbitrum],
     };
   }
 
   return {
     transactionBaseUrl: 'https://sepolia.etherscan.io/tx',
     activeChain: Sepolia,
+    supportedChains: [Sepolia],
   };
 };
 
