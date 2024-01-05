@@ -28,3 +28,6 @@ export { default as FailedIcon } from './Failed';
 export { default as WarningIcon } from './Warning';
 export { default as ExternalLinkIcon } from './ExternalLink';
 export { default as CopyIcon } from './Copy';
+export { default as MetamaskIcon } from './Metamask';
+export { default as WalletConnectIcon } from './WalletConnect';
+export { default as CoinbaseIcon } from './Coinbase';

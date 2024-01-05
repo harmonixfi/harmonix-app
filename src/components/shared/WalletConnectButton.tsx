@@ -2,28 +2,19 @@
 
 import { useState } from 'react';
 
-import {
-  ConnectWallet,
-  metamaskWallet,
-  useAddress,
-  useConnect,
-  useConnectionStatus,
-} from '@thirdweb-dev/react';
+import { useAddress, useConnectionStatus } from '@thirdweb-dev/react';
 
 import { maskAddress } from '@/utils/string';
 
 import AccountDialog from './AccountDialog';
+import ConnectWalletDialog from './ConnectWalletDialog';
 
 const WalletConnectButton = () => {
-  const connect = useConnect();
   const connectionStatus = useConnectionStatus();
   const address = useAddress();
 
   const [openAccountDialog, setOpenAccountDialog] = useState(false);
-
-  const handleConnect = async () => {
-    await connect(metamaskWallet());
-  };
+  const [openConnectWalletDialog, setOpenConnectWalletDialog] = useState(false);
 
   return (
     <>
@@ -42,12 +33,16 @@ const WalletConnectButton = () => {
         <button
           type="button"
           className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
-          onClick={handleConnect}
+          onClick={() => setOpenConnectWalletDialog(true)}
         >
           Connect wallet
         </button>
       )}
-      {/* <ConnectWallet /> */}
+
+      <ConnectWalletDialog
+        isOpen={openConnectWalletDialog}
+        onClose={() => setOpenConnectWalletDialog(false)}
+      />
     </>
   );
 };

@@ -21,7 +21,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
           <button
             type="button"
             className={`w-full ${
-              selectedTab === 'deposit' ? 'bg-rock-button shadow-xl' : ''
+              selectedTab === 'deposit' ? 'bg-rock-button' : ''
             }  rounded-full py-2.5 uppercase`}
             onClick={() => setSelectedTab('deposit')}
           >
@@ -32,7 +32,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
           <button
             type="button"
             className={`w-full ${
-              selectedTab === 'withdraw' ? 'bg-rock-button shadow-xl' : ''
+              selectedTab === 'withdraw' ? 'bg-rock-button' : ''
             }  rounded-full py-2.5 uppercase`}
             onClick={() => setSelectedTab('withdraw')}
           >
