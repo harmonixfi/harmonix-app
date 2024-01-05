@@ -9,6 +9,8 @@ import {
   walletConnect,
 } from '@thirdweb-dev/react';
 
+import useAppConfig from '@/hooks/useAppConfig';
+
 import { ThirdwebProvider } from './ThirdwebProvider';
 
 type ProviderType = {
@@ -16,11 +18,12 @@ type ProviderType = {
 };
 
 const Providers = ({ children }: ProviderType) => {
+  const { activeChain } = useAppConfig();
   return (
     <ThirdwebProvider
       supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       supportedChains={[Arbitrum, Sepolia]}
-      activeChain={Sepolia}
+      activeChain={activeChain}
       clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
     >
       {children}

@@ -14,6 +14,7 @@ import Image from 'next/image';
 
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { FLOAT_REGEX } from '@/constants/regex';
+import useAppConfig from '@/hooks/useAppConfig';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import withdrawAllImg from '../../../public/images/withdraw-all.png';
@@ -31,15 +32,16 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const [inputValue, setInputValue] = useState('');
 
-  const { isOpen, type, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
+  const { transactionBaseUrl } = useAppConfig();
+  const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const connectionStatus = useConnectionStatus();
-
   const address = useAddress();
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
 
-  const { mutateAsync: withdraw, isLoading: isLoadingWithdraw } = useContractWrite(
+  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
+
+  const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
+  const { mutateAsync: withdraw, isLoading: isWithdrawing } = useContractWrite(
     rockOnyxUSDTVaultContract,
     'initiateWithdraw',
   );
@@ -47,10 +49,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const handleWithdraw = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
-      await withdraw({ args: [amount] });
-      onOpenDialog('success');
+      const response = await withdraw({ args: [amount] });
+      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
       setInputValue('');
-    } catch (error) {
+    } catch {
       onOpenDialog('failed');
     }
   };
@@ -67,7 +69,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const isConnectedWallet = connectionStatus === 'connected';
 
-  const disabledButton = !isConnectedWallet || isLoadingWithdraw || !inputValue;
+  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
 
   return (
     <div>
@@ -144,14 +146,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         type="button"
         className={`w-full bg-white text-rock-muted rounded-full uppercase mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20' : ''
-        } ${isLoadingWithdraw ? 'animate-pulse' : ''}`}
+        } ${isWithdrawing ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
         onClick={handleWithdraw}
       >
-        {isLoadingWithdraw ? 'Withdrawing...' : 'Withdraw'}
+        {isWithdrawing ? 'Withdrawing...' : 'Withdraw'}
       </button>
 
-      <TransactionStatusDialog isOpen={isOpen} type={type} onClose={onCloseDialog} />
+      <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
     </div>
   );
 };

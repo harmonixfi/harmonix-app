@@ -7,11 +7,12 @@ import { FailedIcon, SuccessIcon } from './icons';
 type TransactionStatusDialogProps = {
   isOpen: boolean;
   type: 'success' | 'failed';
+  url?: string;
   onClose: () => void;
 };
 
 const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
-  const { isOpen, type, onClose } = props;
+  const { isOpen, type, url = '', onClose } = props;
 
   const icon = type === 'success' ? <SuccessIcon /> : <FailedIcon />;
 
@@ -57,9 +58,15 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                   </button>
                 </div>
 
-                <a href="#" className="block font-normal underline mt-8 text-center">
-                  View on Arbitrum Explorer
-                </a>
+                {type === 'success' && (
+                  <a
+                    href={url}
+                    target="_blank"
+                    className="block relative font-normal underline mt-8 text-center z-30"
+                  >
+                    View on Arbitrum Explorer
+                  </a>
+                )}
 
                 <div
                   className="w-96 h-96 z-10 absolute top-[80%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[150px] rotate-[-15deg]"

@@ -9,7 +9,6 @@ import {
   useContract,
   useContractRead,
   useContractWrite,
-  useSigner,
 } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 import Image from 'next/image';
@@ -17,6 +16,7 @@ import Image from 'next/image';
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import usdcAbi from '@/abi/usdc.json';
 import { FLOAT_REGEX } from '@/constants/regex';
+import useAppConfig from '@/hooks/useAppConfig';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import maxImg from '../../../public/images/max.png';
@@ -28,52 +28,38 @@ const tokenAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS ?? '';
 
 const VaultDeposit = () => {
   const [inputValue, setInputValue] = useState('');
-  const [isLoadingDeposit, setIsLoadingDeposit] = useState(false);
 
-  const { isOpen, type, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
+  const { transactionBaseUrl } = useAppConfig();
+  const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const connectionStatus = useConnectionStatus();
-
   const address = useAddress();
+
   const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  // // const { contract: usdcContract } = useContract(tokenAddress, usdcAbi);
+  const { contract: usdcContract } = useContract(tokenAddress, usdcAbi);
   const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
 
-  // const {
-  //   mutateAsync: deposit,
-  //   isLoading: isLoadingDeposit,
-  //   status: depositStatus,
-  // } = useContractWrite(rockOnyxUSDTVaultContract, 'deposit');
-  // const { mutateAsync: approve, isLoading, status } = useContractWrite(usdcContract, 'approve');
+  const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(
+    rockOnyxUSDTVaultContract,
+    'deposit',
+  );
+  const { mutateAsync: approve, isLoading: isApproving } = useContractWrite(
+    usdcContract,
+    'approve',
+  );
 
   const { data: tokenBalance } = useBalance(tokenAddress);
 
-  const signer = useSigner();
-
-  const rockContract = new ethers.Contract(rockAddress, rockOnyxUsdtVaultAbi, signer);
-  const usdcContract = new ethers.Contract(tokenAddress, usdcAbi, signer);
-
   const handleDeposit = async () => {
-    if (signer) {
-      try {
-        setIsLoadingDeposit(true);
-        const amount = ethers.utils.parseUnits(inputValue, 6);
-        await usdcContract.connect(signer);
-        await usdcContract.approve(rockAddress, amount);
-        // await approve({ args: [rockAddress, amount] });
-        // console.log('@@approved');
-        // await deposit({ args: [100] });
-        await rockContract.connect(signer);
-        const depositAction = await rockContract.deposit(amount);
-        await depositAction.wait();
-        onOpenDialog('success');
-        setInputValue('');
-      } catch (error) {
-        console.log(error);
-        onOpenDialog('failed');
-      } finally {
-        setIsLoadingDeposit(false);
-      }
+    try {
+      const amount = ethers.utils.parseUnits(inputValue, 6);
+      await approve({ args: [rockAddress, amount] });
+      const response = await deposit({ args: [amount] });
+
+      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
+      setInputValue('');
+    } catch {
+      onOpenDialog('failed');
     }
   };
 
@@ -87,8 +73,8 @@ const VaultDeposit = () => {
     setInputValue(tokenBalance?.displayValue ?? '');
   };
   const isConnectedWallet = connectionStatus === 'connected';
-
-  const disabledButton = !isConnectedWallet || isLoadingDeposit || !inputValue;
+  const isButtonLoading = isDepositing || isApproving;
+  const disabledButton = !isConnectedWallet || !inputValue || isButtonLoading;
 
   return (
     <div>
@@ -127,21 +113,21 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-rock-gray mt-12">
         <p>Current Deposit</p>
-        {balanceOf && <p>{ethers.utils.formatUnits(balanceOf._hex, 6)} USDC</p>}
+        <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} USDC`}</p>
       </div>
 
       <button
         type="button"
         className={`w-full bg-white text-rock-muted rounded-full uppercase mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20' : ''
-        } ${isLoadingDeposit ? 'animate-pulse' : ''}`}
+        } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
         onClick={handleDeposit}
       >
-        {isLoadingDeposit ? 'Depositing...' : 'Deposit'}
+        {isButtonLoading ? 'Depositing...' : 'Deposit'}
       </button>
 
-      <TransactionStatusDialog isOpen={isOpen} type={type} onClose={onCloseDialog} />
+      <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
     </div>
   );
 };
