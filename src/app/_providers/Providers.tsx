@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 
-import { Sepolia } from '@thirdweb-dev/chains';
+import { Arbitrum, Sepolia } from '@thirdweb-dev/chains';
 import {
   coinbaseWallet, // import the wallets you want
   metamaskWallet,
@@ -19,6 +19,7 @@ const Providers = ({ children }: ProviderType) => {
   return (
     <ThirdwebProvider
       supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
+      supportedChains={[Arbitrum, Sepolia]}
       activeChain={Sepolia}
       clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
     >

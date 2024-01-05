@@ -1,8 +1,8 @@
-import { ConnectWallet } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { getVaultInfo } from '@/api/vault';
+import NetworkSelect from '@/components/shared/NetworkSelect';
 import Select from '@/components/shared/Select';
 import Tooltip from '@/components/shared/Tooltip';
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
@@ -49,7 +49,10 @@ export default async function LaunchApp() {
             Portfolio
           </li>
         </ul>
-        <WalletConnectButton />
+        <div className="flex items-center gap-4">
+          <NetworkSelect />
+          <WalletConnectButton />
+        </div>
       </nav>
       <div
         className="w-full h-[1px]"
