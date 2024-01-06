@@ -34,10 +34,12 @@ export default async function LaunchApp() {
     <>
       <Navbar />
 
-      <div className="relative grid grid-cols-5 gap-20 my-24 z-20">
+      <h5 className="text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
+        Stable Coin vault
+      </h5>
+      <div className="relative grid grid-cols-5 gap-20 mb-24 z-20">
         <div className="col-span-3">
           <div className="flex flex-col gap-14">
-            <h5 className="text-4xl font-normal uppercase">Stable Coin vault</h5>
             <VaultSummary
               weeklyApy={weekly_apy}
               monthlyApy={monthly_apy}
@@ -52,7 +54,9 @@ export default async function LaunchApp() {
           {/* Overview */}
           <div className="flex flex-col gap-24 mt-48">
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase">An Overview of Stable coin vault</h5>
+              <h5 className="text-4xl font-normal uppercase font-bruno-ace">
+                An Overview of Stable coin vault
+              </h5>
               <p className="text-base font-light">
                 The Stable coin vault - hedging vault utilizing a set of strategies from Options to
                 collect premium fee as yield while dynamically adjusting the allocation of assets
@@ -64,7 +68,7 @@ export default async function LaunchApp() {
 
             {/* Safety & Assurance */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase">Safety & Assurance</h5>
+              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Safety & Assurance</h5>
               <div className="bg-rock-bg-tab rounded-2xl p-9">
                 <table className="w-full border-separate border-spacing-y-3">
                   <thead>
@@ -102,7 +106,7 @@ export default async function LaunchApp() {
 
             {/* Fee transparency */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase">Fee transparency</h5>
+              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Fee transparency</h5>
               <div className="relative grid grid-cols-4 bg-rock-bg-tab rounded-2xl uppercase py-6">
                 <div className="flex flex-col items-center justify-between gap-4">
                   <p className="text-rock-gray text-base">Entry</p>
@@ -161,7 +165,7 @@ export default async function LaunchApp() {
 
             {/* Withdrawals */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase">Withdrawals</h5>
+              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Withdrawals</h5>
               <p className="text-base font-light">
                 We will settle the withdrawal every Friday, when the options positions expired.
               </p>

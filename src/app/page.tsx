@@ -36,10 +36,11 @@ export default async function Home() {
   return (
     <>
       <Navbar />
+
       <div className="flex flex-col items-center mt-8">
         <div className="z-50 text-center">
-          <h3 className="text-8xl font-bold uppercase  mt-16">Rock Onyx</h3>
-          <h5 className="mt-6 max-w-md text-lg font-normal opacity-70 my-8">
+          <h3 className="text-8xl font-bold uppercase font-bruno-ace mt-16">Rock Onyx</h3>
+          <h5 className="max-w-md text-lg font-normal opacity-70 mx-auto my-8">
             Automatic Hedging Vaults While Earning Good Yields With Low Risk
           </h5>
           <Link
@@ -108,17 +109,29 @@ export default async function Home() {
 
           <ul className="flex gap-8 backdrop-blur-md w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-5">
             <li>
-              <a href={SOCIAL_URLS.Twitter} target="_blank">
+              <a
+                href={SOCIAL_URLS.Twitter}
+                target="_blank"
+                className="text-rock-gray hover:text-white"
+              >
                 <TwitterLineIcon />
               </a>
             </li>
             <li>
-              <a href={SOCIAL_URLS.Discord} target="_blank">
+              <a
+                href={SOCIAL_URLS.Discord}
+                target="_blank"
+                className="text-rock-gray hover:text-white"
+              >
                 <DiscordLineIcon />
               </a>
             </li>
             <li>
-              <a href={SOCIAL_URLS.Github} target="_blank">
+              <a
+                href={SOCIAL_URLS.Github}
+                target="_blank"
+                className="text-rock-gray hover:text-white"
+              >
                 <GithubLineIcon />
               </a>
             </li>

@@ -4,17 +4,23 @@ const Close = ({ className }: IconProps) => {
   return (
     <svg
       className={className}
-      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
+      width="37"
+      height="38"
+      viewBox="0 0 37 38"
       fill="none"
-      viewBox="0 0 17 14"
     >
       <path
+        d="M9.29688 9.64136L18.6239 18.6971L27.951 27.7528"
         stroke="currentColor"
+        strokeWidth="1.27849"
         strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M1 1h15M1 7h15M1 13h15"
+      />
+      <path
+        d="M27.6826 9.37158L18.6269 18.6987L9.57121 28.0257"
+        stroke="currentColor"
+        strokeWidth="1.27849"
+        strokeLinecap="round"
       />
     </svg>
   );

@@ -3,11 +3,12 @@
 import { ReactNode, useState } from 'react';
 
 type TooltipProps = {
+  className?: string;
   message: ReactNode;
   children: ReactNode;
 };
 const Tooltip = (props: TooltipProps) => {
-  const { message, children } = props;
+  const { className = '', message, children } = props;
 
   const [show, setShow] = useState(false);
 
@@ -25,7 +26,9 @@ const Tooltip = (props: TooltipProps) => {
           !show ? 'hidden' : null
         }`}
       >
-        <div className="relative p-4 text-sm normal-case leading-5 text-white w-72 bg-rock-tooltip shadow-lg rounded-md">
+        <div
+          className={`relative p-4 text-sm normal-case leading-5 text-white w-72 bg-rock-tooltip shadow-lg rounded-md ${className}`}
+        >
           {message}
         </div>
         <div className="w-4 h-4 -mt-2 rotate-45 bg-rock-button" />

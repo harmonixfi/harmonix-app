@@ -6,9 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';
+import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
@@ -91,12 +93,16 @@ const Navbar = () => {
               Launch app
             </Link>
           ) : (
-            <button
-              type="button"
-              className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
-            >
-              Connect wallet
-            </button>
+            <div className="flex items-center gap-4">
+              <NetworkSelect />
+              <WalletConnectButton />
+            </div>
+            // <button
+            //   type="button"
+            //   className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+            // >
+            //   Connect wallet
+            // </button>
           )}
 
           <button
