@@ -95,12 +95,12 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       </div>
 
       <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-12">
-        <p className="text-xl text-rock-gray font-semibold uppercase">USDC AMOUNT</p>
+        <p className="text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
         <div className="flex items-center justify-between gap-2 text-sm text-rock-gray">
-          <p>
+          {/* <p>
             <span>Your deposit</span>{' '}
             <span>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} USDC`}</span>
-          </p>
+          </p> */}
           <button type="button" onClick={handleClickWithdrawAll}>
             <Image src={withdrawAllImg} alt="Withdraw all" />
           </button>
@@ -122,7 +122,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       <div className="text-rock-gray text-base mt-6">
         <div className="flex items-center justify-between">
           <p>Available liquidity</p>
-          <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} USDC`}</p>
+          <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} roUSD`}</p>
         </div>
 
         <div
