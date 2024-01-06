@@ -7,7 +7,7 @@ COPY package.json ./
 COPY package-lock.json ./
 
 # Install dependencies
-RUN npm install
+RUN yarn install --frozen-lockfile
 
 FROM node:21 as builder
 
@@ -18,14 +18,14 @@ COPY . .
 COPY --from=dependencies /my-project/node_modules ./node_modules
 
 # Argument to choose environment (default to 'production')
-# ARG NODE_ENV=production
+ARG APP_ENV
 
-# Copy the appropriate .env file based on the NODE_ENV argument
-# COPY .env.${NODE_ENV} .env
-COPY .env .env
+# Copy the appropriate .env file based on the APP_ENV argument
+COPY .env.${APP_ENV} .env
+# COPY .env .env
 
 # Build the Next.js app
-RUN npm run build
+RUN yarn build
 
 FROM node:21 as runner
 WORKDIR /my-project
@@ -41,4 +41,4 @@ COPY --from=builder /my-project/package-lock.json ./
 
 EXPOSE 3000
 # Set the command to start the Next.js app
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
