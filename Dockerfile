@@ -15,6 +15,7 @@ WORKDIR /my-project
 
 # Copy the rest of the application files to the working directory
 COPY . .
+COPY --from=dependencies /my-project/node_modules ./node_modules
 
 # Argument to choose environment (default to 'production')
 # ARG NODE_ENV=production
