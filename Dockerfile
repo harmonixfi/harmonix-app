@@ -36,6 +36,8 @@ COPY --from=builder /my-project/public ./public
 COPY --from=builder /my-project/.next ./.next
 COPY --from=builder /my-project/node_modules ./node_modules
 COPY --from=builder /my-project/.env ./.env
+COPY --from=builder /my-project/package.json ./
+COPY --from=builder /my-project/package-lock.json ./
 
 EXPOSE 3000
 # Set the command to start the Next.js app
