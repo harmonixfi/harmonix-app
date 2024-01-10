@@ -86,13 +86,11 @@ const VaultDeposit = () => {
       )}
 
       <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-12">
-        <p className="text-xl text-rock-gray font-semibold uppercase">USDC AMOUNT</p>
+        <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">USDC AMOUNT</p>
         <div className="flex items-center justify-between gap-2">
-          {tokenBalance && (
-            <p className="text-sm text-rock-gray">
-              Wallet Balance: {tokenBalance.displayValue} USDC
-            </p>
-          )}
+          <p className="text-sm text-rock-gray">
+            Wallet Balance: {tokenBalance ? tokenBalance.displayValue : '0'} USDC
+          </p>
           <button type="button" onClick={handleClickMax}>
             <Image src={maxImg} alt="Max" />
           </button>
@@ -111,14 +109,14 @@ const VaultDeposit = () => {
         />
       </div>
 
-      <div className="flex items-center justify-between text-rock-gray mt-12">
+      <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray mt-12">
         <p>Current Deposit</p>
         <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} USDC`}</p>
       </div>
 
       <button
         type="button"
-        className={`w-full bg-white text-rock-muted rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full bg-white text-sm lg:text-base text-rock-muted rounded-full uppercase mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}

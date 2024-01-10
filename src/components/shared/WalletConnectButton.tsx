@@ -22,7 +22,7 @@ const WalletConnectButton = () => {
         <div className="relative">
           <button
             type="button"
-            className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+            className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-4 sm:px-6 py-2 sm:py-3 text-center hover:ring-2 hover:ring-gray-800"
             onClick={() => setOpenAccountDialog(true)}
           >
             {maskAddress(address || '')}
@@ -32,7 +32,7 @@ const WalletConnectButton = () => {
       ) : (
         <button
           type="button"
-          className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+          className="text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-4 sm:px-6 py-2 sm:py-3 text-center hover:ring-2 hover:ring-gray-800"
           onClick={() => setOpenConnectWalletDialog(true)}
         >
           Connect wallet

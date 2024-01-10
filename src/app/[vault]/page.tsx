@@ -34,11 +34,11 @@ export default async function LaunchApp() {
     <>
       <Navbar />
 
-      <h5 className="text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
+      <h5 className="text-2xl md:text-3xl lg:text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
         Stable Coin vault
       </h5>
-      <div className="relative grid grid-cols-5 gap-20 mb-24 z-20">
-        <div className="col-span-3">
+      <div className="relative grid grid-rows-2 grid-flow-row-dense sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 lg:gap-20 mb-24 z-20">
+        <div className="md:col-span-3">
           <div className="flex flex-col gap-14">
             <VaultSummary
               weeklyApy={weekly_apy}
@@ -52,9 +52,9 @@ export default async function LaunchApp() {
           </div>
 
           {/* Overview */}
-          <div className="flex flex-col gap-24 mt-48">
+          <div className="flex flex-col gap-12 lg:gap-24 mt-24 lg:mt-48">
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase font-bruno-ace">
+              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
                 An Overview of Stable coin vault
               </h5>
               <p className="text-base font-light">
@@ -68,7 +68,9 @@ export default async function LaunchApp() {
 
             {/* Safety & Assurance */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Safety & Assurance</h5>
+              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
+                Safety & Assurance
+              </h5>
               <div className="bg-rock-bg-tab rounded-2xl p-9">
                 <table className="w-full border-separate border-spacing-y-3">
                   <thead>
@@ -106,38 +108,40 @@ export default async function LaunchApp() {
 
             {/* Fee transparency */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Fee transparency</h5>
+              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
+                Fee transparency
+              </h5>
               <div className="relative grid grid-cols-4 bg-rock-bg-tab rounded-2xl uppercase py-6">
-                <div className="flex flex-col items-center justify-between gap-4">
-                  <p className="text-rock-gray text-base">Entry</p>
-                  <p className="text-3xl font-semibold">0%</p>
+                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
+                  <p className="text-rock-gray text-xs lg:text-base">Entry</p>
+                  <p className="text-xl lg:text-3xl font-semibold">0%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-base text-rock-gray font-semibold">
+                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
+                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
                     <p>Exit</p>
                     <Tooltip message="Penalty fee when you withdraw in 1 month.">
-                      <QuestionIcon />
+                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-3xl font-semibold">0.5%</p>
+                  <p className="text-xl lg:text-3xl font-semibold">0.5%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-base text-rock-gray font-semibold">
+                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
+                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
                     <p>Performance</p>
                     <Tooltip message="We will charge the performance fee when you withdraw fund with profit.">
-                      <QuestionIcon />
+                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-3xl font-semibold">1%</p>
+                  <p className="text-xl lg:text-3xl font-semibold">1%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-base text-rock-gray font-semibold">
+                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
+                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
                     <p>Management</p>
                     <Tooltip message="We will charge the management fee when you withdraw fund.">
-                      <QuestionIcon />
+                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-3xl font-semibold">10%</p>
+                  <p className="text-xl lg:text-3xl font-semibold">10%</p>
                 </div>
                 <div
                   className="w-[1px] h-full absolute top-0 left-1/4"
@@ -165,14 +169,16 @@ export default async function LaunchApp() {
 
             {/* Withdrawals */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-4xl font-normal uppercase font-bruno-ace">Withdrawals</h5>
+              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
+                Withdrawals
+              </h5>
               <p className="text-base font-light">
                 We will settle the withdrawal every Friday, when the options positions expired.
               </p>
             </div>
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <VaultActionCard apr={apr} />
         </div>
       </div>

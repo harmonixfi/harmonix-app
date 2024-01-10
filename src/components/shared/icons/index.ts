@@ -31,3 +31,4 @@ export { default as CopyIcon } from './Copy';
 export { default as MetamaskIcon } from './Metamask';
 export { default as WalletConnectIcon } from './WalletConnect';
 export { default as CoinbaseIcon } from './Coinbase';
+export { default as RockOnyxTokenIcon } from './RockOnyxToken';

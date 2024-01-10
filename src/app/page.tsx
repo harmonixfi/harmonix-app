@@ -39,8 +39,10 @@ export default async function Home() {
 
       <div className="flex flex-col items-center mt-8">
         <div className="z-50 text-center">
-          <h3 className="text-8xl font-bold uppercase font-bruno-ace mt-16">Rock Onyx</h3>
-          <h5 className="max-w-md text-lg font-normal opacity-70 mx-auto my-8">
+          <h3 className="text-4xl sm:text-8xl font-bold uppercase font-bruno-ace mt-0 sm:mt-16">
+            Rock Onyx
+          </h3>
+          <h5 className="max-w-md text-base sm:text-lg font-normal opacity-70 mx-auto my-8">
             Automatic Hedging Vaults While Earning Good Yields With Low Risk
           </h5>
           <Link
@@ -58,7 +60,7 @@ export default async function Home() {
               background: 'linear-gradient(245deg, #D3382C -0.61%, #001AFF 82.92%)',
             }}
           />
-          <div className="absolute top-[-26%] xl:top-[-36%] left-[2%] w-[102px] h-[100px] xl:w-[205px] xl:h-[201px]">
+          <div className="absolute top-[-14%] sm:top-[-26%] xl:top-[-36%] left-[2%] w-20 h-16 sm:w-[102px] sm:h-[100px] xl:w-[205px] xl:h-[201px]">
             <Image
               src={blackSmallRockImg}
               alt="Rock Onyx"
@@ -68,16 +70,16 @@ export default async function Home() {
             />
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 w-[85%] h-full">
+          <div className="absolute left-1/2 -translate-x-1/2 w-80 h-96 sm:w-[85%] sm:h-full">
             <Image
               src={centerRockImg}
               alt="Rock Onyx"
               fill
-              sizes="100vw"
+              sizes="100"
               style={{ objectFit: 'cover' }}
             />
           </div>
-          <EllipseLine1Icon className="absolute top-[30%] 2xl:top-[33%] left-[26%] 2xl:left-[19%] w-[46%] 2xl:w-[61%]" />
+          <EllipseLine1Icon className="absolute top-[25%] sm:top-[30%] 2xl:top-[33%] left-[26%] 2xl:left-[19%] w-[46%] 2xl:w-[61%]" />
           <div className="absolute top-[16%] 2xl:top-[24%] left-[12%] 2xl:left-[6%] w-[75%] 2xl:w-[85%]">
             <EllipseLine2Icon className="w-full" />
             <Planet3Icon className="absolute bottom-[-4%] xl:bottom-[-10%] right-[6%] xl:right-[12%] w-[8%]" />
@@ -88,7 +90,7 @@ export default async function Home() {
           <LargePlanet2Icon className="absolute top-[26%] 2xl:top-[32%] left-[10%] xl:left-[14%] 2xl:left-[20%] w-[8%]" />
         </div>
 
-        <div className="flex justify-between items-center w-full mb-16">
+        <div className="hidden sm:flex justify-between items-center w-full mb-16">
           <Link
             href="/stable-coin-vault"
             className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
