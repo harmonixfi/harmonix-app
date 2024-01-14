@@ -15,12 +15,12 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
   return (
-    <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-9">
+    <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-6 lg:p-9">
       <ul className="flex w-full">
         <li className="flex-1">
           <button
             type="button"
-            className={`w-full ${
+            className={`w-full text-sm lg:text-base ${
               selectedTab === 'deposit' ? 'bg-rock-button' : ''
             }  rounded-full py-2.5 uppercase`}
             onClick={() => setSelectedTab('deposit')}
@@ -31,7 +31,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
         <li className="flex-1">
           <button
             type="button"
-            className={`w-full ${
+            className={`w-full text-sm lg:text-base ${
               selectedTab === 'withdraw' ? 'bg-rock-button' : ''
             }  rounded-full py-2.5 uppercase`}
             onClick={() => setSelectedTab('withdraw')}

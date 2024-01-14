@@ -13,24 +13,33 @@ const VaultChart = (props: VaultChartProps) => {
     <>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <button type="button" className="rounded-full px-3 text-rock-gray">
+          <button
+            type="button"
+            className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
+          >
             Week
           </button>
-          <button type="button" className="bg-rock-button rounded-full px-6 py-2">
+          <button
+            type="button"
+            className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"
+          >
             Month
           </button>
-          <button type="button" className="rounded-full px-3 text-rock-gray">
+          <button
+            type="button"
+            className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
+          >
             Year
           </button>
         </div>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-4 lg:gap-10">
           <div className="flex items-center gap-2">
             <span className="w-5 h-[1px] bg-[#9EB50E]" />
-            <p className="text-rock-gray">Market</p>
+            <p className="text-sm lg:text-base text-rock-gray">Market</p>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-5 h-[1px] bg-[#0057FF]" />
-            <p className="text-rock-gray">Onyx Vault *</p>
+            <p className="text-sm lg:text-base text-rock-gray">Onyx Vault *</p>
           </div>
         </div>
       </div>
@@ -40,7 +49,7 @@ const VaultChart = (props: VaultChartProps) => {
           {`${Math.round(apr)}%`}
         </span>
       </div> */}
-      <div className="h-[300px]">
+      <div className="h-[240px] lg:h-[300px]">
         <LineChart
           options={[
             {

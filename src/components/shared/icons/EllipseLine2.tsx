@@ -4,8 +4,6 @@ const EllipseLine2 = ({ className }: IconProps) => {
   return (
     <svg
       className={className}
-      width="1131"
-      height="250"
       viewBox="0 0 1131 250"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
