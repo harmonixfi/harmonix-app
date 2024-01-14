@@ -17,7 +17,7 @@ const VaultCard = (props: VaultCardProps) => {
 
   return (
     <Link href={link} className="bg-rock-bg-tab rounded-2xl">
-      <div className="relative bg-rock-secondary bg-opacity-10 p-6 pb-14">
+      <div className="relative bg-rock-secondary bg-opacity-10 rounded-2xl p-6 pb-14">
         <div className="flex items-center gap-2">
           <p className="w-fit bg-rock-blue bg-opacity-40 rounded-lg px-4 py-2 uppercase">{name}</p>
           <span className="bg-rock-blue bg-opacity-40 rounded-lg px-2.5 py-2">

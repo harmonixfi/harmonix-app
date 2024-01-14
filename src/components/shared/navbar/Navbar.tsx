@@ -28,7 +28,7 @@ const Navbar = () => {
   }, [navbarOpen]);
 
   return (
-    <nav className="w-full">
+    <nav className="relative w-full z-30">
       <div className="flex flex-wrap items-center justify-between z-30 mx-auto p-4">
         {pathname === '/' ? (
           <Link
@@ -45,13 +45,15 @@ const Navbar = () => {
           </Link>
         ) : (
           <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <Image
-              src={logoImg}
-              alt="Rock Onyx Logo"
-              width={28}
-              height={36}
-              className="w-auto h-full"
-            />
+            <span className="w-10 sm:w-16 h-16 sm:h-20">
+              <Image
+                src={logoImg}
+                alt="Rock Onyx Logo"
+                width="100"
+                height="100"
+                className="w-full h-auto"
+              />
+            </span>
             <p className="hidden sm:inline-block text-3xl uppercase">Rock Onyx</p>
           </Link>
         )}
@@ -59,7 +61,7 @@ const Navbar = () => {
         <div
           className={`items-center justify-between w-full sm:flex sm:w-auto sm:order-1 ${
             navbarOpen
-              ? 'z-[99] flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
+              ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
               : 'hidden'
           }`}
         >

@@ -94,7 +94,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between mt-12">
+      <div className="flex items-center justify-between mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
         <div className="flex items-center justify-between gap-2 text-sm text-rock-gray">
           {/* <p>

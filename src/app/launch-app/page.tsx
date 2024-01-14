@@ -86,22 +86,13 @@ export default async function LaunchApp() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full sm:w-4/5 mx-auto mt-12 sm:mt-32 mb-36 sm:mb-60">
+      <div className="relative z-50 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full sm:w-4/5 mx-auto mt-12 sm:mt-32 mb-36 sm:mb-60">
         <VaultCard
           name="Stable Coin Vault"
           link="/stable-coin-vault"
           apy={Math.round(monthly_apy)}
           tvl={total_deposit}
           maxCapacity={4000000}
-        />
-      </div>
-
-      <div className="absolute top-[56%] 2xl:top-[40%] w-full h-[100vh] opacity-60 blur-[60px] overflow-y-hidden">
-        <div
-          className="w-full h-full absolute top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
-          style={{
-            background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-          }}
         />
       </div>
     </>

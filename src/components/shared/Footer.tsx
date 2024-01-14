@@ -1,14 +1,19 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { SOCIAL_URLS } from '@/constants/socials';
 
 // import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
 const Footer = () => {
+  const pathname = usePathname();
+
   return (
     <footer className="relative bg-rock-foreground bg-opacity-10 px-8 md:px-20 pt-12 md:pt-24 pb-12 mb-16 mx-auto rounded-3xl z-30">
-      <div className="sm:grid grid-cols-3 lg:grid-cols-2 items-start">
+      <div className="relative sm:grid grid-cols-3 lg:grid-cols-2 items-start z-30">
         <Link href="/" className="flex items-center gap-3 mb-8 sm:mb-0">
           <Image src="/images/logo.png" alt="Rock Onyx Logo" width={32} height={40} />
           <h4 className="uppercase text-xl md:text-3xl font-semibold">Rock Onyx</h4>
@@ -84,6 +89,17 @@ const Footer = () => {
           </li>
         </ul> */}
       </div>
+
+      {pathname !== '/' && (
+        <div className="absolute -bottom-20 left-[-6%] w-screen h-screen overflow-hidden z-10">
+          <div
+            className="w-1/2 h-full absolute top-1/3 sm:top-2/3 xl:top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
+            style={{
+              background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
+            }}
+          />
+        </div>
+      )}
     </footer>
   );
 };

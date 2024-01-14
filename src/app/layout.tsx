@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import type { Metadata } from 'next';
 
 import { Bruno_Ace, Inconsolata } from 'next/font/google';
@@ -6,6 +8,7 @@ import Footer from '@/components/shared/Footer';
 
 import Providers from './_providers/Providers';
 import './globals.css';
+import Loading from './loading';
 
 export const inconsolata = Inconsolata({
   subsets: ['latin'],
@@ -30,10 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${brunoAce.variable} ${inconsolata.variable} bg-rock-bg`}>
       <body className="font-inconsolata">
         <Providers>
-          <main className="relative max-w-[90%] mx-auto pb-4">
-            <div>{children}</div>
-            <Footer />
-          </main>
+          <Suspense fallback={<Loading />}>
+            <main className="relative max-w-[90%] mx-auto pb-4">
+              <div>{children}</div>
+              <Footer />
+            </main>
+          </Suspense>
         </Providers>
       </body>
     </html>

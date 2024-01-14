@@ -31,13 +31,13 @@ export default async function LaunchApp() {
   }));
 
   return (
-    <>
+    <div className="relative z-40">
       <Navbar />
 
-      <h5 className="text-2xl md:text-3xl lg:text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
+      <h5 className="relative z-20 text-2xl md:text-3xl lg:text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
         Stable Coin vault
       </h5>
-      <div className="relative grid grid-rows-2 grid-flow-row-dense sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 lg:gap-20 mb-24 z-20">
+      <div className="relative flex flex-col-reverse sm:grid sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 lg:gap-20 mb-24 z-20">
         <div className="md:col-span-3">
           <div className="flex flex-col gap-14">
             <VaultSummary
@@ -183,23 +183,14 @@ export default async function LaunchApp() {
         </div>
       </div>
 
-      <div className="w-[50vw] h-[200vh] absolute top-0 right-[-5%] overflow-hidden z-10">
+      <div className="w-screen h-screen sm:h-[200vh] absolute top-0 right-[-5%] overflow-hidden z-10">
         <div
-          className="w-full h-1/2 absolute top-0 -right-full rounded-full mix-blend-difference blur-[290px] rotate-[-45deg]"
+          className="w-full h-1/2 absolute top-0 -right-full md:right-[-90%] 2xl:right-[-80%] rounded-full mix-blend-difference blur-[290px] rotate-[-90deg]"
           style={{
             background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
           }}
         />
       </div>
-
-      <div className="absolute top-[75%] 2xl:top-[65%] w-full h-[100vh] z-10 opacity-60 blur-[60px] overflow-y-hidden">
-        <div
-          className="w-full h-full absolute top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
-          style={{
-            background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-          }}
-        />
-      </div>
-    </>
+    </div>
   );
 }
