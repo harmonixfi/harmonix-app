@@ -1,6 +1,7 @@
 import { getVaultInfo, getVaultPerformance } from '@/api/vault';
 import Select from '@/components/shared/Select';
 import Tooltip from '@/components/shared/Tooltip';
+import Typography from '@/components/shared/Typography';
 import { LineChartData } from '@/components/shared/chart/LineChart';
 import { QuestionIcon, VaultIcon } from '@/components/shared/icons';
 import Navbar from '@/components/shared/navbar/Navbar';
@@ -54,9 +55,7 @@ export default async function LaunchApp() {
           {/* Overview */}
           <div className="flex flex-col gap-12 lg:gap-24 mt-24 lg:mt-48">
             <div className="flex flex-col gap-6">
-              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
-                An Overview of Stable coin vault
-              </h5>
+              <Typography variant="heading">An Overview of Stable coin vault</Typography>
               {/* <p className="text-base font-light">
                 The Stable coin vault - hedging vault utilizing a set of strategies from Options to
                 collect premium fee as yield while dynamically adjusting the allocation of assets
@@ -64,76 +63,85 @@ export default async function LaunchApp() {
                 when the market experiences a substantial uptrend. This approach aims to optimize
                 the yield from asset holdings.
               </p> */}
-              <p className="text-base font-light">
+              <Typography variant="body">
                 The Stablecoin vault generates yield by employing the wheel strategy{' '}
                 <a href="#">Learn more</a>. After users deposit funds into the vault, it allocates
                 assets according to the following ratios:
-              </p>
+              </Typography>
               <ul>
-                <li>ETH Holding: 60%</li>
-                <li>Cash: 20%</li>
-                <li>Options: 20%</li>
+                <li>
+                  <Typography variant="body">ETH Holding: 60%</Typography>
+                </li>
+                <li>
+                  <Typography variant="body">Cash: 20%</Typography>
+                </li>
+                <li>
+                  <Typography variant="body">Options: 20%</Typography>
+                </li>
               </ul>
 
-              <p>
+              <Typography variant="body">
                 Every Friday, the vault initiates covered calls/puts options positions with strike
                 prices calculated using our algorithm and an expiry date of two weeks to earn
                 premiums. If the options positions expire out-of-the-money, we realize a profit
                 equal to the paid premium. In the event that the options expire in-the-money, the
                 vault automatically settles the covered calls/puts mechanism using the available
                 quantity of Ether and cash <a href="#">Learn more</a>.
-              </p>
+              </Typography>
 
-              <p>
+              <Typography variant="body">
                 In addition to optimizing returns from holding Ether and stablecoin, the vault
                 implements a liquidity farming strategy to earn swap and MM rewards. We have also
                 developed an algorithm to control the LP strategy based on market volatility,
                 calculating the optimal price range for the LP position.
-              </p>
+              </Typography>
 
-              <h3>VAULT RECEIVES DEPOSITS</h3>
+              <div>
+                <Typography variant="subtitle">Vault receives deposits</Typography>
+                <Typography variant="body">
+                  The vault accepts USDC deposits from investors and allocates 60% to a WETH/wstETH
+                  liquidity position, 20% to a USDC/USDC.e liquidity position, and 20% to collateral
+                  aeUSD in AEVO for bi-weekly options trading.
+                </Typography>
+              </div>
 
-              <p>
-                The vault accepts USDC deposits from investors and allocates 60% to a WETH/wstETH
-                liquidity position, 20% to a USDC/USDC.e liquidity position, and 20% to collateral
-                aeUSD in AEVO for bi-weekly options trading.
-              </p>
+              <div>
+                <Typography variant="subtitle">ALGORITHMIC STRIKE SELECTION</Typography>
+                <Typography variant="body">
+                  We have developed an algorithm to optimally select out-of-the-money (OTM) strikes,
+                  minimizing the risk of in-the-money (ITM) outcomes in highly volatile markets.
+                </Typography>
+              </div>
 
-              <h3>ALGORITHMIC STRIKE SELECTION</h3>
+              <div>
+                <Typography variant="subtitle">ALGORITHMIC LP PRICE RANGE SELECTION</Typography>
+                <Typography variant="body">
+                  Our algorithm is designed to estimate market volatility and employ statistical
+                  methods to determine the optimal price range when adding LP positions.
+                </Typography>
+              </div>
 
-              <p>
-                We have developed an algorithm to optimally select out-of-the-money (OTM) strikes,
-                minimizing the risk of in-the-money (ITM) outcomes in highly volatile markets.
-              </p>
+              <div>
+                <Typography variant="subtitle">VAULT OPTIONS</Typography>
+                <Typography variant="body">
+                  Every week, the vault generates bi-weekly covered calls/puts options positions
+                  based on the output of our algorithm, with position sizes ranging from 7% to 10%
+                  of the total Ether spot holdings.
+                </Typography>
+              </div>
 
-              <h3>ALGORITHMIC LP PRICE RANGE SELECTION</h3>
-
-              <p>
-                Our algorithm is designed to estimate market volatility and employ statistical
-                methods to determine the optimal price range when adding LP positions.
-              </p>
-
-              <h3>VAULT OPTIONS</h3>
-
-              <p>
-                Every week, the vault generates bi-weekly covered calls/puts options positions based
-                on the output of our algorithm, with position sizes ranging from 7% to 10% of the
-                total Ether spot holdings.
-              </p>
-
-              <h3>VAULT COLLECTS YIELDS</h3>
-
-              <p>
-                Every Friday, the vault collects rewards from LP positions and options premiums,
-                reinvesting them to represent the yield generated by this strategy.
-              </p>
+              <div>
+                <Typography variant="subtitle">VAULT COLLECTS YIELDS</Typography>
+                <Typography variant="body">
+                  Every Friday, the vault collects rewards from LP positions and options premiums,
+                  reinvesting them to represent the yield generated by this strategy.
+                </Typography>
+              </div>
             </div>
 
             {/* Safety & Assurance */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
-                Safety & Assurance
-              </h5>
+              <Typography variant="heading">Safety & Assurance</Typography>
               <div className="bg-rock-bg-tab rounded-2xl p-9">
                 <table className="w-full border-separate border-spacing-y-3">
                   <thead>
@@ -171,9 +179,7 @@ export default async function LaunchApp() {
 
             {/* Fee transparency */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
-                Fee transparency
-              </h5>
+              <Typography variant="heading">Fee transparency</Typography>
               <div className="relative grid grid-cols-4 bg-rock-bg-tab rounded-2xl uppercase py-6">
                 <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
                   <p className="text-rock-gray text-xs lg:text-base">Entry</p>
@@ -232,20 +238,18 @@ export default async function LaunchApp() {
 
             {/* Withdrawals */}
             <div className="flex flex-col gap-6">
-              <h5 className="text-xl md:text-2xl lg:text-4xl font-normal uppercase font-bruno-ace">
-                Withdrawals
-              </h5>
-              <p className="text-base font-light">
+              <Typography variant="heading">Withdrawals</Typography>
+              <Typography variant="body">
                 Once user funds have been used in the vault’s weekly strategy they cannot be
                 withdrawn until the vault closes it’s position the following Friday at 8am UTC.
-              </p>
-              <p className="text-base font-light">
+              </Typography>
+              <Typography variant="body">
                 The process of withdrawing funds from RockOnyx is simple and flexible. Users can
                 choose to withdraw their funds at any time by initiating a withdraw request on the
                 website. When the options expiry date arrives, we will automatically close the
                 options positions and transfer the user’s fund back to the vault. Then, the user can
                 claim their fund from the RockOnyx website at their convenience.
-              </p>
+              </Typography>
             </div>
           </div>
         </div>

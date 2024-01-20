@@ -18,8 +18,9 @@ import useAppConfig from '@/hooks/useAppConfig';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import withdrawAllImg from '../../../public/images/withdraw-all.png';
+import Tooltip from '../shared/Tooltip';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { RockOnyxTokenIcon, TCurrencyIcon, WarningIcon } from '../shared/icons';
+import { QuestionIcon, RockOnyxTokenIcon, TCurrencyIcon, WarningIcon } from '../shared/icons';
 
 const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
@@ -88,8 +89,27 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
             <p>{`${Math.round(apr)}%`}</p>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-rock-gray">Withdrawals</p>
-            <p>5 - 7 days</p>
+            <div className="flex items-center gap-2">
+              <p className="text-rock-gray">Withdrawals</p>
+              <Tooltip
+                message={
+                  <div className="flex flex-col gap-3">
+                    <p>
+                      If you want to withdraw funds that have been invested in the vault&apos;s
+                      weekly options strategy, you need to follow a 2-step process:
+                    </p>
+                    <p>Step 1: You need to initiate the withdrawal request.</p>
+                    <p>
+                      Step 2: You can claim your withdrawal every Friday at 8am UTC after our
+                      options positions have expired.
+                    </p>
+                  </div>
+                }
+              >
+                <QuestionIcon />
+              </Tooltip>
+            </div>
+            <p>8am UTC Friday</p>
           </div>
         </div>
       </div>
