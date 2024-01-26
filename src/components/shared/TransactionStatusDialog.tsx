@@ -67,13 +67,6 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                     View on Arbitrum Explorer
                   </a>
                 )}
-
-                <div
-                  className="w-96 h-96 z-10 absolute top-[80%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[150px] rotate-[-15deg]"
-                  style={{
-                    background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-                  }}
-                />
               </Dialog.Panel>
             </Transition.Child>
           </div>

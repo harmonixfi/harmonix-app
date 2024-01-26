@@ -27,7 +27,7 @@ const Tooltip = (props: TooltipProps) => {
         }`}
       >
         <div
-          className={`relative p-4 text-sm normal-case leading-5 text-white w-72 bg-rock-tooltip shadow-lg rounded-md ${className}`}
+          className={`relative p-4 text-sm normal-case leading-5 text-white w-64 md:w-72 bg-rock-tooltip shadow-lg rounded-md ${className}`}
         >
           {message}
         </div>

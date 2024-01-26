@@ -2,32 +2,39 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 import { SOCIAL_URLS } from '@/constants/socials';
+
+import textLogoImg from '../../../public/images/textLogo.png';
 
 // import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
 const Footer = () => {
-  const pathname = usePathname();
-
   return (
-    <footer className="relative bg-rock-foreground bg-opacity-10 px-8 md:px-20 pt-12 md:pt-24 pb-12 mb-16 mx-auto rounded-3xl z-30">
+    <footer className="relative bg-rock-bg-coin backdrop-blur-sm px-8 lg:px-20 pt-12 lg:pt-28 pb-16 mb-16 mx-auto rounded-3xl z-20">
       <div className="relative sm:grid grid-cols-3 lg:grid-cols-2 items-start z-30">
-        <Link href="/" className="flex items-center gap-3 mb-8 sm:mb-0">
-          <Image src="/images/logo.png" alt="Rock Onyx Logo" width={32} height={40} />
-          <h4 className="uppercase text-xl md:text-3xl font-semibold">Rock Onyx</h4>
-        </Link>
+        <div className="mb-8 sm:mb-0 -translate-y-4">
+          <Link href="/" className="flex items-center gap-1">
+            <Image src={textLogoImg} alt="Rock Onyx Logo" width={48} height={48} />
+            <h4 className="uppercase text-xl lg:text-3xl font-semibold">Rock Onyx</h4>
+          </Link>
+          {/* <p className="text-lg font-semibold uppercase mt-4 sm:mt-10 pl-4">SLOGAN</p> */}
+        </div>
         <div className="sm:col-span-2 lg:col-span-1 pl-0 sm:pl-6 lg:pl-0">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-0">
             <div>
-              <p className="text-rock-gray text-lg font-medium uppercase">About</p>
-              <ul className="flex flex-col gap-3 mt-2 sm:mt-6 text-sm text-white font-normal">
+              <p className="text-rock-gray text-base font-extralight uppercase">About</p>
+              <ul className="flex flex-col gap-3 mt-2 sm:mt-6 text-sm text-white font-light">
                 <li>
                   <Link href="/">Faq</Link>
                 </li>
                 <li>
-                  <Link href="/">Blog</Link>
+                  <Link
+                    href="https://mirror.xyz/0xa1e8a739166876845B7dEdc177989024bAB0D810"
+                    target="_blank"
+                  >
+                    Blog
+                  </Link>
                 </li>
                 <li>
                   <Link href="/">Team</Link>
@@ -38,16 +45,16 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <p className="text-rock-gray text-lg font-medium uppercase">Community</p>
-              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-normal">
+              <p className="text-rock-gray text-base font-extralight uppercase">Community</p>
+              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-light">
                 <li>
                   <a href={SOCIAL_URLS.Github} target="_blank">
                     Github
                   </a>
                 </li>
                 <li>
-                  <a href={SOCIAL_URLS.Discord} target="_blank">
-                    Discord
+                  <a href={SOCIAL_URLS.Telegram} target="_blank">
+                    Telegram
                   </a>
                 </li>
                 <li>
@@ -58,7 +65,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="hidden md:block">
-              <p className="text-rock-gray text-lg font-medium uppercase">Dashboard</p>
+              <p className="text-rock-gray text-base font-extralight uppercase">Dashboard</p>
             </div>
           </div>
         </div>
@@ -89,17 +96,6 @@ const Footer = () => {
           </li>
         </ul> */}
       </div>
-
-      {pathname !== '/' && (
-        <div className="absolute -bottom-20 left-[-6%] w-screen h-screen overflow-hidden z-10">
-          <div
-            className="w-1/2 h-full absolute top-1/3 sm:top-2/3 xl:top-full left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[290px] rotate-[-15deg]"
-            style={{
-              background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-            }}
-          />
-        </div>
-      )}
     </footer>
   );
 };
