@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { getVaultInfo } from '@/api/vault';
+import VaultFloatButton from '@/components/home/VaultFloatButton';
 import {
-  CurrencySymbolIcon,
   EllipseLine1Icon,
   EllipseLine2Icon,
   GithubLineIcon,
@@ -21,17 +20,7 @@ import { SOCIAL_URLS } from '@/constants/socials';
 
 import centerRockImg from '../../public/images/center-rock.png';
 
-async function getData() {
-  const vaultInfo = await getVaultInfo();
-
-  return { vaultInfo };
-}
-
 export default async function Home() {
-  const {
-    vaultInfo: { total_deposit },
-  } = await getData();
-
   return (
     <>
       <Navbar />
@@ -79,23 +68,7 @@ export default async function Home() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full mb-16">
-          <Link
-            href="/stable-coin-vault"
-            className="flex gap-1 backdrop-blur-sm w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
-          >
-            <TSymbolIcon />
-            <CurrencySymbolIcon />
-            <div className="pl-2">
-              <p className="text-sm opacity-40 font-light">Stable coin vault TVL</p>
-              <p className="font-bold">
-                {total_deposit.toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  maximumFractionDigits: 0,
-                })}
-              </p>
-            </div>
-          </Link>
+          <VaultFloatButton />
 
           <ul className="flex justify-around gap-8 backdrop-blur-md w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full px-8 py-4">
             <li>

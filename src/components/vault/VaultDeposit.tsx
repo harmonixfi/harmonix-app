@@ -21,7 +21,7 @@ import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import CurrencySelect from '../shared/CurrencySelect';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { WarningIcon } from '../shared/icons';
+import { SpinnerIcon, WarningIcon } from '../shared/icons';
 
 const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 const tokenAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS ?? '';
@@ -42,11 +42,7 @@ const VaultDeposit = () => {
   const { contract: usdcContract } = useContract(tokenAddress, usdcAbi);
   const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
 
-  const { data: pricePerShareData } = useContractRead(
-    rockOnyxUSDTVaultContract,
-    'pricePerShare',
-    [],
-  );
+  const { data: pricePerShareData } = useContractRead(rockOnyxUSDTVaultContract, 'pricePerShare');
   const pricePerShare = pricePerShareData ? ethers.utils.formatUnits(pricePerShareData._hex, 6) : 1;
 
   const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(
@@ -148,13 +144,14 @@ const VaultDeposit = () => {
 
       <button
         type="button"
-        className={`w-full bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
         onClick={handleDeposit}
       >
-        {isButtonLoading ? 'Depositing...' : 'Deposit'}
+        {isButtonLoading && <SpinnerIcon className="w-6 h-6 animate-spin" />}
+        Deposit
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />

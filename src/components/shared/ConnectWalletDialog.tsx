@@ -76,13 +76,6 @@ const ConnectWalletDialog = (props: ConnectWalletDialogProps) => {
                     </li>
                   ))}
                 </ul>
-
-                <div
-                  className="w-64 h-64 z-10 absolute top-[60%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[150px] rotate-[-15deg]"
-                  style={{
-                    background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-                  }}
-                />
               </Dialog.Panel>
             </Transition.Child>
           </div>

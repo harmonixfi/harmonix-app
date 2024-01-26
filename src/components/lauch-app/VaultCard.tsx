@@ -1,6 +1,7 @@
 'use client';
 
 import { useContract, useContractRead } from '@thirdweb-dev/react';
+import { ethers } from 'ethers';
 import Link from 'next/link';
 
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
@@ -13,18 +14,18 @@ type VaultCardProps = {
   name: string;
   link: string;
   apy: number;
-  tvl: number;
   maxCapacity: number;
 };
 
 const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
 const VaultCard = (props: VaultCardProps) => {
-  const { name, link, apy, tvl, maxCapacity } = props;
+  const { name, link, apy, maxCapacity } = props;
 
   const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked');
+  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
   console.log('@data', data);
+  const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
 
   return (
     <Link href={link} className="bg-rock-bg-tab rounded-2xl">
@@ -73,7 +74,7 @@ const VaultCard = (props: VaultCardProps) => {
         <div>
           <p className="text-sm font-semibold text-rock-gray">Total value locked TVL</p>
           <p className="text-2xl font-semibold">
-            {tvl.toLocaleString('en-US', {
+            {totalValueLocked.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,
@@ -85,7 +86,7 @@ const VaultCard = (props: VaultCardProps) => {
           <div className="w-full h-1 bg-rock-button rounded-full">
             <div
               className="h-1 bg-white rounded-full"
-              style={{ width: `${(tvl * 100) / maxCapacity}%` }}
+              style={{ width: `${(totalValueLocked * 100) / maxCapacity}%` }}
             ></div>
           </div>
           <div className="flex items-center justify-between text-sm text-caption">

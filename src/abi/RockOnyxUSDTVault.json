@@ -418,13 +418,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "round",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "acquireWithdrawalFunds",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -458,11 +452,6 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "round",
-        "type": "uint256"
-      },
       {
         "internalType": "uint256",
         "name": "shares",
@@ -563,6 +552,24 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getAvailableWithdrawlAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -582,13 +589,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "round",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "getRoundWithdrawAmount",
     "outputs": [
       {
@@ -602,16 +603,11 @@
   },
   {
     "inputs": [],
-    "name": "getVaultFees",
+    "name": "getWithdrawPoolAmount",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "performanceFee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "managementFee",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -883,30 +879,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "roundWithdrawals",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "shares",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "_performanceFeeRate",
         "type": "uint256"
       },
@@ -1026,6 +998,30 @@
       {
         "internalType": "uint256",
         "name": "lastLockedAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawals",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "round",
         "type": "uint256"
       }
     ],
