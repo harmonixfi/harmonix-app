@@ -17,7 +17,7 @@ async function getData() {
 
 export default async function Vault() {
   const {
-    vaultInfo: { apr, weekly_apy, monthly_apy, total_deposit },
+    vaultInfo: { apr, weekly_apy, monthly_apy },
     vaultPerformance: { date, cum_return, benchmark_ret },
   } = await getData();
 
@@ -41,11 +41,7 @@ export default async function Vault() {
       <div className="relative flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mb-24 z-20">
         <div className="lg:col-span-3">
           <div className="flex flex-col gap-14">
-            <VaultSummary
-              weeklyApy={weekly_apy}
-              monthlyApy={monthly_apy}
-              totalDeposit={total_deposit}
-            />
+            <VaultSummary weeklyApy={weekly_apy} monthlyApy={monthly_apy} />
 
             <div className="border-t border-rock-divider pt-6">
               <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />

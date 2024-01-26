@@ -2,6 +2,11 @@
 
 import { useState } from 'react';
 
+import { useContract, useContractRead } from '@thirdweb-dev/react';
+import { ethers } from 'ethers';
+
+import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+
 import Select from '../shared/Select';
 import Tooltip from '../shared/Tooltip';
 import { QuestionIcon } from '../shared/icons';
@@ -9,11 +14,17 @@ import { QuestionIcon } from '../shared/icons';
 type VaultSummaryProps = {
   weeklyApy: number;
   monthlyApy: number;
-  totalDeposit: number;
 };
 
+const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
+
 const VaultSummary = (props: VaultSummaryProps) => {
-  const { weeklyApy, monthlyApy, totalDeposit } = props;
+  const { weeklyApy, monthlyApy } = props;
+
+  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
+  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
+  console.log('@data', data);
+  const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
 
   const [apyRange, setApyRange] = useState('1w');
 
@@ -43,7 +54,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
       <div className="flex-1 flex flex-col items-center justify-between gap-2 lg:gap-4">
         <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-3">TVL</p>
         <p className="text-xl lg:text-3xl font-semibold">
-          {totalDeposit.toLocaleString('en-US', {
+          {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
             maximumFractionDigits: 0,

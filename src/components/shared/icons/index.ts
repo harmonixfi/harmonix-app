@@ -36,3 +36,4 @@ export { default as TelegramIcon } from './Telegram';
 export { default as RoUsdCircleIcon } from './RoUsdCircle';
 export { default as UsdtCircleIcon } from './UsdtCircle';
 export { default as UsdcCircleIcon } from './UsdcCircle';
+export { default as SpinnerIcon } from './Spinner';

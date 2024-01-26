@@ -18,7 +18,13 @@ import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 
 import Tooltip from '../shared/Tooltip';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { QuestionIcon, RockOnyxTokenIcon, TCurrencyIcon, WarningIcon } from '../shared/icons';
+import {
+  QuestionIcon,
+  RockOnyxTokenIcon,
+  SpinnerIcon,
+  TCurrencyIcon,
+  WarningIcon,
+} from '../shared/icons';
 
 const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
@@ -42,11 +48,11 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
   const { data: availableWithdrawalAmount } = useContractRead(
     rockOnyxUSDTVaultContract,
-    'getAvailableWithdrawalAmount',
+    'getAvailableWithdrawlAmount',
   );
-  const { mutateAsync: initiateWithdraw, isLoading: isInitiatingWithdraw } = useContractWrite(
+  const { mutateAsync: initiateWithdrawal, isLoading: isInitiatingWithdrawal } = useContractWrite(
     rockOnyxUSDTVaultContract,
-    'initiateWithdraw',
+    'initiateWithdrawal',
   );
   const { mutateAsync: completeWithdraw, isLoading: isCompletingWithdraw } = useContractWrite(
     rockOnyxUSDTVaultContract,
@@ -60,7 +66,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const handleInitiateWithdraw = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
-      const response = await initiateWithdraw({ args: [amount] });
+      const response = await initiateWithdrawal({ args: [amount] });
       onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
       setInputValue('');
     } catch {
@@ -98,7 +104,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const isConnectedWallet = connectionStatus === 'connected';
 
-  const isWithdrawing = isInitiatingWithdraw || isCompletingWithdraw;
+  const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdraw;
 
   const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
 
@@ -192,13 +198,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
       <button
         type="button"
-        className={`w-full bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isWithdrawing ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
         onClick={handleWithdraw}
       >
-        {isWithdrawing ? 'Withdrawing...' : 'Withdraw'}
+        {isWithdrawing && <SpinnerIcon className="w-6 h-6 animate-spin" />}
+        {isEnableCompleteWithdraw ? 'Complete withdrawal' : 'Initiate withdrawal'}
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />

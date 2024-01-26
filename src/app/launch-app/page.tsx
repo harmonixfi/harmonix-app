@@ -17,7 +17,7 @@ async function getData() {
 
 export default async function LaunchApp() {
   const {
-    vaultInfo: { monthly_apy, total_deposit },
+    vaultInfo: { monthly_apy },
   } = await getData();
 
   return (
@@ -90,7 +90,6 @@ export default async function LaunchApp() {
           name="Stable Coin Vault"
           link="/stable-coin-vault"
           apy={Math.round(monthly_apy)}
-          tvl={total_deposit}
           maxCapacity={4000000}
         />
       </div>
