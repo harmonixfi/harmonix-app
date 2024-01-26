@@ -22,22 +22,21 @@ export default async function LaunchApp() {
 
   return (
     <>
-      <nav className="w-full flex flex-wrap items-center justify-between py-8">
-        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+      <nav className="w-full flex flex-wrap items-center justify-between p-4">
+        <Link href="/" className="flex items-center">
           <Image
             src={logoImg}
             alt="Rock Onyx Logo"
-            width={28}
-            height={36}
+            width={44}
+            height={44}
             className="w-auto h-full"
           />
-          <p className="text-3xl uppercase hidden sm:inline-block">Rock Onyx</p>
         </Link>
         <ul className="hidden sm:flex items-center gap-12">
-          <li className="text-base font-light uppercase cursor-pointer hover:font-medium">
+          <li className="text-base font-extralight uppercase cursor-pointer hover:font-medium">
             Product
           </li>
-          <li className="text-base font-light uppercase opacity-30 cursor-pointer hover:font-medium">
+          <li className="text-base font-extralight uppercase opacity-30 cursor-pointer hover:font-medium">
             Portfolio
           </li>
         </ul>
@@ -55,16 +54,16 @@ export default async function LaunchApp() {
       />
 
       <div className="flex flex-wrap gap-6 w-fit mt-12 mx-auto">
-        <div className="w-48">
+        <div className="w-44">
           <Select
-            placeholder="Strategy type"
+            placeholder="Strategy"
             options={[
               { value: 'deltaNeutral', label: 'Delta neutral' },
               { value: 'hedging', label: 'Hedging' },
             ]}
           />
         </div>
-        <div className="w-48">
+        <div className="w-52">
           <Select
             placeholder="Deposit asset"
             options={[

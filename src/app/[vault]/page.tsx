@@ -15,7 +15,7 @@ async function getData() {
   return { vaultInfo, vaultPerformance };
 }
 
-export default async function LaunchApp() {
+export default async function Vault() {
   const {
     vaultInfo: { apr, weekly_apy, monthly_apy, total_deposit },
     vaultPerformance: { date, cum_return, benchmark_ret },
@@ -35,11 +35,11 @@ export default async function LaunchApp() {
     <div className="relative z-40">
       <Navbar />
 
-      <h5 className="relative z-20 text-2xl md:text-3xl lg:text-4xl font-normal font-bruno-ace uppercase mt-24 mb-14">
+      <h5 className="relative z-20 text-2xl lg:text-3xl 2xl:text-4xl font-normal uppercase mt-24 mb-14">
         Stable Coin vault
       </h5>
-      <div className="relative flex flex-col-reverse sm:grid sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 lg:gap-20 mb-24 z-20">
-        <div className="md:col-span-3">
+      <div className="relative flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mb-24 z-20">
+        <div className="lg:col-span-3">
           <div className="flex flex-col gap-14">
             <VaultSummary
               weeklyApy={weekly_apy}
@@ -253,18 +253,9 @@ export default async function LaunchApp() {
             </div>
           </div>
         </div>
-        <div className="md:col-span-2">
+        <div className="lg:col-span-2">
           <VaultActionCard apr={apr} />
         </div>
-      </div>
-
-      <div className="w-screen h-screen sm:h-[200vh] absolute top-0 right-[-5%] overflow-hidden z-10">
-        <div
-          className="w-full h-1/2 absolute top-0 -right-full md:right-[-90%] 2xl:right-[-80%] rounded-full mix-blend-difference blur-[290px] rotate-[-90deg]"
-          style={{
-            background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-          }}
-        />
       </div>
     </div>
   );

@@ -42,9 +42,9 @@ const AccountDialog = (props: AccountDialogProps) => {
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <div className="absolute top-20 sm:top-[10%] right-[5%] z-40 min-w-auto sm:min-w-[500px] transform overflow-hidden rounded-2xl bg-rock-bg-tab p-4 sm:p-8 sm:pt-6 text-left align-middle shadow-xl transition-all">
+      <div className="absolute top-20 sm:top-[10%] right-[5%] z-50 min-w-auto sm:min-w-[500px] transform overflow-hidden rounded-2xl bg-rock-bg-tab p-4 sm:p-8 sm:pt-6 text-left align-middle shadow-xl transition-all">
         <div className="flex items-center justify-between m-0">
-          <h3 className="text-base sm:text-lg uppercase">Account</h3>
+          <h3 className="text-base uppercase">Account</h3>
           <button type="button" onClick={onClose}>
             <CloseIcon className="w-6 h-6" />
           </button>
@@ -65,7 +65,7 @@ const AccountDialog = (props: AccountDialogProps) => {
             </div>
             <button
               type="button"
-              className="uppercase relative block text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 border border-[#0038FF] border-opacity-40 rounded-full hover:ring-1 hover:ring-gray-800"
+              className="uppercase relative block text-xs px-4 sm:px-6 py-2 sm:py-2.5 border border-rock-primary border-opacity-40 rounded-full hover:ring-1 hover:ring-gray-800"
               onClick={handleDisconnect}
             >
               Disconnect
@@ -89,13 +89,6 @@ const AccountDialog = (props: AccountDialogProps) => {
             <ExternalLinkIcon />
             <p className="text-rock-gray group-hover:underline">View on Explorer</p>
           </a>
-
-          <div
-            className="w-96 h-96 z-10 absolute top-[80%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[150px] rotate-[-15deg]"
-            style={{
-              background: 'linear-gradient(243deg, #D3382C 30.36%, #001AFF 70.7%)',
-            }}
-          />
         </div>
       </div>
     </Dialog>

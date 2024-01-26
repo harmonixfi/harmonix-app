@@ -19,7 +19,8 @@ const NavbarMenu = (props: NavbarMenuProps) => {
     return (
       <a
         href={url}
-        className="flex items-center gap-1 py-2 px-3 text-xl sm:text-sm text-white uppercase"
+        target="_blank"
+        className="flex items-center gap-1 py-2 px-3 text-xl sm:text-base text-white"
       >
         {text}
       </a>
@@ -28,7 +29,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
 
   return (
     <div className="relative group z-[99]">
-      <span className="flex items-center gap-1 py-2 px-3 text-xl sm:text-sm text-white uppercase cursor-default">
+      <span className="flex items-center gap-1 py-2 px-3 text-xl sm:text-base text-white cursor-default">
         {text}
         <ChevronDownIcon className="w-5 h-5" />
       </span>
@@ -40,7 +41,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
             key={x.text}
             href={x.url}
             target={x.target}
-            className="block w-full text-gray-300 uppercase sm:text-sm sm:text-center font-inter font-normal px-4 py-2 hover:text-white"
+            className="block w-full text-gray-300 sm:text-base sm:text-center font-inter font-normal px-4 py-2 hover:text-white"
           >
             {x.text}
           </a>

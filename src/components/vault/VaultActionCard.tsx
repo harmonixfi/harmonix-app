@@ -15,7 +15,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
   return (
-    <div className="bg-[#5A5A5A] rounded-2xl bg-opacity-10 p-6 lg:p-9">
+    <div className="bg-rock-bg-coin rounded-2xl bg-opacity-80 backdrop-blur-sm p-6 lg:p-9">
       <ul className="flex w-full">
         <li className="flex-1">
           <button

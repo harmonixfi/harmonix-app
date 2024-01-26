@@ -8,10 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        inconsolata: ['var(--font-inconsolata)'],
-        'bruno-ace': ['var(--font-bruno-ace)'],
-      },
       colors: {
         rock: {
           dark: '#0C060A',
@@ -28,6 +24,8 @@ const config: Config = {
           green: '#0ECB81',
           divider: '#2B2F39',
           yellow: '#FFE456',
+          primary: '#0032FF',
+          'bg-coin': '#101016',
         },
       },
       backgroundImage: {

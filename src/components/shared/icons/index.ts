@@ -32,3 +32,7 @@ export { default as MetamaskIcon } from './Metamask';
 export { default as WalletConnectIcon } from './WalletConnect';
 export { default as CoinbaseIcon } from './Coinbase';
 export { default as RockOnyxTokenIcon } from './RockOnyxToken';
+export { default as TelegramIcon } from './Telegram';
+export { default as RoUsdCircleIcon } from './RoUsdCircle';
+export { default as UsdtCircleIcon } from './UsdtCircle';
+export { default as UsdcCircleIcon } from './UsdcCircle';

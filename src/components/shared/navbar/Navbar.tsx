@@ -30,33 +30,15 @@ const Navbar = () => {
   return (
     <nav className="relative w-full z-30">
       <div className="flex flex-wrap items-center justify-between z-30 mx-auto p-4">
-        {pathname === '/' ? (
-          <Link
-            href="/"
-            className="w-10 sm:w-16 h-16 sm:h-20 flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <Image
-              src={logoImg}
-              alt="Rock Onyx Logo"
-              width="100"
-              height="100"
-              className="w-full h-auto"
-            />
-          </Link>
-        ) : (
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <span className="w-10 sm:w-16 h-16 sm:h-20">
-              <Image
-                src={logoImg}
-                alt="Rock Onyx Logo"
-                width="100"
-                height="100"
-                className="w-full h-auto"
-              />
-            </span>
-            <p className="hidden sm:inline-block text-3xl uppercase">Rock Onyx</p>
-          </Link>
-        )}
+        <Link href="/" className="w-12 h-12 flex items-center space-x-3 rtl:space-x-reverse">
+          <Image
+            src={logoImg}
+            alt="Rock Onyx Logo"
+            width="100"
+            height="100"
+            className="w-full h-auto"
+          />
+        </Link>
 
         <div
           className={`items-center justify-between w-full sm:flex sm:w-auto sm:order-1 ${
@@ -75,13 +57,17 @@ const Navbar = () => {
               <CloseIcon className="w-9 h-9" />
             </button>
           )}
-          <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-12 rtl:space-x-reverse sm:flex-row sm:mt-0 sm:border-0">
+          <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-4 lg:space-x-12 rtl:space-x-reverse sm:flex-row sm:mt-0 sm:border-0">
             <li>
               <NavbarMenu
                 text="About"
                 items={[
                   { text: 'Faq', url: '#' },
-                  { text: 'Blog', url: '#' },
+                  {
+                    text: 'Blog',
+                    url: 'https://mirror.xyz/0xa1e8a739166876845B7dEdc177989024bAB0D810',
+                    target: '_blank',
+                  },
                   { text: 'Team', url: '#' },
                   { text: 'Audit', url: '#' },
                 ]}
@@ -92,7 +78,7 @@ const Navbar = () => {
                 text="Community"
                 items={[
                   { text: 'Github', url: SOCIAL_URLS.Github, target: '_blank' },
-                  { text: 'Discord', url: SOCIAL_URLS.Discord, target: '_blank' },
+                  { text: 'Telegram', url: SOCIAL_URLS.Telegram, target: '_blank' },
                   { text: 'Twitter', url: SOCIAL_URLS.Twitter, target: '_blank' },
                 ]}
               />
@@ -101,24 +87,15 @@ const Navbar = () => {
               <NavbarMenu text="Dashboard" url="#" />
             </li>
             <li>
-              <NavbarMenu text="Treasury" url="#" />
+              <NavbarMenu text="Docs" url="https://rock-onyx.gitbook.io/rock-onyx-docs/" />
             </li>
           </ul>
-
-          {navbarOpen && (
-            <div
-              className="w-1/2 h-1/2 absolute left-[16%] rounded-full mix-blend-difference blur-[292px] rotate-[-17deg]"
-              style={{
-                background: 'linear-gradient(245deg, #D3382C -0.61%, #001AFF 82.92%)',
-              }}
-            />
-          )}
         </div>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse z-30">
           {pathname === '/' ? (
             <Link
               href="/launch-app"
-              className="hidden sm:inline-block text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-6 py-3 text-center hover:ring-2 hover:ring-gray-800"
+              className="hidden sm:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-6 py-3 text-center hover:bg-rock-primary"
             >
               Launch app
             </Link>

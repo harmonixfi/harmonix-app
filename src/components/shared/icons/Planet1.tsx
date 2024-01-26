@@ -10,12 +10,12 @@ const Planet1 = ({ className }: IconProps) => {
       viewBox="0 0 45 45"
       fill="none"
     >
-      <g filter="url(#filter0_f_103_1752)">
-        <circle cx="22.5" cy="22.5" r="17.5" fill="url(#paint0_linear_103_1752)" />
+      <g filter="url(#filter0_f_380_1651)">
+        <circle cx="22.5" cy="22.5" r="17.5" fill="url(#paint0_linear_380_1651)" />
       </g>
       <defs>
         <filter
-          id="filter0_f_103_1752"
+          id="filter0_f_380_1651"
           x="0"
           y="0"
           width="45"
@@ -25,10 +25,10 @@ const Planet1 = ({ className }: IconProps) => {
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-          <feGaussianBlur stdDeviation="2.5" result="effect1_foregroundBlur_103_1752" />
+          <feGaussianBlur stdDeviation="2.5" result="effect1_foregroundBlur_380_1651" />
         </filter>
         <linearGradient
-          id="paint0_linear_103_1752"
+          id="paint0_linear_380_1651"
           x1="13"
           y1="5"
           x2="27.0259"
@@ -36,7 +36,7 @@ const Planet1 = ({ className }: IconProps) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#2C1426" />
-          <stop offset="0.59375" stopColor="#9C79C4" />
+          <stop offset="0.59375" stopColor="#2553F8" />
         </linearGradient>
       </defs>
     </svg>

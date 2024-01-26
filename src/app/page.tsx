@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { getVaultInfo } from '@/api/vault';
 import {
   CurrencySymbolIcon,
-  DiscordLineIcon,
   EllipseLine1Icon,
   EllipseLine2Icon,
   GithubLineIcon,
@@ -14,12 +13,12 @@ import {
   Planet2Icon,
   Planet3Icon,
   TSymbolIcon,
+  TelegramIcon,
   TwitterLineIcon,
 } from '@/components/shared/icons';
 import Navbar from '@/components/shared/navbar/Navbar';
 import { SOCIAL_URLS } from '@/constants/socials';
 
-import blackSmallRockImg from '../../public/images/black-small-rock.png';
 import centerRockImg from '../../public/images/center-rock.png';
 
 async function getData() {
@@ -39,15 +38,15 @@ export default async function Home() {
 
       <div className="flex flex-col items-center mt-8">
         <div className="z-20 text-center">
-          <h3 className="text-4xl sm:text-6xl xl:text-7xl 2xl:text-8xl font-bold uppercase font-bruno-ace mt-0 sm:mt-16">
+          <h3 className="text-4xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase mt-0 sm:mt-16">
             Rock Onyx
           </h3>
-          <h5 className="max-w-md text-base sm:text-lg font-normal opacity-70 mx-auto my-8">
+          <h5 className="max-w-md text-base sm:text-lg font-light opacity-70 mx-auto my-8">
             Automatic Hedging Vaults While Earning Good Yields With Low Risk
           </h5>
           <Link
             href="/launch-app"
-            className="uppercase rounded-3xl text-rock-muted text-sm font-medium bg-white px-6 py-2.5 hover:ring-2 hover:ring-rock-divider"
+            className="inline-block rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-3 hover:ring-2 hover:ring-rock-divider"
           >
             Launch app
           </Link>
@@ -55,22 +54,13 @@ export default async function Home() {
 
         <div className="relative w-full h-[40vh] sm:h-[60vh]">
           <div
-            className="w-2/3 h-2/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-difference blur-[120px] sm:blur-[292px] xl:blur-[392px] rotate-[-17deg]"
+            className="w-3/5 h-3/5 sm:w-[500px] sm:h-[500px] 2xl:w-[680px] 2xl:h-[680px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-difference blur-[80px] sm:blur-[200px] xl:blur-[200px] 2xl:blur-[250px] rotate-[-17deg]"
             style={{
-              background: 'linear-gradient(245deg, #D3382C -0.61%, #001AFF 82.92%)',
+              background: 'linear-gradient(245deg, #8A2CD3 -0.61%, #001AFF 82.92%)',
             }}
           />
-          <div className="absolute top-[-14%] sm:top-[-26%] xl:top-[-36%] left-[2%] w-20 h-16 sm:w-[102px] sm:h-[100px] xl:w-[205px] xl:h-[201px]">
-            <Image
-              src={blackSmallRockImg}
-              alt="Rock Onyx"
-              fill
-              sizes="100vw"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/3 lg:h-2/5 xl:h-1/2">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/3 lg:h-2/5 xl:h-2/3">
             <Image
               src={centerRockImg}
               alt="Rock Onyx"
@@ -91,7 +81,7 @@ export default async function Home() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full mb-16">
           <Link
             href="/stable-coin-vault"
-            className="flex gap-1 backdrop-blur-sm w-full sm:w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
+            className="flex gap-1 backdrop-blur-sm w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
           >
             <TSymbolIcon />
             <CurrencySymbolIcon />
@@ -107,7 +97,7 @@ export default async function Home() {
             </div>
           </Link>
 
-          <ul className="flex justify-around gap-8 backdrop-blur-md w-full sm:w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-4">
+          <ul className="flex justify-around gap-8 backdrop-blur-md w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full px-8 py-4">
             <li>
               <a
                 href={SOCIAL_URLS.Twitter}
@@ -119,11 +109,11 @@ export default async function Home() {
             </li>
             <li>
               <a
-                href={SOCIAL_URLS.Discord}
+                href={SOCIAL_URLS.Telegram}
                 target="_blank"
                 className="text-rock-gray hover:text-white"
               >
-                <DiscordLineIcon />
+                <TelegramIcon />
               </a>
             </li>
             <li>
