@@ -43,7 +43,7 @@ const VaultDeposit = () => {
   const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
 
   const { data: pricePerShareData } = useContractRead(rockOnyxUSDTVaultContract, 'pricePerShare');
-  const pricePerShare = pricePerShareData ? ethers.utils.formatUnits(pricePerShareData._hex, 6) : 1;
+  const pricePerShare = pricePerShareData ? ethers.utils.formatUnits(pricePerShareData._hex, 6) : 0;
 
   const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(
     rockOnyxUSDTVaultContract,
@@ -120,7 +120,9 @@ const VaultDeposit = () => {
           <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
         </div>
       </div>
-      <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 ${selectedCurrency.toUpperCase()} = ${pricePerShare} roUSD`}</p>
+      {pricePerShare && (
+        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 ${selectedCurrency.toUpperCase()} = ${pricePerShare} roUSD`}</p>
+      )}
 
       <div className="flex items-center justify-between mt-8 text-rock-gray">
         <p>You will receive</p>

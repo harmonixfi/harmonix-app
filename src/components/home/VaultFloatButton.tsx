@@ -13,7 +13,6 @@ const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 const VaultFloatButton = () => {
   const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
   const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
-  console.log('@data', data);
   const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
 
   return (
