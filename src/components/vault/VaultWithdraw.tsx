@@ -39,7 +39,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     completeWithdraw,
   } = useRockOnyxVaultContract();
 
-  const isEnableCompleteWithdraw = availableWithdrawalAmount < 0;
+  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
 
   useEffect(() => {
     if (availableWithdrawalAmount > 0) {
