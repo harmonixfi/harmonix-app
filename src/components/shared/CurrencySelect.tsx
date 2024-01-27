@@ -33,7 +33,7 @@ const CurrencySelect = (props: CurrencySelectProps) => {
   };
 
   return (
-    <Listbox value={value} onChange={handleChange}>
+    <Listbox disabled value={value} onChange={handleChange}>
       <div className="relative mt-1">
         <Listbox.Button className="relative flex items-center justify-center gap-2 cursor-pointer rounded-full shadow-md text-sm text-rock-gray font-normal uppercase border border-rock-primary px-2 py-1.5">
           {value === SupportedCurrency.Usdt ? (

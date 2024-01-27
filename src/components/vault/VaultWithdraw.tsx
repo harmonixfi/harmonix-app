@@ -61,7 +61,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const isEnableCompleteWithdraw =
     availableWithdrawalAmount &&
-    Number(ethers.utils.formatUnits(availableWithdrawalAmount._hex, 6)) > 0;
+    availableWithdrawalAmount[0] &&
+    Number(ethers.utils.formatUnits(availableWithdrawalAmount[0]._hex, 6)) > 0;
 
   const handleInitiateWithdraw = async () => {
     try {

@@ -24,7 +24,6 @@ const VaultCard = (props: VaultCardProps) => {
 
   const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
   const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
-  console.log('@data', data);
   const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
 
   return (

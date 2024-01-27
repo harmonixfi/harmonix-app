@@ -197,7 +197,7 @@ export default async function Vault() {
                       <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-xl lg:text-3xl font-semibold">1%</p>
+                  <p className="text-xl lg:text-3xl font-semibold">10%</p>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
                   <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
@@ -206,7 +206,7 @@ export default async function Vault() {
                       <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-xl lg:text-3xl font-semibold">10%</p>
+                  <p className="text-xl lg:text-3xl font-semibold">1%</p>
                 </div>
                 <div
                   className="w-[1px] h-full absolute top-0 left-1/4"
