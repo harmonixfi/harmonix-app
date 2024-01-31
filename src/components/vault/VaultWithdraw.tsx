@@ -2,31 +2,18 @@
 
 import { ChangeEvent, useState } from 'react';
 
-import {
-  useAddress,
-  useConnectionStatus,
-  useContract,
-  useContractRead,
-  useContractWrite,
-} from '@thirdweb-dev/react';
+import { useAddress, useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import { formatTokenAmount } from '@/utils/number';
 
 import Tooltip from '../shared/Tooltip';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import {
-  QuestionIcon,
-  RockOnyxTokenIcon,
-  SpinnerIcon,
-  TCurrencyIcon,
-  WarningIcon,
-} from '../shared/icons';
-
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
+import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../shared/icons';
 
 type VaultWithdrawProps = {
   apr: number;
@@ -43,26 +30,17 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const connectionStatus = useConnectionStatus();
   const address = useAddress();
 
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
+  const {
+    isInitiatingWithdrawal,
+    isCompletingWithdraw,
+    balanceOf,
+    pricePerShare,
+    availableWithdrawalAmount,
+    initiateWithdrawal,
+    completeWithdraw,
+  } = useRockOnyxVaultContract();
 
-  const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
-  const { data: availableWithdrawalAmount } = useContractRead(
-    rockOnyxUSDTVaultContract,
-    'getAvailableWithdrawlAmount',
-  );
-  const { mutateAsync: initiateWithdrawal, isLoading: isInitiatingWithdrawal } = useContractWrite(
-    rockOnyxUSDTVaultContract,
-    'initiateWithdrawal',
-  );
-  const { mutateAsync: completeWithdraw, isLoading: isCompletingWithdraw } = useContractWrite(
-    rockOnyxUSDTVaultContract,
-    'completeWithdrawal',
-  );
-
-  const isEnableCompleteWithdraw =
-    availableWithdrawalAmount &&
-    availableWithdrawalAmount[0] &&
-    Number(ethers.utils.formatUnits(availableWithdrawalAmount[0]._hex, 6)) > 0;
+  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
 
   const handleInitiateWithdraw = async () => {
     try {
@@ -100,7 +78,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   const handleClickWithdrawAll = () => {
-    setInputValue(balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : '');
+    setInputValue(balanceOf > 0 ? String(balanceOf) : '');
   };
 
   const isConnectedWallet = connectionStatus === 'connected';
@@ -177,7 +155,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
         <div className="flex items-center justify-between">
           <p>Your deposit</p>
-          <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} roUSD`}</p>
+          <p>{`${formatTokenAmount(balanceOf)} roUSD`}</p>
         </div>
 
         <div
@@ -190,10 +168,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
-          <div className="flex items-center justify-between gap-2">
-            <p>{`${inputValue || 0} USDC`}</p>
-            <TCurrencyIcon className="w-6 h-6" />
-          </div>
+          <p>{`${formatTokenAmount((Number(inputValue) || 0) * pricePerShare)} USDC`}</p>
         </div>
       </div>
 

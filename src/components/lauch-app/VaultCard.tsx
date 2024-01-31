@@ -1,10 +1,8 @@
 'use client';
 
-import { useContract, useContractRead } from '@thirdweb-dev/react';
-import { ethers } from 'ethers';
 import Link from 'next/link';
 
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 import { toCompactNumber } from '@/utils/number';
 
 import Tooltip from '../shared/Tooltip';
@@ -17,14 +15,10 @@ type VaultCardProps = {
   maxCapacity: number;
 };
 
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
-
 const VaultCard = (props: VaultCardProps) => {
   const { name, link, apy, maxCapacity } = props;
 
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
-  const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
+  const { totalValueLocked } = useRockOnyxVaultContract();
 
   return (
     <Link href={link} className="bg-rock-bg-tab rounded-2xl">

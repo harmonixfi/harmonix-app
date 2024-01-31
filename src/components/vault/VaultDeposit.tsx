@@ -2,29 +2,22 @@
 
 import { ChangeEvent, useState } from 'react';
 
-import {
-  useAddress,
-  useBalance,
-  useConnectionStatus,
-  useContract,
-  useContractRead,
-  useContractWrite,
-} from '@thirdweb-dev/react';
+import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 
 import { SupportedCurrency } from '@/@types/enum';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-import usdcAbi from '@/abi/usdc.json';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import useUsdcContract from '@/hooks/useUsdcContract';
+import { formatTokenAmount } from '@/utils/number';
 
 import CurrencySelect from '../shared/CurrencySelect';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
 import { SpinnerIcon, WarningIcon } from '../shared/icons';
 
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
-const tokenAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS ?? '';
+const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
 const VaultDeposit = () => {
   const [inputValue, setInputValue] = useState('');
@@ -36,30 +29,27 @@ const VaultDeposit = () => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const connectionStatus = useConnectionStatus();
-  const address = useAddress();
 
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { contract: usdcContract } = useContract(tokenAddress, usdcAbi);
-  const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
+  const { isApproving, allowance, balance, approve } = useUsdcContract();
+  const { isDepositing, balanceOf, pricePerShare, deposit } = useRockOnyxVaultContract();
 
-  const { data: pricePerShareData } = useContractRead(rockOnyxUSDTVaultContract, 'pricePerShare');
-  const pricePerShare = pricePerShareData ? ethers.utils.formatUnits(pricePerShareData._hex, 6) : 0;
+  const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    if (value.match(FLOAT_REGEX)) setInputValue(value);
+  };
 
-  const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(
-    rockOnyxUSDTVaultContract,
-    'deposit',
-  );
-  const { mutateAsync: approve, isLoading: isApproving } = useContractWrite(
-    usdcContract,
-    'approve',
-  );
+  const handleClickMax = () => {
+    setInputValue(balance?.displayValue ?? '');
+  };
 
-  const { data: tokenBalance } = useBalance(tokenAddress);
-
-  const handleDeposit = async () => {
+  const handleSubmit = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
-      await approve({ args: [rockAddress, amount] });
+
+      if (!skipApprove) {
+        await approve({ args: [rockOnyxVaultAddress, amount] });
+      }
+
       const response = await deposit({ args: [amount] });
 
       onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
@@ -69,18 +59,10 @@ const VaultDeposit = () => {
     }
   };
 
-  const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    if (value.match(FLOAT_REGEX)) setInputValue(value);
-  };
-
-  const handleClickMax = () => {
-    setInputValue(tokenBalance?.displayValue ?? '');
-  };
   const isConnectedWallet = connectionStatus === 'connected';
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton = !isConnectedWallet || !inputValue || isButtonLoading;
+  const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
 
   return (
     <div>
@@ -95,7 +77,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {tokenBalance ? tokenBalance.displayValue : '0'} USDC
+            Wallet Balance: {balance ? formatTokenAmount(Number(balance.displayValue)) : '0'} USDC
           </p>
           <button
             type="button"
@@ -120,14 +102,16 @@ const VaultDeposit = () => {
           <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
         </div>
       </div>
-      {pricePerShare && (
-        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 ${selectedCurrency.toUpperCase()} = ${pricePerShare} roUSD`}</p>
+      {pricePerShare > 0 && (
+        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${formatTokenAmount(
+          pricePerShare,
+        )} ${selectedCurrency.toUpperCase()}`}</p>
       )}
 
       <div className="flex items-center justify-between mt-8 text-rock-gray">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
-          <p>{`${Number(pricePerShare) * Number(inputValue)} roUSD`}</p>
+          <p>{`${formatTokenAmount(Number(inputValue) / Number(pricePerShare))} roUSD`}</p>
         </div>
       </div>
 
@@ -141,7 +125,7 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} USDC`}</p>
+        <p>{`${formatTokenAmount(balanceOf)} USDC`}</p>
       </div>
 
       <button
@@ -150,10 +134,10 @@ const VaultDeposit = () => {
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
-        onClick={handleDeposit}
+        onClick={handleSubmit}
       >
         {isButtonLoading && <SpinnerIcon className="w-6 h-6 animate-spin" />}
-        Deposit
+        {skipApprove ? 'Deposit' : 'Approve'}
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
