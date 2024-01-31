@@ -1,8 +1,8 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import { useAddress, useConnectionStatus } from '@thirdweb-dev/react';
+import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 
 import { FLOAT_REGEX } from '@/constants/regex';
@@ -28,7 +28,6 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const connectionStatus = useConnectionStatus();
-  const address = useAddress();
 
   const {
     isInitiatingWithdrawal,
@@ -40,7 +39,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     completeWithdraw,
   } = useRockOnyxVaultContract();
 
-  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+  const isEnableCompleteWithdraw = availableWithdrawalAmount < 0;
+
+  useEffect(() => {
+    if (availableWithdrawalAmount > 0) {
+      setInputValue(String(availableWithdrawalAmount));
+    }
+  }, [availableWithdrawalAmount]);
 
   const handleInitiateWithdraw = async () => {
     try {
@@ -131,13 +136,15 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
       <div className="flex items-center justify-between mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
-        <button
-          type="button"
-          className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
-          onClick={handleClickWithdrawAll}
-        >
-          Withdraw all
-        </button>
+        {!isEnableCompleteWithdraw && (
+          <button
+            type="button"
+            className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
+            onClick={handleClickWithdrawAll}
+          >
+            Withdraw all
+          </button>
+        )}
       </div>
 
       <div className="relative mt-6">
@@ -146,25 +153,29 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
           className="w-full h-20 block bg-[#5A5A5A] rounded-xl bg-opacity-10 pl-24 pr-3 text-2xl text-rock-gray focus:ring-2 focus:outline-none"
           type="text"
           placeholder="0.0"
-          disabled={!isConnectedWallet}
+          disabled={!isConnectedWallet || isEnableCompleteWithdraw}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
       </div>
 
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
-        <div className="flex items-center justify-between">
-          <p>Your deposit</p>
-          <p>{`${formatTokenAmount(balanceOf)} roUSD`}</p>
-        </div>
+        {!isEnableCompleteWithdraw && (
+          <>
+            <div className="flex items-center justify-between">
+              <p>Your available amount</p>
+              <p>{`${formatTokenAmount(balanceOf)} roUSD`}</p>
+            </div>
 
-        <div
-          className="w-full h-[1px] my-3 lg:my-6"
-          style={{
-            background:
-              'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
-          }}
-        />
+            <div
+              className="w-full h-[1px] my-3 lg:my-6"
+              style={{
+                background:
+                  'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
+              }}
+            />
+          </>
+        )}
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
