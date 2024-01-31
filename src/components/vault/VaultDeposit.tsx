@@ -102,6 +102,7 @@ const VaultDeposit = () => {
           <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
         </div>
       </div>
+
       {pricePerShare > 0 && (
         <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${formatTokenAmount(
           pricePerShare,
