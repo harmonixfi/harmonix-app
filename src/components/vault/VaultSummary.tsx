@@ -2,10 +2,7 @@
 
 import { useState } from 'react';
 
-import { useContract, useContractRead } from '@thirdweb-dev/react';
-import { ethers } from 'ethers';
-
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 
 import Select from '../shared/Select';
 import Tooltip from '../shared/Tooltip';
@@ -16,14 +13,10 @@ type VaultSummaryProps = {
   monthlyApy: number;
 };
 
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
-
 const VaultSummary = (props: VaultSummaryProps) => {
   const { weeklyApy, monthlyApy } = props;
 
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
-  const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
+  const { totalValueLocked } = useRockOnyxVaultContract();
 
   const [apyRange, setApyRange] = useState('1w');
 

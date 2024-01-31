@@ -1,19 +1,13 @@
 'use client';
 
-import { useContract, useContractRead } from '@thirdweb-dev/react';
-import { ethers } from 'ethers';
 import Link from 'next/link';
 
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
-
 const VaultFloatButton = () => {
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
-  const { data } = useContractRead(rockOnyxUSDTVaultContract, 'totalValueLocked', []);
-  const totalValueLocked = data ? Number(ethers.utils.formatUnits(data._hex, 6)) : 0;
+  const { totalValueLocked } = useRockOnyxVaultContract();
 
   return (
     <Link
