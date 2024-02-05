@@ -47,12 +47,6 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     }
   }, [availableWithdrawalAmount]);
 
-  useEffect(() => {
-    if (availableWithdrawalAmount > 0) {
-      setInputValue(String(availableWithdrawalAmount));
-    }
-  }, [availableWithdrawalAmount]);
-
   const handleInitiateWithdraw = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
