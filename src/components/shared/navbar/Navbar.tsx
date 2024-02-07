@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { useConnectionStatus } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,6 +20,9 @@ const Navbar = () => {
 
   const [navbarOpen, setNavbarOpen] = useState(false);
 
+  const connectionStatus = useConnectionStatus();
+  const isConnectedWallet = connectionStatus === 'connected';
+
   useEffect(() => {
     if (navbarOpen) {
       document.body.style.overflow = 'hidden';
@@ -29,7 +33,11 @@ const Navbar = () => {
 
   return (
     <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 sm:p-4">
-      <div className="col-span-2 lg:col-span-1 xl:col-span-2 2xl:col-span-3 flex items-center">
+      <div
+        className={`col-span-2 ${
+          isConnectedWallet ? 'lg:col-span-1 xl:col-span-2 2xl:col-span-3' : 'lg:col-span-3'
+        }  flex items-center`}
+      >
         <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
@@ -42,7 +50,11 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`items-center 2xl:justify-center w-full col-span-8 xl:col-span-7 2xl:col-span-6 lg:flex sm:w-auto ${
+        className={`items-center w-full col-span-8 ${
+          isConnectedWallet
+            ? '2xl:justify-center xl:col-span-7 2xl:col-span-6'
+            : 'lg:justify-center lg:col-span-6'
+        }  lg:flex sm:w-auto ${
           navbarOpen
             ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
             : 'hidden'

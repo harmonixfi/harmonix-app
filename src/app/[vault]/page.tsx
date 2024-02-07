@@ -43,30 +43,28 @@ export default async function Vault() {
     <div className="relative z-40">
       <Navbar />
 
-      <div className="mb-10">
-        <h5 className="relative z-20 text-2xl lg:text-3xl 2xl:text-4xl font-normal uppercase mt-24">
-          Stable Coin vault
-        </h5>
-        <p className="mt-4">
-          This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not
-          only exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns
-          by up to 50% during bearish/downward market trends.
-        </p>
-        <div className="flex items-center gap-8 mt-1">
-          <a href="#withdrawal" className="flex items-center gap-1 border-b cursor-pointer">
-            <p className="text-sm font-light">Withdrawal detail</p>
-            <ChevronDownIcon className="w-4 h-4" />
-          </a>
-          <a href="#user-risk" className="flex items-center gap-1 border-b cursor-pointer">
-            <p className="text-sm font-light">User&apos;s risks</p>
-            <ChevronDownIcon className="w-4 h-4" />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mb-24 z-20">
+      <div className="relative flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 my-12 sm:my-24 z-20">
         <div className="lg:col-span-3">
-          <div className="flex flex-col gap-12">
+          <h5 className="relative z-20 text-2xl lg:text-3xl 2xl:text-4xl font-normal uppercase">
+            Stable Coin vault
+          </h5>
+          <p className="mt-4">
+            This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not
+            only exceed the performance of holding ETH alone by 20%-50% but also to minimize
+            drawdowns by up to 50% during bearish/downward market trends.
+          </p>
+          <div className="flex items-center gap-8 mt-1">
+            <a href="#withdrawal" className="flex items-center gap-1 border-b cursor-pointer">
+              <p className="text-sm font-light">Withdrawal detail</p>
+              <ChevronDownIcon className="w-4 h-4" />
+            </a>
+            <a href="#user-risk" className="flex items-center gap-1 border-b cursor-pointer">
+              <p className="text-sm font-light">User&apos;s risks</p>
+              <ChevronDownIcon className="w-4 h-4" />
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-12 mt-8">
             <VaultSummary weeklyApy={weekly_apy} monthlyApy={monthly_apy} />
 
             <div className="mb-6">
