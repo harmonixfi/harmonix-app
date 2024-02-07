@@ -71,7 +71,7 @@ export default async function Vault() {
 
             <div className="mb-6">
               <Typography variant="heading">Vault Parameters Structure</Typography>
-              <ul className="grid grid-cols-3 gap-4 mt-4">
+              <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
                   <p className="text-gray-300">Deposit assets</p>
                   <div className="flex items-center gap-2">
@@ -89,18 +89,13 @@ export default async function Vault() {
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Underlying Asset (1)</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-gray-300">Underlying Asset</p>
+                    <Tooltip message="The asset or asset pair in which your investment performance is dependent on.">
+                      <QuestionIcon className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
                   <p className="text-rock-primary font-medium">wstEth-Eth</p>
-                </li>
-
-                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Underlying Asset (2)</p>
-                  <p className="text-rock-primary font-medium">Usdc-Usdc.e</p>
-                </li>
-
-                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Underlying Asset (3)</p>
-                  <p className="text-rock-primary font-medium">Usdc.e</p>
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
@@ -111,11 +106,6 @@ export default async function Vault() {
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
                   <p className="text-gray-300">Withdrawal</p>
                   <p className="text-rock-primary font-medium">Every Friday at 8am UTC</p>
-                </li>
-
-                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Tenor</p>
-                  <p className="text-rock-primary font-medium">Perpetual</p>
                 </li>
               </ul>
             </div>

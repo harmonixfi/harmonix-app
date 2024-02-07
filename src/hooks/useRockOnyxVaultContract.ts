@@ -19,6 +19,9 @@ const useRockOnyxVaultContract = () => {
   const signer = useSigner();
 
   const [availableWithdrawalAmount, setAvailableWithdrawalAmount] = useState(0);
+  const [depositAmount, setDepositAmount] = useState(0);
+  const [profit, setProfit] = useState(0);
+  const [loss, setLoss] = useState(0);
 
   const { contract } = useContract(rockOnyxVaultAddress, rockOnyxUsdtVaultAbi);
 
@@ -27,10 +30,6 @@ const useRockOnyxVaultContract = () => {
   const { data: totalValueLockedData } = useContractRead(contract, 'totalValueLocked', []);
 
   const { data: pricePerShareData } = useContractRead(contract, 'pricePerShare');
-
-  const { data: pnlData } = useContractRead(contract, 'getPnL');
-
-  const { data: depositAmountData } = useContractRead(contract, 'getDepositAmount');
 
   const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(contract, 'deposit');
 
@@ -53,14 +52,6 @@ const useRockOnyxVaultContract = () => {
     ? Number(ethers.utils.formatUnits(pricePerShareData._hex, 6))
     : 0;
 
-  const depositAmount = depositAmountData
-    ? Number(ethers.utils.formatUnits(depositAmountData._hex, 6))
-    : 0;
-
-  const profit = pnlData && pnlData[0] ? Number(ethers.utils.formatUnits(pnlData[0]._hex, 6)) : 0;
-
-  const loss = pnlData && pnlData[1] ? Number(ethers.utils.formatUnits(pnlData[1]._hex, 6)) : 0;
-
   useEffect(() => {
     const onGetAvailableWithdrawalAmount = async () => {
       try {
@@ -81,6 +72,52 @@ const useRockOnyxVaultContract = () => {
     };
 
     onGetAvailableWithdrawalAmount();
+  }, [signer]);
+
+  useEffect(() => {
+    const onGetDepositAmount = async () => {
+      try {
+        const usdcContract = new ethers.Contract(
+          rockOnyxVaultAddress,
+          rockOnyxUsdtVaultAbi,
+          signer,
+        );
+
+        const response = await usdcContract.getDepositAmount();
+        if (response) {
+          setDepositAmount(Number(ethers.utils.formatUnits(response._hex, 6)));
+        }
+      } catch (error) {
+        console.log('@error', error);
+      }
+    };
+
+    onGetDepositAmount();
+  }, [signer]);
+
+  useEffect(() => {
+    const onGetPnl = async () => {
+      try {
+        const usdcContract = new ethers.Contract(
+          rockOnyxVaultAddress,
+          rockOnyxUsdtVaultAbi,
+          signer,
+        );
+
+        const response = await usdcContract.getPnL();
+        if (response && response[0]) {
+          setProfit(Number(ethers.utils.formatUnits(response[0]._hex, 6)));
+        }
+
+        if (response && response[1]) {
+          setLoss(Number(ethers.utils.formatUnits(response[1]._hex, 6)));
+        }
+      } catch (error) {
+        console.log('@error', error);
+      }
+    };
+
+    onGetPnl();
   }, [signer]);
 
   return {
