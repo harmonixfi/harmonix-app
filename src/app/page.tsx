@@ -11,11 +11,10 @@ import {
   Planet1Icon,
   Planet2Icon,
   Planet3Icon,
-  TSymbolIcon,
   TelegramIcon,
   TwitterLineIcon,
 } from '@/components/shared/icons';
-import Navbar from '@/components/shared/navbar/Navbar';
+import HomeNavbar from '@/components/shared/navbar/HomeNavbar';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import centerRockImg from '../../public/images/center-rock.png';
@@ -23,7 +22,7 @@ import centerRockImg from '../../public/images/center-rock.png';
 export default async function Home() {
   return (
     <>
-      <Navbar />
+      <HomeNavbar />
 
       <div className="flex flex-col items-center mt-8">
         <div className="z-20 text-center">

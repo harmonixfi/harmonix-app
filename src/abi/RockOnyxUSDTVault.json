@@ -45,6 +45,11 @@
         "internalType": "address",
         "name": "_wstEth",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_arb",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -425,6 +430,29 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "allocateRatio",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "ethLPRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "usdLPRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -444,6 +472,34 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "users",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokens",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "bytes32[][]",
+        "name": "proofs",
+        "type": "bytes32[][]"
+      }
+    ],
+    "name": "claimReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "closeRound",
     "outputs": [],
@@ -459,6 +515,13 @@
       }
     ],
     "name": "completeWithdrawal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "convertRewardToUsdc",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -516,6 +579,11 @@
         "internalType": "uint256",
         "name": "shares",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -564,6 +632,37 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getDepositAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPnL",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "profit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loss",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -672,8 +771,13 @@
   {
     "inputs": [
       {
-        "internalType": "uint8",
+        "internalType": "uint16",
         "name": "ratio",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
         "type": "uint8"
       }
     ],
@@ -685,8 +789,13 @@
   {
     "inputs": [
       {
-        "internalType": "uint8",
+        "internalType": "uint16",
         "name": "ratio",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
         "type": "uint8"
       }
     ],
@@ -721,8 +830,13 @@
         "type": "int24"
       },
       {
-        "internalType": "uint8",
+        "internalType": "uint16",
         "name": "ratio",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
         "type": "uint8"
       }
     ],
@@ -744,8 +858,13 @@
         "type": "int24"
       },
       {
-        "internalType": "uint8",
+        "internalType": "uint16",
         "name": "ratio",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
         "type": "uint8"
       }
     ],
@@ -889,6 +1008,32 @@
       }
     ],
     "name": "setFeeRates",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "settleCoveredCalls",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "settleCoveredPuts",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

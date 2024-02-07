@@ -1,0 +1,44 @@
+'use client';
+
+import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import { formatTokenAmount } from '@/utils/number';
+
+const PositionCard = () => {
+  const { balanceOf, pricePerShare, depositAmount, profit, loss } = useRockOnyxVaultContract();
+
+  const netYield = loss !== 0 ? Number(`-${loss}`) : profit;
+
+  if (depositAmount === 0) {
+    return null;
+  }
+
+  return (
+    <div className="bg-rock-bg-coin rounded-2xl bg-opacity-80 backdrop-blur-sm p-6 lg:p-9">
+      <h5 className="text-xl text-rock-gray uppercase">Your position</h5>
+
+      <div className="flex items-center justify-between mt-8">
+        <p className="text-rock-gray">Total balance</p>
+        <p className="text-rock-gray">{formatTokenAmount(balanceOf * pricePerShare)} USDC</p>
+      </div>
+
+      <div className="flex items-center justify-between mt-2">
+        <p className="text-rock-gray">Total shares</p>
+        <p className="text-rock-gray">{formatTokenAmount(balanceOf)} roUSD</p>
+      </div>
+
+      <div className="flex items-center justify-between mt-6">
+        <p className="text-rock-gray">Net yield</p>
+        <p
+          className={`text-xl ${loss !== 0 ? 'text-red-600' : 'text-green-600'}`}
+        >{`${formatTokenAmount(netYield)}%`}</p>
+      </div>
+
+      <div className="flex items-center justify-between mt-2">
+        <p className="text-rock-gray">Initial deposit amount</p>
+        <p className="text-xl text-rock-primary">{formatTokenAmount(depositAmount)} USDC</p>
+      </div>
+    </div>
+  );
+};
+
+export default PositionCard;

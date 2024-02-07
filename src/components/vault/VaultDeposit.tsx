@@ -13,6 +13,7 @@ import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcContract from '@/hooks/useUsdcContract';
 import { formatTokenAmount } from '@/utils/number';
 
+import ConfirmDialog from '../shared/ConfirmDialog';
 import CurrencySelect from '../shared/CurrencySelect';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
 import { SpinnerIcon, WarningIcon } from '../shared/icons';
@@ -24,6 +25,7 @@ const VaultDeposit = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<SupportedCurrency>(
     SupportedCurrency.Usdc,
   );
+  const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
@@ -42,7 +44,8 @@ const VaultDeposit = () => {
     setInputValue(balance?.displayValue ?? '');
   };
 
-  const handleSubmit = async () => {
+  const handleConfirm = async () => {
+    setIsOpenConfirmDialog(false);
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
 
@@ -134,13 +137,22 @@ const VaultDeposit = () => {
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
-        onClick={handleSubmit}
+        onClick={() => setIsOpenConfirmDialog(true)}
       >
         {isButtonLoading && <SpinnerIcon className="w-6 h-6 animate-spin" />}
         {skipApprove ? 'Deposit' : 'Approve'}
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
+
+      <ConfirmDialog
+        isOpen={isOpenConfirmDialog}
+        title="You are about to deposit into your account"
+        description="Please be aware that this transaction is being processed in our beta version. If you encounter any issues or discrepancies, kindly report them to our support team."
+        confirmText="Continue"
+        onCancel={() => setIsOpenConfirmDialog(false)}
+        onConfirm={handleConfirm}
+      />
     </div>
   );
 };
