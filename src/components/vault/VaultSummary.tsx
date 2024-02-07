@@ -21,8 +21,8 @@ const VaultSummary = (props: VaultSummaryProps) => {
   const [apyRange, setApyRange] = useState('1w');
 
   return (
-    <div className="relative flex justify-center gap-12 lg:gap-24 w-full xl:w-2/3 bg-rock-bg-tab rounded-2xl px-8 py-6">
-      <div className="flex-1 flex flex-col items-center justify-between gap-2 lg:gap-4">
+    <div className="relative grid grid-cols-2 gap-12 w-full xl:w-2/3 bg-rock-bg-tab rounded-2xl px-8 py-6">
+      <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
         <div className="flex items-center gap-4 text-lg lg:text-2xl text-rock-gray font-semibold">
           <p>APY</p>
           <Tooltip message="The Annual Percentage Yield (APY) Is Extrapolated From The Previous Month/Week.">
@@ -43,7 +43,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
           apyRange === '1w' ? weeklyApy : monthlyApy,
         )}%`}</p>
       </div>
-      <div className="flex-1 flex flex-col items-center justify-between gap-2 lg:gap-4">
+      <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
         <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-3">TVL</p>
         <p className="text-xl lg:text-3xl font-semibold">
           {totalValueLocked.toLocaleString('en-US', {

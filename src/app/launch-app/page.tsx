@@ -22,17 +22,19 @@ export default async function LaunchApp() {
 
   return (
     <>
-      <nav className="w-full flex flex-wrap items-center justify-between p-4">
-        <Link href="/" className="flex items-center">
-          <Image
-            src={logoImg}
-            alt="Rock Onyx Logo"
-            width={44}
-            height={44}
-            className="w-auto h-full"
-          />
-        </Link>
-        <ul className="hidden sm:flex items-center gap-12">
+      <nav className="w-full grid grid-cols-12 p-4">
+        <div className="col-span-1 lg:col-span-3 flex items-center">
+          <Link href="/">
+            <Image
+              src={logoImg}
+              alt="Rock Onyx Logo"
+              width={44}
+              height={44}
+              className="w-auto h-full"
+            />
+          </Link>
+        </div>
+        <ul className="hidden md:flex items-center lg:justify-center gap-8 lg:gap-12 col-span-6 lg:col-span-4 xl:col-span-6 pl-6 lg:pl-0">
           <li className="text-base font-extralight uppercase cursor-pointer hover:font-medium">
             Product
           </li>
@@ -40,7 +42,7 @@ export default async function LaunchApp() {
             Portfolio
           </li>
         </ul>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-end gap-4 col-span-11 md:col-span-5 lg:col-span-5 xl:col-span-3">
           <NetworkSelect />
           <WalletConnectButton />
         </div>

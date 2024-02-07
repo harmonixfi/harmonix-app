@@ -28,6 +28,10 @@ const useRockOnyxVaultContract = () => {
 
   const { data: pricePerShareData } = useContractRead(contract, 'pricePerShare');
 
+  const { data: pnlData } = useContractRead(contract, 'getPnL');
+
+  const { data: depositAmountData } = useContractRead(contract, 'getDepositAmount');
+
   const { mutateAsync: deposit, isLoading: isDepositing } = useContractWrite(contract, 'deposit');
 
   const { mutateAsync: initiateWithdrawal, isLoading: isInitiatingWithdrawal } = useContractWrite(
@@ -48,6 +52,14 @@ const useRockOnyxVaultContract = () => {
   const pricePerShare = pricePerShareData
     ? Number(ethers.utils.formatUnits(pricePerShareData._hex, 6))
     : 0;
+
+  const depositAmount = depositAmountData
+    ? Number(ethers.utils.formatUnits(depositAmountData._hex, 6))
+    : 0;
+
+  const profit = pnlData && pnlData[0] ? Number(ethers.utils.formatUnits(pnlData[0]._hex, 6)) : 0;
+
+  const loss = pnlData && pnlData[1] ? Number(ethers.utils.formatUnits(pnlData[1]._hex, 6)) : 0;
 
   useEffect(() => {
     const onGetAvailableWithdrawalAmount = async () => {
@@ -79,6 +91,9 @@ const useRockOnyxVaultContract = () => {
     totalValueLocked,
     pricePerShare,
     availableWithdrawalAmount,
+    depositAmount,
+    profit,
+    loss,
     deposit,
     initiateWithdrawal,
     completeWithdraw,

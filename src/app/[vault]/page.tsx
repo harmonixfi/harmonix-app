@@ -1,10 +1,18 @@
+import Link from 'next/link';
+
 import { getVaultInfo, getVaultPerformance } from '@/api/vault';
 import Select from '@/components/shared/Select';
 import Tooltip from '@/components/shared/Tooltip';
 import Typography from '@/components/shared/Typography';
 import { LineChartData } from '@/components/shared/chart/LineChart';
-import { QuestionIcon, VaultIcon } from '@/components/shared/icons';
+import {
+  ChevronDownIcon,
+  QuestionIcon,
+  UsdcCircleIcon,
+  VaultIcon,
+} from '@/components/shared/icons';
 import Navbar from '@/components/shared/navbar/Navbar';
+import PositionCard from '@/components/vault/PositionCard';
 import VaultActionCard from '@/components/vault/VaultActionCard';
 import VaultChart from '@/components/vault/VaultChart';
 import VaultSummary from '@/components/vault/VaultSummary';
@@ -35,13 +43,87 @@ export default async function Vault() {
     <div className="relative z-40">
       <Navbar />
 
-      <h5 className="relative z-20 text-2xl lg:text-3xl 2xl:text-4xl font-normal uppercase mt-24 mb-14">
-        Stable Coin vault
-      </h5>
+      <div className="mb-10">
+        <h5 className="relative z-20 text-2xl lg:text-3xl 2xl:text-4xl font-normal uppercase mt-24">
+          Stable Coin vault
+        </h5>
+        <p className="mt-4">
+          This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not
+          only exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns
+          by up to 50% during bearish/downward market trends.
+        </p>
+        <div className="flex items-center gap-8 mt-1">
+          <a href="#withdrawal" className="flex items-center gap-1 border-b cursor-pointer">
+            <p className="text-sm font-light">Withdrawal detail</p>
+            <ChevronDownIcon className="w-4 h-4" />
+          </a>
+          <a href="#user-risk" className="flex items-center gap-1 border-b cursor-pointer">
+            <p className="text-sm font-light">User&apos;s risks</p>
+            <ChevronDownIcon className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
       <div className="relative flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mb-24 z-20">
         <div className="lg:col-span-3">
-          <div className="flex flex-col gap-14">
+          <div className="flex flex-col gap-12">
             <VaultSummary weeklyApy={weekly_apy} monthlyApy={monthly_apy} />
+
+            <div className="mb-6">
+              <Typography variant="heading">Vault Parameters Structure</Typography>
+              <ul className="grid grid-cols-3 gap-4 mt-4">
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Deposit assets</p>
+                  <div className="flex items-center gap-2">
+                    <UsdcCircleIcon className="w-6 h-6" />
+                    <p className="text-rock-primary font-medium">USDC</p>
+                  </div>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Settlement asset</p>
+                  <div className="flex items-center gap-2">
+                    <UsdcCircleIcon className="w-6 h-6" />
+                    <p className="text-rock-primary font-medium">USDC</p>
+                  </div>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Underlying Asset (1)</p>
+                  <p className="text-rock-primary font-medium">wstEth-Eth</p>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Underlying Asset (2)</p>
+                  <p className="text-rock-primary font-medium">Usdc-Usdc.e</p>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Underlying Asset (3)</p>
+                  <p className="text-rock-primary font-medium">Usdc.e</p>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Initiate Withdrawal</p>
+                  <p className="text-rock-primary font-medium">Any time</p>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Withdrawal</p>
+                  <p className="text-rock-primary font-medium">Every Friday at 8am UTC</p>
+                </li>
+
+                <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
+                  <p className="text-gray-300">Tenor</p>
+                  <p className="text-rock-primary font-medium">Perpetual</p>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-6 lg:hidden">
+              <VaultActionCard apr={apr} />
+              <PositionCard />
+            </div>
 
             <div className="border-t border-rock-divider pt-6">
               <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />
@@ -49,7 +131,7 @@ export default async function Vault() {
           </div>
 
           {/* Overview */}
-          <div className="flex flex-col gap-12 lg:gap-24 mt-24 lg:mt-48">
+          <div className="flex flex-col gap-12 lg:gap-24 mt-24 lg:mt-32">
             <div className="flex flex-col gap-6">
               <Typography variant="heading">An Overview of Stable coin vault</Typography>
               {/* <p className="text-base font-light">
@@ -233,7 +315,7 @@ export default async function Vault() {
             </div>
 
             {/* Withdrawals */}
-            <div className="flex flex-col gap-6">
+            <div id="withdrawal" className="flex flex-col gap-6">
               <Typography variant="heading">Withdrawals</Typography>
               <Typography variant="body">
                 Once user funds have been used in the vault’s weekly strategy they cannot be
@@ -247,10 +329,50 @@ export default async function Vault() {
                 claim their fund from the RockOnyx website at their convenience.
               </Typography>
             </div>
+
+            {/* User's risk */}
+            <div id="user-risk" className="flex flex-col gap-6">
+              <Typography variant="heading">User&apos;s risk</Typography>
+              <Typography variant="body">
+                <span className="text-gray-200 font-semibold">Market Risk: </span>
+                Due to the vault&apos;s strategy of buying and holding ETH (at a ratio of 60%), the
+                performance of the vault will be correlated with the price of ETH. However, the risk
+                during downtrends is reduced because only 60% of the assets are held in ETH.
+              </Typography>
+              <Typography variant="body">
+                <span className="text-gray-200 font-semibold">Conversion Risk: </span>
+                Trading covered options involves converting assets when the ETH price hits the
+                strike price. This entails selling ETH for USDC to take profit and cover losses from
+                options. Profits from these covered options typically range from 10% to 15%.
+                However, selling ETH to take profit and then buying back when the market declines
+                increases the quantity of ETH held when the market is sideways.
+              </Typography>
+              <Typography variant="body">
+                <span className="text-gray-200 font-semibold">Smart Contract Risk: </span>
+                Third parties risk
+              </Typography>
+              <Typography className="!text-gray-200 font-semibold mt-2 -mb-4">
+                Rock Onyx&apos;s Solution
+              </Typography>
+              <Typography variant="body">
+                <span className="text-gray-200 font-semibold">
+                  During the Initial Phase, Performance Will Be Lower Than Buy & Hold ETH:{' '}
+                </span>
+                In the initial phase, the vault&apos;s performance will be lower than simply buying
+                and holding ETH. The vault offers a risk-reduction mechanism by holding only 60% ETH
+                and generating profits through LP farming and options trading. Therefore, shortly
+                after depositing funds, the performance will significantly lag behind the buy and
+                hold strategy for ETH. However, in the long term, as profits from LP farming and
+                options are reinvested through compounding, the vault&apos;s performance will
+                closely track ETH performance, but with consistently lower drawdowns compared to the
+                market.
+              </Typography>
+            </div>
           </div>
         </div>
-        <div className="lg:col-span-2">
+        <div className="hidden lg:col-span-2 lg:flex flex-col gap-6">
           <VaultActionCard apr={apr} />
+          <PositionCard />
         </div>
       </div>
     </div>

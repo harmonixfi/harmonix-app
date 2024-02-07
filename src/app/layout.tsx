@@ -33,5 +33,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
-export const revalidate = 60 * 60; // revalidate at most every hour

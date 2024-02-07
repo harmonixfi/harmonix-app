@@ -14,7 +14,7 @@ import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
-const Navbar = () => {
+const HomeNavbar = () => {
   const pathname = usePathname();
 
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -28,8 +28,8 @@ const Navbar = () => {
   }, [navbarOpen]);
 
   return (
-    <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 sm:p-4">
-      <div className="col-span-2 lg:col-span-1 xl:col-span-2 2xl:col-span-3 flex items-center">
+    <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 md:p-4">
+      <div className="col-span-2 lg:col-span-3 flex items-center">
         <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
@@ -42,7 +42,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`items-center 2xl:justify-center w-full col-span-8 xl:col-span-7 2xl:col-span-6 lg:flex sm:w-auto ${
+        className={`items-center justify-center w-full col-span-7 lg:col-span-6 md:flex sm:w-auto ${
           navbarOpen
             ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
             : 'hidden'
@@ -58,7 +58,7 @@ const Navbar = () => {
             <CloseIcon className="w-9 h-9" />
           </button>
         )}
-        <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-2 md:space-x-4 lg:space-x-6 2xl:space-x-12 sm:flex-row sm:mt-0 sm:border-0">
+        <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-2 md:space-x-4 lg:space-x-12 sm:flex-row sm:mt-0 sm:border-0">
           <li>
             <NavbarMenu
               text="About"
@@ -93,11 +93,11 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="flex col-span-10 lg:col-span-3 justify-end z-30">
+      <div className="flex col-span-10 md:col-span-3 justify-end z-30">
         {pathname === '/' ? (
           <Link
             href="/launch-app"
-            className="hidden sm:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-6 py-3 text-center hover:bg-rock-primary"
+            className="hidden md:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-3 lg:px-6 py-2 lg:py-3 text-center hover:bg-rock-primary"
           >
             Launch app
           </Link>
@@ -108,7 +108,7 @@ const Navbar = () => {
           </div>
         )}
 
-        <button type="button" className="block lg:hidden ml-2" onClick={() => setNavbarOpen(true)}>
+        <button type="button" className="block md:hidden" onClick={() => setNavbarOpen(true)}>
           <span className="sr-only">Open menu</span>
           <MenuIcon className="w-6 h-6 text-white" />
         </button>
@@ -117,4 +117,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HomeNavbar;
