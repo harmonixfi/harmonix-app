@@ -241,6 +241,54 @@ export default async function Vault() {
                   </tbody>
                 </table>
               </div>
+
+              {/* User's risk */}
+              <div id="user-risk" className="flex flex-col gap-6">
+                <Typography className="!text-xl !text-gray-200 font-semibold mt-2 -mb-4">
+                  User&apos;s risk
+                </Typography>
+                <Typography variant="body">
+                  <span className="text-gray-200 font-semibold">Market Risk: </span>
+                  Due to the vault&apos;s strategy of buying and holding ETH (at a ratio of 60%),
+                  the performance of the vault will be correlated with the price of ETH. However,
+                  the risk during downtrends is reduced because only 60% of the assets are held in
+                  ETH.
+                </Typography>
+                <Typography variant="body">
+                  <span className="text-gray-200 font-semibold">Conversion Risk: </span>
+                  Trading covered options involves converting assets when the ETH price hits the
+                  strike price. This entails selling ETH for USDC to take profit and cover losses
+                  from options. Profits from these covered options typically range from 10% to 15%.
+                  However, selling ETH to take profit and then buying back when the market declines
+                  increases the quantity of ETH held when the market is sideways.
+                </Typography>
+                <Typography variant="body">
+                  <span className="text-gray-200 font-semibold">Smart Contract Risk: </span>
+                  There is smart contract risk associated with depositing funds on-chain and third
+                  parties risk
+                </Typography>
+                <Typography className="!text-xl !text-gray-200 font-semibold mt-2 -mb-4">
+                  Rock Onyx&apos;s Solution
+                </Typography>
+                <Typography variant="body">
+                  <span className="text-gray-200 font-semibold">
+                    For Market and Conversion Risks:
+                  </span>
+                  In the initial phase, the vault&apos;s performance will be lower than simply
+                  buying and holding ETH. The vault offers a risk-reduction mechanism by holding
+                  only 60% ETH and generating profits through LP farming and options trading.
+                  Therefore, shortly after depositing funds, the performance will significantly lag
+                  behind the buy and hold strategy for ETH. However, in the long term, as profits
+                  from LP farming and options are reinvested through compounding, the vault&apos;s
+                  performance will closely track ETH performance, but with consistently lower
+                  drawdowns compared to the market.
+                </Typography>
+                <Typography variant="body">
+                  <span className="text-gray-200 font-semibold">For smart contract risk: </span>
+                  Rock Onyx is working with 3 audit firms to conduct code audits and maintain
+                  continuous oversight to ensure user protection.
+                </Typography>
+              </div>
             </div>
 
             {/* Fee transparency */}
@@ -315,45 +363,6 @@ export default async function Vault() {
                 website. When the options expiry date arrives, we will automatically close the
                 options positions and transfer the user’s fund back to the vault. Then, the user can
                 claim their fund from the RockOnyx website at their convenience.
-              </Typography>
-            </div>
-
-            {/* User's risk */}
-            <div id="user-risk" className="flex flex-col gap-6">
-              <Typography variant="heading">User&apos;s risk</Typography>
-              <Typography variant="body">
-                <span className="text-gray-200 font-semibold">Market Risk: </span>
-                Due to the vault&apos;s strategy of buying and holding ETH (at a ratio of 60%), the
-                performance of the vault will be correlated with the price of ETH. However, the risk
-                during downtrends is reduced because only 60% of the assets are held in ETH.
-              </Typography>
-              <Typography variant="body">
-                <span className="text-gray-200 font-semibold">Conversion Risk: </span>
-                Trading covered options involves converting assets when the ETH price hits the
-                strike price. This entails selling ETH for USDC to take profit and cover losses from
-                options. Profits from these covered options typically range from 10% to 15%.
-                However, selling ETH to take profit and then buying back when the market declines
-                increases the quantity of ETH held when the market is sideways.
-              </Typography>
-              <Typography variant="body">
-                <span className="text-gray-200 font-semibold">Smart Contract Risk: </span>
-                Third parties risk
-              </Typography>
-              <Typography className="!text-gray-200 font-semibold mt-2 -mb-4">
-                Rock Onyx&apos;s Solution
-              </Typography>
-              <Typography variant="body">
-                <span className="text-gray-200 font-semibold">
-                  During the Initial Phase, Performance Will Be Lower Than Buy & Hold ETH:{' '}
-                </span>
-                In the initial phase, the vault&apos;s performance will be lower than simply buying
-                and holding ETH. The vault offers a risk-reduction mechanism by holding only 60% ETH
-                and generating profits through LP farming and options trading. Therefore, shortly
-                after depositing funds, the performance will significantly lag behind the buy and
-                hold strategy for ETH. However, in the long term, as profits from LP farming and
-                options are reinvested through compounding, the vault&apos;s performance will
-                closely track ETH performance, but with consistently lower drawdowns compared to the
-                market.
               </Typography>
             </div>
           </div>
