@@ -104,10 +104,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       <div className="mt-10">
         <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
         <div className="flex flex-col gap-3 lg:gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-4 p-4 lg:p-7">
-          <div className="flex items-center justify-between">
-            <p className="text-rock-gray">APR to date:</p>
-            <p>{`${Math.round(apr)}%`}</p>
-          </div>
+          
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-rock-gray">Withdrawals</p>
