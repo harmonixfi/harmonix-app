@@ -1,6 +1,5 @@
 'use client';
 
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatTokenAmount } from '@/utils/number';
 

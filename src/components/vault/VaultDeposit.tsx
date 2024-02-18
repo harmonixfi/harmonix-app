@@ -1,18 +1,17 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useApprove from '@/hooks/useApprove';
+import useDeposit from '@/hooks/useDeposit';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import useUsdcContract from '@/hooks/useUsdcContract';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { formatTokenAmount } from '@/utils/number';
 
@@ -20,8 +19,6 @@ import ConfirmDialog from '../shared/ConfirmDialog';
 import CurrencySelect from '../shared/CurrencySelect';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
 import { SpinnerIcon, WarningIcon } from '../shared/icons';
-
-const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
 const VaultDeposit = () => {
   const [inputValue, setInputValue] = useState('');
@@ -37,8 +34,22 @@ const VaultDeposit = () => {
 
   const { balanceOf, pricePerShare } = useRockOnyxVaultQueries();
   const { allowance, balance } = useUsdcQueries();
-  const { isApproving, approve } = useUsdcContract();
-  const { isDepositing, deposit } = useRockOnyxVaultContract();
+  const { isApproving, approve } = useApprove();
+  const { isDepositing, isConfirmedDeposit, isDepositError, depositTransactionHash, deposit } =
+    useDeposit();
+
+  useEffect(() => {
+    if (isConfirmedDeposit) {
+      setInputValue('');
+      onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+    }
+  }, [isConfirmedDeposit]);
+
+  useEffect(() => {
+    if (isDepositError) {
+      onOpenDialog('failed');
+    }
+  }, [isDepositError]);
 
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -55,13 +66,10 @@ const VaultDeposit = () => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
 
       if (!skipApprove) {
-        await approve({ args: [rockOnyxVaultAddress, amount] });
+        await approve(amount);
       }
 
-      const response = await deposit({ args: [amount] });
-
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      await deposit(amount);
     } catch {
       onOpenDialog('failed');
     }

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { getVaultInfo } from '@/api/vault';
 import VaultCard from '@/components/lauch-app/VaultCard';
-import NetworkSelect from '@/components/shared/NetworkSelect';
+// import NetworkSelect from '@/components/shared/NetworkSelect';
 import Select from '@/components/shared/Select';
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 
@@ -43,7 +43,7 @@ export default async function LaunchApp() {
           </li>
         </ul>
         <div className="flex items-center justify-end gap-4 col-span-11 md:col-span-5 lg:col-span-5 xl:col-span-3">
-          <NetworkSelect />
+          {/* <NetworkSelect /> */}
           <WalletConnectButton />
         </div>
       </nav>

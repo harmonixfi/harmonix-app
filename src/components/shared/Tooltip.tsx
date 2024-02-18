@@ -16,6 +16,10 @@ const Tooltip = (props: TooltipProps) => {
     <div className="relative flex flex-col items-center group">
       <span
         className="flex justify-center"
+        onClick={(event) => {
+          event.preventDefault();
+          setShow(true);
+        }}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
       >

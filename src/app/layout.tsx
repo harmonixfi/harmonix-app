@@ -4,12 +4,8 @@ import type { Metadata } from 'next';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { Sora } from 'next/font/google';
-import { headers } from 'next/headers';
-import { cookieToInitialState } from 'wagmi';
 
 import Footer from '@/components/shared/Footer';
-import { config } from '@/config';
-import { ContextProvider } from '@/context';
 
 import Providers from './_providers/Providers';
 import './globals.css';
@@ -23,8 +19,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const initialState = cookieToInitialState(config, headers().get('cookie'));
-
   return (
     <html lang="en" className={`${sora.className} bg-rock-bg`}>
       <body className="font-inconsolata">

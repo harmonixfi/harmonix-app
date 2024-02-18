@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-import { useConnectionStatus } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAccount } from 'wagmi';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';
-import NetworkSelect from '../NetworkSelect';
+// import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
@@ -19,9 +19,9 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const { status } = useAccount();
 
-  const connectionStatus = useConnectionStatus();
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
 
   useEffect(() => {
     if (navbarOpen) {
@@ -115,7 +115,7 @@ const Navbar = () => {
           </Link>
         ) : (
           <div className="flex items-center gap-2 sm:gap-4">
-            <NetworkSelect />
+            {/* <NetworkSelect /> */}
             <WalletConnectButton />
           </div>
         )}

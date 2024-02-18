@@ -36,7 +36,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
               ]}
               onChange={(selected) => setApyRange(selected.value)}
             /> */}
-            <p className="ml-2 text-lg">1W</p>
+            <p className="ml-2">1W</p>
           </div>
         </div>
         <p className="text-xl lg:text-3xl font-semibold">{`${Math.round(weeklyApy)}%`}</p>

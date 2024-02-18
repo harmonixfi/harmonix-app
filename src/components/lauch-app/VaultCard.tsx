@@ -45,6 +45,7 @@ const VaultCard = (props: VaultCardProps) => {
             <p className="text-sm font-semibold text-rock-gray">
               Total Projected Yield (Weekly APY)
             </p>
+
             <Tooltip
               message={
                 <div>
