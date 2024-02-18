@@ -4,13 +4,16 @@ import { ChangeEvent, useState } from 'react';
 
 import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
 import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcContract from '@/hooks/useUsdcContract';
+import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { formatTokenAmount } from '@/utils/number';
 
 import ConfirmDialog from '../shared/ConfirmDialog';
@@ -30,10 +33,12 @@ const VaultDeposit = () => {
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
-  const connectionStatus = useConnectionStatus();
+  const { status } = useAccount();
 
-  const { isApproving, allowance, balance, approve } = useUsdcContract();
-  const { isDepositing, balanceOf, pricePerShare, deposit } = useRockOnyxVaultContract();
+  const { balanceOf, pricePerShare } = useRockOnyxVaultQueries();
+  const { allowance, balance } = useUsdcQueries();
+  const { isApproving, approve } = useUsdcContract();
+  const { isDepositing, deposit } = useRockOnyxVaultContract();
 
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -41,7 +46,7 @@ const VaultDeposit = () => {
   };
 
   const handleClickMax = () => {
-    setInputValue(balance?.displayValue ?? '');
+    setInputValue(balance?.formatted ?? '');
   };
 
   const handleConfirm = async () => {
@@ -62,7 +67,7 @@ const VaultDeposit = () => {
     }
   };
 
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton = !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
@@ -80,7 +85,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? formatTokenAmount(Number(balance.displayValue)) : '0'} USDC
+            Wallet Balance: {balance ? formatTokenAmount(Number(balance.formatted)) : '0'} USDC
           </p>
           <button
             type="button"

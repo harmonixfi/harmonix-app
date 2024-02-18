@@ -24,14 +24,14 @@ const Tooltip = (props: TooltipProps) => {
       <div
         className={`absolute bottom-full -translate-y-2 flex flex-col items-center group-hover:flex ${
           !show ? 'hidden' : null
-        }`}
+        } z-50`}
       >
         <div
           className={`relative p-4 text-sm normal-case leading-5 text-white w-64 md:w-72 bg-rock-tooltip shadow-lg rounded-md ${className}`}
         >
           {message}
         </div>
-        <div className="w-4 h-4 -mt-2 rotate-45 bg-rock-button" />
+        <div className="w-4 h-4 -mt-2 rotate-45 bg-rock-tooltip" />
       </div>
     </div>
   );

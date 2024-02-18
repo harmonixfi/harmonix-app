@@ -1,12 +1,12 @@
 'use client';
 
 import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatTokenAmount } from '@/utils/number';
 
 const PositionCard = () => {
-  const { balanceOf, pricePerShare, depositAmount, profit, loss, availableWithdrawalAmount } =
-    useRockOnyxVaultContract();
-
+  const { depositAmount, pricePerShare, balanceOf, availableWithdrawalAmount, profit, loss } =
+    useRockOnyxVaultQueries();
   const totalBalance = balanceOf * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;

@@ -11,6 +11,7 @@ import {
 import useAppConfig from '@/hooks/useAppConfig';
 
 import { ThirdwebProvider } from './ThirdwebProvider';
+import { WalletProvider } from './WalletProvider';
 
 type ProviderType = {
   children: ReactNode;
@@ -25,7 +26,7 @@ const Providers = ({ children }: ProviderType) => {
       activeChain={activeChain}
       clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
     >
-      {children}
+      <WalletProvider>{children}</WalletProvider>
     </ThirdwebProvider>
   );
 };
