@@ -71,39 +71,39 @@ export default async function Vault() {
               <Typography variant="heading">Vault Parameters Structure</Typography>
               <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Deposit assets</p>
+                  <p className="text-rock-gray text-center">Deposit assets</p>
                   <div className="flex items-center gap-2">
                     <UsdcCircleIcon className="w-6 h-6" />
-                    <p className="text-rock-primary font-medium">USDC</p>
+                    <p className="text-white font-medium text-center">USDC</p>
                   </div>
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Settlement asset</p>
+                  <p className="text-rock-gray text-center">Settlement asset</p>
                   <div className="flex items-center gap-2">
                     <UsdcCircleIcon className="w-6 h-6" />
-                    <p className="text-rock-primary font-medium">USDC</p>
+                    <p className="text-white font-medium text-center">USDC</p>
                   </div>
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
                   <div className="flex items-center gap-2">
-                    <p className="text-gray-300">Underlying Asset</p>
+                    <p className="text-rock-gray text-center">Underlying Asset</p>
                     <Tooltip message="The asset or asset pair in which your investment performance is dependent on.">
                       <QuestionIcon className="w-4 h-4" />
                     </Tooltip>
                   </div>
-                  <p className="text-rock-primary font-medium">wstEth-Eth</p>
+                  <p className="text-white font-medium text-center">wstEth-Eth</p>
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Initiate Withdrawal</p>
-                  <p className="text-rock-primary font-medium">Any time</p>
+                  <p className="text-rock-gray text-center">Initiate Withdrawal</p>
+                  <p className="text-white font-medium text-center">Any time</p>
                 </li>
 
                 <li className="flex flex-col items-center gap-1 bg-rock-bg-tab rounded-2xl p-4">
-                  <p className="text-gray-300">Withdrawal</p>
-                  <p className="text-rock-primary font-medium">Every Friday at 8am UTC</p>
+                  <p className="text-rock-gray text-center">Withdrawal</p>
+                  <p className="text-white font-medium text-center">Every Friday at 8am UTC</p>
                 </li>
               </ul>
             </div>
@@ -294,40 +294,40 @@ export default async function Vault() {
             {/* Fee transparency */}
             <div className="flex flex-col gap-6">
               <Typography variant="heading">Fee transparency</Typography>
-              <div className="relative grid grid-cols-4 bg-rock-bg-tab rounded-2xl uppercase py-6">
-                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-                  <p className="text-rock-gray text-xs lg:text-base">Entry</p>
-                  <p className="text-xl lg:text-3xl font-semibold">0%</p>
+              <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 bg-rock-bg-tab rounded-2xl uppercase py-6">
+                <div className="flex flex-col items-center justify-between gap-2 xl:gap-4">
+                  <p className="text-rock-gray text-xs xl:text-base">Entry</p>
+                  <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
-                    <p>Exit</p>
+                <div className="flex flex-col items-center justify-between gap-2 xl:gap-4">
+                  <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-gray">
+                    <p className="text-xs xl:text-base">Exit</p>
                     <Tooltip message="Penalty fee when you withdraw in 1 month.">
-                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
+                      <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-xl lg:text-3xl font-semibold">0.5%</p>
+                  <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0.5%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
-                    <p>Performance</p>
+                <div className="flex flex-col items-center justify-between gap-2 xl:gap-4">
+                  <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-gray">
+                    <p className="text-xs xl:text-base">Performance</p>
                     <Tooltip message="We will charge the performance fee when you withdraw fund with profit.">
-                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
+                      <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-xl lg:text-3xl font-semibold">10%</p>
+                  <p className="text-sm sm:text-xl xl:text-3xl font-semibold">10%</p>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-                  <div className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base text-rock-gray font-semibold">
-                    <p>Management</p>
+                <div className="flex flex-col items-center justify-between gap-2 xl:gap-4">
+                  <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-gray">
+                    <p className="text-xs xl:text-base">Management</p>
                     <Tooltip message="We will charge the management fee when you withdraw fund.">
-                      <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
+                      <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
                     </Tooltip>
                   </div>
-                  <p className="text-xl lg:text-3xl font-semibold">1%</p>
+                  <p className="text-sm sm:text-xl xl:text-3xl font-semibold">1%</p>
                 </div>
                 <div
-                  className="w-[1px] h-full absolute top-0 left-1/4"
+                  className="w-full h-[1px] sm:w-[1px] sm:h-full absolute top-1/2 left-0 sm:top-0 sm:left-1/4"
                   style={{
                     background:
                       'linear-gradient(to bottom, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
@@ -341,7 +341,7 @@ export default async function Vault() {
                   }}
                 />
                 <div
-                  className="w-[1px] h-full absolute top-0 left-3/4"
+                  className="hidden sm:block w-[1px] h-full absolute top-0 left-3/4"
                   style={{
                     background:
                       'linear-gradient(to bottom, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',

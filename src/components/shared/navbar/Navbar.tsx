@@ -50,7 +50,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`items-center w-full col-span-8 ${
+        className={`items-center w-full col-span-7 ${
           isConnectedWallet
             ? '2xl:justify-center xl:col-span-7 2xl:col-span-6'
             : 'lg:justify-center lg:col-span-6'
@@ -105,7 +105,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="flex col-span-10 lg:col-span-3 justify-end z-30">
+      <div className="flex col-span-10 lg:col-span-4 xl:col-span-3 justify-end z-30">
         {pathname === '/' ? (
           <Link
             href="/launch-app"

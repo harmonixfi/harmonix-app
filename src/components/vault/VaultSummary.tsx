@@ -42,7 +42,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
         <p className="text-xl lg:text-3xl font-semibold">{`${Math.round(weeklyApy)}%`}</p>
       </div>
       <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-        <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-1.5">TVL</p>
+        <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-1">TVL</p>
         <p className="text-xl lg:text-3xl font-semibold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
