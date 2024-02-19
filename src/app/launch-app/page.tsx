@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { getVaultInfo } from '@/api/vault';
 import VaultCard from '@/components/lauch-app/VaultCard';
-import NetworkSelect from '@/components/shared/NetworkSelect';
+// import NetworkSelect from '@/components/shared/NetworkSelect';
 import Select from '@/components/shared/Select';
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 
@@ -17,20 +17,20 @@ async function getData() {
 
 export default async function LaunchApp() {
   const {
-    vaultInfo: { monthly_apy },
+    vaultInfo: { weekly_apy },
   } = await getData();
 
   return (
     <>
       <nav className="w-full grid grid-cols-12 p-4">
         <div className="col-span-1 lg:col-span-3 flex items-center">
-          <Link href="/">
+          <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
             <Image
               src={logoImg}
               alt="Rock Onyx Logo"
-              width={44}
-              height={44}
-              className="w-auto h-full"
+              width="100"
+              height="100"
+              className="w-full h-auto"
             />
           </Link>
         </div>
@@ -43,7 +43,7 @@ export default async function LaunchApp() {
           </li>
         </ul>
         <div className="flex items-center justify-end gap-4 col-span-11 md:col-span-5 lg:col-span-5 xl:col-span-3">
-          <NetworkSelect />
+          {/* <NetworkSelect /> */}
           <WalletConnectButton />
         </div>
       </nav>
@@ -91,7 +91,7 @@ export default async function LaunchApp() {
         <VaultCard
           name="Stable Coin Vault"
           link="/stable-coin-vault"
-          apy={Math.round(monthly_apy)}
+          apy={Math.round(weekly_apy)}
           maxCapacity={4000000}
         />
       </div>

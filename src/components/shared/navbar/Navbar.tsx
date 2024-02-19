@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-import { useConnectionStatus } from '@thirdweb-dev/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAccount } from 'wagmi';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';
-import NetworkSelect from '../NetworkSelect';
+// import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
@@ -19,9 +19,9 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const { status } = useAccount();
 
-  const connectionStatus = useConnectionStatus();
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
 
   useEffect(() => {
     if (navbarOpen) {
@@ -50,7 +50,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`items-center w-full col-span-8 ${
+        className={`items-center w-full col-span-7 ${
           isConnectedWallet
             ? '2xl:justify-center xl:col-span-7 2xl:col-span-6'
             : 'lg:justify-center lg:col-span-6'
@@ -105,7 +105,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="flex col-span-10 lg:col-span-3 justify-end z-30">
+      <div className="flex col-span-10 lg:col-span-4 xl:col-span-3 justify-end z-30">
         {pathname === '/' ? (
           <Link
             href="/launch-app"
@@ -115,7 +115,7 @@ const Navbar = () => {
           </Link>
         ) : (
           <div className="flex items-center gap-2 sm:gap-4">
-            <NetworkSelect />
+            {/* <NetworkSelect /> */}
             <WalletConnectButton />
           </div>
         )}

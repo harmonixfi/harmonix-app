@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
 const VaultFloatButton = () => {
-  const { totalValueLocked } = useRockOnyxVaultContract();
+  const { totalValueLocked } = useRockOnyxVaultQueries();
 
   return (
     <Link

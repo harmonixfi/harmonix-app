@@ -1,24 +1,24 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useApprove from '@/hooks/useApprove';
+import useDeposit from '@/hooks/useDeposit';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import useUsdcContract from '@/hooks/useUsdcContract';
+import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { formatTokenAmount } from '@/utils/number';
 
 import ConfirmDialog from '../shared/ConfirmDialog';
 import CurrencySelect from '../shared/CurrencySelect';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
 import { SpinnerIcon, WarningIcon } from '../shared/icons';
-
-const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
 
 const VaultDeposit = () => {
   const [inputValue, setInputValue] = useState('');
@@ -30,10 +30,26 @@ const VaultDeposit = () => {
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
-  const connectionStatus = useConnectionStatus();
+  const { status } = useAccount();
 
-  const { isApproving, allowance, balance, approve } = useUsdcContract();
-  const { isDepositing, balanceOf, pricePerShare, deposit } = useRockOnyxVaultContract();
+  const { balanceOf, pricePerShare } = useRockOnyxVaultQueries();
+  const { allowance, balance } = useUsdcQueries();
+  const { isApproving, approve } = useApprove();
+  const { isDepositing, isConfirmedDeposit, isDepositError, depositTransactionHash, deposit } =
+    useDeposit();
+
+  useEffect(() => {
+    if (isConfirmedDeposit) {
+      setInputValue('');
+      onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+    }
+  }, [isConfirmedDeposit]);
+
+  useEffect(() => {
+    if (isDepositError) {
+      onOpenDialog('failed');
+    }
+  }, [isDepositError]);
 
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -41,7 +57,7 @@ const VaultDeposit = () => {
   };
 
   const handleClickMax = () => {
-    setInputValue(balance?.displayValue ?? '');
+    setInputValue(balance?.formatted ?? '');
   };
 
   const handleConfirm = async () => {
@@ -50,19 +66,16 @@ const VaultDeposit = () => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
 
       if (!skipApprove) {
-        await approve({ args: [rockOnyxVaultAddress, amount] });
+        await approve(amount);
       }
 
-      const response = await deposit({ args: [amount] });
-
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      await deposit(amount);
     } catch {
       onOpenDialog('failed');
     }
   };
 
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton = !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
@@ -80,7 +93,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? formatTokenAmount(Number(balance.displayValue)) : '0'} USDC
+            Wallet Balance: {balance ? formatTokenAmount(Number(balance.formatted)) : '0'} USDC
           </p>
           <button
             type="button"
