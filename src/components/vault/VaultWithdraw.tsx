@@ -2,12 +2,14 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { useConnectionStatus } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
+import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
+import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import { formatTokenAmount } from '@/utils/number';
 
@@ -20,24 +22,28 @@ type VaultWithdrawProps = {
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
-  const { apr } = props;
-
   const [inputValue, setInputValue] = useState('');
 
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
-  const connectionStatus = useConnectionStatus();
+  const { status } = useAccount();
 
   const {
     isInitiatingWithdrawal,
-    isCompletingWithdraw,
-    balanceOf,
-    pricePerShare,
-    availableWithdrawalAmount,
+    isConfirmedInitiateWithdrawal,
+    isInitiateWithdrawalError,
     initiateWithdrawal,
-    completeWithdraw,
-  } = useRockOnyxVaultContract();
+  } = useInitiateWithdrawal();
+  const {
+    isCompletingWithdrawal,
+    isConfirmedCompleteWithdrawal,
+    isCompleteWithdrawalError,
+    completeWithdrawalTransactionHash,
+    completeWithdrawal,
+  } = useCompleteWithdrawal();
+
+  const { balanceOf, pricePerShare, availableWithdrawalAmount } = useRockOnyxVaultQueries();
 
   const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
 
@@ -47,12 +53,30 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     }
   }, [availableWithdrawalAmount]);
 
+  useEffect(() => {
+    if (isConfirmedInitiateWithdrawal) {
+      setInputValue('');
+      onOpenDialog('success');
+    }
+  }, [isConfirmedInitiateWithdrawal]);
+
+  useEffect(() => {
+    if (isConfirmedCompleteWithdrawal) {
+      setInputValue('');
+      onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
+    }
+  }, [isConfirmedCompleteWithdrawal]);
+
+  useEffect(() => {
+    if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
+      onOpenDialog('failed');
+    }
+  }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
+
   const handleInitiateWithdraw = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
-      const response = await initiateWithdrawal({ args: [amount] });
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      await initiateWithdrawal(amount);
     } catch {
       onOpenDialog('failed');
     }
@@ -60,9 +84,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const handleCompleteWithdraw = async () => {
     try {
-      const response = await completeWithdraw({ args: [] });
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      const amount = ethers.utils.parseUnits(inputValue, 6);
+      await completeWithdrawal(amount);
     } catch {
       onOpenDialog('failed');
     }
@@ -86,9 +109,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     setInputValue(balanceOf > 0 ? String(balanceOf) : '');
   };
 
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
 
-  const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdraw;
+  const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
   const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
 
@@ -104,7 +127,6 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       <div className="mt-10">
         <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
         <div className="flex flex-col gap-3 lg:gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-4 p-4 lg:p-7">
-          
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-rock-gray">Withdrawals</p>

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
-import useRockOnyxVaultContract from '@/hooks/useRockOnyxVaultContract';
-
-import Select from '../shared/Select';
+// import Select from '../shared/Select';
 import Tooltip from '../shared/Tooltip';
 import { QuestionIcon } from '../shared/icons';
 
@@ -14,11 +13,11 @@ type VaultSummaryProps = {
 };
 
 const VaultSummary = (props: VaultSummaryProps) => {
-  const { weeklyApy, monthlyApy } = props;
+  const { weeklyApy } = props;
 
-  const { totalValueLocked } = useRockOnyxVaultContract();
+  const { totalValueLocked } = useRockOnyxVaultQueries();
 
-  const [apyRange, setApyRange] = useState('1w');
+  // const [apyRange, setApyRange] = useState('1w');
 
   return (
     <div className="relative grid grid-cols-2 gap-12 w-full xl:w-2/3 bg-rock-bg-tab rounded-2xl px-8 py-6">
@@ -29,22 +28,21 @@ const VaultSummary = (props: VaultSummaryProps) => {
             <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
           </Tooltip>
           <div>
-            <Select
+            {/* <Select
               placeholder="1W"
               options={[
                 { label: '1W', value: '1w' },
                 { label: '1M', value: '1m' },
               ]}
               onChange={(selected) => setApyRange(selected.value)}
-            />
+            /> */}
+            <p className="ml-2">1W</p>
           </div>
         </div>
-        <p className="text-xl lg:text-3xl font-semibold">{`${Math.round(
-          apyRange === '1w' ? weeklyApy : monthlyApy,
-        )}%`}</p>
+        <p className="text-xl lg:text-3xl font-semibold">{`${Math.round(weeklyApy)}%`}</p>
       </div>
       <div className="flex flex-col items-center justify-between gap-2 lg:gap-4">
-        <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-3">TVL</p>
+        <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-1">TVL</p>
         <p className="text-xl lg:text-3xl font-semibold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
