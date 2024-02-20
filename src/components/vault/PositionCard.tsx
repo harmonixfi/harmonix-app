@@ -34,7 +34,7 @@ const PositionCard = () => {
           className={`text-lg sm:text-base xl:text-xl ${
             loss !== 0 ? 'text-red-600' : 'text-green-600'
           }`}
-        >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl)}%)`}</p>
+        >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
       </div>
 
       <div className="flex items-center justify-between mt-2">
