@@ -114,7 +114,7 @@ export default async function Vault() {
             </div>
 
             <div className="border-t border-rock-divider pt-6">
-              {/* <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} /> */}
+              <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />
             </div>
           </div>
 
