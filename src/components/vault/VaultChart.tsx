@@ -15,11 +15,11 @@ const VaultChart = (props: VaultChartProps) => {
         <div className="flex items-center">
           <button
             type="button"
-            className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
+            className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"
           >
             Week
           </button>
-          <button
+          {/* <button
             type="button"
             className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"
           >
@@ -30,13 +30,13 @@ const VaultChart = (props: VaultChartProps) => {
             className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
           >
             Year
-          </button>
+          </button> */}
         </div>
         <div className="flex items-center gap-4 lg:gap-10">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="w-5 h-[1px] bg-[#9EB50E]" />
             <p className="text-sm lg:text-base text-rock-gray">Market</p>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
             <span className="w-5 h-[1px] bg-[#0057FF]" />
             <p className="text-sm lg:text-base text-rock-gray">Onyx Vault *</p>
@@ -52,11 +52,11 @@ const VaultChart = (props: VaultChartProps) => {
       <div className="h-[240px] lg:h-[300px]">
         <LineChart
           options={[
-            {
-              id: 'market',
-              data: marketData,
-              lineColor: '#9EB50E',
-            },
+            // {
+            //   id: 'market',
+            //   data: marketData,
+            //   lineColor: '#9EB50E',
+            // },
             {
               id: 'onyx',
               data: onyxData,

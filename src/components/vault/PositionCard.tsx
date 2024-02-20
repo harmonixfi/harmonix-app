@@ -31,13 +31,15 @@ const PositionCard = () => {
       <div className="flex items-center justify-between mt-6">
         <p className="text-rock-gray">Profit/Loss</p>
         <p
-          className={`text-lg sm:text-xl ${loss !== 0 ? 'text-red-600' : 'text-green-600'}`}
+          className={`text-lg sm:text-base xl:text-xl ${
+            loss !== 0 ? 'text-red-600' : 'text-green-600'
+          }`}
         >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl)}%)`}</p>
       </div>
 
       <div className="flex items-center justify-between mt-2">
         <p className="text-rock-gray">Pending withdrawal</p>
-        <p className="text-lg sm:text-xl text-rock-gray">
+        <p className="text-lg sm:text-base xl:text-xl text-rock-gray">
           {availableWithdrawalAmount !== 0
             ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
             : '--'}
@@ -46,7 +48,7 @@ const PositionCard = () => {
 
       <div className="flex items-center justify-between mt-2">
         <p className="text-rock-gray">Initial deposit amount</p>
-        <p className="text-lg sm:text-xl text-rock-primary">
+        <p className="text-lg sm:text-base xl:text-xl text-rock-primary">
           {formatTokenAmount(depositAmount)} USDC
         </p>
       </div>
