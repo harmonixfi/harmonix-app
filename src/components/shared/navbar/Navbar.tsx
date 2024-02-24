@@ -4,24 +4,14 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAccount } from 'wagmi';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
-import { SOCIAL_URLS } from '@/constants/socials';
 
 import logoImg from '../../../../public/images/logo.png';
-// import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
-import NavbarMenu from './NavbarMenu';
 
 const Navbar = () => {
-  const pathname = usePathname();
-
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const { status } = useAccount();
-
-  const isConnectedWallet = status === 'connected';
 
   useEffect(() => {
     if (navbarOpen) {
@@ -32,12 +22,8 @@ const Navbar = () => {
   }, [navbarOpen]);
 
   return (
-    <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 sm:p-4">
-      <div
-        className={`col-span-2 ${
-          isConnectedWallet ? 'lg:col-span-1 xl:col-span-2 2xl:col-span-3' : 'lg:col-span-3'
-        }  flex items-center`}
-      >
+    <nav className="relative w-full sm:w-[90%] 2xl:w-4/5 grid grid-cols-12 mx-auto px-6 sm:px-0 py-6 z-50">
+      <div className="col-span-1 md:col-span-2 xl:col-span-3 flex items-center">
         <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
@@ -48,15 +34,10 @@ const Navbar = () => {
           />
         </Link>
       </div>
-
       <div
-        className={`items-center w-full col-span-7 ${
-          isConnectedWallet
-            ? '2xl:justify-center xl:col-span-7 2xl:col-span-6'
-            : 'lg:justify-center lg:col-span-6'
-        }  lg:flex sm:w-auto ${
+        className={`items-center justify-center w-full col-span-6 md:col-span-5 xl:col-span-6 md:flex sm:w-auto ${
           navbarOpen
-            ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
+            ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-bg'
             : 'hidden'
         }`}
       >
@@ -70,57 +51,18 @@ const Navbar = () => {
             <CloseIcon className="w-9 h-9" />
           </button>
         )}
-        <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-2 md:space-x-4 lg:space-x-6 2xl:space-x-12 sm:flex-row sm:mt-0 sm:border-0">
-          <li>
-            <NavbarMenu
-              text="About"
-              items={[
-                { text: 'Faq', url: '#' },
-                {
-                  text: 'Blog',
-                  url: 'https://mirror.xyz/0xa1e8a739166876845B7dEdc177989024bAB0D810',
-                  target: '_blank',
-                },
-                { text: 'Team', url: '#' },
-                { text: 'Audit', url: '#' },
-              ]}
-            />
+        <ul className="flex flex-col md:flex-row gap-8 md:gap-16 pl-6 md:pl-0">
+          <li className="text-base text-white font-semibold uppercase">
+            <Link href="/products">Product</Link>
           </li>
-          <li>
-            <NavbarMenu
-              text="Community"
-              items={[
-                { text: 'Github', url: SOCIAL_URLS.Github, target: '_blank' },
-                { text: 'Telegram', url: SOCIAL_URLS.Telegram, target: '_blank' },
-                { text: 'Twitter', url: SOCIAL_URLS.Twitter, target: '_blank' },
-              ]}
-            />
-          </li>
-          <li>
-            <NavbarMenu text="Dashboard" url="#" />
-          </li>
-          <li>
-            <NavbarMenu text="Docs" url="https://rock-onyx.gitbook.io/rock-onyx-docs/" />
+          <li className="text-base text-rock-sub-body font-semibold uppercase cursor-pointer">
+            Portfolio
           </li>
         </ul>
       </div>
-
-      <div className="flex col-span-10 lg:col-span-4 xl:col-span-3 justify-end z-30">
-        {pathname === '/' ? (
-          <Link
-            href="/launch-app"
-            className="hidden sm:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-6 py-3 text-center hover:bg-rock-primary"
-          >
-            Launch app
-          </Link>
-        ) : (
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* <NetworkSelect /> */}
-            <WalletConnectButton />
-          </div>
-        )}
-
-        <button type="button" className="block lg:hidden ml-2" onClick={() => setNavbarOpen(true)}>
+      <div className="flex items-center justify-end gap-4 col-span-11 md:col-span-5 xl:col-span-3">
+        <WalletConnectButton />
+        <button type="button" className="block md:hidden" onClick={() => setNavbarOpen(true)}>
           <span className="sr-only">Open menu</span>
           <MenuIcon className="w-6 h-6 text-white" />
         </button>

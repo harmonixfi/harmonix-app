@@ -124,9 +124,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       )}
 
-      <div className="mt-10">
+      <div className="mt-6 sm:mt-10">
         <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
-        <div className="flex flex-col gap-3 lg:gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-4 p-4 lg:p-7">
+        <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-rock-gray">Withdrawals</p>
@@ -153,7 +153,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-12">
+      <div className="flex items-center justify-between mt-6 sm:mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
         {!isEnableCompleteWithdraw && (
           <button
@@ -166,10 +166,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         )}
       </div>
 
-      <div className="relative mt-6">
-        <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-16 h-16" />
+      <div className="relative mt-3 sm:mt-6">
+        <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-12 h-12" />
         <input
-          className="w-full h-20 block bg-[#5A5A5A] rounded-xl bg-opacity-10 pl-24 pr-3 text-2xl text-rock-gray focus:ring-2 focus:outline-none"
+          className="w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white focus:ring-2 focus:outline-none"
           type="text"
           placeholder="0.0"
           disabled={!isConnectedWallet || isEnableCompleteWithdraw}
@@ -186,25 +186,21 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
               <p>{`${formatTokenAmount(balanceOf)} roUSD`}</p>
             </div>
 
-            <div
-              className="w-full h-[1px] my-3 lg:my-6"
-              style={{
-                background:
-                  'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
-              }}
-            />
+            <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
           </>
         )}
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
-          <p>{`${formatTokenAmount((Number(inputValue) || 0) * pricePerShare)} USDC`}</p>
+          <p className="text-white">{`${formatTokenAmount(
+            (Number(inputValue) || 0) * pricePerShare,
+          )} USDC`}</p>
         </div>
       </div>
 
       <button
         type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isWithdrawing ? 'animate-pulse' : ''}`}
         disabled={disabledButton}

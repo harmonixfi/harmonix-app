@@ -44,7 +44,7 @@ const HomeNavbar = () => {
       <div
         className={`items-center justify-center w-full col-span-7 lg:col-span-6 md:flex sm:w-auto ${
           navbarOpen
-            ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-dark'
+            ? 'z-50 flex flex-col fixed top-0 left-0 bottom-0 right-0 bg-rock-bg'
             : 'hidden'
         }`}
       >
@@ -58,7 +58,7 @@ const HomeNavbar = () => {
             <CloseIcon className="w-9 h-9" />
           </button>
         )}
-        <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-24 rounded-lg sm:space-x-2 md:space-x-4 lg:space-x-12 sm:flex-row sm:mt-0 sm:border-0">
+        <ul className="flex flex-col gap-2 sm:gap-0 p-4 sm:p-0 mt-0 rounded-lg sm:space-x-2 md:space-x-4 lg:space-x-12 sm:flex-row sm:border-0">
           <li>
             <NavbarMenu
               text="About"
@@ -96,7 +96,7 @@ const HomeNavbar = () => {
       <div className="flex col-span-10 md:col-span-3 justify-end z-30">
         {pathname === '/' ? (
           <Link
-            href="/launch-app"
+            href="/products"
             className="hidden md:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-3 lg:px-6 py-2 lg:py-3 text-center hover:bg-rock-primary"
           >
             Launch app

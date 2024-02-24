@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import { Sora } from 'next/font/google';
+import { Inter, Sora } from 'next/font/google';
 
 import Footer from '@/components/shared/Footer';
 
@@ -11,7 +11,17 @@ import Providers from './_providers/Providers';
 import './globals.css';
 import Loading from './loading';
 
-const sora = Sora({ subsets: ['latin'] });
+export const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+export const sora = Sora({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sora',
+});
 
 export const metadata: Metadata = {
   title: 'Rock Onyx',
@@ -20,11 +30,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sora.className} bg-rock-bg`}>
+    <html lang="en" className={`${inter.variable} ${sora.className} bg-rock-bg`}>
       <body className="font-inconsolata">
         <Providers>
           <Suspense fallback={<Loading />}>
-            <main className="relative max-w-[90%] mx-auto pb-4">
+            <main className="relative pb-4">
               <div>{children}</div>
               <Footer />
             </main>
