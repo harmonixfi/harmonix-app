@@ -15,42 +15,40 @@ const PositionCard = () => {
   }
 
   return (
-    <div className="bg-rock-bg-coin rounded-2xl bg-opacity-80 backdrop-blur-sm p-6 lg:p-9">
-      <h5 className="text-lg sm:text-xl text-rock-gray uppercase">Your position</h5>
+    <div className="bg-white bg-opacity-5 border border-rock-divider rounded-2xl backdrop-blur-sm p-4 sm:p-9">
+      <h5 className="text-sm sm:text-base text-rock-gray font-semibold uppercase">Your position</h5>
 
-      <div className="flex items-center justify-between mt-8">
-        <p className="text-rock-gray">Total balance</p>
-        <p className="text-rock-gray">{formatTokenAmount(totalBalance)} USDC</p>
-      </div>
+      <div className="flex flex-col gap-3 bg-rock-bg rounded-xl p-4 sm:p-6 mt-3 sm:mt-6">
+        <div className="flex items-center justify-between">
+          <p className="text-white font-extralight">Total balance</p>
+          <p className="text-white">{formatTokenAmount(totalBalance)} USDC</p>
+        </div>
 
-      <div className="flex items-center justify-between mt-2">
-        <p className="text-rock-gray">Total shares</p>
-        <p className="text-rock-gray">{formatTokenAmount(balanceOf)} roUSD</p>
-      </div>
+        <div className="flex items-center justify-between">
+          <p className="text-white font-extralight">Total shares</p>
+          <p className="text-white">{formatTokenAmount(balanceOf)} roUSD</p>
+        </div>
 
-      <div className="flex items-center justify-between mt-6">
-        <p className="text-rock-gray">Profit/Loss</p>
-        <p
-          className={`text-lg sm:text-base xl:text-xl ${
-            loss !== 0 ? 'text-red-600' : 'text-green-600'
-          }`}
-        >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
-      </div>
+        <div className="flex items-center justify-between">
+          <p className="text-white font-extralight">Gross Profit/Loss</p>
+          <p className={`${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}>{`${formatTokenAmount(
+            Math.abs(netYield),
+          )} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
+        </div>
 
-      <div className="flex items-center justify-between mt-2">
-        <p className="text-rock-gray">Pending withdrawal</p>
-        <p className="text-lg sm:text-base xl:text-xl text-rock-gray">
-          {availableWithdrawalAmount !== 0
-            ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
-            : '--'}
-        </p>
-      </div>
+        <div className="flex items-center justify-between">
+          <p className="text-white font-extralight">Pending withdrawal</p>
+          <p className="text-white">
+            {availableWithdrawalAmount !== 0
+              ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
+              : '--'}
+          </p>
+        </div>
 
-      <div className="flex items-center justify-between mt-2">
-        <p className="text-rock-gray">Initial deposit amount</p>
-        <p className="text-lg sm:text-base xl:text-xl text-rock-primary">
-          {formatTokenAmount(depositAmount)} USDC
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-white font-extralight">Initial deposit amount</p>
+          <p className="text-rock-primary">{formatTokenAmount(depositAmount)} USDC</p>
+        </div>
       </div>
     </div>
   );

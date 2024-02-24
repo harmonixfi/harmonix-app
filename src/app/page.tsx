@@ -21,7 +21,7 @@ import centerRockImg from '../../public/images/center-rock.png';
 
 export default async function Home() {
   return (
-    <>
+    <div className="max-w-[90%] mx-auto">
       <HomeNavbar />
 
       <div className="flex flex-col items-center mt-8">
@@ -29,11 +29,11 @@ export default async function Home() {
           <h3 className="text-4xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase mt-0 sm:mt-16">
             Rock Onyx
           </h3>
-          <h5 className="max-w-md text-base sm:text-lg font-light opacity-70 mx-auto my-8">
-            Automatic Hedging Vaults While Earning Good Yields With Low Risk
+          <h5 className="max-w-md text-base sm:text-lg font-light leading-7 opacity-80 mx-auto my-8">
+            Automatic hedging vaults while earning good yields with low risk
           </h5>
           <Link
-            href="/launch-app"
+            href="/products"
             className="inline-block rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-3 hover:ring-2 hover:ring-rock-divider"
           >
             Launch app
@@ -69,12 +69,12 @@ export default async function Home() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full mb-16">
           <VaultFloatButton />
 
-          <ul className="flex justify-around gap-8 backdrop-blur-md w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full px-8 py-4">
+          <ul className="flex justify-around gap-8 backdrop-blur-md w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-4">
             <li>
               <a
                 href={SOCIAL_URLS.Twitter}
                 target="_blank"
-                className="text-rock-gray hover:text-white"
+                className="text-white block transition duration-150 ease-in-out hover:scale-125"
               >
                 <TwitterLineIcon />
               </a>
@@ -83,7 +83,7 @@ export default async function Home() {
               <a
                 href={SOCIAL_URLS.Telegram}
                 target="_blank"
-                className="text-rock-gray hover:text-white"
+                className="text-white block transition duration-150 ease-in-out hover:scale-125"
               >
                 <TelegramIcon />
               </a>
@@ -92,7 +92,7 @@ export default async function Home() {
               <a
                 href={SOCIAL_URLS.Github}
                 target="_blank"
-                className="text-rock-gray hover:text-white"
+                className="text-white block transition duration-150 ease-in-out hover:scale-125"
               >
                 <GithubLineIcon />
               </a>
@@ -100,6 +100,6 @@ export default async function Home() {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 }

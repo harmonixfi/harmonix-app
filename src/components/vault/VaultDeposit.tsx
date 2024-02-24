@@ -89,7 +89,7 @@ const VaultDeposit = () => {
         </div>
       )}
 
-      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-12">
+      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-6 sm:mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
@@ -107,14 +107,14 @@ const VaultDeposit = () => {
 
       <div className="relative mt-6">
         <input
-          className="w-full h-20 block bg-[#5A5A5A] rounded-xl bg-opacity-10 pl-8 pr-[180px] text-2xl text-rock-gray focus:ring-2 focus:outline-none"
+          className="w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-8 pr-[180px] text-2xl text-white focus:ring-2 focus:outline-none"
           type="text"
           placeholder="0.0"
           disabled={!isConnectedWallet}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
-        <div className="absolute top-1.5 right-6">
+        <div className="absolute top-1 right-2 sm:right-6">
           <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
         </div>
       </div>
@@ -127,26 +127,22 @@ const VaultDeposit = () => {
       <div className="flex items-center justify-between mt-8 text-rock-gray">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
-          <p>{`${formatTokenAmount(Number(inputValue) / Number(pricePerShare))} roUSD`}</p>
+          <p className="text-white">{`${formatTokenAmount(
+            Number(inputValue) / Number(pricePerShare),
+          )} roUSD`}</p>
         </div>
       </div>
 
-      <div
-        className="w-full h-[1px] my-3 lg:my-6"
-        style={{
-          background:
-            'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
-        }}
-      />
+      <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p>{`${formatTokenAmount(balanceOf)} USDC`}</p>
+        <p className="text-white">{`${formatTokenAmount(balanceOf)} USDC`}</p>
       </div>
 
       <button
         type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}
