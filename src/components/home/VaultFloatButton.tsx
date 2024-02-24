@@ -12,12 +12,12 @@ const VaultFloatButton = () => {
   return (
     <Link
       href="/stable-coin-vault"
-      className="flex gap-1 backdrop-blur-sm w-full sm:w-fit bg-white bg-opacity-5 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer"
+      className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer transition duration-150 ease-in-out hover:scale-105"
     >
       <TSymbolIcon />
       <CurrencySymbolIcon />
       <div className="pl-2">
-        <p className="text-sm opacity-40 font-light">Stable coin vault TVL</p>
+        <p className="text-sm font-light text-rock-sub-body">Stable coin vault TVL</p>
         <p className="font-bold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',

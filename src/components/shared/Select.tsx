@@ -15,10 +15,11 @@ type SelectProps = {
   placeholder?: string;
   options: SelectOption[];
   onChange?: (opt: SelectOption) => void;
+  popupClassName?: string;
 };
 
 const Select = (props: SelectProps) => {
-  const { placeholder, options, onChange } = props;
+  const { placeholder, options, popupClassName = '', onChange } = props;
 
   const [selected, setSelected] = useState<SelectOption>({
     label: '',
@@ -36,10 +37,8 @@ const Select = (props: SelectProps) => {
   return (
     <Listbox value={selected.value} onChange={handleChange}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative flex items-center justify-center gap-2 w-full cursor-pointer rounded-full bg-rock-bg-tab px-3 lg:px-5 py-2 lg:py-3 shadow-md hover:bg-rock-button">
-          <span className="block text-sm font-light truncate uppercase">
-            {selected?.label || placeholder}
-          </span>
+        <Listbox.Button className="relative flex items-center justify-center gap-2 w-full cursor-pointer rounded-full bg-white bg-opacity-10 px-3 lg:px-5 py-2 lg:py-3 shadow-md hover:bg-opacity-5">
+          <span className="block truncate">{selected?.label || placeholder}</span>
           <ChevronDownIcon />
         </Listbox.Button>
         <Transition
@@ -48,7 +47,9 @@ const Select = (props: SelectProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-lg bg-rock-button py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+          <Listbox.Options
+            className={`absolute mt-1 max-h-60 sm:w-full overflow-auto rounded-lg bg-rock-footer py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-40 ${popupClassName}`}
+          >
             {options.map((opt) => (
               <Listbox.Option
                 key={opt.value}
