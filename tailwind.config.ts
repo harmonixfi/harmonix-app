@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        '3xl': '1780px',
+      },
       fontFamily: {
         inter: ['var(--font-inter)'],
         sora: 'var(--font-sora)',

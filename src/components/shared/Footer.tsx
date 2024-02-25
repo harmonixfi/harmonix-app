@@ -22,9 +22,9 @@ const Footer = () => {
         </div>
         <div className="sm:col-span-2 lg:col-span-1 pl-0 sm:pl-6 lg:pl-0">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-0">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center sm:items-start">
               <p className="text-rock-sub-body text-base font-semibold uppercase">About</p>
-              <ul className="flex flex-col gap-3 mt-2 sm:mt-6 text-sm text-white font-light">
+              <ul className="flex flex-col items-center sm:items-start gap-3 mt-2 sm:mt-6 text-sm text-white font-light">
                 <li>
                   <Link href="/">Faq</Link>
                 </li>
@@ -44,9 +44,9 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center sm:items-start">
               <p className="text-rock-sub-body text-base font-semibold uppercase">Community</p>
-              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-light">
+              <ul className="flex flex-col items-center sm:items-start gap-3 mt-6 text-sm text-white font-light">
                 <li>
                   <a href={SOCIAL_URLS.Github} target="_blank">
                     Github
@@ -64,7 +64,7 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center sm:items-start">
               <p className="text-rock-sub-body text-base font-semibold uppercase">Dashboard</p>
             </div>
           </div>

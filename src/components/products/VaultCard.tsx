@@ -32,7 +32,7 @@ const VaultCard = (props: VaultCardProps) => {
 
   return (
     <Link href={link} className="bg-white bg-opacity-5 rounded-2xl border border-rock-divider">
-      <div className="relative rounded-tl-2xl rounded-tr-2xl p-6 pb-14">
+      <div className="relative rounded-tl-2xl rounded-tr-2xl p-6 pb-10 xl:pb-14">
         <div
           className="absolute inset-0 rounded-tl-2xl rounded-tr-2xl"
           style={{
@@ -44,27 +44,29 @@ const VaultCard = (props: VaultCardProps) => {
           }}
         />
         <div className="relative flex items-center gap-2">
-          <p className={`w-fit ${badgeBg} rounded-lg px-4 py-2 uppercase text-sm font-semibold`}>
+          <p
+            className={`w-fit ${badgeBg} rounded-lg px-4 py-2 uppercase text-xs xl:text-sm font-semibold`}
+          >
             {name}
           </p>
-          <span className={`${badgeBg} rounded-lg px-2.5 py-2`}>
-            <VaultIcon />
+          <span className={`${badgeBg} rounded-lg px-1.5 py-1.5 xl:px-2.5 xl:py-2`}>
+            <VaultIcon className="w-5 h-5" />
           </span>
         </div>
-        <div className="flex items-center gap-1 absolute -bottom-9">
+        <div className="flex items-center gap-1 absolute -bottom-6 xl:-bottom-8">
           {color === 'default' ? (
             <>
-              <TVaultIcon />
-              <CurrencyVaultIcon />
+              <TVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
+              <CurrencyVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
             </>
           ) : (
-            <EthereumVaultIcon />
+            <EthereumVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
           )}
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 px-6 pt-16 pb-6">
-        <p className="text-xl 2xl:text-2xl font-semibold uppercase">{name}</p>
+      <div className="flex flex-col gap-6 px-6 pt-10 xl:pt-16 pb-6">
+        <p className="text-lg xl:text-xl 2xl:text-2xl font-semibold uppercase">{name}</p>
 
         <div>
           <div className="flex items-center gap-2">
@@ -89,13 +91,15 @@ const VaultCard = (props: VaultCardProps) => {
               <InformationIcon />
             </Tooltip>
           </div>
-          <p className="text-2xl font-semibold">{`${apy}%`}</p>
+          <p className="text-lg xl:text-2xl font-semibold">{`${apy}%`}</p>
         </div>
 
         <div>
           <p className="text-sm font-semibold text-rock-sub-body">Total value locked TVL</p>
           <p
-            className={available ? 'text-2xl font-semibold' : 'text-sm text-rock-yellow leading-8'}
+            className={
+              available ? 'text-lg xl:text-2xl font-semibold' : 'text-sm text-rock-yellow leading-8'
+            }
           >
             {available
               ? totalValueLocked.toLocaleString('en-US', {
@@ -107,7 +111,7 @@ const VaultCard = (props: VaultCardProps) => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 mt-8">
+        <div className="flex flex-col gap-2 mt-2 xl:mt-8">
           <div className="w-full h-1 bg-rock-gray bg-opacity-20 rounded-full">
             <div
               className="h-1 bg-white rounded-full"

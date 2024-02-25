@@ -345,7 +345,7 @@ const VaultDetail = (props: VaultDetailProps) => {
           {/* Fee transparency */}
           <div className="flex flex-col gap-6" ref={feeRef}>
             <Typography variant="subtitle">Fee transparency</Typography>
-            <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 bg-white bg-opacity-5 border border-rock-divider rounded-2xl uppercase py-8">
+            <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 bg-white bg-opacity-5 border border-rock-divider rounded-2xl uppercase py-4 sm:py-8">
               <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
                 <p className="text-rock-sub-body text-xs xl:text-base">Entry</p>
                 <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0%</p>
