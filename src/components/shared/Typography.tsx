@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 type TypographyProps = {
-  variant?: 'body' | 'heading' | 'subtitle' | 'subbody';
+  variant?: 'body' | 'heading' | 'subtitle' | 'subbody' | 'subheading';
   className?: string;
   children: ReactNode;
 };
@@ -14,6 +14,7 @@ const Typography = (props: TypographyProps) => {
     subtitle: 'text-2xl sm:text-4xl font-semibold text-white uppercase',
     body: 'text-base font-light text-white leading-7 font-inter',
     subbody: 'text-base font-light text-rock-sub-body leading-7 font-inter',
+    subheading: 'text-lg md:text-xl lg:text-3xl 2xl:text-5xl font-semibold uppercase',
   }[variant];
 
   return <p className={`${typoClass} ${className}`}>{children}</p>;

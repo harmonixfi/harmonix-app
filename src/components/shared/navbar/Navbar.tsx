@@ -56,7 +56,7 @@ const Navbar = () => {
             <Link href="/products">Product</Link>
           </li>
           <li className="text-base text-rock-sub-body font-semibold uppercase cursor-pointer">
-            Portfolio
+            <Link href="/portfolio">Portfolio</Link>
           </li>
         </ul>
       </div>
