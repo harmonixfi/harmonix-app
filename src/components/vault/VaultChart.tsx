@@ -13,12 +13,12 @@ const VaultChart = (props: VaultChartProps) => {
     <>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <button
+          {/* <button
             type="button"
             className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"
           >
             Week
-          </button>
+          </button> */}
           {/* <button
             type="button"
             className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"

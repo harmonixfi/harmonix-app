@@ -11,7 +11,7 @@ async function getData() {
 
 export default async function Products() {
   const {
-    vaultInfo: { weekly_apy },
+    vaultInfo: { monthly_apy },
   } = await getData();
 
   return (
@@ -81,7 +81,7 @@ export default async function Products() {
         <VaultCard
           name="Stable Coin Vault"
           link="/stable-coin-vault"
-          apy={Math.round(weekly_apy)}
+          apy={Math.round(monthly_apy)}
           maxCapacity={4000000}
         />
 

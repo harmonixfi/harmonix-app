@@ -29,7 +29,13 @@ export default async function Vault() {
     <div className="relative z-40 pb-16 sm:pb-40">
       <Navbar />
 
-      <VaultDetail weeklyApy={weekly_apy} monthlyApy={monthly_apy} apr={apr} />
+      <VaultDetail
+        weeklyApy={weekly_apy}
+        monthlyApy={monthly_apy}
+        apr={apr}
+        marketData={marketData}
+        onyxData={onyxData}
+      />
     </div>
   );
 }

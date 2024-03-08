@@ -21,14 +21,19 @@ import PositionCard from '@/components/vault/PositionCard';
 import VaultActionCard from '@/components/vault/VaultActionCard';
 import VaultSummary from '@/components/vault/VaultSummary';
 
+import { LineChartData } from '../shared/chart/LineChart';
+import VaultChart from './VaultChart';
+
 type VaultDetailProps = {
   weeklyApy: number;
   monthlyApy: number;
   apr: number;
+  marketData: LineChartData[];
+  onyxData: LineChartData[];
 };
 
 const VaultDetail = (props: VaultDetailProps) => {
-  const { weeklyApy, monthlyApy, apr } = props;
+  const { weeklyApy, monthlyApy, apr, marketData, onyxData } = props;
 
   const parameterRef = useRef() as MutableRefObject<HTMLDivElement>;
   const overviewRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -67,6 +72,10 @@ const VaultDetail = (props: VaultDetailProps) => {
           <div className="flex flex-col gap-16 lg:hidden">
             <VaultActionCard apr={apr} />
             <PositionCard />
+          </div>
+
+          <div className="border-t border-rock-divider pt-6">
+            <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />
           </div>
 
           <div ref={parameterRef} className="flex flex-col gap-6">
@@ -111,10 +120,6 @@ const VaultDetail = (props: VaultDetailProps) => {
               </li>
             </ul>
           </div>
-
-          {/* <div className="border-t border-rock-divider pt-6">
-              <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />
-            </div> */}
 
           {/* Overview */}
           <div className="flex flex-col gap-6" ref={overviewRef}>

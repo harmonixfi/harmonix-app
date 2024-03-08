@@ -14,17 +14,20 @@ type SelectOption = {
 type SelectProps = {
   placeholder?: string;
   options: SelectOption[];
+  defaultValue?: SelectOption;
   onChange?: (opt: SelectOption) => void;
   popupClassName?: string;
 };
 
 const Select = (props: SelectProps) => {
-  const { placeholder, options, popupClassName = '', onChange } = props;
+  const { placeholder, options, popupClassName = '', defaultValue, onChange } = props;
 
-  const [selected, setSelected] = useState<SelectOption>({
-    label: '',
-    value: '',
-  });
+  const [selected, setSelected] = useState<SelectOption>(
+    defaultValue ?? {
+      label: '',
+      value: '',
+    },
+  );
 
   const handleChange = (selectedValue: string) => {
     const selectedOption = options.find((x) => x.value === selectedValue);
