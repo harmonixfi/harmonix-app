@@ -43,7 +43,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     completeWithdrawal,
   } = useCompleteWithdrawal();
 
-  const { balanceOf, pricePerShare, availableWithdrawalAmount } = useRockOnyxVaultQueries();
+  const {
+    balanceOf,
+    pricePerShare,
+    availableWithdrawalAmount,
+    refetchBalanceOf,
+    refetchAvailableWithdrawalAmount,
+  } = useRockOnyxVaultQueries();
 
   const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
 
@@ -57,6 +63,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     if (isConfirmedInitiateWithdrawal) {
       setInputValue('');
       onOpenDialog('success');
+      refetchBalanceOf();
+      refetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedInitiateWithdrawal]);
 
@@ -64,6 +72,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     if (isConfirmedCompleteWithdrawal) {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
+      refetchBalanceOf();
+      refetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedCompleteWithdrawal]);
 

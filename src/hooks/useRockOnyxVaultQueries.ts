@@ -14,7 +14,7 @@ const useRockOnyxVaultQueries = () => {
     functionName: 'totalValueLocked',
   });
 
-  const { data: balanceOfData } = useReadContract({
+  const { data: balanceOfData, refetch: refetchBalanceOf } = useReadContract({
     abi: rockOnyxUsdtVaultAbi,
     address: rockOnyxVaultAddress,
     functionName: 'balanceOf',
@@ -34,12 +34,13 @@ const useRockOnyxVaultQueries = () => {
     account: account.address,
   });
 
-  const { data: availableWithdrawalAmountData } = useReadContract({
-    abi: rockOnyxUsdtVaultAbi,
-    address: rockOnyxVaultAddress,
-    functionName: 'getAvailableWithdrawlAmount',
-    account: account.address,
-  });
+  const { data: availableWithdrawalAmountData, refetch: refetchAvailableWithdrawalAmount } =
+    useReadContract({
+      abi: rockOnyxUsdtVaultAbi,
+      address: rockOnyxVaultAddress,
+      functionName: 'getAvailableWithdrawlAmount',
+      account: account.address,
+    });
 
   const { data: pnlData } = useReadContract({
     abi: rockOnyxUsdtVaultAbi,
@@ -82,6 +83,8 @@ const useRockOnyxVaultQueries = () => {
     availableWithdrawalAmount,
     profit,
     loss,
+    refetchBalanceOf,
+    refetchAvailableWithdrawalAmount,
   };
 };
 

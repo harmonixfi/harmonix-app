@@ -6,7 +6,13 @@ import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 
 const useDeposit = () => {
-  const { isPending, data: hash, isError: isDepositError, writeContract } = useWriteContract();
+  const {
+    isPending,
+    data: hash,
+    isError: isDepositError,
+    writeContract,
+    error,
+  } = useWriteContract();
 
   const {
     data: { transactionHash } = {},

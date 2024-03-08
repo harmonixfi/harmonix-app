@@ -32,9 +32,9 @@ const VaultDeposit = () => {
 
   const { status } = useAccount();
 
-  const { balanceOf, pricePerShare } = useRockOnyxVaultQueries();
+  const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries();
   const { allowance, balance } = useUsdcQueries();
-  const { isApproving, approve } = useApprove();
+  const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove();
   const { isDepositing, isConfirmedDeposit, isDepositError, depositTransactionHash, deposit } =
     useDeposit();
 
@@ -42,14 +42,21 @@ const VaultDeposit = () => {
     if (isConfirmedDeposit) {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+      refetchBalanceOf();
     }
   }, [isConfirmedDeposit]);
 
   useEffect(() => {
-    if (isDepositError) {
+    if (isApproveError || isDepositError) {
       onOpenDialog('failed');
     }
-  }, [isDepositError]);
+  }, [isApproveError, isDepositError]);
+
+  useEffect(() => {
+    if (isConfirmedApproval) {
+      handleDeposit(inputValue);
+    }
+  }, [isConfirmedApproval]);
 
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -60,16 +67,22 @@ const VaultDeposit = () => {
     setInputValue(balance?.formatted ?? '');
   };
 
+  const handleApprove = async (amount: string) => {
+    await approve(ethers.utils.parseUnits(amount, 6));
+  };
+
+  const handleDeposit = async (amount: string) => {
+    await deposit(ethers.utils.parseUnits(amount, 6));
+  };
+
   const handleConfirm = async () => {
     setIsOpenConfirmDialog(false);
     try {
-      const amount = ethers.utils.parseUnits(inputValue, 6);
-
       if (!skipApprove) {
-        await approve(amount);
+        handleApprove(inputValue);
+      } else {
+        handleDeposit(inputValue);
       }
-
-      await deposit(amount);
     } catch {
       onOpenDialog('failed');
     }
