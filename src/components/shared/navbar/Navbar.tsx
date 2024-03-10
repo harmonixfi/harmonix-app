@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 
@@ -11,6 +12,8 @@ import logoImg from '../../../../public/images/logo.png';
 import { CloseIcon, MenuIcon } from '../icons';
 
 const Navbar = () => {
+  const pathname = usePathname();
+
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   useEffect(() => {
@@ -52,11 +55,19 @@ const Navbar = () => {
           </button>
         )}
         <ul className="flex flex-col md:flex-row gap-8 md:gap-16 pl-6 md:pl-0">
-          <li className="text-base text-white font-semibold uppercase">
+          <li
+            className={`text-base font-semibold uppercase ${
+              pathname === '/products' ? 'text-white' : 'text-rock-sub-body'
+            }`}
+          >
             <Link href="/products">Product</Link>
           </li>
-          <li className="text-base text-rock-sub-body font-semibold uppercase cursor-pointer">
-            Portfolio
+          <li
+            className={`text-base font-semibold uppercase ${
+              pathname === '/portfolio' ? 'text-white' : 'text-rock-sub-body'
+            }`}
+          >
+            <Link href="/portfolio">Portfolio</Link>
           </li>
         </ul>
       </div>
