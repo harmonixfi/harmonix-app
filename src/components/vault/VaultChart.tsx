@@ -12,7 +12,7 @@ const VaultChart = (props: VaultChartProps) => {
   const { weeklyApy, monthlyApy, marketData, onyxData } = props;
 
   return (
-    <div className="relative">
+    <div className="relative mb-16">
       {/* <div className="flex items-center gap-3 pl-4">
         <p className="text-xl">APR</p>
         <span className="px-2 py-0.5 border border-rock-green border-opacity-40 rounded-md text-rock-green font-semibold">
