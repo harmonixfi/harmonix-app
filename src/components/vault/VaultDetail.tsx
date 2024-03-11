@@ -44,7 +44,7 @@ const VaultDetail = (props: VaultDetailProps) => {
   return (
     <div className="relative w-full sm:w-[90%] 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mx-auto my-12 z-20 px-6 sm:px-0">
       <div className="lg:col-span-3">
-        <div className="flex flex-col gap-8 mt-0 sm:mt-16 mb-16 sm:mb-24">
+        <div className="flex flex-col gap-8 mt-0 sm:mt-16 mb-16 sm:mb-20">
           <Typography variant="heading" className="relative z-20">
             Stable Coin vault
           </Typography>
@@ -55,7 +55,7 @@ const VaultDetail = (props: VaultDetailProps) => {
             by up to <span className="font-bold text-[#4281FF]">50%</span> during bearish/downward
             market trends.
           </Typography>
-          <VaultSummary weeklyApy={weeklyApy} monthlyApy={monthlyApy} />
+          {/* <VaultSummary weeklyApy={weeklyApy} monthlyApy={monthlyApy} /> */}
         </div>
         {/* <div className="flex items-center gap-8 mt-1">
             <a href="#withdrawal" className="flex items-center gap-1 border-b cursor-pointer">
@@ -74,8 +74,13 @@ const VaultDetail = (props: VaultDetailProps) => {
             <PositionCard />
           </div>
 
-          <div className="border-t border-rock-divider pt-6">
-            <VaultChart apr={apr} marketData={marketData} onyxData={onyxData} />
+          <div className="border-t border-rock-divider">
+            <VaultChart
+              weeklyApy={weeklyApy}
+              monthlyApy={monthlyApy}
+              marketData={marketData}
+              onyxData={onyxData}
+            />
           </div>
 
           <div ref={parameterRef} className="flex flex-col gap-6">
@@ -148,25 +153,30 @@ const VaultDetail = (props: VaultDetailProps) => {
                 </li>
               </ul>
 
-              <Typography variant="body">
-                Every Friday, the vault initiates covered calls/puts options positions with strike
-                prices calculated using our algorithm and an expiry date of two weeks to earn
-                premiums. If the options positions expire out-of-the-money, we realize a profit
-                equal to the paid premium. In the event that the options expire in-the-money, the
-                vault automatically settles the covered calls/puts mechanism using the available
-                quantity of Ether and cash{' '}
-                <a href="#" className="underline">
-                  Learn more
-                </a>
-                .
-              </Typography>
+              <div>
+                <Typography variant="body">
+                  The Stable Coin Vault is a purpose-built platform designed to optimize profit
+                  generation in bullish markets, while concurrently mitigating risk and minimizing
+                  drawdown in bearish markets. This is accomplished through the application of two
+                  primary strategies:
+                </Typography>
 
-              <Typography variant="body">
-                In addition to optimizing returns from holding Ether and stablecoin, the vault
-                implements a liquidity farming strategy to earn swap and MM rewards. We have also
-                developed an algorithm to control the LP strategy based on market volatility,
-                calculating the optimal price range for the LP position.
-              </Typography>
+                <ul className="flex flex-col gap-2 mt-2 pl-8">
+                  <li>
+                    <Typography variant="body">
+                      1. Covered Calls/Covered Puts Options: every week vault creates Out-The-Money
+                      (OTM) positions based on our Options Risk Model.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant="body">
+                      2. Yield Earning: The platform engages in liquidity farming, which entails
+                      participating in various decentralized finance (DeFi) protocols to earn yields
+                      on deposited assets. This strategy helps bolster returns for users.
+                    </Typography>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <div className="flex flex-col gap-8 border border-rock-divider rounded-2xl sm:rounded-3xl p-6 sm:p-8 mt-8">
@@ -177,8 +187,9 @@ const VaultDetail = (props: VaultDetailProps) => {
                 </p>
                 <Typography variant="subbody">
                   The vault accepts USDC deposits from investors and allocates 60% to a WETH/wstETH
-                  liquidity position, 20% to a USDC/USDC.e liquidity position, and 20% to collateral
-                  aeUSD in AEVO for bi-weekly options trading.
+                  liquidity position, 20% to a USDC/USDC.e liquidity position (reserve for Option
+                  Wheel Strategy Model), and 20% to collateral aeUSD in AEVO for bi-weekly options
+                  trading.
                 </Typography>
               </div>
 

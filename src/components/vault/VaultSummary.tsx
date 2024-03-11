@@ -23,12 +23,12 @@ const VaultSummary = (props: VaultSummaryProps) => {
   const [apyRange, setApyRange] = useState('1m');
 
   return (
-    <div className="relative grid grid-cols-2 gap-12 w-full xl:w-3/4 bg-white bg-opacity-5 border border-rock-divider rounded-2xl px-8 py-6 sm:py-12">
-      <div className="flex flex-col items-center justify-between gap-2 lg:gap-8">
-        <div className="flex items-center gap-4 text-lg lg:text-2xl text-rock-gray font-semibold">
-          <p>APY</p>
+    <div className="flex gap-4 sm:gap-8 lg:gap-16">
+      <div className="flex flex-col justify-between sm:gap-1">
+        <div className="flex items-center gap-4 text-rock-gray font-semibold">
+          <p className="text-xs sm:text-sm md:text-base 2xl:text-lg">APY</p>
           <Tooltip message="The Annual Percentage Yield (APY) Is Extrapolated From The Previous Month/Week.">
-            <QuestionIcon className="w-4 h-4 lg:w-6 lg:h-6" />
+            <QuestionIcon className="w-4 h-4" />
           </Tooltip>
           <div>
             <Select
@@ -41,13 +41,15 @@ const VaultSummary = (props: VaultSummaryProps) => {
             />
           </div>
         </div>
-        <p className="text-xl lg:text-3xl font-semibold">{`${Math.round(
+        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${Math.round(
           apyRange === '1w' ? weeklyApy : monthlyApy,
         )}%`}</p>
       </div>
-      <div className="flex flex-col items-center justify-between gap-2 lg:gap-8">
-        <p className="text-lg lg:text-2xl text-rock-gray font-semibold translate-y-1">TVL</p>
-        <p className="text-xl lg:text-3xl font-semibold">
+      <div className="flex flex-col justify-between sm:gap-1">
+        <p className="text-xs sm:text-sm md:text-base 2xl:text-lg text-rock-gray font-semibold translate-y-2.5 lg:translate-y-4 2xl:translate-y-3">
+          TVL
+        </p>
+        <p className="text-base sm:text-lg lg:text-2xl font-semibold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
@@ -55,7 +57,6 @@ const VaultSummary = (props: VaultSummaryProps) => {
           })}
         </p>
       </div>
-      <div className="w-[1px] h-full absolute top-0 left-1/2 bg-rock-divider" />
     </div>
   );
 };
