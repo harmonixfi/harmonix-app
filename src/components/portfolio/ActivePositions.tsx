@@ -30,15 +30,17 @@ const ActivePositions = (props: ActivePositionsProps) => {
 
   const isConnectedWallet = status === 'connected';
 
+  if (!isConnectedWallet) {
+    return null;
+  }
+
   return (
     <div>
       <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
         Your active positions
       </p>
 
-      {!isConnectedWallet ? (
-        <p className="text-rock-sub-body">--</p>
-      ) : depositAmount === 0 ? (
+      {depositAmount === 0 ? (
         <p className="text-rock-sub-body">You have no positions</p>
       ) : (
         <>
