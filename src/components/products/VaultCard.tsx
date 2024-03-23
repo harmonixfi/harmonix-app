@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Abi } from 'viem';
 
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { toCompactNumber } from '@/utils/number';
@@ -21,12 +22,26 @@ type VaultCardProps = {
   maxCapacity?: number;
   color?: 'default' | 'secondary';
   available?: boolean;
+  vaultAbi?: Abi;
+  vaultAddress?: `0x${string}`;
 };
 
 const VaultCard = (props: VaultCardProps) => {
-  const { name, link = '#', apy = 0, maxCapacity, color = 'default', available = true } = props;
+  const {
+    name,
+    link = '#',
+    apy = 0,
+    maxCapacity,
+    color = 'default',
+    available = true,
+    vaultAbi,
+    vaultAddress,
+  } = props;
 
-  const { totalValueLocked } = useRockOnyxVaultQueries();
+  const { isLoadingTotalValueLocked, totalValueLocked } = useRockOnyxVaultQueries(
+    vaultAbi,
+    vaultAddress,
+  );
 
   const badgeBg = color === 'default' ? 'bg-[#0E8484] bg-opacity-40' : 'bg-[#313C69] bg-opacity-60';
 
@@ -96,19 +111,19 @@ const VaultCard = (props: VaultCardProps) => {
 
         <div>
           <p className="text-sm font-semibold text-rock-sub-body">Total value locked TVL</p>
-          <p
-            className={
-              available ? 'text-lg xl:text-2xl font-semibold' : 'text-sm text-rock-yellow leading-8'
-            }
-          >
-            {available
-              ? totalValueLocked.toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  maximumFractionDigits: 0,
-                })
-              : 'Coming soon'}
-          </p>
+          {!available ? (
+            <p className="text-sm text-rock-yellow leading-8">Coming soon</p>
+          ) : isLoadingTotalValueLocked ? (
+            <p className="text-lg animate-pulse">Loading...</p>
+          ) : (
+            <p className="text-lg xl:text-2xl font-semibold">
+              {totalValueLocked.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0,
+              })}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2 mt-2 xl:mt-8">

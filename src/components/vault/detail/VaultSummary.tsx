@@ -3,12 +3,13 @@
 // import { useState } from 'react';
 import { useState } from 'react';
 
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
-import Select from '../shared/Select';
+import Select from '../../shared/Select';
 // import Select from '../shared/Select';
-import Tooltip from '../shared/Tooltip';
-import { QuestionIcon } from '../shared/icons';
+import Tooltip from '../../shared/Tooltip';
+import { QuestionIcon } from '../../shared/icons';
 
 type VaultSummaryProps = {
   weeklyApy: number;
@@ -18,7 +19,9 @@ type VaultSummaryProps = {
 const VaultSummary = (props: VaultSummaryProps) => {
   const { weeklyApy, monthlyApy } = props;
 
-  const { totalValueLocked } = useRockOnyxVaultQueries();
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
+  const { totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
   const [apyRange, setApyRange] = useState('1m');
 

@@ -1,4 +1,4 @@
-import LineChart, { LineChartData } from '../shared/chart/LineChart';
+import LineChart, { LineChartData } from '../../shared/chart/LineChart';
 import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {

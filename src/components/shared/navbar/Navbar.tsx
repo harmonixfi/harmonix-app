@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
+import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../../public/images/logo.png';
 import { CloseIcon, MenuIcon } from '../icons';
@@ -27,7 +28,7 @@ const Navbar = () => {
   return (
     <nav className="relative w-full sm:w-[90%] 2xl:w-4/5 grid grid-cols-12 mx-auto px-6 sm:px-0 py-6 z-50">
       <div className="col-span-1 md:col-span-2 xl:col-span-3 flex items-center">
-        <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
+        <Link href={Urls.Home} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
             alt="Rock Onyx Logo"
@@ -60,14 +61,14 @@ const Navbar = () => {
               pathname === '/products' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
-            <Link href="/products">Product</Link>
+            <Link href={Urls.Products}>Product</Link>
           </li>
           <li
             className={`text-base font-semibold uppercase ${
               pathname === '/portfolio' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
-            <Link href="/portfolio">Portfolio</Link>
+            <Link href={Urls.Portfolio}>Portfolio</Link>
           </li>
         </ul>
       </div>

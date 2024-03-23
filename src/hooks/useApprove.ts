@@ -3,11 +3,16 @@ import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
 import usdcAbi from '@/abi/usdc.json';
 
-const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
 
-const useApprove = () => {
-  const { isPending, isError: isApprovalError, data: hash, writeContract } = useWriteContract();
+const useApprove = (vaultAddress?: `0x${string}`) => {
+  const {
+    isPending,
+    isError: isApprovalError,
+    error,
+    data: hash,
+    writeContract,
+  } = useWriteContract();
 
   const {
     isError: isTxError,
@@ -22,7 +27,7 @@ const useApprove = () => {
       abi: usdcAbi,
       address: usdcAddress,
       functionName: 'approve',
-      args: [rockOnyxVaultAddress, amount],
+      args: [vaultAddress, amount],
     });
 
   return {

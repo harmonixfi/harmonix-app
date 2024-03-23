@@ -1,17 +1,25 @@
 'use client';
 
 import Link from 'next/link';
+import { Abi } from 'viem';
 
+import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import { Urls } from '@/constants/urls';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
+const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
+
 const VaultFloatButton = () => {
-  const { totalValueLocked } = useRockOnyxVaultQueries();
+  const { totalValueLocked } = useRockOnyxVaultQueries(
+    rockOnyxUsdtVaultAbi as Abi,
+    rockOnyxUsdtVaultAddress,
+  );
 
   return (
     <Link
-      href="/stable-coin-vault"
+      href={`${Urls.Vaults}${Urls.StableCoinVault}`}
       className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer transition duration-150 ease-in-out hover:scale-105"
     >
       <TSymbolIcon />

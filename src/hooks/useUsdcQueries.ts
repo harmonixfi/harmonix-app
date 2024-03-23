@@ -3,10 +3,9 @@ import { useAccount, useBalance, useReadContract } from 'wagmi';
 
 import usdcAbi from '@/abi/usdc.json';
 
-const rockOnyxVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
 
-const useUsdcQueries = () => {
+const useUsdcQueries = (vaultAddress?: `0x${string}`) => {
   const account = useAccount();
 
   const { data: balanceData } = useBalance({ address: account.address, token: usdcAddress });
@@ -15,7 +14,7 @@ const useUsdcQueries = () => {
     abi: usdcAbi,
     address: usdcAddress,
     functionName: 'allowance',
-    args: [account.address, rockOnyxVaultAddress],
+    args: [account.address, vaultAddress],
   });
 
   const allowance = allowanceData

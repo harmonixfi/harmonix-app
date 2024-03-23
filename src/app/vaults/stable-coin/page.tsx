@@ -1,7 +1,7 @@
 import { getVaultInfo, getVaultPerformance } from '@/api/vault';
 import { LineChartData } from '@/components/shared/chart/LineChart';
 import Navbar from '@/components/shared/navbar/Navbar';
-import VaultDetail from '@/components/vault/VaultDetail';
+import StableCoinDetail from '@/components/vault/stable-coin/StableCoinDetail';
 
 async function getData() {
   const [vaultInfo, vaultPerformance] = await Promise.all([getVaultInfo(), getVaultPerformance()]);
@@ -9,7 +9,7 @@ async function getData() {
   return { vaultInfo, vaultPerformance };
 }
 
-export default async function Vault() {
+export default async function StableCoinVault() {
   const {
     vaultInfo: { apr, weekly_apy, monthly_apy },
     vaultPerformance: { date, cum_return, benchmark_ret },
@@ -29,7 +29,7 @@ export default async function Vault() {
     <div className="relative z-40 pb-16 sm:pb-40">
       <Navbar />
 
-      <VaultDetail
+      <StableCoinDetail
         weeklyApy={weekly_apy}
         monthlyApy={monthly_apy}
         apr={apr}

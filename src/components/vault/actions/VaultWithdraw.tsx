@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
 import { FLOAT_REGEX } from '@/constants/regex';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useAppConfig from '@/hooks/useAppConfig';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
@@ -13,15 +14,17 @@ import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import { formatTokenAmount } from '@/utils/number';
 
-import Tooltip from '../shared/Tooltip';
-import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../shared/icons';
+import Tooltip from '../../shared/Tooltip';
+import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
+import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 type VaultWithdrawProps = {
   apr: number;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
   const [inputValue, setInputValue] = useState('');
 
   const { transactionBaseUrl } = useAppConfig();
@@ -34,14 +37,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     isConfirmedInitiateWithdrawal,
     isInitiateWithdrawalError,
     initiateWithdrawal,
-  } = useInitiateWithdrawal();
+  } = useInitiateWithdrawal(vaultAbi, vaultAddress);
   const {
     isCompletingWithdrawal,
     isConfirmedCompleteWithdrawal,
     isCompleteWithdrawalError,
     completeWithdrawalTransactionHash,
     completeWithdrawal,
-  } = useCompleteWithdrawal();
+  } = useCompleteWithdrawal(vaultAbi, vaultAddress);
 
   const {
     balanceOf,
@@ -49,7 +52,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     availableWithdrawalAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
-  } = useRockOnyxVaultQueries();
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
   const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
 
