@@ -7,6 +7,7 @@ const useCompleteWithdrawal = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => 
     isPending,
     data: hash,
     isError: isCompleteWithdrawalError,
+    error,
     writeContract,
   } = useWriteContract();
 

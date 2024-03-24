@@ -34,12 +34,12 @@ const ActivePositions = (props: ActivePositionsProps) => {
         Your active positions
       </p>
 
-      {depositAmount === 0 ? (
+      {!depositAmount === 0 ? (
         <p className="text-rock-sub-body">You have no positions</p>
       ) : (
         <>
-          <div className="bg-white bg-opacity-10 border border-rock-divider rounded-lg p-4 sm:w-full 3xl:w-4/5 sm:rounded-2xl sm:p-6 2xl:p-9">
-            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 text-rock-sub-body uppercase text-left text-xs lg:text-xs xl:text-sm 2xl:text-base font-semibold">
+          <div className="sm:border sm:border-rock-divider sm:w-full 3xl:w-4/5 sm:rounded-2xl sm:p-6 2xl:p-9">
+            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 mb-6 text-rock-sub-body uppercase text-left text-xs lg:text-xs xl:text-sm 2xl:text-base font-semibold">
               <p className="col-span-2 ">Vault name</p>
               <p className="text-left">Total balance</p>
               <p className="text-left">Initial deposit</p>
@@ -49,14 +49,14 @@ const ActivePositions = (props: ActivePositionsProps) => {
             </div>
 
             <PositionRow
-              vaultName="1. Stable coin vault"
+              vaultName="Stable coin vault"
               vaultAbi={rockOnyxUsdtVaultAbi as Abi}
               vaultAddress={rockOnyxUsdtVaultAddress}
               monthlyApy={monthlyApy}
             />
 
             <PositionRow
-              vaultName="2. Delta neutral vault"
+              vaultName="Delta neutral vault"
               vaultAbi={rockOnyxDeltaNeutralVaultAbi as Abi}
               vaultAddress={rockOnyxDeltaNeutralVaultAddress}
               monthlyApy={monthlyApy}

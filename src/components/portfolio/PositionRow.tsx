@@ -29,9 +29,13 @@ const PositionRow = (props: PositionRowProps) => {
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? loss : profit;
 
+  if (!depositAmount) {
+    return null;
+  }
+
   return (
     <>
-      <div className="hidden sm:grid grid-cols-7 mt-4 lg:mt-6 p-6 bg-white bg-opacity-10 rounded-2xl text-xs lg:text-sm">
+      <div className="hidden sm:grid grid-cols-7 mt-4 p-6 bg-white bg-opacity-10 rounded-2xl text-xs lg:text-sm">
         <p className="col-span-2">{vaultName}</p>
         <p>{formatTokenAmount(totalBalance)} USDC</p>
         <p>{formatTokenAmount(depositAmount)} USDC</p>
@@ -81,7 +85,7 @@ const PositionRow = (props: PositionRowProps) => {
       </div>
 
       {/* Mobile */}
-      <div className="sm:hidden">
+      <div className="sm:hidden bg-white bg-opacity-10 rounded-2xl mt-6 p-6">
         <div className="grid grid-cols-2 gap-x-2 gap-y-4">
           <p className="text-rock-gray text-sm font-semibold">Vault name</p>
           <p className="text-white text-sm font-semibold">{vaultName}</p>

@@ -54,7 +54,7 @@ const VaultDeposit = () => {
 
   useEffect(() => {
     if (isApproveError || isDepositError) {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   }, [isApproveError, isDepositError]);
 
@@ -90,7 +90,7 @@ const VaultDeposit = () => {
         handleDeposit(inputValue);
       }
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 
@@ -147,7 +147,7 @@ const VaultDeposit = () => {
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-white">{`${formatTokenAmount(
-            Number(inputValue) / Number(pricePerShare),
+            pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0,
           )} roUSD`}</p>
         </div>
       </div>

@@ -2,11 +2,11 @@ import { Fragment } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
 
-import { FailedIcon, SuccessIcon } from './icons';
+import { ErrorIcon, SuccessIcon } from './icons';
 
 type TransactionStatusDialogProps = {
   isOpen: boolean;
-  type: 'success' | 'failed';
+  type: 'success' | 'error';
   url?: string;
   onClose: () => void;
 };
@@ -14,7 +14,12 @@ type TransactionStatusDialogProps = {
 const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
   const { isOpen, type, url = '', onClose } = props;
 
-  const icon = type === 'success' ? <SuccessIcon /> : <FailedIcon />;
+  const icon =
+    type === 'success' ? (
+      <SuccessIcon className="w-32 sm:w-auto h-auto" />
+    ) : (
+      <ErrorIcon className="w-16 sm:w-auto h-auto" />
+    );
 
   const message =
     type === 'success' ? 'Your transaction is submitted' : 'Your transaction is not submitted';
@@ -45,12 +50,12 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-[32px] bg-rock-bg-tab py-16 text-left align-middle shadow-xl transition-all">
-                <div className="flex flex-col items-center gap-10">
+              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-[32px] bg-rock-bg-tab border border-rock-divider py-16 text-left align-middle shadow-xl transition-all">
+                <div className="relative flex flex-col items-center gap-10 z-30">
                   {icon}
-                  <h3 className="text-2xl">{message}</h3>
+                  <h3 className="text-lg sm:text-2xl text-center">{message}</h3>
                   <button
-                    className="w-fit bg-white text-rock-muted rounded-full uppercase px-20 py-2.5"
+                    className="w-fit bg-white text-rock-muted rounded-full uppercase px-16 sm:px-20 py-2.5 text-sm sm:text-base"
                     type="button"
                     onClick={onClose}
                   >
@@ -62,10 +67,26 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                   <a
                     href={url}
                     target="_blank"
-                    className="block relative font-normal underline mt-8 text-center z-30"
+                    className="block relative text-sm sm:text-base font-normal underline mt-8 text-center z-30"
                   >
                     View on Arbitrum Explorer
                   </a>
+                )}
+                {type === 'success' && (
+                  <div
+                    className="w-80 h-80 z-10 absolute top-[60%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[120px] rotate-[15deg]"
+                    style={{
+                      background: 'linear-gradient(15deg, #572CD3, #001AFF)',
+                    }}
+                  />
+                )}
+                {type === 'error' && (
+                  <div
+                    className="w-64 h-64 z-10 absolute top-[64%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[120px] rotate-[15deg]"
+                    style={{
+                      background: 'linear-gradient(15deg, #F6465D, #F66646)',
+                    }}
+                  />
                 )}
               </Dialog.Panel>
             </Transition.Child>

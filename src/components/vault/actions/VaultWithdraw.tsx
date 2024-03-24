@@ -18,6 +18,9 @@ import Tooltip from '../../shared/Tooltip';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
+const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
+const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+
 type VaultWithdrawProps = {
   apr: number;
 };
@@ -52,9 +55,18 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     availableWithdrawalAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
+    refetchDeltaNeutralAvailableWithdrawalShares,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
   const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+
+  const handleRefetchAvailableWithdrawalAmount = () => {
+    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+      refetchAvailableWithdrawalAmount();
+    } else {
+      refetchDeltaNeutralAvailableWithdrawalShares();
+    }
+  };
 
   useEffect(() => {
     if (availableWithdrawalAmount > 0) {
@@ -67,7 +79,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       setInputValue('');
       onOpenDialog('success');
       refetchBalanceOf();
-      refetchAvailableWithdrawalAmount();
+      handleRefetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedInitiateWithdrawal]);
 
@@ -76,13 +88,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
       refetchBalanceOf();
-      refetchAvailableWithdrawalAmount();
+      handleRefetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedCompleteWithdrawal]);
 
   useEffect(() => {
     if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
 
@@ -91,7 +103,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
       await initiateWithdrawal(amount);
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 
@@ -100,7 +112,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
       await completeWithdrawal(amount);
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 

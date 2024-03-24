@@ -12,7 +12,7 @@ import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 
 const VaultFloatButton = () => {
-  const { totalValueLocked } = useRockOnyxVaultQueries(
+  const { isLoadingTotalValueLocked, totalValueLocked } = useRockOnyxVaultQueries(
     rockOnyxUsdtVaultAbi as Abi,
     rockOnyxUsdtVaultAddress,
   );
@@ -26,13 +26,17 @@ const VaultFloatButton = () => {
       <CurrencySymbolIcon />
       <div className="pl-2">
         <p className="text-sm font-light text-rock-sub-body">Stable coin vault TVL</p>
-        <p className="font-bold">
-          {totalValueLocked.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            maximumFractionDigits: 0,
-          })}
-        </p>
+        {isLoadingTotalValueLocked ? (
+          <p className="text-sm font-light animate-pulse">Loading...</p>
+        ) : (
+          <p className="font-bold">
+            {totalValueLocked.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 0,
+            })}
+          </p>
+        )}
       </div>
     </Link>
   );

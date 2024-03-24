@@ -34,9 +34,9 @@ const PositionCard = () => {
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Gross Profit/Loss</p>
-          <p className={`${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}>{`${formatTokenAmount(
-            Math.abs(netYield),
-          )} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
+          <p
+            className={`text-right ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
+          >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
         </div>
 
         <div className="flex items-center justify-between">
