@@ -11,7 +11,7 @@ const VaultChart = (props: VaultChartProps) => {
   const { weeklyApy, monthlyApy, onyxData } = props;
 
   return (
-    <div className="relative mb-16">
+    <div className="relative">
       {/* <div className="flex items-center gap-3 pl-4">
         <p className="text-xl">APR</p>
         <span className="px-2 py-0.5 border border-rock-green border-opacity-40 rounded-md text-rock-green font-semibold">
@@ -36,7 +36,7 @@ const VaultChart = (props: VaultChartProps) => {
       </div>
 
       <div className="absolute top-0 left-0 w-full flex items-center justify-between mb-6 -mt-2 z-50">
-        <div className="translate-y-3 sm:translate-y-5 xl:translate-y-6">
+        <div className="translate-y-4">
           <VaultSummary weeklyApy={weeklyApy} monthlyApy={monthlyApy} />
         </div>
         <div className="flex items-center gap-4 lg:gap-10">

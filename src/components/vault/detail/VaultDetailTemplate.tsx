@@ -49,7 +49,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     <VaultDetailProvider name={name}>
       <div className="relative w-full sm:w-[90%] 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mx-auto my-12 z-20 px-6 sm:px-0">
         <div className="lg:col-span-3">
-          <div className="flex flex-col gap-8 mt-0 sm:mt-16 mb-16 sm:mb-20">
+          <div className="flex flex-col gap-8 mb-8 sm:mb-10 lg:mb-20">
             <Typography variant="heading" className="relative z-20">
               {name}
             </Typography>
@@ -65,7 +65,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
               <VaultChart weeklyApy={weeklyApy} monthlyApy={monthlyApy} onyxData={onyxData} />
             </div>
 
-            <div ref={parameterRef} className="flex flex-col gap-6">
+            <div ref={parameterRef} className="flex flex-col gap-6 mt-10 lg:mt-6 xl:mt-4 2xl:mt-0">
               <Typography variant="subtitle">Vault Parameters Structure</Typography>
               {parameter}
             </div>
