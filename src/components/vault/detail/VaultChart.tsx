@@ -1,15 +1,14 @@
-import LineChart, { LineChartData } from '../shared/chart/LineChart';
+import LineChart, { LineChartData } from '../../shared/chart/LineChart';
 import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {
   weeklyApy: number;
   monthlyApy: number;
-  marketData: LineChartData[];
   onyxData: LineChartData[];
 };
 
 const VaultChart = (props: VaultChartProps) => {
-  const { weeklyApy, monthlyApy, marketData, onyxData } = props;
+  const { weeklyApy, monthlyApy, onyxData } = props;
 
   return (
     <div className="relative mb-16">

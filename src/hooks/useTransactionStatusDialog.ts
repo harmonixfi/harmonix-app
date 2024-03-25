@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 const useTransactionStatusDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState<'success' | 'failed'>('success');
+  const [type, setType] = useState<'success' | 'error'>('success');
   const [url, setUrl] = useState('');
 
-  const onOpenDialog = (type: 'success' | 'failed', transactionUrl?: string) => {
+  const onOpenDialog = (type: 'success' | 'error', transactionUrl?: string) => {
     setIsOpen(true);
     setType(type);
     setUrl(transactionUrl ?? '');

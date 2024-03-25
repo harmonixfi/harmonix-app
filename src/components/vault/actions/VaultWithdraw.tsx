@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
 import { FLOAT_REGEX } from '@/constants/regex';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useAppConfig from '@/hooks/useAppConfig';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
@@ -13,15 +14,20 @@ import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import { formatTokenAmount } from '@/utils/number';
 
-import Tooltip from '../shared/Tooltip';
-import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../shared/icons';
+import Tooltip from '../../shared/Tooltip';
+import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
+import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
+
+const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
+const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
 
 type VaultWithdrawProps = {
   apr: number;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
   const [inputValue, setInputValue] = useState('');
 
   const { transactionBaseUrl } = useAppConfig();
@@ -34,14 +40,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     isConfirmedInitiateWithdrawal,
     isInitiateWithdrawalError,
     initiateWithdrawal,
-  } = useInitiateWithdrawal();
+  } = useInitiateWithdrawal(vaultAbi, vaultAddress);
   const {
     isCompletingWithdrawal,
     isConfirmedCompleteWithdrawal,
     isCompleteWithdrawalError,
     completeWithdrawalTransactionHash,
     completeWithdrawal,
-  } = useCompleteWithdrawal();
+  } = useCompleteWithdrawal(vaultAbi, vaultAddress);
 
   const {
     balanceOf,
@@ -49,9 +55,18 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     availableWithdrawalAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
-  } = useRockOnyxVaultQueries();
+    refetchDeltaNeutralAvailableWithdrawalShares,
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
   const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+
+  const handleRefetchAvailableWithdrawalAmount = () => {
+    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+      refetchAvailableWithdrawalAmount();
+    } else {
+      refetchDeltaNeutralAvailableWithdrawalShares();
+    }
+  };
 
   useEffect(() => {
     if (availableWithdrawalAmount > 0) {
@@ -64,7 +79,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       setInputValue('');
       onOpenDialog('success');
       refetchBalanceOf();
-      refetchAvailableWithdrawalAmount();
+      handleRefetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedInitiateWithdrawal]);
 
@@ -73,13 +88,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
       refetchBalanceOf();
-      refetchAvailableWithdrawalAmount();
+      handleRefetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedCompleteWithdrawal]);
 
   useEffect(() => {
     if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
 
@@ -88,7 +103,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
       await initiateWithdrawal(amount);
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 
@@ -97,7 +112,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       const amount = ethers.utils.parseUnits(inputValue, 6);
       await completeWithdrawal(amount);
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 

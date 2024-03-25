@@ -35,7 +35,7 @@ const PortfolioOverview = () => {
                 {formatTokenAmount(totalBalance)} USDC
               </p>
               <p
-                className={`text-rock-green text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
+                className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
                   loss !== 0 ? 'text-red-600' : 'text-rock-green'
                 }`}
               >{`${loss !== 0 ? '-' : '+'}${formatTokenAmount(pnl * 100)}%`}</p>

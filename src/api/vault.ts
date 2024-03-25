@@ -1,25 +1,12 @@
+import { Portfolio, Vault, VaultPerformance } from '@/@types/vault';
 import apiFetch from '@/utils/api';
 
-type VaultInfo = {
-  apr: number;
-  monthly_apy: number;
-  weekly_apy: number;
-  max_drawdown: number;
-  total_deposit: number;
-  vault_capacity: number;
-  vault_currency: string;
-};
+export const getVaults = async () => await apiFetch<Vault[]>('/vaults/');
 
-export type VaultPerformance = {
-  date: string[];
-  cum_return: number[];
-  benchmark_ret: number[];
-};
+export const getVaultInfo = async (id: string) => await apiFetch<Vault>(`/vaults/${id}`);
 
-export const getVaultInfo = async () =>
-  await apiFetch<VaultInfo>('/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48');
+export const getVaultPerformance = async (id: string) =>
+  await apiFetch<VaultPerformance>(`/vaults/${id}/performance`);
 
-export const getVaultPerformance = async () =>
-  await apiFetch<VaultPerformance>(
-    '/vaults/vaults/7c5406ae-f72c-412a-9444-f5b83c78ee48/performance',
-  );
+export const getUserPortfolio = async (userAddress: string) =>
+  await apiFetch<Portfolio>(`/portfolio/${userAddress}`);

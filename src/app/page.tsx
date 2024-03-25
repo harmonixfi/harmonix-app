@@ -16,6 +16,7 @@ import {
 } from '@/components/shared/icons';
 import HomeNavbar from '@/components/shared/navbar/HomeNavbar';
 import { SOCIAL_URLS } from '@/constants/socials';
+import { Urls } from '@/constants/urls';
 
 import centerRockImg from '../../public/images/center-rock.png';
 
@@ -33,7 +34,7 @@ export default async function Home() {
             Automatic hedging vaults while earning good yields with low risk
           </h5>
           <Link
-            href="/products"
+            href={Urls.Products}
             className="inline-block rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-3 hover:ring-2 hover:ring-rock-divider"
           >
             Launch app

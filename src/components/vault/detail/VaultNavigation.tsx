@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useState } from 'react';
 
-type VerticalNavigationProps = {
+type VaultNavigationProps = {
   className?: string;
   items: {
     name?: string;
@@ -8,7 +8,7 @@ type VerticalNavigationProps = {
   }[];
 };
 
-const VerticalNavigation = (props: VerticalNavigationProps) => {
+const VaultNavigation = (props: VaultNavigationProps) => {
   const { className = '', items } = props;
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -71,4 +71,4 @@ const VerticalNavigation = (props: VerticalNavigationProps) => {
   );
 };
 
-export default VerticalNavigation;
+export default VaultNavigation;
