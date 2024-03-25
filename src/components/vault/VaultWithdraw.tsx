@@ -1,75 +1,92 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import {
-  useAddress,
-  useConnectionStatus,
-  useContract,
-  useContractRead,
-  useContractWrite,
-} from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { FLOAT_REGEX } from '@/constants/regex';
 import useAppConfig from '@/hooks/useAppConfig';
+import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
+import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import { formatTokenAmount } from '@/utils/number';
 
 import Tooltip from '../shared/Tooltip';
 import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import {
-  QuestionIcon,
-  RockOnyxTokenIcon,
-  SpinnerIcon,
-  TCurrencyIcon,
-  WarningIcon,
-} from '../shared/icons';
-
-const rockAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS ?? '';
+import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../shared/icons';
 
 type VaultWithdrawProps = {
   apr: number;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
-  const { apr } = props;
-
   const [inputValue, setInputValue] = useState('');
 
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
-  const connectionStatus = useConnectionStatus();
-  const address = useAddress();
+  const { status } = useAccount();
 
-  const { contract: rockOnyxUSDTVaultContract } = useContract(rockAddress, rockOnyxUsdtVaultAbi);
+  const {
+    isInitiatingWithdrawal,
+    isConfirmedInitiateWithdrawal,
+    isInitiateWithdrawalError,
+    initiateWithdrawal,
+  } = useInitiateWithdrawal();
+  const {
+    isCompletingWithdrawal,
+    isConfirmedCompleteWithdrawal,
+    isCompleteWithdrawalError,
+    completeWithdrawalTransactionHash,
+    completeWithdrawal,
+  } = useCompleteWithdrawal();
 
-  const { data: balanceOf } = useContractRead(rockOnyxUSDTVaultContract, 'balanceOf', [address]);
-  const { data: availableWithdrawalAmount } = useContractRead(
-    rockOnyxUSDTVaultContract,
-    'getAvailableWithdrawlAmount',
-  );
-  const { mutateAsync: initiateWithdrawal, isLoading: isInitiatingWithdrawal } = useContractWrite(
-    rockOnyxUSDTVaultContract,
-    'initiateWithdrawal',
-  );
-  const { mutateAsync: completeWithdraw, isLoading: isCompletingWithdraw } = useContractWrite(
-    rockOnyxUSDTVaultContract,
-    'completeWithdrawal',
-  );
+  const {
+    balanceOf,
+    pricePerShare,
+    availableWithdrawalAmount,
+    refetchBalanceOf,
+    refetchAvailableWithdrawalAmount,
+  } = useRockOnyxVaultQueries();
 
-  const isEnableCompleteWithdraw =
-    availableWithdrawalAmount &&
-    availableWithdrawalAmount[0] &&
-    Number(ethers.utils.formatUnits(availableWithdrawalAmount[0]._hex, 6)) > 0;
+  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+
+  useEffect(() => {
+    if (availableWithdrawalAmount > 0) {
+      setInputValue(String(availableWithdrawalAmount));
+    }
+  }, [availableWithdrawalAmount]);
+
+  useEffect(() => {
+    if (isConfirmedInitiateWithdrawal) {
+      setInputValue('');
+      onOpenDialog('success');
+      refetchBalanceOf();
+      refetchAvailableWithdrawalAmount();
+    }
+  }, [isConfirmedInitiateWithdrawal]);
+
+  useEffect(() => {
+    if (isConfirmedCompleteWithdrawal) {
+      setInputValue('');
+      onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
+      refetchBalanceOf();
+      refetchAvailableWithdrawalAmount();
+    }
+  }, [isConfirmedCompleteWithdrawal]);
+
+  useEffect(() => {
+    if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
+      onOpenDialog('failed');
+    }
+  }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
 
   const handleInitiateWithdraw = async () => {
     try {
       const amount = ethers.utils.parseUnits(inputValue, 6);
-      const response = await initiateWithdrawal({ args: [amount] });
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      await initiateWithdrawal(amount);
     } catch {
       onOpenDialog('failed');
     }
@@ -77,9 +94,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const handleCompleteWithdraw = async () => {
     try {
-      const response = await completeWithdraw({ args: [] });
-      onOpenDialog('success', `${transactionBaseUrl}/${response?.receipt?.transactionHash}`);
-      setInputValue('');
+      const amount = ethers.utils.parseUnits(inputValue, 6);
+      await completeWithdrawal(amount);
     } catch {
       onOpenDialog('failed');
     }
@@ -100,12 +116,12 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   const handleClickWithdrawAll = () => {
-    setInputValue(balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : '');
+    setInputValue(balanceOf > 0 ? String(balanceOf) : '');
   };
 
-  const isConnectedWallet = connectionStatus === 'connected';
+  const isConnectedWallet = status === 'connected';
 
-  const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdraw;
+  const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
   const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
 
@@ -118,13 +134,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       )}
 
-      <div className="mt-10">
+      <div className="mt-6 sm:mt-10">
         <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
-        <div className="flex flex-col gap-3 lg:gap-6 bg-[#5A5A5A] rounded-2xl bg-opacity-10 mt-4 p-4 lg:p-7">
-          <div className="flex items-center justify-between">
-            <p className="text-rock-gray">APR to date:</p>
-            <p>{`${Math.round(apr)}%`}</p>
-          </div>
+        <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-rock-gray">Withdrawals</p>
@@ -151,55 +163,54 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-12">
+      <div className="flex items-center justify-between mt-6 sm:mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
-        <button
-          type="button"
-          className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
-          onClick={handleClickWithdrawAll}
-        >
-          Withdraw all
-        </button>
+        {!isEnableCompleteWithdraw && (
+          <button
+            type="button"
+            className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
+            onClick={handleClickWithdrawAll}
+          >
+            Withdraw all
+          </button>
+        )}
       </div>
 
-      <div className="relative mt-6">
-        <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-16 h-16" />
+      <div className="relative mt-3 sm:mt-6">
+        <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-12 h-12" />
         <input
-          className="w-full h-20 block bg-[#5A5A5A] rounded-xl bg-opacity-10 pl-24 pr-3 text-2xl text-rock-gray focus:ring-2 focus:outline-none"
+          className="w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white focus:ring-2 focus:outline-none"
           type="text"
           placeholder="0.0"
-          disabled={!isConnectedWallet}
+          disabled={!isConnectedWallet || isEnableCompleteWithdraw}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
       </div>
 
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
-        <div className="flex items-center justify-between">
-          <p>Your deposit</p>
-          <p>{`${balanceOf ? ethers.utils.formatUnits(balanceOf._hex, 6) : 0} roUSD`}</p>
-        </div>
+        {!isEnableCompleteWithdraw && (
+          <>
+            <div className="flex items-center justify-between">
+              <p>Your available amount</p>
+              <p>{`${formatTokenAmount(balanceOf)} roUSD`}</p>
+            </div>
 
-        <div
-          className="w-full h-[1px] my-3 lg:my-6"
-          style={{
-            background:
-              'linear-gradient(270deg, rgba(50, 40, 163, 0.00) -4.13%, rgba(107, 107, 107, 0.76) 49.02%, rgba(50, 40, 163, 0.00) 100%)',
-          }}
-        />
+            <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
+          </>
+        )}
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
-          <div className="flex items-center justify-between gap-2">
-            <p>{`${inputValue || 0} USDC`}</p>
-            <TCurrencyIcon className="w-6 h-6" />
-          </div>
+          <p className="text-white">{`${formatTokenAmount(
+            (Number(inputValue) || 0) * pricePerShare,
+          )} USDC`}</p>
         </div>
       </div>
 
       <button
         type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full uppercase mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isWithdrawing ? 'animate-pulse' : ''}`}
         disabled={disabledButton}

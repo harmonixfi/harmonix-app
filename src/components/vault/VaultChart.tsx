@@ -1,62 +1,32 @@
 import LineChart, { LineChartData } from '../shared/chart/LineChart';
+import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {
-  apr: number;
+  weeklyApy: number;
+  monthlyApy: number;
   marketData: LineChartData[];
   onyxData: LineChartData[];
 };
 
 const VaultChart = (props: VaultChartProps) => {
-  const { apr, marketData, onyxData } = props;
+  const { weeklyApy, monthlyApy, marketData, onyxData } = props;
 
   return (
-    <>
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <button
-            type="button"
-            className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
-          >
-            Week
-          </button>
-          <button
-            type="button"
-            className="bg-rock-button rounded-full text-sm lg:text-base px-3 lg:px-6 py-2"
-          >
-            Month
-          </button>
-          <button
-            type="button"
-            className="rounded-full text-sm lg:text-base px-1 lg:px-3 text-rock-gray"
-          >
-            Year
-          </button>
-        </div>
-        <div className="flex items-center gap-4 lg:gap-10">
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-[1px] bg-[#9EB50E]" />
-            <p className="text-sm lg:text-base text-rock-gray">Market</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-[1px] bg-[#0057FF]" />
-            <p className="text-sm lg:text-base text-rock-gray">Onyx Vault *</p>
-          </div>
-        </div>
-      </div>
+    <div className="relative mb-16">
       {/* <div className="flex items-center gap-3 pl-4">
         <p className="text-xl">APR</p>
         <span className="px-2 py-0.5 border border-rock-green border-opacity-40 rounded-md text-rock-green font-semibold">
           {`${Math.round(apr)}%`}
         </span>
       </div> */}
-      <div className="h-[240px] lg:h-[300px]">
+      <div className="h-[240px] lg:h-[300px] translate-y-20">
         <LineChart
           options={[
-            {
-              id: 'market',
-              data: marketData,
-              lineColor: '#9EB50E',
-            },
+            // {
+            //   id: 'market',
+            //   data: marketData,
+            //   lineColor: '#9EB50E',
+            // },
             {
               id: 'onyx',
               data: onyxData,
@@ -65,7 +35,23 @@ const VaultChart = (props: VaultChartProps) => {
           ]}
         />
       </div>
-    </>
+
+      <div className="absolute top-0 left-0 w-full flex items-center justify-between mb-6 -mt-2 z-50">
+        <div className="translate-y-3 sm:translate-y-5 xl:translate-y-6">
+          <VaultSummary weeklyApy={weeklyApy} monthlyApy={monthlyApy} />
+        </div>
+        <div className="flex items-center gap-4 lg:gap-10">
+          {/* <div className="flex items-center gap-2">
+            <span className="w-5 h-[1px] bg-[#9EB50E]" />
+            <p className="text-sm lg:text-base text-rock-gray">Market</p>
+          </div> */}
+          <div className="flex items-center gap-2">
+            <span className="w-5 h-[1px] bg-[#0057FF]" />
+            <p className="text-sm lg:text-base text-rock-gray">Onyx Vault *</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -58,7 +58,7 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                   </button>
                 </div>
 
-                {type === 'success' && (
+                {type === 'success' && url && (
                   <a
                     href={url}
                     target="_blank"

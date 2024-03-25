@@ -5,26 +5,26 @@ import Link from 'next/link';
 
 import { SOCIAL_URLS } from '@/constants/socials';
 
-import textLogoImg from '../../../public/images/textLogo.png';
+import logoImg from '../../../public/images/logo.png';
 
 // import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
 const Footer = () => {
   return (
-    <footer className="relative bg-rock-bg-coin backdrop-blur-sm px-8 lg:px-20 pt-12 lg:pt-28 pb-16 mb-16 mx-auto rounded-3xl z-20">
+    <footer className="relative max-w-[90%] bg-rock-footer backdrop-blur-sm px-8 lg:px-20 pt-12 lg:pt-28 pb-16 mb-2 sm:mb-16 mx-auto rounded-3xl sm:rounded-[46px] z-20">
       <div className="relative sm:grid grid-cols-3 lg:grid-cols-2 items-start z-30">
         <div className="mb-8 sm:mb-0 -translate-y-4">
-          <Link href="/" className="flex items-center gap-1">
-            <Image src={textLogoImg} alt="Rock Onyx Logo" width={48} height={48} />
-            <h4 className="uppercase text-xl lg:text-3xl font-semibold">Rock Onyx</h4>
+          <Link href="/" className="flex items-center justify-center sm:justify-start gap-3">
+            <Image src={logoImg} alt="Rock Onyx Logo" width={48} height={48} />
+            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Rock Onyx</h4>
           </Link>
           {/* <p className="text-lg font-semibold uppercase mt-4 sm:mt-10 pl-4">SLOGAN</p> */}
         </div>
         <div className="sm:col-span-2 lg:col-span-1 pl-0 sm:pl-6 lg:pl-0">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-0">
-            <div>
-              <p className="text-rock-gray text-base font-extralight uppercase">About</p>
-              <ul className="flex flex-col gap-3 mt-2 sm:mt-6 text-sm text-white font-light">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-0">
+            <div className="flex flex-col items-center sm:items-start">
+              <p className="text-rock-sub-body text-base font-semibold uppercase">About</p>
+              <ul className="flex flex-col items-center sm:items-start gap-3 mt-2 sm:mt-6 text-sm text-white font-light">
                 <li>
                   <Link href="/">Faq</Link>
                 </li>
@@ -44,9 +44,9 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div>
-              <p className="text-rock-gray text-base font-extralight uppercase">Community</p>
-              <ul className="flex flex-col gap-3 mt-6 text-sm text-white font-light">
+            <div className="flex flex-col items-center sm:items-start">
+              <p className="text-rock-sub-body text-base font-semibold uppercase">Community</p>
+              <ul className="flex flex-col items-center sm:items-start gap-3 mt-6 text-sm text-white font-light">
                 <li>
                   <a href={SOCIAL_URLS.Github} target="_blank">
                     Github
@@ -64,8 +64,8 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="hidden md:block">
-              <p className="text-rock-gray text-base font-extralight uppercase">Dashboard</p>
+            <div className="flex flex-col items-center sm:items-start">
+              <p className="text-rock-sub-body text-base font-semibold uppercase">Dashboard</p>
             </div>
           </div>
         </div>
