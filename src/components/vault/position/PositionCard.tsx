@@ -1,11 +1,14 @@
 'use client';
 
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatTokenAmount } from '@/utils/number';
 
 const PositionCard = () => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
   const { depositAmount, pricePerShare, balanceOf, availableWithdrawalAmount, profit, loss } =
-    useRockOnyxVaultQueries();
+    useRockOnyxVaultQueries(vaultAbi, vaultAddress);
   const totalBalance = balanceOf * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
@@ -31,9 +34,9 @@ const PositionCard = () => {
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Gross Profit/Loss</p>
-          <p className={`${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}>{`${formatTokenAmount(
-            Math.abs(netYield),
-          )} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
+          <p
+            className={`text-right ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
+          >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
         </div>
 
         <div className="flex items-center justify-between">

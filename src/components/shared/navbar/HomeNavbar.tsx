@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 
 import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { SOCIAL_URLS } from '@/constants/socials';
+import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../../public/images/logo.png';
 // import NetworkSelect from '../NetworkSelect';
@@ -30,7 +31,7 @@ const HomeNavbar = () => {
   return (
     <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 md:p-4">
       <div className="col-span-2 lg:col-span-3 flex items-center">
-        <Link href="/" className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
+        <Link href={Urls.Home} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
             alt="Rock Onyx Logo"
@@ -96,7 +97,7 @@ const HomeNavbar = () => {
       <div className="flex col-span-10 md:col-span-3 justify-end z-30">
         {pathname === '/' ? (
           <Link
-            href="/products"
+            href={Urls.Products}
             className="hidden md:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-3 lg:px-6 py-2 lg:py-3 text-center hover:bg-rock-primary"
           >
             Launch app

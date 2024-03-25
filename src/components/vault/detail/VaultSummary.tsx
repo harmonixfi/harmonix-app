@@ -3,12 +3,14 @@
 // import { useState } from 'react';
 import { useState } from 'react';
 
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { withCommas } from '@/utils/number';
 
-import Select from '../shared/Select';
+import Select from '../../shared/Select';
 // import Select from '../shared/Select';
-import Tooltip from '../shared/Tooltip';
-import { QuestionIcon } from '../shared/icons';
+import Tooltip from '../../shared/Tooltip';
+import { QuestionIcon } from '../../shared/icons';
 
 type VaultSummaryProps = {
   weeklyApy: number;
@@ -18,7 +20,9 @@ type VaultSummaryProps = {
 const VaultSummary = (props: VaultSummaryProps) => {
   const { weeklyApy, monthlyApy } = props;
 
-  const { totalValueLocked } = useRockOnyxVaultQueries();
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
+  const { totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
   const [apyRange, setApyRange] = useState('1m');
 
@@ -41,7 +45,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
             />
           </div>
         </div>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${Math.round(
+        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(
           apyRange === '1w' ? weeklyApy : monthlyApy,
         )}%`}</p>
       </div>

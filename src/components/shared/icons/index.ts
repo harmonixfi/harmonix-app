@@ -24,7 +24,7 @@ export { default as InformationIcon } from './Information';
 export { default as QuestionIcon } from './Question';
 export { default as TCurrencyIcon } from './TCurrency';
 export { default as SuccessIcon } from './Success';
-export { default as FailedIcon } from './Failed';
+export { default as ErrorIcon } from './Error';
 export { default as WarningIcon } from './Warning';
 export { default as ExternalLinkIcon } from './ExternalLink';
 export { default as CopyIcon } from './Copy';

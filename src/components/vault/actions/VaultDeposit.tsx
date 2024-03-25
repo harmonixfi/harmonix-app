@@ -7,6 +7,7 @@ import { useAccount } from 'wagmi';
 
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useAppConfig from '@/hooks/useAppConfig';
 import useApprove from '@/hooks/useApprove';
 import useDeposit from '@/hooks/useDeposit';
@@ -15,12 +16,14 @@ import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { formatTokenAmount } from '@/utils/number';
 
-import ConfirmDialog from '../shared/ConfirmDialog';
-import CurrencySelect from '../shared/CurrencySelect';
-import TransactionStatusDialog from '../shared/TransactionStatusDialog';
-import { SpinnerIcon, WarningIcon } from '../shared/icons';
+import ConfirmDialog from '../../shared/ConfirmDialog';
+import CurrencySelect from '../../shared/CurrencySelect';
+import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
+import { SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 const VaultDeposit = () => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
   const [inputValue, setInputValue] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState<SupportedCurrency>(
     SupportedCurrency.Usdc,
@@ -31,12 +34,14 @@ const VaultDeposit = () => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
-
-  const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries();
-  const { allowance, balance } = useUsdcQueries();
-  const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove();
+  const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries(
+    vaultAbi,
+    vaultAddress,
+  );
+  const { allowance, balance } = useUsdcQueries(vaultAddress);
+  const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove(vaultAddress);
   const { isDepositing, isConfirmedDeposit, isDepositError, depositTransactionHash, deposit } =
-    useDeposit();
+    useDeposit(vaultAbi, vaultAddress);
 
   useEffect(() => {
     if (isConfirmedDeposit) {
@@ -48,7 +53,7 @@ const VaultDeposit = () => {
 
   useEffect(() => {
     if (isApproveError || isDepositError) {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   }, [isApproveError, isDepositError]);
 
@@ -84,7 +89,7 @@ const VaultDeposit = () => {
         handleDeposit(inputValue);
       }
     } catch {
-      onOpenDialog('failed');
+      onOpenDialog('error');
     }
   };
 
@@ -141,7 +146,7 @@ const VaultDeposit = () => {
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-white">{`${formatTokenAmount(
-            Number(inputValue) / Number(pricePerShare),
+            pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0,
           )} roUSD`}</p>
         </div>
       </div>
