@@ -1,11 +1,9 @@
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 
-import { usePathname } from 'next/navigation';
 import { Abi } from 'viem';
 
 import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-import { Urls } from '@/constants/urls';
 
 const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
@@ -18,37 +16,25 @@ type VaultDetailContextData = {
 const VaultDetailContext = createContext<VaultDetailContextData>({});
 
 type VaultDetailProviderProps = {
+  name: string;
   children: ReactNode;
 };
 
 export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
-  const { children } = props;
-
-  const pathname = usePathname();
+  const { name, children } = props;
 
   const { vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
-    let vault: VaultDetailContextData = {};
-
-    switch (pathname) {
-      case `${Urls.Vaults}${Urls.StableCoinVault}`:
-        vault = {
-          vaultAbi: rockOnyxUsdtVaultAbi as Abi,
-          vaultAddress: rockOnyxUsdtVaultAddress,
-        };
-        break;
-      case `${Urls.Vaults}${Urls.DeltaNeutralVault}`:
-        vault = {
-          vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
-          vaultAddress: rockOnyxDeltaNeutralVaultAddress,
-        };
-        break;
-
-      default:
-        break;
+    if (name.toLowerCase().includes('stable')) {
+      return {
+        vaultAbi: rockOnyxUsdtVaultAbi as Abi,
+        vaultAddress: rockOnyxUsdtVaultAddress,
+      };
     }
-
-    return vault;
-  }, [pathname]);
+    return {
+      vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
+      vaultAddress: rockOnyxDeltaNeutralVaultAddress,
+    };
+  }, [name]);
 
   return (
     <VaultDetailContext.Provider

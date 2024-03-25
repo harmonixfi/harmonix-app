@@ -46,7 +46,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   const withdrawalRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   return (
-    <VaultDetailProvider>
+    <VaultDetailProvider name={name}>
       <div className="relative w-full sm:w-[90%] 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mx-auto my-12 z-20 px-6 sm:px-0">
         <div className="lg:col-span-3">
           <div className="flex flex-col gap-8 mt-0 sm:mt-16 mb-16 sm:mb-20">

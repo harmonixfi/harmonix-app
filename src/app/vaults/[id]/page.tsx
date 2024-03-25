@@ -4,20 +4,20 @@ import Navbar from '@/components/shared/navbar/Navbar';
 import VaultDetailTemplate from '@/components/vault/detail/VaultDetailTemplate';
 import { vaultDetailMapping } from '@/services/vaultMapping';
 
-async function getData(slug: string) {
+async function getData(id: string) {
   const [vaultInfo, vaultPerformance] = await Promise.all([
-    getVaultInfo(slug),
-    getVaultPerformance(slug),
+    getVaultInfo(id),
+    getVaultPerformance(id),
   ]);
 
   return { vaultInfo, vaultPerformance };
 }
 
-export default async function VaultPage({ params }: { params: { slug: string } }) {
+export default async function VaultPage({ params }: { params: { id: string } }) {
   const {
     vaultInfo: { name, apr, weekly_apy, monthly_apy },
     vaultPerformance: { date, cum_return },
-  } = await getData(params.slug);
+  } = await getData(params.id);
 
   const onyxData: LineChartData[] = date.map((item, index) => ({
     time: item,
@@ -32,8 +32,8 @@ export default async function VaultPage({ params }: { params: { slug: string } }
 
       <VaultDetailTemplate
         name={name}
-        weeklyApy={weekly_apy || 0}
-        monthlyApy={monthly_apy || 0}
+        weeklyApy={Math.floor(weekly_apy || 0)}
+        monthlyApy={Math.floor(monthly_apy || 0)}
         apr={apr || 0}
         onyxData={onyxData}
         description={description}

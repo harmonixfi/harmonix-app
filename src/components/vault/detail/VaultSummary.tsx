@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { withCommas } from '@/utils/number';
 
 import Select from '../../shared/Select';
 // import Select from '../shared/Select';
@@ -44,7 +45,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
             />
           </div>
         </div>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${Math.round(
+        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(
           apyRange === '1w' ? weeklyApy : monthlyApy,
         )}%`}</p>
       </div>

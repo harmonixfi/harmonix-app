@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import useSWR from 'swr';
 import { Abi } from 'viem';
 
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import { getVaults } from '@/api/vault';
 import { Urls } from '@/constants/urls';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
@@ -17,9 +19,13 @@ const VaultFloatButton = () => {
     rockOnyxUsdtVaultAddress,
   );
 
+  const { data } = useSWR('get-vaults', getVaults);
+
+  const stableCoinVaultId = data?.find((x) => x.name.toLowerCase().includes('stable'))?.id;
+
   return (
     <Link
-      href={`${Urls.Vaults}${Urls.StableCoinVault}`}
+      href={`${Urls.Vaults}/${stableCoinVaultId}`}
       className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer transition duration-150 ease-in-out hover:scale-105"
     >
       <TSymbolIcon />

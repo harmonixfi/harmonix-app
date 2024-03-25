@@ -85,6 +85,7 @@ export default async function Products() {
               name={vault.name}
               link={`${Urls.Vaults}/${vault.id}`}
               color={color}
+              apy={Math.floor(vault.monthly_apy || 0)}
               maxCapacity={vault.vault_capacity}
               vaultAbi={vaultAbi}
               vaultAddress={vaultAddress}

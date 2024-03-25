@@ -34,7 +34,6 @@ const VaultDeposit = () => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
-
   const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries(
     vaultAbi,
     vaultAddress,

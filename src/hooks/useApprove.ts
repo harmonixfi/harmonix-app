@@ -6,13 +6,7 @@ import usdcAbi from '@/abi/usdc.json';
 const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
 
 const useApprove = (vaultAddress?: `0x${string}`) => {
-  const {
-    isPending,
-    isError: isApprovalError,
-    error,
-    data: hash,
-    writeContract,
-  } = useWriteContract();
+  const { isPending, isError: isApprovalError, data: hash, writeContract } = useWriteContract();
 
   const {
     isError: isTxError,
