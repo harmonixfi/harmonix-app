@@ -9,29 +9,16 @@ const DeltaNeutralOverview = () => {
           holding ETH in spot or yield to be neutral delta against USD
         </Typography>
 
-        <div>
-          <Typography variant="body">
-            The Stable Coin Vault is a purpose-built platform designed to optimize profit generation
-            in bullish markets, while concurrently mitigating risk and minimizing drawdown in
-            bearish markets. This is accomplished through the application of two primary strategies:
-          </Typography>
-
-          <ul className="flex flex-col gap-2 mt-2 pl-8">
-            <li>
-              <Typography variant="body">
-                1. Covered Calls/Covered Puts Options: every week vault creates Out-The-Money (OTM)
-                positions based on our Options Risk Model.
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body">
-                2. Yield Earning: The platform engages in liquidity farming, which entails
-                participating in various decentralized finance (DeFi) protocols to earn yields on
-                deposited assets. This strategy helps bolster returns for users.
-              </Typography>
-            </li>
-          </ul>
-        </div>
+        <ul className="grid grid-cols-2 gap-6">
+          <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
+            <p className="text-rock-sub-body font-light">ETH Holding</p>
+            <p className="text-white text-2xl font-semibold">50%</p>
+          </li>
+          <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
+            <p className="text-rock-sub-body font-light">ETH Perp</p>
+            <p className="text-white text-2xl font-semibold">50%</p>
+          </li>
+        </ul>
       </div>
 
       <div className="flex flex-col gap-8 border border-rock-divider rounded-2xl sm:rounded-3xl p-6 sm:p-8 mt-8">

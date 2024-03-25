@@ -50,16 +50,16 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
   if (vaultName.toLowerCase().includes('stable')) {
     return {
       description: <StableCoinDescription />,
-      parameter: <DeltaNeutralParameter />,
-      overview: <DeltaNeutralOverview />,
-      safetyAssurance: <DeltaNeutralSafetyAssurance />,
+      parameter: <StableCoinParameter />,
+      overview: <StableCoinOverview />,
+      safetyAssurance: <StableCoinSafetyAssurance />,
     };
   }
 
   return {
     description: <DeltaNeutralDescription />,
-    parameter: <StableCoinParameter />,
-    overview: <StableCoinOverview />,
-    safetyAssurance: <StableCoinSafetyAssurance />,
+    parameter: <DeltaNeutralParameter />,
+    overview: <DeltaNeutralOverview />,
+    safetyAssurance: <DeltaNeutralSafetyAssurance />,
   };
 };

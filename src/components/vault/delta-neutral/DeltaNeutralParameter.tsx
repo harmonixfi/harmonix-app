@@ -37,7 +37,7 @@ const DeltaNeutralParameter = () => {
 
       <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-2xl p-4">
         <p className="text-rock-sub-body font-light text-center">Withdrawal</p>
-        <p className="text-white font-semibold text-sm text-center">Every 24 hours</p>
+        <p className="text-white font-semibold text-sm text-center">After 1 hour</p>
       </li>
     </ul>
   );
