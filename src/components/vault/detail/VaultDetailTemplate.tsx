@@ -19,7 +19,6 @@ type VaultDetailTemplateProps = {
   weeklyApy: number;
   monthlyApy: number;
   apr: number;
-  marketData: LineChartData[];
   onyxData: LineChartData[];
   description: ReactNode;
   parameter: ReactNode;
@@ -33,7 +32,6 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     weeklyApy,
     monthlyApy,
     apr,
-    marketData,
     onyxData,
     description,
     parameter,
@@ -64,12 +62,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             </div>
 
             <div className="border-t border-rock-divider">
-              <VaultChart
-                weeklyApy={weeklyApy}
-                monthlyApy={monthlyApy}
-                marketData={marketData}
-                onyxData={onyxData}
-              />
+              <VaultChart weeklyApy={weeklyApy} monthlyApy={monthlyApy} onyxData={onyxData} />
             </div>
 
             <div ref={parameterRef} className="flex flex-col gap-6">

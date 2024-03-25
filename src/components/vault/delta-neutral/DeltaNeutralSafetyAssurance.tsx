@@ -24,21 +24,14 @@ const DeltaNeutralSafetyAssurance = () => {
                 <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
                 <span>ETH</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">60%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">50%</td>
             </tr>
             <tr>
               <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
                 <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>USDC</span>
+                <span>Stable coin USDC, USDT</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">20%</td>
-            </tr>
-            <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>USDC.e</span>
-              </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">20%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">50%</td>
             </tr>
           </tbody>
         </table>

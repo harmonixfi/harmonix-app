@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 
+// import { VaultProvider } from './VaultProvider';
 import { WalletProvider } from './WalletProvider';
 
 type ProviderType = {

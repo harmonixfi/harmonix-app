@@ -5,27 +5,9 @@ const DeltaNeutralOverview = () => {
     <>
       <div className="flex flex-col gap-6">
         <Typography variant="body">
-          The Stablecoin vault generates yield by employing the wheel strategy{' '}
-          <a href="#" className="underline">
-            Learn more
-          </a>
-          . After users deposit funds into the vault, it allocates assets according to the following
-          ratios:
+          Generating yield by shorting ETH on a perp markets with a favorable funding rate, while
+          holding ETH in spot or yield to be neutral delta against USD
         </Typography>
-        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-          <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
-            <p className="text-rock-sub-body font-light">ETH Holding</p>
-            <p className="text-white text-2xl font-semibold">60%</p>
-          </li>
-          <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
-            <p className="text-rock-sub-body font-light">Cash</p>
-            <p className="text-white text-2xl font-semibold">20%</p>
-          </li>
-          <li className="col-span-2 sm:col-auto flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
-            <p className="text-rock-sub-body font-light">Options</p>
-            <p className="text-white text-2xl font-semibold">20%</p>
-          </li>
-        </ul>
 
         <div>
           <Typography variant="body">

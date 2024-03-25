@@ -1,26 +1,19 @@
 'use client';
 
-import { Abi } from 'viem';
 import { useAccount } from 'wagmi';
 
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { Position } from '@/@types/vault';
 
 import PositionRow from './PositionRow';
 
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
 type ActivePositionsProps = {
-  monthlyApy: number;
+  positions?: Position[];
 };
 
 const ActivePositions = (props: ActivePositionsProps) => {
-  const { monthlyApy } = props;
+  const { positions = [] } = props;
 
   const { status } = useAccount();
-
-  const { depositAmount } = useRockOnyxVaultQueries();
 
   const isConnectedWallet = status === 'connected';
 
@@ -34,7 +27,7 @@ const ActivePositions = (props: ActivePositionsProps) => {
         Your active positions
       </p>
 
-      {!depositAmount === 0 ? (
+      {positions.length === 0 ? (
         <p className="text-rock-sub-body">You have no positions</p>
       ) : (
         <>
@@ -48,19 +41,9 @@ const ActivePositions = (props: ActivePositionsProps) => {
               <p className="text-center">APY</p>
             </div>
 
-            <PositionRow
-              vaultName="Stable coin vault"
-              vaultAbi={rockOnyxUsdtVaultAbi as Abi}
-              vaultAddress={rockOnyxUsdtVaultAddress}
-              monthlyApy={monthlyApy}
-            />
-
-            <PositionRow
-              vaultName="Delta neutral vault"
-              vaultAbi={rockOnyxDeltaNeutralVaultAbi as Abi}
-              vaultAddress={rockOnyxDeltaNeutralVaultAddress}
-              monthlyApy={monthlyApy}
-            />
+            {positions.map((item) => (
+              <PositionRow key={item.id} position={item} />
+            ))}
           </div>
         </>
       )}

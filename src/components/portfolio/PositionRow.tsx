@@ -1,53 +1,37 @@
 'use client';
 
-import { Abi } from 'viem';
-
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { Position } from '@/@types/vault';
 import { formatTokenAmount } from '@/utils/number';
 
 type PositionRowProps = {
-  vaultName: string;
-  vaultAbi: Abi;
-  vaultAddress: `0x${string}`;
-  monthlyApy: number;
+  position: Position;
 };
 
 const PositionRow = (props: PositionRowProps) => {
-  const { vaultName, vaultAbi, vaultAddress, monthlyApy } = props;
+  const { position } = props;
 
-  const {
-    depositAmount,
-    pricePerShare,
-    balanceOf,
-    availableWithdrawalAmount,
-    totalValueLocked,
-    profit,
-    loss,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const pricePerShare = 1;
+  const totalValueLocked = 40000000;
 
-  const totalBalance = balanceOf * pricePerShare;
-  const netYield = totalBalance - depositAmount;
-  const pnl = loss !== 0 ? loss : profit;
-
-  if (!depositAmount) {
-    return null;
-  }
+  // const totalBalance = balanceOf * pricePerShare;
+  // const netYield = totalBalance - depositAmount;
+  // const pnl = loss !== 0 ? loss : profit;
 
   return (
     <>
       <div className="hidden sm:grid grid-cols-7 mt-4 p-6 bg-white bg-opacity-10 rounded-2xl text-xs lg:text-sm">
-        <p className="col-span-2">{vaultName}</p>
-        <p>{formatTokenAmount(totalBalance)} USDC</p>
-        <p>{formatTokenAmount(depositAmount)} USDC</p>
-        <p className={`text-center ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}>
-          {formatTokenAmount(Math.abs(netYield))} USDC
+        <p className="col-span-2">{position.vault_name}</p>
+        <p>{formatTokenAmount(position.total_balance)} USDC</p>
+        <p>{formatTokenAmount(position.init_deposit)} USDC</p>
+        <p className={`text-center ${position.pnl !== 0 ? 'text-red-600' : 'text-rock-green'}`}>
+          {formatTokenAmount(Math.abs(position.pnl))} USDC
         </p>
         <p
-          className={`text-center ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
-        >{`${formatTokenAmount(pnl * 100)}%`}</p>
+          className={`text-center ${position.pnl !== 0 ? 'text-red-600' : 'text-rock-green'}`}
+        >{`${formatTokenAmount(position.pnl * 100)}%`}</p>
         <p
-          className={`text-center ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
-        >{`${monthlyApy}%`}</p>
+          className={`text-center ${position.pnl !== 0 ? 'text-red-600' : 'text-rock-green'}`}
+        >{`${position.monthly_apy}%`}</p>
 
         <div className="col-span-7">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-bg rounded-lg px-6 py-4 mt-6 text-rock-sub-body text-xs 2xl:text-sm font-normal">
@@ -63,8 +47,8 @@ const PositionRow = (props: PositionRowProps) => {
             <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2">
               <p>Pending Withdrawal:</p>
               <p className="3xl:col-span-2">
-                {availableWithdrawalAmount !== 0
-                  ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
+                {position.pending_withdrawal > 0
+                  ? `${formatTokenAmount(position.pending_withdrawal)} roUSD`
                   : '--'}
               </p>
               <p>Current Price Per Share:</p>
@@ -88,33 +72,43 @@ const PositionRow = (props: PositionRowProps) => {
       <div className="sm:hidden bg-white bg-opacity-10 rounded-2xl mt-6 p-6">
         <div className="grid grid-cols-2 gap-x-2 gap-y-4">
           <p className="text-rock-gray text-sm font-semibold">Vault name</p>
-          <p className="text-white text-sm font-semibold">{vaultName}</p>
+          <p className="text-white text-sm font-semibold">{position.vault_name}</p>
           <p className="text-rock-gray text-sm font-semibold">Total Balance</p>
-          <p className="text-white text-sm font-semibold">{formatTokenAmount(totalBalance)} USDC</p>
+          <p className="text-white text-sm font-semibold">
+            {formatTokenAmount(position.total_balance)} USDC
+          </p>
           <p className="text-rock-gray text-sm font-semibold">Initial Deposit</p>
           <p className="text-white text-sm font-semibold">
-            {formatTokenAmount(depositAmount)} USDC
+            {formatTokenAmount(position.init_deposit)} USDC
           </p>
           <p className="text-rock-gray text-sm font-semibold">PnL</p>
-          <p className={`text-sm font-semibold ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}>
-            {formatTokenAmount(Math.abs(netYield))} USDC
+          <p
+            className={`text-sm font-semibold ${
+              position.monthly_apy !== 0 ? 'text-red-600' : 'text-rock-green'
+            }`}
+          >
+            {formatTokenAmount(Math.abs(position.monthly_apy))} USDC
           </p>
           <p className="text-rock-gray text-sm font-semibold">PnL %</p>
           <p
-            className={`text-sm font-semibold ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
-          >{`${formatTokenAmount(pnl * 100)}%`}</p>
+            className={`text-sm font-semibold ${
+              position.monthly_apy !== 0 ? 'text-red-600' : 'text-rock-green'
+            }`}
+          >{`${formatTokenAmount(position.pnl * 100)}%`}</p>
           <p className="text-rock-gray text-sm font-semibold">APY</p>
           <p
-            className={`text-sm font-semibold ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
-          >{`${monthlyApy}%`}</p>
+            className={`text-sm font-semibold ${
+              position.monthly_apy !== 0 ? 'text-red-600' : 'text-rock-green'
+            }`}
+          >{`${position.monthly_apy}%`}</p>
         </div>
 
         <div className="flex flex-col gap-4 bg-rock-bg rounded-lg p-4 mt-4">
           <div>
             <p className="text-sm text-rock-sub-body font-normal">Pending Withdrawal:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
-              {availableWithdrawalAmount !== 0
-                ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
+              {position.pending_withdrawal > 0
+                ? `${formatTokenAmount(position.pending_withdrawal)} roUSD`
                 : '--'}
             </p>
           </div>

@@ -1,26 +1,17 @@
-import { Abi } from 'viem';
-
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-import { getVaultInfo } from '@/api/vault';
+import { getVaults } from '@/api/vault';
 import VaultCard from '@/components/products/VaultCard';
 import Select from '@/components/shared/Select';
 import Navbar from '@/components/shared/navbar/Navbar';
 import { Urls } from '@/constants/urls';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+import { vaultCardMapping } from '@/services/vaultMapping';
 
 async function getData() {
-  const vaultInfo = await getVaultInfo();
-
-  return { vaultInfo };
+  const vaults = await getVaults();
+  return { vaults };
 }
 
 export default async function Products() {
-  const {
-    vaultInfo: { monthly_apy },
-  } = await getData();
+  const { vaults } = await getData();
 
   return (
     <>
@@ -86,23 +77,20 @@ export default async function Products() {
       </div>
 
       <div className="relative z-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-6 xl:gap-8 w-[90%] sm:w-3/5 md:w-3/4 lg:w-[90%] xl:w-4/5 2xl:w-3/4 3xl:w-[1650px] mx-auto mt-6 md:mt-16 xl:mt-24 mb-24 md:mb-32 xl:mb-48 px-6 sm:px-0">
-        <VaultCard
-          name="Stable Coin Vault"
-          link={`${Urls.Vaults}${Urls.StableCoinVault}`}
-          apy={Math.round(monthly_apy)}
-          maxCapacity={4000000}
-          vaultAbi={rockOnyxUsdtVaultAbi as Abi}
-          vaultAddress={rockOnyxUsdtVaultAddress}
-        />
-
-        <VaultCard
-          name="Delta Neutral Vault"
-          link={`${Urls.Vaults}${Urls.DeltaNeutralVault}`}
-          color="secondary"
-          maxCapacity={4000000}
-          vaultAbi={rockOnyxDeltaNeutralVaultAbi as Abi}
-          vaultAddress={rockOnyxDeltaNeutralVaultAddress}
-        />
+        {vaults.map((vault) => {
+          const { color, vaultAbi, vaultAddress } = vaultCardMapping(vault);
+          return (
+            <VaultCard
+              key={vault.id}
+              name={vault.name}
+              link={`${Urls.Vaults}/${vault.id}`}
+              color={color}
+              maxCapacity={vault.vault_capacity}
+              vaultAbi={vaultAbi}
+              vaultAddress={vaultAddress}
+            />
+          );
+        })}
       </div>
     </>
   );
