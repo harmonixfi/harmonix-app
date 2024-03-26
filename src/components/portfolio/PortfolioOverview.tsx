@@ -38,9 +38,9 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
               </p>
               <p
                 className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
-                  pnl > 0 ? 'text-rock-green' : 'text-red-600'
+                  pnl >= 0 ? 'text-rock-green' : 'text-red-600'
                 }`}
-              >{`${pnl > 0 ? '-' : '+'}${formatTokenAmount(pnl * 100)}%`}</p>
+              >{`${pnl >= 0 ? '+' : '-'}${formatTokenAmount(pnl * 100)}%`}</p>
             </div>
           </div>
         </>

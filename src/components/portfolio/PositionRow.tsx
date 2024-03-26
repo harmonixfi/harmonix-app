@@ -24,7 +24,7 @@ const PositionRow = (props: PositionRowProps) => {
     position;
 
   const { vaultAbi, vaultAddress } = useMemo(() => {
-    if (vault_name.toLowerCase().includes('stable')) {
+    if (vault_name.toLowerCase().includes('option')) {
       return {
         vaultAbi: rockOnyxUsdtVaultAbi as Abi,
         vaultAddress: rockOnyxUsdtVaultAddress,
@@ -44,14 +44,14 @@ const PositionRow = (props: PositionRowProps) => {
         <p className="col-span-2">{vault_name}</p>
         <p>{formatTokenAmount(total_balance)} USDC</p>
         <p>{formatTokenAmount(init_deposit)} USDC</p>
-        <p className={`text-center ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}>
+        <p className={`text-center ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}>
           {formatTokenAmount(Math.abs(pnl))} USDC
         </p>
         <p
-          className={`text-center ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}
+          className={`text-center ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
         >{`${formatTokenAmount((pnl / init_deposit) * 100)}%`}</p>
         <p
-          className={`text-center ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}
+          className={`text-center ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
         >{`${monthly_apy}%`}</p>
 
         <div className="col-span-7">
@@ -99,16 +99,16 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">Initial Deposit</p>
           <p className="text-white text-sm font-semibold">{formatTokenAmount(init_deposit)} USDC</p>
           <p className="text-rock-gray text-sm font-semibold">PnL</p>
-          <p className={`text-sm font-semibold ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}>
+          <p className={`text-sm font-semibold ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}>
             {formatTokenAmount(Math.abs(pnl))} USDC
           </p>
           <p className="text-rock-gray text-sm font-semibold">PnL %</p>
           <p
-            className={`text-sm font-semibold ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}
+            className={`text-sm font-semibold ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
           >{`${formatTokenAmount((pnl / init_deposit) * 100)}%`}</p>
           <p className="text-rock-gray text-sm font-semibold">APY</p>
           <p
-            className={`text-sm font-semibold ${pnl > 0 ? 'text-rock-green' : 'text-red-600'}`}
+            className={`text-sm font-semibold ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
           >{`${monthly_apy}%`}</p>
         </div>
 
