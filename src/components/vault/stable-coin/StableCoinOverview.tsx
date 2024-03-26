@@ -29,9 +29,10 @@ const StableCoinOverview = () => {
 
         <div>
           <Typography variant="body">
-            The Stable Coin Vault is a purpose-built platform designed to optimize profit generation
-            in bullish markets, while concurrently mitigating risk and minimizing drawdown in
-            bearish markets. This is accomplished through the application of two primary strategies:
+            The Options Wheel Vault is a purpose-built platform designed to optimize profit
+            generation in bullish markets, while concurrently mitigating risk and minimizing
+            drawdown in bearish markets. This is accomplished through the application of two primary
+            strategies:
           </Typography>
 
           <ul className="flex flex-col gap-2 mt-2 pl-8">

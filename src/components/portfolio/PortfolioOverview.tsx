@@ -2,17 +2,19 @@
 
 import { useAccount } from 'wagmi';
 
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatTokenAmount } from '@/utils/number';
 
 import Typography from '../shared/Typography';
 
-const PortfolioOverview = () => {
-  const { status } = useAccount();
+type PortfolioOverviewProps = {
+  totalBalance?: number;
+  pnl?: number;
+};
 
-  const { pricePerShare, balanceOf, profit, loss } = useRockOnyxVaultQueries();
-  const totalBalance = balanceOf * pricePerShare;
-  const pnl = loss !== 0 ? loss : profit;
+const PortfolioOverview = (props: PortfolioOverviewProps) => {
+  const { totalBalance = 0, pnl = 0 } = props;
+
+  const { status } = useAccount();
 
   const isConnectedWallet = status === 'connected';
 
@@ -36,9 +38,9 @@ const PortfolioOverview = () => {
               </p>
               <p
                 className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
-                  loss !== 0 ? 'text-red-600' : 'text-rock-green'
+                  pnl >= 0 ? 'text-rock-green' : 'text-red-600'
                 }`}
-              >{`${loss !== 0 ? '-' : '+'}${formatTokenAmount(pnl * 100)}%`}</p>
+              >{`${pnl >= 0 ? '+' : '-'}${formatTokenAmount(pnl)}%`}</p>
             </div>
           </div>
         </>
