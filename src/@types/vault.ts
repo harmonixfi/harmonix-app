@@ -37,6 +37,5 @@ export type Position = {
 
 export type Portfolio = {
   total_balance: number;
-  pnl: number;
   positions: Position[];
 };
