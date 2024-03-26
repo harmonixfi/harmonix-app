@@ -47,7 +47,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
 
   return (
     <VaultDetailProvider name={name}>
-      <div className="relative w-full sm:w-[90%] 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 lg:gap-12 mx-auto my-12 z-20 px-6 sm:px-0">
+      <div className="relative w-full sm:w-[90%] lg:w-full 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 xl:gap-12 mx-auto my-12 z-20 px-6 sm:px-0 lg:px-8 xl:px-0">
         <div className="lg:col-span-3">
           <div className="flex flex-col gap-8 mb-8 sm:mb-10 lg:mb-20">
             <Typography variant="heading" className="relative z-20">
@@ -106,7 +106,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
                 className="mt-6"
                 items={[
                   { name: 'Vault parameters structure', ref: parameterRef },
-                  { name: 'An Overview of Stable coin vault', ref: overviewRef },
+                  { name: `An Overview of ${name}`, ref: overviewRef },
                   { name: 'Safety & Assurance', ref: safetyRef },
                   { name: 'Fee transparency', ref: feeRef },
                   { name: 'Withdrawals', ref: withdrawalRef },

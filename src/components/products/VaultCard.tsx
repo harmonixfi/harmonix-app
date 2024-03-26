@@ -85,15 +85,13 @@ const VaultCard = (props: VaultCardProps) => {
 
         <div>
           <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold text-rock-sub-body">
-              Total Projected Yield (Monthly APY)
-            </p>
+            <p className="text-sm font-semibold text-rock-sub-body">APY</p>
 
             <Tooltip
               message={
                 <div>
                   <div className="flex justify-between text-sm text-rock-sub-body">
-                    <p className="text-rock-light-blue">Total Projected Yield (APY)</p>
+                    <p className="text-rock-light-blue">APY</p>
                     <p className="text-rock-light-blue justify-self-end">{`${withCommas(apy)}%`}</p>
                   </div>
                   <p className="text-sm font-normal break-words mt-2">

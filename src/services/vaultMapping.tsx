@@ -31,7 +31,7 @@ type VaultDetailMapping = {
 };
 
 export const vaultCardMapping = (vault: Vault): VaultCardMapping => {
-  if (vault.name.toLowerCase().includes('stable')) {
+  if (vault.name.toLowerCase().includes('option')) {
     return {
       color: 'default',
       vaultAbi: rockOnyxUsdtVaultAbi as Abi,
@@ -47,7 +47,7 @@ export const vaultCardMapping = (vault: Vault): VaultCardMapping => {
 };
 
 export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
-  if (vaultName.toLowerCase().includes('stable')) {
+  if (vaultName.toLowerCase().includes('option')) {
     return {
       description: <StableCoinDescription />,
       parameter: <StableCoinParameter />,

@@ -24,7 +24,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
   const { name, children } = props;
 
   const { vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
-    if (name.toLowerCase().includes('stable')) {
+    if (name.toLowerCase().includes('option')) {
       return {
         vaultAbi: rockOnyxUsdtVaultAbi as Abi,
         vaultAddress: rockOnyxUsdtVaultAddress,
