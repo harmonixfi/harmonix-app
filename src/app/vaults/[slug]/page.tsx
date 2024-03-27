@@ -16,12 +16,12 @@ async function getData(slug: string) {
 export default async function VaultPage({ params }: { params: { slug: string } }) {
   const {
     vaultInfo: { name, apr, weekly_apy, monthly_apy },
-    vaultPerformance: { date, apy_ytd },
+    vaultPerformance: { date, apy_1m },
   } = await getData(params.slug);
 
   const onyxData: LineChartData[] = date.map((item, index) => ({
     time: item,
-    value: apy_ytd[index],
+    value: apy_1m[index],
   }));
 
   const { description, parameter, overview, safetyAssurance } = vaultDetailMapping(name);
