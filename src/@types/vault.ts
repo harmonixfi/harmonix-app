@@ -14,7 +14,8 @@ export type Vault = {
 
 export type VaultPerformance = {
   date: string[];
-  cum_return: number[];
+  apy_1m: number[];
+  apy_ytd: number[];
 };
 
 export type Position = {
