@@ -21,11 +21,11 @@ const VaultFloatButton = () => {
 
   const { data } = useSWR('get-vaults', getVaults);
 
-  const optionWheelVaultId = data?.find((x) => x.name.toLowerCase().includes('option'))?.id;
+  const optionWheelVaultSlug = data?.find((x) => x.name.toLowerCase().includes('option'))?.slug;
 
   return (
     <Link
-      href={`${Urls.Vaults}/${optionWheelVaultId}`}
+      href={`${Urls.Vaults}/${optionWheelVaultSlug}`}
       className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer transition duration-150 ease-in-out hover:scale-105"
     >
       <TSymbolIcon />

@@ -83,7 +83,7 @@ export default async function Products() {
             <VaultCard
               key={vault.id}
               name={vault.name}
-              link={`${Urls.Vaults}/${vault.id}`}
+              link={`${Urls.Vaults}/${vault.slug}`}
               color={color}
               apy={Math.floor(vault.monthly_apy || 0)}
               maxCapacity={vault.vault_capacity}
