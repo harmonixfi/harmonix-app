@@ -2,13 +2,12 @@ import LineChart, { LineChartData } from '../../shared/chart/LineChart';
 import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {
-  weeklyApy: number;
-  monthlyApy: number;
+  apy: number;
   onyxData: LineChartData[];
 };
 
 const VaultChart = (props: VaultChartProps) => {
-  const { weeklyApy, monthlyApy, onyxData } = props;
+  const { apy, onyxData } = props;
 
   return (
     <div className="relative">
@@ -37,7 +36,7 @@ const VaultChart = (props: VaultChartProps) => {
 
       <div className="absolute top-0 left-0 w-full flex items-center justify-between mb-6 -mt-2 z-50">
         <div className="translate-y-4">
-          <VaultSummary weeklyApy={weeklyApy} monthlyApy={monthlyApy} />
+          <VaultSummary apy={apy} />
         </div>
         <div className="flex items-center gap-4 lg:gap-10">
           {/* <div className="flex items-center gap-2">
