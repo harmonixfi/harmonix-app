@@ -155,7 +155,7 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p className="text-white">{`${formatTokenAmount(balanceOf)} USDC`}</p>
+        <p className="text-white">{`${formatTokenAmount(balanceOf)} roUSD`}</p>
       </div>
 
       <button
