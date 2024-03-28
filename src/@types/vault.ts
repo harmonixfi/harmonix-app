@@ -26,7 +26,7 @@ export type Position = {
   init_deposit: number;
   pnl: number;
   status: string;
-  trade_status_date: string;
+  trade_start_date: string;
   pending_withdrawal: number;
   current_round: number;
   next_close_round_date: string;

@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 
+import { format } from 'date-fns';
 import { Abi } from 'viem';
 
 import { Position } from '@/@types/vault';
@@ -20,8 +21,17 @@ type PositionRowProps = {
 const PositionRow = (props: PositionRowProps) => {
   const { position } = props;
 
-  const { vault_name, total_balance, init_deposit, pnl, pending_withdrawal, monthly_apy } =
-    position;
+  const {
+    vault_name,
+    total_balance,
+    init_deposit,
+    pnl,
+    pending_withdrawal,
+    monthly_apy,
+    current_round,
+    next_close_round_date,
+    trade_start_date,
+  } = position;
 
   const { vaultAbi, vaultAddress } = useMemo(() => {
     if (vault_name.toLowerCase().includes('option')) {
@@ -56,16 +66,20 @@ const PositionRow = (props: PositionRowProps) => {
 
         <div className="col-span-7">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-bg rounded-lg px-6 py-4 mt-6 text-rock-sub-body text-xs 2xl:text-sm font-normal">
-            {/* <div className="grid grid-cols-2 3xl:grid-cols-3 gap-y-2">
-                <p>Trade Start Date:</p>
-                <p className="3xl:col-span-2">09 Feb, 2024</p>
-                <p>Current Round No.:</p>
-                <p className="3xl:col-span-2">#2</p>
-                <p>Next Close Round Date:</p>
-                <p className="3xl:col-span-2"> 23 Feb, 2024</p>
-              </div> */}
-
             <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2">
+              <p>Trade Start Date:</p>
+              <p className="3xl:col-span-2">
+                {trade_start_date ? format(trade_start_date, 'MMM dd, yyyy') : '--'}
+              </p>
+              <p>Current Round No.:</p>
+              <p className="3xl:col-span-2">{current_round ? `#${current_round}` : '--'}</p>
+              <p>Next Close Round Date:</p>
+              <p className="3xl:col-span-2">
+                {next_close_round_date ? format(next_close_round_date, 'MMM dd, yyyy') : '--'}
+              </p>
+            </div>
+
+            <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2 mt-2 md:mt-0">
               <p>Pending Withdrawal:</p>
               <p className="3xl:col-span-2">
                 {pending_withdrawal > 0 ? `${formatTokenAmount(pending_withdrawal)} roUSD` : '--'}
@@ -113,6 +127,27 @@ const PositionRow = (props: PositionRowProps) => {
         </div>
 
         <div className="flex flex-col gap-4 bg-rock-bg rounded-lg p-4 mt-4">
+          <div>
+            <p className="text-sm text-rock-sub-body font-normal">Trade Start Date:</p>
+            <p className="text-sm text-rock-sub-body font-semibold mt-1">
+              {trade_start_date ? format(trade_start_date, 'MMM dd, yyyy') : '--'}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm text-rock-sub-body font-normal">Current Round No.:</p>
+            <p className="text-sm text-rock-sub-body font-semibold mt-1">
+              {current_round ? `#${current_round}` : '--'}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm text-rock-sub-body font-normal">Next Close Round Date:</p>
+            <p className="text-sm text-rock-sub-body font-semibold mt-1">
+              {next_close_round_date ? format(next_close_round_date, 'MMM dd, yyyy') : '--'}
+            </p>
+          </div>
+
           <div>
             <p className="text-sm text-rock-sub-body font-normal">Pending Withdrawal:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
