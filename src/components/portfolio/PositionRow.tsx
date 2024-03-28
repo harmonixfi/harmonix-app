@@ -8,7 +8,7 @@ import { Position } from '@/@types/vault';
 import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
 import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
-import { formatTokenAmount } from '@/utils/number';
+import { formatTokenAmount, withCommas } from '@/utils/number';
 
 const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
 const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
@@ -52,7 +52,7 @@ const PositionRow = (props: PositionRowProps) => {
         >{`${formatTokenAmount((pnl / init_deposit) * 100)}%`}</p>
         <p
           className={`text-center ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
-        >{`${monthly_apy}%`}</p>
+        >{`${withCommas(formatTokenAmount(monthly_apy))}%`}</p>
 
         <div className="col-span-7">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-bg rounded-lg px-6 py-4 mt-6 text-rock-sub-body text-xs 2xl:text-sm font-normal">
@@ -109,7 +109,7 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">APY</p>
           <p
             className={`text-sm font-semibold ${pnl >= 0 ? 'text-rock-green' : 'text-red-600'}`}
-          >{`${monthly_apy}%`}</p>
+          >{`${withCommas(formatTokenAmount(monthly_apy))}%`}</p>
         </div>
 
         <div className="flex flex-col gap-4 bg-rock-bg rounded-lg p-4 mt-4">
