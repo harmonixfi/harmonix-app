@@ -14,7 +14,7 @@ import useDeposit from '@/hooks/useDeposit';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
-import { formatTokenAmount } from '@/utils/number';
+import { toFixedNumber } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import CurrencySelect from '../../shared/CurrencySelect';
@@ -111,7 +111,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? formatTokenAmount(Number(balance.formatted)) : '0'} USDC
+            Wallet Balance: {balance ? toFixedNumber(Number(balance.formatted)) : '0'} USDC
           </p>
           <button
             type="button"
@@ -137,7 +137,7 @@ const VaultDeposit = () => {
         </div>
       </div>
       {pricePerShare > 0 && (
-        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${formatTokenAmount(
+        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
           pricePerShare,
         )} ${selectedCurrency.toUpperCase()}`}</p>
       )}
@@ -145,7 +145,7 @@ const VaultDeposit = () => {
       <div className="flex items-center justify-between mt-8 text-rock-gray">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
-          <p className="text-white">{`${formatTokenAmount(
+          <p className="text-white">{`${toFixedNumber(
             pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0,
           )} roUSD`}</p>
         </div>
@@ -155,7 +155,7 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p className="text-white">{`${formatTokenAmount(balanceOf)} roUSD`}</p>
+        <p className="text-white">{`${toFixedNumber(balanceOf)} roUSD`}</p>
       </div>
 
       <button

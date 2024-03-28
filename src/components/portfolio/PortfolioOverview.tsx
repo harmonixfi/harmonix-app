@@ -2,7 +2,7 @@
 
 import { useAccount } from 'wagmi';
 
-import { formatTokenAmount } from '@/utils/number';
+import { formatPnl, toFixedNumber } from '@/utils/number';
 
 import Typography from '../shared/Typography';
 
@@ -34,13 +34,15 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
             </p>
             <div className="flex items-center gap-6 mt-6 lg:mt-10">
               <p className="text-sm md:text-xl xl:text-2xl font-semibold leading-4">
-                {formatTokenAmount(totalBalance)} USDC
+                {toFixedNumber(totalBalance)} USDC
               </p>
               <p
                 className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
-                  pnl >= 0 ? 'text-rock-green' : 'text-red-600'
+                  toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'
                 }`}
-              >{`${pnl >= 0 ? '+' : ''}${formatTokenAmount(pnl)}%`}</p>
+              >
+                {formatPnl(toFixedNumber(pnl), true)}
+              </p>
             </div>
           </div>
         </>
