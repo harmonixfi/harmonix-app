@@ -1,8 +1,9 @@
 'use client';
 
+import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
-import { formatTokenAmount } from '@/utils/number';
+import { formatPnl, toFixedNumber } from '@/utils/number';
 
 const PositionCard = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
@@ -24,33 +25,35 @@ const PositionCard = () => {
       <div className="flex flex-col gap-3 bg-rock-bg rounded-xl p-4 sm:p-6 mt-3 sm:mt-6">
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Total balance</p>
-          <p className="text-white">{formatTokenAmount(totalBalance)} USDC</p>
+          <p className="text-white">{toFixedNumber(totalBalance)} USDC</p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Total shares</p>
-          <p className="text-white">{formatTokenAmount(balanceOf)} roUSD</p>
+          <p className="text-white">{toFixedNumber(balanceOf)} roUSD</p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Gross Profit/Loss</p>
           <p
-            className={`text-right ${loss !== 0 ? 'text-red-600' : 'text-rock-green'}`}
-          >{`${formatTokenAmount(Math.abs(netYield))} USDC (${formatTokenAmount(pnl * 100)}%)`}</p>
+            className={`text-right ${
+              toFixedNumber(netYield) >= 0 ? 'text-rock-green' : 'text-red-600'
+            }`}
+          >{`${formatPnl(toFixedNumber(netYield))} USDC (${toFixedNumber(pnl * 100)}%`}</p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Pending withdrawal</p>
           <p className="text-white">
             {availableWithdrawalAmount !== 0
-              ? `${formatTokenAmount(availableWithdrawalAmount)} roUSD`
-              : '--'}
+              ? `${toFixedNumber(availableWithdrawalAmount)} roUSD`
+              : NA_STRING}
           </p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Initial deposit amount</p>
-          <p className="text-rock-primary">{formatTokenAmount(depositAmount)} USDC</p>
+          <p className="text-rock-primary">{toFixedNumber(depositAmount)} USDC</p>
         </div>
       </div>
     </div>

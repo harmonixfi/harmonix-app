@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Abi } from 'viem';
 
+import { NA_STRING } from '@/constants/common';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { toCompactNumber, withCommas } from '@/utils/number';
 
@@ -133,7 +134,7 @@ const VaultCard = (props: VaultCardProps) => {
           </div>
           <div className="flex items-center justify-between text-sm text-caption">
             <p className="text-rock-sub-body">Max Capacity</p>
-            <p>{maxCapacity ? toCompactNumber(maxCapacity) : '--'}</p>
+            <p>{maxCapacity ? toCompactNumber(maxCapacity) : NA_STRING}</p>
           </div>
         </div>
       </div>
