@@ -16,8 +16,7 @@ import VaultWithdrawal from './VaultWithdrawal';
 
 type VaultDetailTemplateProps = {
   name: string;
-  weeklyApy: number;
-  monthlyApy: number;
+  apy: number;
   apr: number;
   onyxData: LineChartData[];
   description: ReactNode;
@@ -27,17 +26,7 @@ type VaultDetailTemplateProps = {
 };
 
 const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
-  const {
-    name,
-    weeklyApy,
-    monthlyApy,
-    apr,
-    onyxData,
-    description,
-    parameter,
-    overview,
-    safetyAssurance,
-  } = props;
+  const { name, apy, apr, onyxData, description, parameter, overview, safetyAssurance } = props;
 
   const parameterRef = useRef() as MutableRefObject<HTMLDivElement>;
   const overviewRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -62,10 +51,10 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             </div>
 
             <div className="border-t border-rock-divider">
-              <VaultChart weeklyApy={weeklyApy} monthlyApy={monthlyApy} onyxData={onyxData} />
+              <VaultChart apy={apy} onyxData={onyxData} />
             </div>
 
-            <div ref={parameterRef} className="flex flex-col gap-6 mt-10 lg:mt-6 xl:mt-4 2xl:mt-0">
+            <div ref={parameterRef} className="flex flex-col gap-6 mt-10 lg:mt-6 xl:mt-4 2xl:mt-8">
               <Typography variant="subtitle">Vault Parameters Structure</Typography>
               {parameter}
             </div>

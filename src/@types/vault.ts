@@ -3,8 +3,7 @@ export type Vault = {
   name: string;
   slug: string;
   apr: number | null;
-  monthly_apy: number | null;
-  weekly_apy: number | null;
+  apy: number | null;
   max_drawdown: number | null;
   vault_capacity: number;
   vault_currency: string;
@@ -14,8 +13,7 @@ export type Vault = {
 
 export type VaultPerformance = {
   date: string[];
-  apy_1m: number[];
-  apy_ytd: number[];
+  apy: number[];
 };
 
 export type Position = {
@@ -38,5 +36,6 @@ export type Position = {
 
 export type Portfolio = {
   total_balance: number;
+  pnl: number;
   positions: Position[];
 };
