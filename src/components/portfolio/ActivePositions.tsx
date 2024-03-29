@@ -7,17 +7,17 @@ import { Position } from '@/@types/vault';
 import PositionRow from './PositionRow';
 
 type ActivePositionsProps = {
+  loading: boolean;
+  error: boolean;
   positions?: Position[];
 };
 
 const ActivePositions = (props: ActivePositionsProps) => {
-  const { positions = [] } = props;
+  const { loading, error, positions = [] } = props;
 
   const { status } = useAccount();
 
-  const isConnectedWallet = status === 'connected';
-
-  if (!isConnectedWallet) {
+  if (status !== 'connected' || loading || error) {
     return null;
   }
 
