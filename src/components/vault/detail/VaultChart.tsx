@@ -2,12 +2,13 @@ import LineChart, { LineChartData } from '../../shared/chart/LineChart';
 import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {
+  timeVisible?: boolean;
   apy: number;
   onyxData: LineChartData[];
 };
 
 const VaultChart = (props: VaultChartProps) => {
-  const { apy, onyxData } = props;
+  const { timeVisible, apy, onyxData } = props;
 
   return (
     <div className="relative">
@@ -19,6 +20,7 @@ const VaultChart = (props: VaultChartProps) => {
       </div> */}
       <div className="h-[240px] lg:h-[300px] translate-y-20">
         <LineChart
+          timeVisible={timeVisible}
           options={[
             // {
             //   id: 'market',

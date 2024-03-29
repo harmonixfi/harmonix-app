@@ -1,3 +1,5 @@
+import { getUnixTime } from 'date-fns';
+import { UTCTimestamp } from 'lightweight-charts';
 import { notFound } from 'next/navigation';
 
 import { getVaultInfo, getVaultPerformance } from '@/api/vault';
@@ -26,7 +28,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
   }
 
   const onyxData: LineChartData[] = date.map((item, index) => ({
-    time: item,
+    time: getUnixTime(new Date(item)) as UTCTimestamp,
     value: apy[index],
   }));
 
@@ -37,8 +39,9 @@ export default async function VaultPage({ params }: { params: { slug: string } }
       <Navbar />
 
       <VaultDetailTemplate
+        timeVisible={name.toLowerCase().includes('delta')}
         name={name}
-        apy={Math.floor(vaultApy || 0)}
+        apy={vaultApy || 0}
         apr={apr || 0}
         onyxData={onyxData}
         description={description}

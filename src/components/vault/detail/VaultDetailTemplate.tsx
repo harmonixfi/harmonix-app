@@ -15,6 +15,7 @@ import VaultSharePost from './VaultSharePost';
 import VaultWithdrawal from './VaultWithdrawal';
 
 type VaultDetailTemplateProps = {
+  timeVisible?: boolean;
   name: string;
   apy: number;
   apr: number;
@@ -26,7 +27,17 @@ type VaultDetailTemplateProps = {
 };
 
 const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
-  const { name, apy, apr, onyxData, description, parameter, overview, safetyAssurance } = props;
+  const {
+    timeVisible,
+    name,
+    apy,
+    apr,
+    onyxData,
+    description,
+    parameter,
+    overview,
+    safetyAssurance,
+  } = props;
 
   const parameterRef = useRef() as MutableRefObject<HTMLDivElement>;
   const overviewRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -51,7 +62,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             </div>
 
             <div className="border-t border-rock-divider">
-              <VaultChart apy={apy} onyxData={onyxData} />
+              <VaultChart timeVisible={timeVisible} apy={apy} onyxData={onyxData} />
             </div>
 
             <div ref={parameterRef} className="flex flex-col gap-6 mt-10 lg:mt-6 xl:mt-4 2xl:mt-8">

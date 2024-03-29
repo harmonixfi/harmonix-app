@@ -4,7 +4,7 @@
 // import { useState } from 'react';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
-import { withCommas } from '@/utils/number';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 // import Select from '../../shared/Select';
 // import Select from '../shared/Select';
@@ -43,7 +43,9 @@ const VaultSummary = (props: VaultSummaryProps) => {
             />
           </div> */}
         </div>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(apy)}%`}</p>
+        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(
+          toFixedNumber(apy),
+        )}%`}</p>
       </div>
       <div className="flex flex-col justify-between sm:gap-1">
         <p className="text-xs sm:text-sm md:text-base 2xl:text-lg text-rock-gray font-semibold">

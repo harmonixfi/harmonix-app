@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 
-import { ColorType, createChart } from 'lightweight-charts';
+import { ColorType, Time, createChart } from 'lightweight-charts';
 
 export type LineChartData = {
-  time: string;
+  time: Time;
   value: string | number;
 };
 
@@ -16,11 +16,12 @@ type LineChartOption = {
 };
 
 type LineChartProps = {
+  timeVisible?: boolean;
   options: LineChartOption[];
 };
 
 const LineChart = (props: LineChartProps) => {
-  const { options } = props;
+  const { timeVisible, options } = props;
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,6 +48,9 @@ const LineChart = (props: LineChartProps) => {
       },
       localization: {
         priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
+      },
+      timeScale: {
+        timeVisible,
       },
     });
     chart.timeScale().fitContent();

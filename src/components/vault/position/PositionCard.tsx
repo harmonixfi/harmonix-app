@@ -39,7 +39,7 @@ const PositionCard = () => {
             className={`text-right ${
               toFixedNumber(netYield) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
-          >{`${formatPnl(toFixedNumber(netYield))} USDC (${toFixedNumber(pnl * 100)}%`}</p>
+          >{`${formatPnl(toFixedNumber(netYield))} USDC (${toFixedNumber(pnl * 100)}%)`}</p>
         </div>
 
         <div className="flex items-center justify-between">
