@@ -43,7 +43,7 @@ const VaultCard = (props: VaultCardProps) => {
     vaultAbi,
     vaultAddress,
   );
-  console.log('@apy', apy);
+
   const badgeBg = color === 'default' ? 'bg-[#0E8484] bg-opacity-40' : 'bg-[#313C69] bg-opacity-60';
 
   return (

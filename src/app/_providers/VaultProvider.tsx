@@ -21,7 +21,6 @@ export const VaultProvider = (props: VaultProviderProps) => {
   useEffect(() => {
     const onGetVaults = async () => {
       const data = await getVaults();
-      console.log('@data', data);
       setVaults(data);
     };
 
