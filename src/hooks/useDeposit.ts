@@ -34,6 +34,7 @@ const useDeposit = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => {
     isDepositing: isPending || isConfirming,
     isConfirmedDeposit: isConfirmed,
     isDepositError: isDepositError || isTxError,
+    depositError: error,
     depositTransactionHash: transactionHash,
     deposit: handleDeposit,
   };

@@ -7,6 +7,7 @@ declare global {
       NEXT_PUBLIC_USDC_ADDRESS: `0x${string}`;
       NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS: `0x${string}`;
       NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS: `0x${string}`;
+      NEXT_PUBLIC_WHITELIST_WALLETS: string;
     }
   }
 }

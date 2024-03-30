@@ -24,6 +24,8 @@ import { SpinnerIcon, WarningIcon } from '../../shared/icons';
 const VaultDeposit = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
+  const account = useAccount();
+
   const [inputValue, setInputValue] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState<SupportedCurrency>(
     SupportedCurrency.Usdc,
@@ -40,8 +42,14 @@ const VaultDeposit = () => {
   );
   const { allowance, balance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove(vaultAddress);
-  const { isDepositing, isConfirmedDeposit, isDepositError, depositTransactionHash, deposit } =
-    useDeposit(vaultAbi, vaultAddress);
+  const {
+    isDepositing,
+    isConfirmedDeposit,
+    isDepositError,
+    depositError,
+    depositTransactionHash,
+    deposit,
+  } = useDeposit(vaultAbi, vaultAddress);
 
   useEffect(() => {
     if (isConfirmedDeposit) {
@@ -54,6 +62,7 @@ const VaultDeposit = () => {
   useEffect(() => {
     if (isApproveError || isDepositError) {
       onOpenDialog('error');
+      console.error(depositError);
     }
   }, [isApproveError, isDepositError]);
 
@@ -94,8 +103,11 @@ const VaultDeposit = () => {
   };
 
   const isConnectedWallet = status === 'connected';
+  const isWalletAllowed =
+    account.address &&
+    process.env.NEXT_PUBLIC_WHITELIST_WALLETS.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
-  const disabledButton = !isConnectedWallet || !inputValue || isButtonLoading;
+  const disabledButton = !isWalletAllowed || !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
 
   return (
