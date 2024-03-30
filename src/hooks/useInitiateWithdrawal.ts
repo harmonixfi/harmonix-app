@@ -7,6 +7,7 @@ const useInitiateWithdrawal = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => 
     isPending,
     data: hash,
     isError: isInitiateWithdrawalError,
+    error,
     writeContract,
   } = useWriteContract();
 
@@ -33,6 +34,7 @@ const useInitiateWithdrawal = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => 
     isInitiatingWithdrawal: isPending || isConfirming,
     isConfirmedInitiateWithdrawal: isConfirmed,
     isInitiateWithdrawalError: isInitiateWithdrawalError || isTxError,
+    initiateWithdrawalError: error,
     initiateWithdrawalTransactionHash: transactionHash,
     initiateWithdrawal: handleInitiateWithdrawal,
   };

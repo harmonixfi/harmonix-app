@@ -34,6 +34,7 @@ const useCompleteWithdrawal = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => 
     isCompletingWithdrawal: isPending || isConfirming,
     isConfirmedCompleteWithdrawal: isConfirmed,
     isCompleteWithdrawalError: isCompleteWithdrawalError || isTxError,
+    completeWithdrawalError: error,
     completeWithdrawalTransactionHash: transactionHash,
     completeWithdrawal: handleCompleteWithdrawal,
   };
