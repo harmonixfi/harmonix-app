@@ -37,7 +37,7 @@ const PositionCard = () => {
           <p className="text-white font-extralight">Gross Profit/Loss</p>
           <p
             className={`text-right ${
-              toFixedNumber(netYield) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(netYield)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
           >{`${formatPnl(toFixedNumber(netYield))} USDC (${toFixedNumber(pnl * 100)}%)`}</p>
         </div>
