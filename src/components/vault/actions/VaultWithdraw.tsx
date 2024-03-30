@@ -33,18 +33,20 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
-  const { status } = useAccount();
+  const { status, address } = useAccount();
 
   const {
     isInitiatingWithdrawal,
     isConfirmedInitiateWithdrawal,
     isInitiateWithdrawalError,
+    initiateWithdrawalError,
     initiateWithdrawal,
   } = useInitiateWithdrawal(vaultAbi, vaultAddress);
   const {
     isCompletingWithdrawal,
     isConfirmedCompleteWithdrawal,
     isCompleteWithdrawalError,
+    completeWithdrawalError,
     completeWithdrawalTransactionHash,
     completeWithdrawal,
   } = useCompleteWithdrawal(vaultAbi, vaultAddress);
@@ -95,25 +97,18 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   useEffect(() => {
     if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
       onOpenDialog('error');
+      console.error(initiateWithdrawalError || completeWithdrawalError);
     }
   }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
 
   const handleInitiateWithdraw = async () => {
-    try {
-      const amount = ethers.utils.parseUnits(inputValue, 6);
-      await initiateWithdrawal(amount);
-    } catch {
-      onOpenDialog('error');
-    }
+    const amount = ethers.utils.parseUnits(inputValue, 6);
+    await initiateWithdrawal(amount);
   };
 
   const handleCompleteWithdraw = async () => {
-    try {
-      const amount = ethers.utils.parseUnits(inputValue, 6);
-      await completeWithdrawal(amount);
-    } catch {
-      onOpenDialog('error');
-    }
+    const amount = ethers.utils.parseUnits(inputValue, 6);
+    await completeWithdrawal(amount);
   };
 
   const handleWithdraw = async () => {
@@ -135,10 +130,12 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   const isConnectedWallet = status === 'connected';
+  const isWalletAllowed =
+    address && process.env.NEXT_PUBLIC_WHITELIST_WALLETS.split(',').includes(address);
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
-  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
+  const disabledButton = !isWalletAllowed || !isConnectedWallet || isWithdrawing || !inputValue;
 
   return (
     <div>
