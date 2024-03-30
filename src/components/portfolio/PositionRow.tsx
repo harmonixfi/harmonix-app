@@ -56,18 +56,22 @@ const PositionRow = (props: PositionRowProps) => {
         <p>{toFixedNumber(total_balance)} USDC</p>
         <p>{toFixedNumber(init_deposit)} USDC</p>
         <p
-          className={`text-center ${toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'}`}
+          className={`text-center ${
+            Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
+          }`}
         >
           {formatPnl(toFixedNumber(pnl))} USDC
         </p>
         <p
-          className={`text-center ${toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'}`}
+          className={`text-center ${
+            Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
+          }`}
         >
           {formatPnl(toFixedNumber((pnl / init_deposit) * 100), true)}
         </p>
         <p
           className={`text-center ${
-            toFixedNumber(monthly_apy) >= 0 ? 'text-rock-green' : 'text-red-600'
+            Number(toFixedNumber(monthly_apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
           }`}
         >{`${withCommas(toFixedNumber(monthly_apy))}%`}</p>
 
@@ -93,7 +97,7 @@ const PositionRow = (props: PositionRowProps) => {
               </p>
               <p>Current Price Per Share:</p>
               <p className="3xl:col-span-2">
-                {pricePerShare ? `1 roUSD = ${toFixedNumber(pricePerShare)} USDC` : NA_STRING}
+                {pricePerShare ? `1 roUSD = ${toFixedNumber(pricePerShare, 4)} USDC` : NA_STRING}
               </p>
               <p>Total Locked Value:</p>
               <p className="3xl:col-span-2">
@@ -120,7 +124,7 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">PnL</p>
           <p
             className={`text-sm font-semibold ${
-              toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
           >
             {formatPnl(toFixedNumber(pnl))} USDC
@@ -128,7 +132,7 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">PnL %</p>
           <p
             className={`text-sm font-semibold ${
-              toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
           >
             {formatPnl(toFixedNumber((pnl / init_deposit) * 100), true)}
@@ -136,7 +140,7 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">APY</p>
           <p
             className={`text-sm font-semibold ${
-              toFixedNumber(monthly_apy) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(monthly_apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
           >{`${withCommas(toFixedNumber(monthly_apy))}%`}</p>
         </div>
@@ -173,7 +177,7 @@ const PositionRow = (props: PositionRowProps) => {
           <div>
             <p className="text-sm text-rock-sub-body font-normal">Current Price Per Share:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
-              {pricePerShare ? `1 roUSD = ${toFixedNumber(pricePerShare)} USDC` : NA_STRING}
+              {pricePerShare ? `1 roUSD = ${toFixedNumber(pricePerShare, 4)} USDC` : NA_STRING}
             </p>
           </div>
 

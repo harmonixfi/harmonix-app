@@ -109,6 +109,9 @@ const VaultDeposit = () => {
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton = !isWalletAllowed || !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
+  const walletBalance = balance
+    ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
+    : 0;
 
   return (
     <div>
@@ -123,7 +126,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? toFixedNumber(Number(balance.formatted)) : '0'} USDC
+            Wallet Balance: {balance ? toFixedNumber(walletBalance) : '0'} USDC
           </p>
           <button
             type="button"
@@ -151,7 +154,8 @@ const VaultDeposit = () => {
       {pricePerShare > 0 && (
         <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
           pricePerShare,
-        )} ${selectedCurrency.toUpperCase()}`}</p>
+          4,
+        ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
       )}
 
       <div className="flex items-center justify-between mt-8 text-rock-gray">

@@ -58,7 +58,7 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
           </p>
           <p
             className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
-              toFixedNumber(pnl) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
           >
             {formatPnl(toFixedNumber(pnl), true)}

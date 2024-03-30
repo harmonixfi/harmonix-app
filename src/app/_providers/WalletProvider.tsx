@@ -20,11 +20,7 @@ const config = getDefaultConfig({
   wallets: [
     { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
   ],
-  chains: [
-    arbitrum,
-    sepolia,
-    // ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
-  ],
+  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [sepolia],
   ssr: true,
 });
 
@@ -34,7 +30,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider initialChain={arbitrum} theme={darkTheme()} modalSize="compact">
+        <RainbowKitProvider
+          initialChain={process.env.NEXT_PUBLIC_APP_ENV === 'production' ? arbitrum : sepolia}
+          theme={darkTheme()}
+          modalSize="compact"
+        >
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>
