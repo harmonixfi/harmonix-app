@@ -22,7 +22,7 @@ const DeltaNeutralSafetyAssurance = () => {
             <tr>
               <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
                 <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>ETH</span>
+                <span>wstETH</span>
               </td>
               <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">50%</td>
             </tr>
@@ -45,32 +45,6 @@ const DeltaNeutralSafetyAssurance = () => {
         </p>
         <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
           <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
-            <StatIcon className="-translate-y-0.5" />
-            <p>Market Risk</p>
-          </div>
-          <Typography variant="subbody">
-            Due to the vault&apos;s strategy of buying and holding ETH (at a ratio of 60%), the
-            performance of the vault will be correlated with the price of ETH. However, the risk
-            during downtrends is reduced because only 60% of the assets are held in ETH.
-          </Typography>
-        </div>
-
-        <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
-            <ChartPinIcon className="-translate-y-0.5" />
-            <p className="text-rock-sub-body">Conversion Risk</p>
-          </div>
-          <Typography variant="subbody">
-            Trading covered options involves converting assets when the ETH price hits the strike
-            price. This entails selling ETH for USDC to take profit and cover losses from options.
-            Profits from these covered options typically range from 10% to 15%. However, selling ETH
-            to take profit and then buying back when the market declines increases the quantity of
-            ETH held when the market is sideways.
-          </Typography>
-        </div>
-
-        <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
             <OrderIcon className="-translate-y-0.5" />
             <p className="text-rock-sub-body">Smart Contract Risk</p>
           </div>
@@ -86,21 +60,6 @@ const DeltaNeutralSafetyAssurance = () => {
           <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 -translate-y-0.5" />
           Rock Onyx&apos;s Solution
         </p>
-        <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
-            <WaterfallIcon className="-translate-y-0.5" />
-            <p className="text-rock-sub-body">For Market and Conversion Risks</p>
-          </div>
-          <Typography variant="subbody">
-            In the initial phase, the vault&apos;s performance will be lower than simply buying and
-            holding ETH. The vault offers a risk-reduction mechanism by holding only 60% ETH and
-            generating profits through LP farming and options trading. Therefore, shortly after
-            depositing funds, the performance will significantly lag behind the buy and hold
-            strategy for ETH. However, in the long term, as profits from LP farming and options are
-            reinvested through compounding, the vault&apos;s performance will closely track ETH
-            performance, but with consistently lower drawdowns compared to the market.
-          </Typography>
-        </div>
         <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
           <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
             <OrderIcon className="-translate-y-0.5" />

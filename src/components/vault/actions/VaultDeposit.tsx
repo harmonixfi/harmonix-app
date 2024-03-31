@@ -158,7 +158,7 @@ const VaultDeposit = () => {
         ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
       )}
 
-      <div className="flex items-center justify-between mt-8 text-rock-gray">
+      <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-white">{`${toFixedNumber(

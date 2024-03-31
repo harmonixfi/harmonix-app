@@ -1,6 +1,6 @@
 import Typography from '@/components/shared/Typography';
 
-const VaultWithdrawal = () => {
+const StableCoinWithdrawal = () => {
   return (
     <div className="flex flex-col gap-6">
       <Typography variant="subtitle">Withdrawals</Typography>
@@ -19,4 +19,4 @@ const VaultWithdrawal = () => {
   );
 };
 
-export default VaultWithdrawal;
+export default StableCoinWithdrawal;
