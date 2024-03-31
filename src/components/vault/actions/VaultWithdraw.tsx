@@ -23,9 +23,13 @@ const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_V
 
 type VaultWithdrawProps = {
   apr: number;
+  withdrawalTime: string;
+  withdrawalStep2: string;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
+  const { withdrawalTime, withdrawalStep2 } = props;
+
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const [inputValue, setInputValue] = useState('');
@@ -160,17 +164,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
                       weekly options strategy, you need to follow a 2-step process:
                     </p>
                     <p>Step 1: You need to initiate the withdrawal request.</p>
-                    <p>
-                      Step 2: You can claim your withdrawal every Friday at 8am UTC after our
-                      options positions have expired.
-                    </p>
+                    <p>{`Step 2: ${withdrawalStep2}`}`</p>
                   </div>
                 }
               >
                 <QuestionIcon />
               </Tooltip>
             </div>
-            <p>8am UTC Friday</p>
+            <p>{withdrawalTime}</p>
           </div>
         </div>
       </div>

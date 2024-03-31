@@ -32,7 +32,8 @@ export default async function VaultPage({ params }: { params: { slug: string } }
     value: apy[index],
   }));
 
-  const { description, parameter, overview, safetyAssurance } = vaultDetailMapping(name);
+  const { description, parameter, overview, safetyAssurance, withdrawal } =
+    vaultDetailMapping(name);
 
   return (
     <div className="relative z-40 pb-16 sm:pb-40">
@@ -48,6 +49,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
         parameter={parameter}
         overview={overview}
         safetyAssurance={safetyAssurance}
+        withdrawal={withdrawal}
       />
     </div>
   );

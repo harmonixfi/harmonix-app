@@ -7,10 +7,12 @@ import VaultWithdraw from './VaultWithdraw';
 
 type VaultActionCardProps = {
   apr: number;
+  withdrawalTime: string;
+  withdrawalStep2: string;
 };
 
 const VaultActionCard = (props: VaultActionCardProps) => {
-  const { apr } = props;
+  const { apr, withdrawalTime, withdrawalStep2 } = props;
 
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
@@ -42,7 +44,13 @@ const VaultActionCard = (props: VaultActionCardProps) => {
       </ul>
 
       {selectedTab === 'deposit' && <VaultDeposit />}
-      {selectedTab === 'withdraw' && <VaultWithdraw apr={apr} />}
+      {selectedTab === 'withdraw' && (
+        <VaultWithdraw
+          apr={apr}
+          withdrawalTime={withdrawalTime}
+          withdrawalStep2={withdrawalStep2}
+        />
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { MutableRefObject, ReactNode, useRef } from 'react';
 import Typography from '@/components/shared/Typography';
 import { LineChartData } from '@/components/shared/chart/LineChart';
 import { VaultDetailProvider } from '@/contexts/VaultDetailContext';
+import { VaultDetailMapping } from '@/services/vaultMapping';
 
 import VaultActionCard from '../actions/VaultActionCard';
 import PositionCard from '../position/PositionCard';
@@ -12,18 +13,13 @@ import VaultChart from './VaultChart';
 import VaultFeeTransparency from './VaultFeeTransparency';
 import VaultNavigation from './VaultNavigation';
 import VaultSharePost from './VaultSharePost';
-import VaultWithdrawal from './VaultWithdrawal';
 
-type VaultDetailTemplateProps = {
+type VaultDetailTemplateProps = VaultDetailMapping & {
   timeVisible?: boolean;
   name: string;
   apy: number;
   apr: number;
   onyxData: LineChartData[];
-  description: ReactNode;
-  parameter: ReactNode;
-  overview: ReactNode;
-  safetyAssurance: ReactNode;
 };
 
 const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
@@ -37,6 +33,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     parameter,
     overview,
     safetyAssurance,
+    withdrawal,
   } = props;
 
   const parameterRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -57,7 +54,11 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
           </div>
           <div className="flex flex-col gap-16 sm:gap-24">
             <div className="flex flex-col gap-16 lg:hidden">
-              <VaultActionCard apr={apr} />
+              <VaultActionCard
+                apr={apr}
+                withdrawalTime={withdrawal.time}
+                withdrawalStep2={withdrawal.step2}
+              />
               <PositionCard />
             </div>
 
@@ -88,14 +89,16 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             </div>
 
             {/* Withdrawals */}
-            <div ref={withdrawalRef}>
-              <VaultWithdrawal />
-            </div>
+            <div ref={withdrawalRef}>{withdrawal.description}</div>
           </div>
         </div>
 
         <div className="hidden lg:col-span-2 lg:flex flex-col gap-12">
-          <VaultActionCard apr={apr} />
+          <VaultActionCard
+            apr={apr}
+            withdrawalTime={withdrawal.time}
+            withdrawalStep2={withdrawal.step2}
+          />
           <PositionCard />
 
           <div className="flex justify-end sticky top-8">
