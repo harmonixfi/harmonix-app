@@ -81,3 +81,13 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
     },
   };
 };
+
+export const vaultWhitelistWalletsMapping = (vaultAddress?: `0x${string}`) => {
+  if (!vaultAddress) return '';
+
+  if (vaultAddress === rockOnyxDeltaNeutralVaultAddress) {
+    return process.env.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS ?? '';
+  }
+
+  return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
+};
