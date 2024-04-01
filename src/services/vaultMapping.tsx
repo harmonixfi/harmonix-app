@@ -85,9 +85,19 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
 export const vaultWhitelistWalletsMapping = (vaultAddress?: `0x${string}`) => {
   if (!vaultAddress) return '';
 
-  if (vaultAddress === rockOnyxDeltaNeutralVaultAddress) {
+  if (vaultAddress === rockOnyxUsdtVaultAddress) {
     return process.env.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS ?? '';
   }
 
   return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
+};
+
+export const vaultDisableDepositMapping = (vaultAddress?: `0x${string}`) => {
+  if (!vaultAddress) return false;
+
+  if (vaultAddress === rockOnyxUsdtVaultAddress) {
+    return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT === 'true';
+  }
+
+  return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT === 'true';
 };

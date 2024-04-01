@@ -14,7 +14,7 @@ import useDeposit from '@/hooks/useDeposit';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
-import { vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
+import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
@@ -104,10 +104,12 @@ const VaultDeposit = () => {
   };
 
   const isConnectedWallet = status === 'connected';
+  const isDisableDeposit = vaultDisableDepositMapping(vaultAddress);
   const whitelistWallets = vaultWhitelistWalletsMapping(vaultAddress);
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
-  const disabledButton = !isWalletAllowed || !isConnectedWallet || !inputValue || isButtonLoading;
+  const disabledButton =
+    isDisableDeposit || !isWalletAllowed || !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
   const walletBalance = balance
     ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
