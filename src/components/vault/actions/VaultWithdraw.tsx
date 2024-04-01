@@ -12,7 +12,6 @@ import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import { vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber } from '@/utils/number';
 
 import Tooltip from '../../shared/Tooltip';
