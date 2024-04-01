@@ -134,12 +134,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   const isConnectedWallet = status === 'connected';
-  const isWalletAllowed =
-    address && process.env.NEXT_PUBLIC_WHITELIST_WALLETS.split(',').includes(address);
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
-  const disabledButton = !isWalletAllowed || !isConnectedWallet || isWithdrawing || !inputValue;
+  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
 
   return (
     <div>
