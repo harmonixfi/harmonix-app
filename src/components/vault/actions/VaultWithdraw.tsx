@@ -12,6 +12,7 @@ import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import { vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber } from '@/utils/number';
 
 import Tooltip from '../../shared/Tooltip';
@@ -134,8 +135,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   const isConnectedWallet = status === 'connected';
-  const isWalletAllowed =
-    address && process.env.NEXT_PUBLIC_WHITELIST_WALLETS.split(',').includes(address);
+  const whitelistWallets = vaultWhitelistWalletsMapping(vaultAddress);
+  const isWalletAllowed = address && whitelistWallets.split(',').includes(address);
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
