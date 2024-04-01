@@ -109,7 +109,7 @@ const VaultDeposit = () => {
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton =
-    isDisableDeposit || !isWalletAllowed || !isConnectedWallet || !inputValue || isButtonLoading;
+    (isDisableDeposit && !isWalletAllowed) || !isConnectedWallet || !inputValue || isButtonLoading;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
   const walletBalance = balance
     ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
