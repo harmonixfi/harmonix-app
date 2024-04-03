@@ -1,33 +1,21 @@
 'use client';
 
-import { useAccount } from 'wagmi';
-
+import { WalletConnectStatus } from '@/@types/wallet';
 import { formatPnl, toFixedNumber } from '@/utils/number';
 
 import Typography from '../shared/Typography';
 
 type PortfolioOverviewProps = {
-  loading: boolean;
+  status: WalletConnectStatus;
   error: boolean;
   totalBalance?: number;
   pnl?: number;
 };
 
 const PortfolioOverview = (props: PortfolioOverviewProps) => {
-  const { loading, error, totalBalance = 0, pnl = 0 } = props;
+  const { status, error, totalBalance = 0, pnl = 0 } = props;
 
-  const { status } = useAccount();
-
-  if (status === 'connecting' || loading) {
-    return (
-      <div>
-        <Typography variant="subheading">Portfolio Overview</Typography>
-        <div className="sm:w-[360px] xl:w-[400px] h-40 bg-white bg-opacity-10 border border-rock-divider rounded-2xl mt-4 lg:mt-8 animate-pulse" />
-      </div>
-    );
-  }
-
-  if (status !== 'connected') {
+  if (status === 'disconnected') {
     return (
       <p className="text-rock-sub-body text-base md:text-xl text-center">
         Connect your wallet to view your portfolio

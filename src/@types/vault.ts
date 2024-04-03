@@ -30,8 +30,7 @@ export type Position = {
   pending_withdrawal: number;
   current_round: number;
   next_close_round_date: string;
-  monthly_apy: number;
-  weekly_apy: number;
+  apy: number;
 };
 
 export type Portfolio = {

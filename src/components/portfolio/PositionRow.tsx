@@ -28,7 +28,7 @@ const PositionRow = (props: PositionRowProps) => {
     init_deposit,
     pnl,
     pending_withdrawal,
-    monthly_apy,
+    apy,
     current_round,
     next_close_round_date,
     trade_start_date,
@@ -71,9 +71,9 @@ const PositionRow = (props: PositionRowProps) => {
         </p>
         <p
           className={`text-center ${
-            Number(toFixedNumber(monthly_apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
+            Number(toFixedNumber(apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
           }`}
-        >{`${withCommas(toFixedNumber(monthly_apy))}%`}</p>
+        >{`${withCommas(toFixedNumber(apy))}%`}</p>
 
         <div className="col-span-7">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-bg rounded-lg px-6 py-4 mt-6 text-rock-sub-body text-xs 2xl:text-sm font-normal">
@@ -140,9 +140,9 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">APY</p>
           <p
             className={`text-sm font-semibold ${
-              Number(toFixedNumber(monthly_apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
+              Number(toFixedNumber(apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
-          >{`${withCommas(toFixedNumber(monthly_apy))}%`}</p>
+          >{`${withCommas(toFixedNumber(apy))}%`}</p>
         </div>
 
         <div className="flex flex-col gap-4 bg-rock-bg rounded-lg p-4 mt-4">
