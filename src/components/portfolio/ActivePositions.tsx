@@ -1,21 +1,19 @@
 'use client';
 
-import { useAccount } from 'wagmi';
-
 import { Position } from '@/@types/vault';
+import { WalletConnectStatus } from '@/@types/wallet';
 
 import PositionRow from './PositionRow';
 
 type ActivePositionsProps = {
+  status: WalletConnectStatus;
   loading: boolean;
   error: boolean;
   positions?: Position[];
 };
 
 const ActivePositions = (props: ActivePositionsProps) => {
-  const { loading, error, positions = [] } = props;
-
-  const { status } = useAccount();
+  const { status, loading, error, positions = [] } = props;
 
   if (status !== 'connected' || loading || error) {
     return null;

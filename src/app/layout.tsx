@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import '@rainbow-me/rainbowkit/styles.css';
 import { Inter, Sora } from 'next/font/google';
 
+import GoogleAnalytics from '@/components/scripts/GoogleAnalytics';
 import Footer from '@/components/shared/Footer';
 
 import Providers from './_providers/Providers';
@@ -40,6 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </main>
           </Suspense>
         </Providers>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        )}
       </body>
     </html>
   );

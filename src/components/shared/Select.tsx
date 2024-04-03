@@ -40,7 +40,7 @@ const Select = (props: SelectProps) => {
   return (
     <Listbox value={selected.value} onChange={handleChange}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative flex items-center justify-center gap-2 w-full cursor-pointer rounded-full bg-white bg-opacity-10 px-3 lg:px-5 py-1 sm:py-2 lg:py-3 shadow-md hover:bg-opacity-5">
+        <Listbox.Button className="relative flex items-center justify-center gap-2 w-full cursor-pointer rounded-full bg-white bg-opacity-10 px-3 lg:px-5 py-2 sm:py-2.5 lg:py-3 shadow-md hover:bg-opacity-5">
           <span className="block truncate text-sm sm:text-base">
             {selected?.label || placeholder}
           </span>
