@@ -29,9 +29,9 @@ const PositionRow = (props: PositionRowProps) => {
     pnl,
     pending_withdrawal,
     apy,
-    current_round,
     next_close_round_date,
     trade_start_date,
+    entry_price,
   } = position;
 
   const { vaultAbi, vaultAddress } = useMemo(() => {
@@ -82,18 +82,26 @@ const PositionRow = (props: PositionRowProps) => {
               <p className="3xl:col-span-2">
                 {trade_start_date ? format(trade_start_date, 'MMM dd, yyyy') : NA_STRING}
               </p>
-              <p>Current Round No.:</p>
-              <p className="3xl:col-span-2">{current_round ? `#${current_round}` : NA_STRING}</p>
               <p>Next Close Round Date:</p>
               <p className="3xl:col-span-2">
                 {next_close_round_date ? format(next_close_round_date, 'MMM dd, yyyy') : NA_STRING}
               </p>
-            </div>
-
-            <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2 mt-2 md:mt-0">
               <p>Pending Withdrawal:</p>
               <p className="3xl:col-span-2">
                 {pending_withdrawal > 0 ? `${toFixedNumber(pending_withdrawal)} roUSD` : NA_STRING}
+              </p>
+            </div>
+
+            <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2 mt-2 md:mt-0">
+              <p>Entry Price:</p>
+              <p className="3xl:col-span-2">
+                {entry_price
+                  ? entry_price.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                      maximumFractionDigits: 4,
+                    })
+                  : NA_STRING}
               </p>
               <p>Current Price Per Share:</p>
               <p className="3xl:col-span-2">
@@ -154,13 +162,6 @@ const PositionRow = (props: PositionRowProps) => {
           </div>
 
           <div>
-            <p className="text-sm text-rock-sub-body font-normal">Current Round No.:</p>
-            <p className="text-sm text-rock-sub-body font-semibold mt-1">
-              {current_round ? `#${current_round}` : NA_STRING}
-            </p>
-          </div>
-
-          <div>
             <p className="text-sm text-rock-sub-body font-normal">Next Close Round Date:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
               {next_close_round_date ? format(next_close_round_date, 'MMM dd, yyyy') : NA_STRING}
@@ -171,6 +172,19 @@ const PositionRow = (props: PositionRowProps) => {
             <p className="text-sm text-rock-sub-body font-normal">Pending Withdrawal:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
               {pending_withdrawal > 0 ? `${toFixedNumber(pending_withdrawal)} roUSD` : NA_STRING}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm text-rock-sub-body font-normal">Entry Price:</p>
+            <p className="text-sm text-rock-sub-body font-semibold mt-1">
+              {entry_price
+                ? entry_price.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    maximumFractionDigits: 4,
+                  })
+                : NA_STRING}
             </p>
           </div>
 

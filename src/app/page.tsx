@@ -67,38 +67,8 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full mb-16">
+        <div className="w-full flex justify-center mb-16">
           <VaultFloatButton />
-
-          <ul className="flex justify-around gap-8 backdrop-blur-md w-fit bg-white bg-opacity-10 shadow-sm rounded-full px-8 py-4">
-            <li>
-              <a
-                href={SOCIAL_URLS.Twitter}
-                target="_blank"
-                className="text-white block transition duration-150 ease-in-out hover:scale-125"
-              >
-                <TwitterLineIcon />
-              </a>
-            </li>
-            <li>
-              <a
-                href={SOCIAL_URLS.Telegram}
-                target="_blank"
-                className="text-white block transition duration-150 ease-in-out hover:scale-125"
-              >
-                <TelegramIcon />
-              </a>
-            </li>
-            <li>
-              <a
-                href={SOCIAL_URLS.Github}
-                target="_blank"
-                className="text-white block transition duration-150 ease-in-out hover:scale-125"
-              >
-                <GithubLineIcon />
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
