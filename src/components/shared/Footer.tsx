@@ -7,6 +7,7 @@ import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../public/images/logo.png';
+import { GithubLineIcon, TelegramIcon, TwitterLineIcon } from './icons';
 
 // import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
@@ -40,12 +41,12 @@ const Footer = () => {
                     Blog
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={Urls.Home}>Team</Link>
                 </li>
                 <li>
                   <Link href={Urls.Home}>Audit</Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="flex flex-col items-center sm:items-start">
@@ -75,30 +76,37 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex justify-center md:justify-between mt-12 sm:mt-48">
+      <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 sm:gap-0 mt-12 sm:mt-48">
         <p className="text-sm text-white font-normal">{`© Copyright • Rock Onyx • ${new Date().getFullYear()}`}</p>
-        {/* <ul className="flex gap-6">
+        <ul className="flex gap-3">
           <li>
-            <a href="#">
-              <LinkedinIcon />
+            <a
+              href={SOCIAL_URLS.Twitter}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <TwitterLineIcon />
             </a>
           </li>
           <li>
-            <a href="#">
-              <TwitterIcon />
+            <a
+              href={SOCIAL_URLS.Telegram}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <TelegramIcon />
             </a>
           </li>
           <li>
-            <a href="#">
-              <FacebookIcon />
+            <a
+              href={SOCIAL_URLS.Github}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <GithubLineIcon />
             </a>
           </li>
-          <li>
-            <a href="#">
-              <InstagramIcon />
-            </a>
-          </li>
-        </ul> */}
+        </ul>
       </div>
     </footer>
   );

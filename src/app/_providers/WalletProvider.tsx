@@ -20,7 +20,7 @@ const config = getDefaultConfig({
   wallets: [
     { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
   ],
-  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [sepolia],
+  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [arbitrum, sepolia],
   ssr: true,
 });
 

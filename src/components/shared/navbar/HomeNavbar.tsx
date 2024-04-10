@@ -70,8 +70,8 @@ const HomeNavbar = () => {
                   url: 'https://mirror.xyz/0xa1e8a739166876845B7dEdc177989024bAB0D810',
                   target: '_blank',
                 },
-                { text: 'Team', url: '#' },
-                { text: 'Audit', url: '#' },
+                // { text: 'Team', url: '#' },
+                // { text: 'Audit', url: '#' },
               ]}
             />
           </li>

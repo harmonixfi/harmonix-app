@@ -43,3 +43,6 @@ export { default as ChartPinIcon } from './ChartPin';
 export { default as StatIcon } from './Stat';
 export { default as WaterfallIcon } from './Waterfall';
 export { default as OrderIcon } from './Order';
+export { default as CamelotIcon } from './Camelot';
+export { default as AevoIcon } from './Aevo';
+export { default as LidoIcon } from './Lido';

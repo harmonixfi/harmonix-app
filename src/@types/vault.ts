@@ -31,6 +31,7 @@ export type Position = {
   current_round: number;
   next_close_round_date: string;
   apy: number;
+  entry_price: number;
 };
 
 export type Portfolio = {

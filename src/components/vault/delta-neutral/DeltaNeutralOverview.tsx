@@ -1,6 +1,17 @@
+'use client';
+
+import { ethers } from 'ethers';
+
 import Typography from '@/components/shared/Typography';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { toFixedNumber } from '@/utils/number';
 
 const DeltaNeutralOverview = () => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
+  const { allocatedRatioData } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+
   return (
     <>
       <div className="flex flex-col gap-6">
@@ -15,11 +26,19 @@ const DeltaNeutralOverview = () => {
         <ul className="grid grid-cols-2 gap-6">
           <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
             <p className="text-rock-sub-body font-light">ETH Holding</p>
-            <p className="text-white text-2xl font-semibold">50%</p>
+            <p className="text-white text-2xl font-semibold">{`${
+              Array.isArray(allocatedRatioData) && allocatedRatioData[0]
+                ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[0], 2)))
+                : 0
+            }%`}</p>
           </li>
           <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-xl p-6">
             <p className="text-rock-sub-body font-light">ETH Perp</p>
-            <p className="text-white text-2xl font-semibold">50%</p>
+            <p className="text-white text-2xl font-semibold">{`${
+              Array.isArray(allocatedRatioData) && allocatedRatioData[1]
+                ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[1], 2)))
+                : 0
+            }%`}</p>
           </li>
         </ul>
       </div>
