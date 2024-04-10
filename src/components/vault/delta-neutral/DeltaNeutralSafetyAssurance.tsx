@@ -1,13 +1,18 @@
+'use client';
+
+import { ethers } from 'ethers';
+
 import Typography from '@/components/shared/Typography';
-import {
-  ChartPinIcon,
-  OrderIcon,
-  StatIcon,
-  VaultIcon,
-  WaterfallIcon,
-} from '@/components/shared/icons';
+import { AevoIcon, LidoIcon, OrderIcon } from '@/components/shared/icons';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
+import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { toFixedNumber } from '@/utils/number';
 
 const DeltaNeutralSafetyAssurance = () => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
+  const { allocatedRatioData } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+
   return (
     <div className="flex flex-col gap-16">
       <div className="border border-rock-divider rounded-2xl p-6 sm:p-9">
@@ -20,18 +25,30 @@ const DeltaNeutralSafetyAssurance = () => {
           </thead>
           <tbody className="mt-2">
             <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>wstETH</span>
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+                <LidoIcon className="w-10 h-10 p-1.5 rounded-md pl-3" />
+                <span className="-ml-4 pl-3 -translate-y-0.5 text-rock-sub-body">wstETH</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">50%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+                {`${
+                  Array.isArray(allocatedRatioData) && allocatedRatioData[0]
+                    ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[0], 2)))
+                    : 0
+                }%`}
+              </td>
             </tr>
             <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>USDC, USDT</span>
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+                <AevoIcon className="w-10 h-10 p-1.5 rounded-md" />
+                <span className="text-rock-sub-body">USDC, USDT</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">50%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+                {`${
+                  Array.isArray(allocatedRatioData) && allocatedRatioData[1]
+                    ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[1], 2)))
+                    : 0
+                }%`}
+              </td>
             </tr>
           </tbody>
         </table>

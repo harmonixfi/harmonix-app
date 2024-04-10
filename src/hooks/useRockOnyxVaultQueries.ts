@@ -70,6 +70,12 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     query: { enabled: vaultAddress === rockOnyxDeltaNeutralVaultAddress },
   });
 
+  const { data: allocatedRatioData } = useReadContract({
+    abi: vaultAbi,
+    address: vaultAddress,
+    functionName: 'allocatedRatio',
+  });
+
   const totalValueLocked = totalValueLockedData
     ? Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6))
     : 0;
@@ -126,6 +132,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     availableWithdrawalAmount: availableWithdrawalAmount || deltaNeutralAvailableWithdrawlShares,
     profit: profit || deltaNeutralProfit,
     loss: loss || deltaNeutralLoss,
+    allocatedRatioData,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
