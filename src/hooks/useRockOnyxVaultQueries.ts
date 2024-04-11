@@ -76,6 +76,12 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     functionName: 'allocatedRatio',
   });
 
+  const { data: withdrawPoolAmountData } = useReadContract({
+    abi: vaultAbi,
+    address: vaultAddress,
+    functionName: 'getWithdrawPoolAmount',
+  });
+
   const totalValueLocked = totalValueLockedData
     ? Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6))
     : 0;
@@ -123,6 +129,10 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     ? Number(ethers.utils.formatUnits(availableWithdrawlSharesData as BigNumberish, 6))
     : 0;
 
+  const withdrawPoolAmount = withdrawPoolAmountData
+    ? Number(ethers.utils.formatUnits(withdrawPoolAmountData as BigNumberish, 6))
+    : 0;
+
   return {
     isLoadingTotalValueLocked,
     totalValueLocked,
@@ -134,6 +144,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     profit: profit || deltaNeutralProfit,
     loss: loss || deltaNeutralLoss,
     allocatedRatioData,
+    withdrawPoolAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,

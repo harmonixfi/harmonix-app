@@ -59,12 +59,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     balanceOf,
     pricePerShare,
     availableWithdrawalAmount,
+    withdrawPoolAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
-  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+  const isEnableCompleteWithdraw =
+    availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;
 
   const handleRefetchAvailableWithdrawalAmount = () => {
     if (vaultAddress === rockOnyxUsdtVaultAddress) {
