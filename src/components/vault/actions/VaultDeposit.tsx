@@ -37,10 +37,13 @@ const VaultDeposit = () => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
-  const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries(
-    vaultAbi,
-    vaultAddress,
-  );
+  const {
+    balanceOf,
+    pricePerShare,
+    refetchBalanceOf,
+    refetchDepositAmount,
+    refetchUserVaultState,
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
   const { allowance, balance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove(vaultAddress);
   const {
@@ -57,6 +60,8 @@ const VaultDeposit = () => {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
       refetchBalanceOf();
+      refetchDepositAmount();
+      refetchUserVaultState();
     }
   }, [isConfirmedDeposit]);
 

@@ -27,7 +27,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     functionName: 'pricePerShare',
   });
 
-  const { data: depositAmountData } = useReadContract({
+  const { data: depositAmountData, refetch: refetchDepositAmount } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'getDepositAmount',
@@ -51,7 +51,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     account: account.address,
   });
 
-  const { data: userVaultStateData } = useReadContract({
+  const { data: userVaultStateData, refetch: refetchUserVaultState } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'getUserVaultState',
@@ -65,7 +65,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
   } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
-    functionName: 'getAvailableWithdrawlShares',
+    functionName: 'getUserWithdrawlShares',
     account: account.address,
     query: { enabled: vaultAddress === rockOnyxDeltaNeutralVaultAddress },
   });
@@ -130,12 +130,15 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     pricePerShare,
     depositAmount: depositAmount || deltaNeutralDepositAmount,
     availableWithdrawalAmount: availableWithdrawalAmount || deltaNeutralAvailableWithdrawlShares,
+    deltaNeutralShares,
     profit: profit || deltaNeutralProfit,
     loss: loss || deltaNeutralLoss,
     allocatedRatioData,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
+    refetchDepositAmount,
+    refetchUserVaultState,
   };
 };
 
