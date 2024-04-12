@@ -30,11 +30,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          initialChain={process.env.NEXT_PUBLIC_APP_ENV === 'production' ? arbitrum : sepolia}
-          theme={darkTheme()}
-          modalSize="compact"
-        >
+        <RainbowKitProvider initialChain={arbitrum} theme={darkTheme()} modalSize="compact">
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

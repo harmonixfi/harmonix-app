@@ -33,6 +33,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState('');
 
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
@@ -59,12 +60,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     balanceOf,
     pricePerShare,
     availableWithdrawalAmount,
+    withdrawPoolAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
-  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+  const isEnableCompleteWithdraw =
+    availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;
 
   const handleRefetchAvailableWithdrawalAmount = () => {
     if (vaultAddress === rockOnyxUsdtVaultAddress) {
@@ -75,10 +78,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   useEffect(() => {
-    if (availableWithdrawalAmount > 0) {
+    if (isEnableCompleteWithdraw) {
       setInputValue(String(availableWithdrawalAmount));
     }
-  }, [availableWithdrawalAmount]);
+  }, [isEnableCompleteWithdraw, availableWithdrawalAmount]);
 
   useEffect(() => {
     if (isConfirmedInitiateWithdrawal) {
@@ -126,7 +129,22 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    if (value.match(FLOAT_REGEX)) setInputValue(value);
+    if (value.match(FLOAT_REGEX)) {
+      setInputValue(value);
+      if (isEnableCompleteWithdraw) {
+        if (Number(value) > availableWithdrawalAmount) {
+          setInputError('Insufficient balance');
+        } else {
+          setInputError('');
+        }
+      } else {
+        if (Number(value) > balanceOf) {
+          setInputError('Insufficient balance');
+        } else {
+          setInputError('');
+        }
+      }
+    }
   };
 
   const handleClickWithdrawAll = () => {
@@ -137,7 +155,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
-  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
+  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue || !!inputError;
 
   return (
     <div>
@@ -190,7 +208,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       <div className="relative mt-3 sm:mt-6">
         <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-12 h-12" />
         <input
-          className="w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white focus:ring-2 focus:outline-none"
+          className={`w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white ${
+            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+          } focus:outline-none`}
           type="text"
           placeholder="0.0"
           disabled={!isConnectedWallet || isEnableCompleteWithdraw}
@@ -198,6 +218,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
           onChange={handleChangeInputValue}
         />
       </div>
+      {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
 
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
         {!isEnableCompleteWithdraw && (

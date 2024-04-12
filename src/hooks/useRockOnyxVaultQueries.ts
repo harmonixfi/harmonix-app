@@ -27,7 +27,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     functionName: 'pricePerShare',
   });
 
-  const { data: depositAmountData } = useReadContract({
+  const { data: depositAmountData, refetch: refetchDepositAmount } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'getDepositAmount',
@@ -51,7 +51,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     account: account.address,
   });
 
-  const { data: userVaultStateData } = useReadContract({
+  const { data: userVaultStateData, refetch: refetchUserVaultState } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'getUserVaultState',
@@ -65,7 +65,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
   } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
-    functionName: 'getAvailableWithdrawlShares',
+    functionName: 'getUserWithdrawlShares',
     account: account.address,
     query: { enabled: vaultAddress === rockOnyxDeltaNeutralVaultAddress },
   });
@@ -74,6 +74,12 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'allocatedRatio',
+  });
+
+  const { data: withdrawPoolAmountData } = useReadContract({
+    abi: vaultAbi,
+    address: vaultAddress,
+    functionName: 'getWithdrawPoolAmount',
   });
 
   const totalValueLocked = totalValueLockedData
@@ -123,6 +129,10 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     ? Number(ethers.utils.formatUnits(availableWithdrawlSharesData as BigNumberish, 6))
     : 0;
 
+  const withdrawPoolAmount = withdrawPoolAmountData
+    ? Number(ethers.utils.formatUnits(withdrawPoolAmountData as BigNumberish, 6))
+    : 0;
+
   return {
     isLoadingTotalValueLocked,
     totalValueLocked,
@@ -130,12 +140,16 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     pricePerShare,
     depositAmount: depositAmount || deltaNeutralDepositAmount,
     availableWithdrawalAmount: availableWithdrawalAmount || deltaNeutralAvailableWithdrawlShares,
+    deltaNeutralShares,
     profit: profit || deltaNeutralProfit,
     loss: loss || deltaNeutralLoss,
     allocatedRatioData,
+    withdrawPoolAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
+    refetchDepositAmount,
+    refetchUserVaultState,
   };
 };
 

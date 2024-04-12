@@ -20,7 +20,7 @@ import { toFixedNumber } from '@/utils/number';
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import CurrencySelect from '../../shared/CurrencySelect';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
-import { SpinnerIcon, WarningIcon } from '../../shared/icons';
+import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 const VaultDeposit = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
@@ -28,6 +28,7 @@ const VaultDeposit = () => {
   const account = useAccount();
 
   const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState<SupportedCurrency>(
     SupportedCurrency.Usdc,
   );
@@ -37,10 +38,13 @@ const VaultDeposit = () => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
-  const { balanceOf, pricePerShare, refetchBalanceOf } = useRockOnyxVaultQueries(
-    vaultAbi,
-    vaultAddress,
-  );
+  const {
+    balanceOf,
+    pricePerShare,
+    refetchBalanceOf,
+    refetchDepositAmount,
+    refetchUserVaultState,
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
   const { allowance, balance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove(vaultAddress);
   const {
@@ -57,6 +61,8 @@ const VaultDeposit = () => {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
       refetchBalanceOf();
+      refetchDepositAmount();
+      refetchUserVaultState();
     }
   }, [isConfirmedDeposit]);
 
@@ -75,7 +81,14 @@ const VaultDeposit = () => {
 
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    if (value.match(FLOAT_REGEX)) setInputValue(value);
+    if (value.match(FLOAT_REGEX)) {
+      setInputValue(value);
+      if (Number(value) > walletBalance) {
+        setInputError('Insufficient balance');
+      } else {
+        setInputError('');
+      }
+    }
   };
 
   const handleClickMax = () => {
@@ -109,7 +122,11 @@ const VaultDeposit = () => {
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton =
-    (isDisableDeposit && !isWalletAllowed) || !isConnectedWallet || !inputValue || isButtonLoading;
+    (isDisableDeposit && !isWalletAllowed) ||
+    !isConnectedWallet ||
+    !inputValue ||
+    isButtonLoading ||
+    !!inputError;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
   const walletBalance = balance
     ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
@@ -124,7 +141,12 @@ const VaultDeposit = () => {
         </div>
       )}
 
-      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-6 sm:mt-12">
+      <div className="flex items-center gap-2 text-sm font-normal text-rock-gray rounded-lg bg-rock-bg mt-6 sm:mt-8 mb-6 p-4">
+        <InformationIcon />
+        <span>The minimum deposit amount is $5.</span>
+      </div>
+
+      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
@@ -142,23 +164,28 @@ const VaultDeposit = () => {
 
       <div className="relative mt-6">
         <input
-          className="w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-8 pr-[180px] text-2xl text-white focus:ring-2 focus:outline-none"
+          className={`w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-6 pr-[160px] text-2xl text-white ${
+            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+          } focus:outline-none`}
           type="text"
           placeholder="0.0"
           disabled={!isConnectedWallet}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
-        <div className="absolute top-1 right-2 sm:right-6">
+        <div className="absolute top-1 right-2 sm:right-4">
           <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
         </div>
       </div>
-      {pricePerShare > 0 && (
-        <p className="w-full text-right text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
-          pricePerShare,
-          4,
-        ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
-      )}
+      <div className={`flex items-center ${!!inputError ? 'justify-between' : 'justify-end'}`}>
+        {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
+        {pricePerShare > 0 && (
+          <p className="text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
+            pricePerShare,
+            4,
+          ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
+        )}
+      </div>
 
       <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
         <p>You will receive</p>

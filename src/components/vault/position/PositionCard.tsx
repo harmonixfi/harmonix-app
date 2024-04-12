@@ -8,13 +8,25 @@ import { formatPnl, toFixedNumber } from '@/utils/number';
 const PositionCard = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
-  const { depositAmount, pricePerShare, balanceOf, availableWithdrawalAmount, profit, loss } =
-    useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const {
+    depositAmount,
+    pricePerShare,
+    balanceOf,
+    deltaNeutralShares,
+    availableWithdrawalAmount,
+    profit,
+    loss,
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
   const totalBalance = balanceOf * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
 
-  if (depositAmount === 0) {
+  const isDeltaNeutralVault = vaultAddress === process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+
+  if (
+    (isDeltaNeutralVault && depositAmount === 0 && deltaNeutralShares === 0) ||
+    (!isDeltaNeutralVault && depositAmount === 0)
+  ) {
     return null;
   }
 
