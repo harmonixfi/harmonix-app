@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
@@ -102,11 +103,20 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   }, [isConfirmedCompleteWithdrawal]);
 
   useEffect(() => {
-    if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
+    if (isInitiateWithdrawalError) {
       onOpenDialog('error');
-      console.error(initiateWithdrawalError || completeWithdrawalError);
+      Sentry.captureException(initiateWithdrawalError);
+      console.error(initiateWithdrawalError);
     }
-  }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
+  }, [isInitiateWithdrawalError]);
+
+  useEffect(() => {
+    if (isCompleteWithdrawalError) {
+      onOpenDialog('error');
+      Sentry.captureException(completeWithdrawalError);
+      console.error(completeWithdrawalError);
+    }
+  }, [isCompleteWithdrawalError]);
 
   const handleInitiateWithdraw = async () => {
     const amount = ethers.utils.parseUnits(inputValue, 6);
