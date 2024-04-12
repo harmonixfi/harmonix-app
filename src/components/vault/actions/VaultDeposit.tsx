@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
@@ -46,7 +47,8 @@ const VaultDeposit = () => {
     refetchUserVaultState,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
   const { allowance, balance } = useUsdcQueries(vaultAddress);
-  const { isApproving, isApproveError, isConfirmedApproval, approve } = useApprove(vaultAddress);
+  const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
+    useApprove(vaultAddress);
   const {
     isDepositing,
     isConfirmedDeposit,
@@ -67,11 +69,20 @@ const VaultDeposit = () => {
   }, [isConfirmedDeposit]);
 
   useEffect(() => {
-    if (isApproveError || isDepositError) {
+    if (isApproveError) {
       onOpenDialog('error');
+      Sentry.captureException(approvalError);
+      console.error(approvalError);
+    }
+  }, [isApproveError]);
+
+  useEffect(() => {
+    if (isDepositError) {
+      onOpenDialog('error');
+      Sentry.captureException(depositError);
       console.error(depositError);
     }
-  }, [isApproveError, isDepositError]);
+  }, [isDepositError]);
 
   useEffect(() => {
     if (isConfirmedApproval) {

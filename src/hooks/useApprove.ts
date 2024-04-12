@@ -12,6 +12,7 @@ const useApprove = (vaultAddress?: `0x${string}`) => {
     isError: isTxError,
     isLoading: isConfirming,
     isSuccess: isConfirmed,
+    error: approvalError,
   } = useWaitForTransactionReceipt({
     hash,
   });
@@ -28,6 +29,7 @@ const useApprove = (vaultAddress?: `0x${string}`) => {
     isApproving: isPending || isConfirming,
     isConfirmedApproval: isConfirmed,
     isApproveError: isApprovalError || isTxError,
+    approvalError,
     approve: handleApprove,
   };
 };
