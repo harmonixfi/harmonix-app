@@ -16,3 +16,7 @@ export const formatPnl = (pnl: number | string, isPercent = false) => {
   if (Number(pnl) === 0) return `0${percent}`;
   return `+${pnl}${percent}`;
 };
+
+export const minDigits = (value: number, digits = 2) => {
+  return ('0' + value).slice(-digits);
+};
