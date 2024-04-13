@@ -32,6 +32,8 @@ export type Position = {
   next_close_round_date: string;
   apy: number;
   entry_price: number;
+  slug: string;
+  initiated_withdrawal_at: string;
 };
 
 export type Portfolio = {

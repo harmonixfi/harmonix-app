@@ -1,11 +1,14 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
+import { useParams } from 'next/navigation';
+import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
+import { getUserPortfolio } from '@/api/vault';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useAppConfig from '@/hooks/useAppConfig';
@@ -13,14 +16,15 @@ import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
 import { toFixedNumber } from '@/utils/number';
 
 import Tooltip from '../../shared/Tooltip';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
+import WithdrawCoolDown from './WithdrawCoolDown';
 
 const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
 
 type VaultWithdrawProps = {
   apr: number;
@@ -31,15 +35,24 @@ type VaultWithdrawProps = {
 const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { withdrawalTime, withdrawalStep2 } = props;
 
+  const params = useParams();
+
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
+  const [isCoolingDown, setIsCoolingDown] = useState(false);
 
   const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status, address } = useAccount();
+
+  const {
+    data: portfolio,
+    isLoading: isLoadingPortfolio,
+    mutate: refetchPortfolio,
+  } = useSWR(address, getUserPortfolio);
 
   const {
     isInitiatingWithdrawal,
@@ -86,6 +99,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   useEffect(() => {
     if (isConfirmedInitiateWithdrawal) {
+      refetchPortfolio();
       setInputValue('');
       onOpenDialog('success');
       refetchBalanceOf();
@@ -95,6 +109,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   useEffect(() => {
     if (isConfirmedCompleteWithdrawal) {
+      refetchPortfolio();
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
       refetchBalanceOf();
@@ -165,7 +180,28 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
-  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue || !!inputError;
+  const disabledButton =
+    !isConnectedWallet || isWithdrawing || !inputValue || !!inputError || isCoolingDown;
+
+  const withdrawalTargetDate = useMemo(() => {
+    const position = portfolio?.positions?.find((x) => x.slug === params.slug);
+
+    if (!position || !position.initiated_withdrawal_at) return null;
+
+    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+      /** Options wheel vault: 8am UTC Friday */
+      return getOptionsWheelWithdrawalDate().toISOString();
+    }
+
+    /** Delta neutral vault: after 4 hours from initiated_withdrawal_at */
+    return getDeltaNeutralWithdrawalDate(position.initiated_withdrawal_at).toISOString();
+  }, [vaultAddress, portfolio, params.slug]);
+
+  useEffect(() => {
+    if (withdrawalTargetDate) {
+      setIsCoolingDown(true);
+    }
+  }, [withdrawalTargetDate]);
 
   return (
     <div>
@@ -249,6 +285,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
           )} USDC`}</p>
         </div>
       </div>
+
+      {!isLoadingPortfolio && withdrawalTargetDate && (
+        <WithdrawCoolDown
+          targetDate={withdrawalTargetDate}
+          onCoolDownEnd={() => setIsCoolingDown(false)}
+        />
+      )}
 
       <button
         type="button"
