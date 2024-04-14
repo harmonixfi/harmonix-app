@@ -13,8 +13,8 @@ export const getOptionsWheelWithdrawalDate = () => {
   // Get the current date
   const now = new UTCDate();
 
-  // Set the time to 8 AM UTC
-  const baseTime = setHours(setMinutes(setSeconds(setMilliseconds(now, 0), 0), 0), 8);
+  // Set the time to 8 AM UTC and extra 10 minutes
+  const baseTime = setHours(setMinutes(setSeconds(setMilliseconds(now, 0), 0), 10), 8);
 
   // Find the next Friday
   // Friday is represented as 5 (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
@@ -23,9 +23,9 @@ export const getOptionsWheelWithdrawalDate = () => {
   // If it's currently Friday and before 8 AM, don't add a week
   const nextFridayAt8AMUTC = nextFriday > now ? nextFriday : addWeeks(nextFriday, 1);
 
-  // Ensure the time is still 8 AM UTC
+  // Ensure the time is still 8 AM UTC and extra 10 minutes
   const finalDate = setHours(
-    setMinutes(setSeconds(setMilliseconds(nextFridayAt8AMUTC, 0), 0), 0),
+    setMinutes(setSeconds(setMilliseconds(nextFridayAt8AMUTC, 0), 0), 10),
     8,
   );
 

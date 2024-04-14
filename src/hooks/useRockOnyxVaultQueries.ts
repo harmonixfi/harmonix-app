@@ -83,7 +83,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
   });
 
   const totalValueLocked = totalValueLockedData
-    ? Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6))
+    ? Math.floor(Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6)))
     : 0;
 
   const balanceOf = balanceOfData

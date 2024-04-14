@@ -17,7 +17,7 @@ const PositionCard = () => {
     profit,
     loss,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
-  const totalBalance = balanceOf * pricePerShare;
+  const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
 

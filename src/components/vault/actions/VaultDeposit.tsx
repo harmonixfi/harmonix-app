@@ -46,7 +46,7 @@ const VaultDeposit = () => {
     refetchDepositAmount,
     refetchUserVaultState,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
-  const { allowance, balance } = useUsdcQueries(vaultAddress);
+  const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
   const {
@@ -62,6 +62,7 @@ const VaultDeposit = () => {
     if (isConfirmedDeposit) {
       setInputValue('');
       onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+      refetchBalance();
       refetchBalanceOf();
       refetchDepositAmount();
       refetchUserVaultState();
@@ -86,6 +87,7 @@ const VaultDeposit = () => {
 
   useEffect(() => {
     if (isConfirmedApproval) {
+      refetchAllowance();
       handleDeposit(inputValue);
     }
   }, [isConfirmedApproval]);
