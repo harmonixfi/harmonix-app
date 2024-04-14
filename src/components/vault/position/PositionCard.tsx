@@ -6,7 +6,7 @@ import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatPnl, toFixedNumber } from '@/utils/number';
 
 const PositionCard = () => {
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
 
   const {
     depositAmount,
@@ -16,7 +16,7 @@ const PositionCard = () => {
     availableWithdrawalAmount,
     profit,
     loss,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress, vaultVariant);
   const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;

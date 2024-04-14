@@ -8,10 +8,10 @@ import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
+import { VaultVariant } from '@/@types/enum';
 import { getUserPortfolio } from '@/api/vault';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useAppConfig from '@/hooks/useAppConfig';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
@@ -24,8 +24,6 @@ import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 import WithdrawCoolDown from './WithdrawCoolDown';
 
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-
 type VaultWithdrawProps = {
   apr: number;
   withdrawalTime: string;
@@ -37,13 +35,12 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const params = useParams();
 
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { vaultVariant, vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
   const [isCoolingDown, setIsCoolingDown] = useState(false);
 
-  const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status, address } = useAccount();
@@ -78,13 +75,13 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress, vaultVariant);
 
   const isEnableCompleteWithdraw =
     availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;
 
   const handleRefetchAvailableWithdrawalAmount = () => {
-    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+    if (vaultVariant === VaultVariant.OptionsWheel) {
       refetchAvailableWithdrawalAmount();
     } else {
       refetchDeltaNeutralAvailableWithdrawalShares();
@@ -111,7 +108,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     if (isConfirmedCompleteWithdrawal) {
       refetchPortfolio();
       setInputValue('');
-      onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
+      onOpenDialog('success', completeWithdrawalTransactionHash);
       refetchBalanceOf();
       handleRefetchAvailableWithdrawalAmount();
     }
@@ -188,14 +185,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
     if (!position || !position.initiated_withdrawal_at) return null;
 
-    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+    if (vaultVariant === VaultVariant.OptionsWheel) {
       /** Options wheel vault: 8am UTC Friday */
       return getOptionsWheelWithdrawalDate().toISOString();
     }
 
     /** Delta neutral vault: after 4 hours from initiated_withdrawal_at */
     return getDeltaNeutralWithdrawalDate(position.initiated_withdrawal_at).toISOString();
-  }, [vaultAddress, portfolio, params.slug]);
+  }, [vaultVariant, portfolio, params.slug]);
 
   useEffect(() => {
     if (withdrawalTargetDate) {

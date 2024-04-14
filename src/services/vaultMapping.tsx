@@ -2,9 +2,8 @@ import { ReactNode } from 'react';
 
 import { Abi } from 'viem';
 
-import { Vault } from '@/@types/vault';
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
+import { Address } from '@/@types/common';
+import { VaultVariant } from '@/@types/enum';
 import DeltaNeutralDescription from '@/components/vault/delta-neutral/DeltaNeutralDescription';
 import DeltaNeutralOverview from '@/components/vault/delta-neutral/DeltaNeutralOverview';
 import DeltaNeutralParameter from '@/components/vault/delta-neutral/DeltaNeutralParameter';
@@ -15,14 +14,12 @@ import StableCoinOverview from '@/components/vault/stable-coin/StableCoinOvervie
 import StableCoinParameter from '@/components/vault/stable-coin/StableCoinParameter';
 import StableCoinSafetyAssurance from '@/components/vault/stable-coin/StableCoinSafetyAssurance';
 import StableCoinWithdrawal from '@/components/vault/stable-coin/StableCoinWithdrawal';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+import { ContractMapping } from '@/hooks/useContractMapping';
 
 type VaultCardMapping = {
   color?: 'default' | 'secondary';
   vaultAbi: Abi;
-  vaultAddress: `0x${string}`;
+  vaultAddress: Address;
 };
 
 export type VaultDetailMapping = {
@@ -37,19 +34,19 @@ export type VaultDetailMapping = {
   };
 };
 
-export const vaultCardMapping = (vault: Vault): VaultCardMapping => {
-  if (vault.name.toLowerCase().includes('option')) {
+export const vaultCardMapping = (name: string, contracts: ContractMapping): VaultCardMapping => {
+  if (name.toLowerCase().includes('option')) {
     return {
       color: 'default',
-      vaultAbi: rockOnyxUsdtVaultAbi as Abi,
-      vaultAddress: rockOnyxUsdtVaultAddress,
+      vaultAbi: contracts.optionsWheelVaultAbi,
+      vaultAddress: contracts.optionsWheelVaultAddress,
     };
   }
 
   return {
     color: 'secondary',
-    vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
-    vaultAddress: rockOnyxDeltaNeutralVaultAddress,
+    vaultAbi: contracts.deltaNeutralVaultAbi,
+    vaultAddress: contracts.deltaNeutralVaultAddress,
   };
 };
 
@@ -82,20 +79,20 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
   };
 };
 
-export const vaultWhitelistWalletsMapping = (vaultAddress?: `0x${string}`) => {
-  if (!vaultAddress) return '';
+export const vaultWhitelistWalletsMapping = (vaultVariant?: VaultVariant) => {
+  if (!vaultVariant) return '';
 
-  if (vaultAddress === rockOnyxUsdtVaultAddress) {
+  if (vaultVariant === VaultVariant.OptionsWheel) {
     return process.env.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS ?? '';
   }
 
   return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
 };
 
-export const vaultDisableDepositMapping = (vaultAddress?: `0x${string}`) => {
-  if (!vaultAddress) return false;
+export const vaultDisableDepositMapping = (vaultVariant?: VaultVariant) => {
+  if (!vaultVariant) return false;
 
-  if (vaultAddress === rockOnyxUsdtVaultAddress) {
+  if (vaultVariant === VaultVariant.OptionsWheel) {
     return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT === 'true';
   }
 
