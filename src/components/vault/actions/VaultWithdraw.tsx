@@ -92,10 +92,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   useEffect(() => {
-    if (isEnableCompleteWithdraw) {
+    if (isCoolingDown || isEnableCompleteWithdraw) {
       setInputValue(String(availableWithdrawalAmount));
     }
-  }, [isEnableCompleteWithdraw, availableWithdrawalAmount]);
+  }, [isCoolingDown, isEnableCompleteWithdraw, availableWithdrawalAmount]);
 
   useEffect(() => {
     if (isConfirmedInitiateWithdrawal) {
@@ -240,7 +240,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
       <div className="flex items-center justify-between mt-6 sm:mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
-        {!isEnableCompleteWithdraw && (
+        {!isLoadingPortfolio && !isCoolingDown && !isEnableCompleteWithdraw && (
           <button
             type="button"
             className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
@@ -259,7 +259,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
           } focus:outline-none`}
           type="text"
           placeholder="0.0"
-          disabled={!isConnectedWallet || isEnableCompleteWithdraw}
+          disabled={!isConnectedWallet || isCoolingDown || isEnableCompleteWithdraw}
           value={inputValue}
           onChange={handleChangeInputValue}
         />
@@ -267,7 +267,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
 
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
-        {!isEnableCompleteWithdraw && (
+        {(!isCoolingDown || !withdrawalTargetDate) && (
           <>
             <div className="flex items-center justify-between">
               <p>Your available amount</p>
@@ -286,7 +286,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       </div>
 
-      {!isLoadingPortfolio && withdrawalTargetDate && (
+      {isCoolingDown && withdrawalTargetDate && (
         <WithdrawCoolDown
           targetDate={withdrawalTargetDate}
           onCoolDownEnd={() => setIsCoolingDown(false)}
@@ -302,7 +302,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         onClick={handleWithdraw}
       >
         {isWithdrawing && <SpinnerIcon className="w-6 h-6 animate-spin" />}
-        {isEnableCompleteWithdraw ? 'Complete withdrawal' : 'Initiate withdrawal'}
+        {isCoolingDown || isEnableCompleteWithdraw ? 'Complete withdrawal' : 'Initiate withdrawal'}
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
