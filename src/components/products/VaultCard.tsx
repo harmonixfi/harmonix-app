@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Abi } from 'viem';
 
 import { NA_STRING } from '@/constants/common';
+import useContractMapping from '@/hooks/useContractMapping';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 
 import Tooltip from '../shared/Tooltip';
@@ -21,23 +22,15 @@ type VaultCardProps = {
   link?: string;
   apy?: number;
   maxCapacity?: number;
-  color?: 'default' | 'secondary';
   available?: boolean;
-  vaultAbi?: Abi;
-  vaultAddress?: `0x${string}`;
 };
 
 const VaultCard = (props: VaultCardProps) => {
-  const {
-    name,
-    link = '#',
-    apy = 0,
-    maxCapacity,
-    color = 'default',
-    available = true,
-    vaultAbi,
-    vaultAddress,
-  } = props;
+  const { name, link = '#', apy = 0, maxCapacity, available = true } = props;
+
+  const contracts = useContractMapping();
+
+  const { color, vaultAbi, vaultAddress } = vaultCardMapping(name, contracts);
 
   const { isLoadingTotalValueLocked, totalValueLocked } = useRockOnyxVaultQueries(
     vaultAbi,

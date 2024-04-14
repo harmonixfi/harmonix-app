@@ -9,7 +9,6 @@ import { useAccount } from 'wagmi';
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useAppConfig from '@/hooks/useAppConfig';
 import useApprove from '@/hooks/useApprove';
 import useDeposit from '@/hooks/useDeposit';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
@@ -24,7 +23,7 @@ import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 const VaultDeposit = () => {
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
 
   const account = useAccount();
 
@@ -35,7 +34,6 @@ const VaultDeposit = () => {
   );
   const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
-  const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
@@ -61,7 +59,7 @@ const VaultDeposit = () => {
   useEffect(() => {
     if (isConfirmedDeposit) {
       setInputValue('');
-      onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+      onOpenDialog('success', depositTransactionHash);
       refetchBalance();
       refetchBalanceOf();
       refetchDepositAmount();
@@ -130,8 +128,8 @@ const VaultDeposit = () => {
   };
 
   const isConnectedWallet = status === 'connected';
-  const isDisableDeposit = vaultDisableDepositMapping(vaultAddress);
-  const whitelistWallets = vaultWhitelistWalletsMapping(vaultAddress);
+  const isDisableDeposit = vaultDisableDepositMapping(vaultVariant);
+  const whitelistWallets = vaultWhitelistWalletsMapping(vaultVariant);
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton =

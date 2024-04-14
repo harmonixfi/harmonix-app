@@ -3,17 +3,12 @@
 import { useMemo } from 'react';
 
 import { format } from 'date-fns';
-import { Abi } from 'viem';
 
 import { Position } from '@/@types/vault';
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { NA_STRING } from '@/constants/common';
+import useContractMapping from '@/hooks/useContractMapping';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
 
 type PositionRowProps = {
   position: Position;
@@ -34,18 +29,31 @@ const PositionRow = (props: PositionRowProps) => {
     entry_price,
   } = position;
 
+  const {
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+  } = useContractMapping();
+
   const { vaultAbi, vaultAddress } = useMemo(() => {
     if (vault_name.toLowerCase().includes('option')) {
       return {
-        vaultAbi: rockOnyxUsdtVaultAbi as Abi,
-        vaultAddress: rockOnyxUsdtVaultAddress,
+        vaultAbi: optionsWheelVaultAbi,
+        vaultAddress: optionsWheelVaultAddress,
       };
     }
     return {
-      vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
-      vaultAddress: rockOnyxDeltaNeutralVaultAddress,
+      vaultAbi: deltaNeutralVaultAbi,
+      vaultAddress: deltaNeutralVaultAddress,
     };
-  }, [vault_name]);
+  }, [
+    vault_name,
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+  ]);
 
   const { pricePerShare, totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
