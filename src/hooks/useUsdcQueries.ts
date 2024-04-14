@@ -8,9 +8,12 @@ const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
 const useUsdcQueries = (vaultAddress?: `0x${string}`) => {
   const account = useAccount();
 
-  const { data: balanceData } = useBalance({ address: account.address, token: usdcAddress });
+  const { data: balanceData, refetch: refetchBalance } = useBalance({
+    address: account.address,
+    token: usdcAddress,
+  });
 
-  const { data: allowanceData } = useReadContract({
+  const { data: allowanceData, refetch: refetchAllowance } = useReadContract({
     abi: usdcAbi,
     address: usdcAddress,
     functionName: 'allowance',
@@ -24,6 +27,8 @@ const useUsdcQueries = (vaultAddress?: `0x${string}`) => {
   return {
     allowance,
     balance: balanceData,
+    refetchAllowance,
+    refetchBalance,
   };
 };
 
