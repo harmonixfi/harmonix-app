@@ -171,6 +171,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   const handleClickWithdrawAll = () => {
     setInputValue(balanceOf > 0 ? String(balanceOf) : '');
+    setInputError('');
   };
 
   const isConnectedWallet = status === 'connected';

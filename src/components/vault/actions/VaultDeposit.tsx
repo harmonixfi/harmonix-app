@@ -104,6 +104,7 @@ const VaultDeposit = () => {
 
   const handleClickMax = () => {
     setInputValue(balance?.formatted ?? '');
+    setInputError('');
   };
 
   const handleApprove = async (amount: string) => {
