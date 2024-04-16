@@ -11,7 +11,6 @@ import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../../public/images/logo.png';
-// import NetworkSelect from '../NetworkSelect';
 import { CloseIcon, MenuIcon } from '../icons';
 import NavbarMenu from './NavbarMenu';
 
@@ -86,16 +85,20 @@ const HomeNavbar = () => {
             />
           </li>
           <li>
-            <NavbarMenu text="Dashboard" url="#" />
+            <NavbarMenu text="Dashboard" url={Urls.Dashboard} />
           </li>
           <li>
-            <NavbarMenu text="Docs" url="https://rock-onyx.gitbook.io/rock-onyx-docs/" />
+            <NavbarMenu
+              text="Docs"
+              url="https://rock-onyx.gitbook.io/rock-onyx-docs/"
+              target="_blank"
+            />
           </li>
         </ul>
       </div>
 
       <div className="flex col-span-10 md:col-span-3 justify-end z-30">
-        {pathname === '/' ? (
+        {[Urls.Home, Urls.Dashboard].includes(pathname as Urls) ? (
           <Link
             href={Urls.Products}
             className="hidden md:inline-block text-sm font-light text-white bg-transparent border border-rock-primary border-opacity-60 rounded-3xl px-3 lg:px-6 py-2 lg:py-3 text-center hover:bg-rock-primary"
