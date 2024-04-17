@@ -17,7 +17,7 @@ import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
-import { toFixedNumber } from '@/utils/number';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 import Tooltip from '../../shared/Tooltip';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
@@ -296,7 +296,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
             <>
               <div className="flex items-center justify-between">
                 <p>Your available amount</p>
-                <p>{`${toFixedNumber(balanceOf)} roUSD`}</p>
+                <p>{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
               </div>
 
               <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
@@ -305,8 +305,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
-          <p className="text-white">{`${toFixedNumber(
-            (Number(inputValue) || 0) * pricePerShare,
+          <p className="text-white">{`${withCommas(
+            toFixedNumber((Number(inputValue) || 0) * pricePerShare),
           )} USDC`}</p>
         </div>
       </div>

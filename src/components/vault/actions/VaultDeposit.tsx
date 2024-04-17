@@ -15,7 +15,7 @@ import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
-import { toFixedNumber } from '@/utils/number';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import CurrencySelect from '../../shared/CurrencySelect';
@@ -162,7 +162,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? toFixedNumber(walletBalance) : '0'} USDC
+            Wallet Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
           </p>
           <button
             type="button"
@@ -202,8 +202,8 @@ const VaultDeposit = () => {
       <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
-          <p className="text-white">{`${toFixedNumber(
-            pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0,
+          <p className="text-white">{`${withCommas(
+            toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
           )} roUSD`}</p>
         </div>
       </div>
@@ -212,7 +212,7 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p className="text-white">{`${toFixedNumber(balanceOf)} roUSD`}</p>
+        <p className="text-white">{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
       </div>
 
       <button
