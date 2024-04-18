@@ -9,7 +9,6 @@ import {
   ChartPinIcon,
   OrderIcon,
   StatIcon,
-  VaultIcon,
   WaterfallIcon,
 } from '@/components/shared/icons';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';

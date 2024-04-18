@@ -26,4 +26,6 @@ Sentry.init({
       blockAllMedia: true,
     }),
   ],
+
+  enabled: process.env.NEXT_PUBLIC_APP_ENV === 'production',
 });

@@ -2,7 +2,9 @@ import { BigNumberish } from 'ethers';
 import { Abi } from 'viem';
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
-const useCompleteWithdrawal = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => {
+import { Address } from '@/@types/common';
+
+const useCompleteWithdrawal = (vaultAbi?: Abi, vaultAddress?: Address) => {
   const {
     isPending,
     data: hash,

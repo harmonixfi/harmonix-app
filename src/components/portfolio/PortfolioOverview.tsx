@@ -1,7 +1,7 @@
 'use client';
 
 import { WalletConnectStatus } from '@/@types/wallet';
-import { formatPnl, toFixedNumber } from '@/utils/number';
+import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 
 import Typography from '../shared/Typography';
 
@@ -42,7 +42,7 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
         </p>
         <div className="flex items-center gap-6 mt-6 lg:mt-10">
           <p className="text-sm md:text-xl xl:text-2xl font-semibold leading-4">
-            {toFixedNumber(totalBalance)} USDC
+            {withCommas(toFixedNumber(totalBalance))} USDC
           </p>
           <p
             className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${

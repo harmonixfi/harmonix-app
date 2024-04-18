@@ -9,14 +9,13 @@ import { useAccount } from 'wagmi';
 import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useAppConfig from '@/hooks/useAppConfig';
 import useApprove from '@/hooks/useApprove';
 import useDeposit from '@/hooks/useDeposit';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
 import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
-import { toFixedNumber } from '@/utils/number';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import CurrencySelect from '../../shared/CurrencySelect';
@@ -24,7 +23,7 @@ import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 const VaultDeposit = () => {
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
 
   const account = useAccount();
 
@@ -35,7 +34,6 @@ const VaultDeposit = () => {
   );
   const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
-  const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status } = useAccount();
@@ -46,7 +44,7 @@ const VaultDeposit = () => {
     refetchDepositAmount,
     refetchUserVaultState,
   } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
-  const { allowance, balance } = useUsdcQueries(vaultAddress);
+  const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
   const {
@@ -61,7 +59,8 @@ const VaultDeposit = () => {
   useEffect(() => {
     if (isConfirmedDeposit) {
       setInputValue('');
-      onOpenDialog('success', `${transactionBaseUrl}/${depositTransactionHash}`);
+      onOpenDialog('success', depositTransactionHash);
+      refetchBalance();
       refetchBalanceOf();
       refetchDepositAmount();
       refetchUserVaultState();
@@ -86,6 +85,7 @@ const VaultDeposit = () => {
 
   useEffect(() => {
     if (isConfirmedApproval) {
+      refetchAllowance();
       handleDeposit(inputValue);
     }
   }, [isConfirmedApproval]);
@@ -104,6 +104,7 @@ const VaultDeposit = () => {
 
   const handleClickMax = () => {
     setInputValue(balance?.formatted ?? '');
+    setInputError('');
   };
 
   const handleApprove = async (amount: string) => {
@@ -128,8 +129,8 @@ const VaultDeposit = () => {
   };
 
   const isConnectedWallet = status === 'connected';
-  const isDisableDeposit = vaultDisableDepositMapping(vaultAddress);
-  const whitelistWallets = vaultWhitelistWalletsMapping(vaultAddress);
+  const isDisableDeposit = vaultDisableDepositMapping(vaultVariant);
+  const whitelistWallets = vaultWhitelistWalletsMapping(vaultVariant);
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);
   const isButtonLoading = isDepositing || isApproving;
   const disabledButton =
@@ -161,7 +162,7 @@ const VaultDeposit = () => {
         <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? toFixedNumber(walletBalance) : '0'} USDC
+            Wallet Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
           </p>
           <button
             type="button"
@@ -201,8 +202,8 @@ const VaultDeposit = () => {
       <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
         <p>You will receive</p>
         <div className="flex items-center justify-between gap-2">
-          <p className="text-white">{`${toFixedNumber(
-            pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0,
+          <p className="text-white">{`${withCommas(
+            toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
           )} roUSD`}</p>
         </div>
       </div>
@@ -211,7 +212,7 @@ const VaultDeposit = () => {
 
       <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
         <p>Current Deposit</p>
-        <p className="text-white">{`${toFixedNumber(balanceOf)} roUSD`}</p>
+        <p className="text-white">{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
       </div>
 
       <button

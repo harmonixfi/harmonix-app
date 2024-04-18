@@ -1,24 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { Abi } from 'viem';
 
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { Urls } from '@/constants/urls';
+import useContractMapping from '@/hooks/useContractMapping';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
-
 const VaultFloatButton = () => {
+  const {
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+  } = useContractMapping();
+
   const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
-    useRockOnyxVaultQueries(rockOnyxUsdtVaultAbi as Abi, rockOnyxUsdtVaultAddress);
+    useRockOnyxVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
 
   const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
-    useRockOnyxVaultQueries(rockOnyxDeltaNeutralVaultAbi as Abi, rockOnyxDeltaNeutralVaultAddress);
+    useRockOnyxVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
 
   const rockOnyxTvl = optionsWheelTvl + deltaNeutralTvl;
 

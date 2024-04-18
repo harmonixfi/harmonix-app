@@ -26,7 +26,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/70" />
+          <div className="fixed inset-0 bg-black/90" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -46,14 +46,14 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
 
                 <div className="w-full flex justify-end gap-4 mt-8">
                   <button
-                    className="w-fit  uppercase px-20 py-2.5"
+                    className="w-fit text-sm uppercase px-20 py-2.5"
                     type="button"
                     onClick={onCancel}
                   >
                     Cancel
                   </button>
                   <button
-                    className="w-fit bg-rock-primary text-white rounded-full uppercase px-20 py-2.5"
+                    className="w-fit bg-rock-primary text-white text-sm rounded-full uppercase px-20 py-2.5"
                     type="button"
                     onClick={onConfirm}
                   >

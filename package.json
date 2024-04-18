@@ -10,6 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@date-fns/utc": "^1.2.0",
     "@headlessui/react": "^1.7.17",
     "@rainbow-me/rainbowkit": "^2.0.0",
     "@sentry/nextjs": "^7.110.0",

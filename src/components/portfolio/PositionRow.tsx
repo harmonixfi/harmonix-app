@@ -3,17 +3,12 @@
 import { useMemo } from 'react';
 
 import { format } from 'date-fns';
-import { Abi } from 'viem';
 
 import { Position } from '@/@types/vault';
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
 import { NA_STRING } from '@/constants/common';
+import useContractMapping from '@/hooks/useContractMapping';
 import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
 
 type PositionRowProps = {
   position: Position;
@@ -34,18 +29,31 @@ const PositionRow = (props: PositionRowProps) => {
     entry_price,
   } = position;
 
+  const {
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+  } = useContractMapping();
+
   const { vaultAbi, vaultAddress } = useMemo(() => {
     if (vault_name.toLowerCase().includes('option')) {
       return {
-        vaultAbi: rockOnyxUsdtVaultAbi as Abi,
-        vaultAddress: rockOnyxUsdtVaultAddress,
+        vaultAbi: optionsWheelVaultAbi,
+        vaultAddress: optionsWheelVaultAddress,
       };
     }
     return {
-      vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
-      vaultAddress: rockOnyxDeltaNeutralVaultAddress,
+      vaultAbi: deltaNeutralVaultAbi,
+      vaultAddress: deltaNeutralVaultAddress,
     };
-  }, [vault_name]);
+  }, [
+    vault_name,
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+  ]);
 
   const { pricePerShare, totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
 
@@ -53,8 +61,8 @@ const PositionRow = (props: PositionRowProps) => {
     <>
       <div className="hidden sm:grid grid-cols-7 mt-4 p-6 bg-white bg-opacity-10 rounded-2xl text-xs lg:text-sm">
         <p className="col-span-2">{vault_name}</p>
-        <p>{toFixedNumber(total_balance)} USDC</p>
-        <p>{toFixedNumber(init_deposit)} USDC</p>
+        <p>{withCommas(toFixedNumber(total_balance))} USDC</p>
+        <p>{withCommas(toFixedNumber(init_deposit))} USDC</p>
         <p
           className={`text-center ${
             Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
@@ -73,7 +81,7 @@ const PositionRow = (props: PositionRowProps) => {
           className={`text-center ${
             Number(toFixedNumber(apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
           }`}
-        >{`${withCommas(toFixedNumber(apy))}%`}</p>
+        >{`${formatPnl(toFixedNumber(apy), true)}`}</p>
 
         <div className="col-span-7">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-bg rounded-lg px-6 py-4 mt-6 text-rock-sub-body text-xs 2xl:text-sm font-normal">
@@ -88,7 +96,9 @@ const PositionRow = (props: PositionRowProps) => {
               </p>
               <p>Pending Withdrawal:</p>
               <p className="3xl:col-span-2">
-                {pending_withdrawal > 0 ? `${toFixedNumber(pending_withdrawal)} roUSD` : NA_STRING}
+                {pending_withdrawal > 0
+                  ? `${withCommas(toFixedNumber(pending_withdrawal))} roUSD`
+                  : NA_STRING}
               </p>
             </div>
 
@@ -126,9 +136,13 @@ const PositionRow = (props: PositionRowProps) => {
           <p className="text-rock-gray text-sm font-semibold">Vault name</p>
           <p className="text-white text-sm font-semibold">{vault_name}</p>
           <p className="text-rock-gray text-sm font-semibold">Total Balance</p>
-          <p className="text-white text-sm font-semibold">{toFixedNumber(total_balance)} USDC</p>
+          <p className="text-white text-sm font-semibold">
+            {withCommas(toFixedNumber(total_balance))} USDC
+          </p>
           <p className="text-rock-gray text-sm font-semibold">Initial Deposit</p>
-          <p className="text-white text-sm font-semibold">{toFixedNumber(init_deposit)} USDC</p>
+          <p className="text-white text-sm font-semibold">
+            {withCommas(toFixedNumber(init_deposit))} USDC
+          </p>
           <p className="text-rock-gray text-sm font-semibold">PnL</p>
           <p
             className={`text-sm font-semibold ${
@@ -150,7 +164,7 @@ const PositionRow = (props: PositionRowProps) => {
             className={`text-sm font-semibold ${
               Number(toFixedNumber(apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
-          >{`${withCommas(toFixedNumber(apy))}%`}</p>
+          >{`${formatPnl(toFixedNumber(apy), true)}`}</p>
         </div>
 
         <div className="flex flex-col gap-4 bg-rock-bg rounded-lg p-4 mt-4">
@@ -171,7 +185,9 @@ const PositionRow = (props: PositionRowProps) => {
           <div>
             <p className="text-sm text-rock-sub-body font-normal">Pending Withdrawal:</p>
             <p className="text-sm text-rock-sub-body font-semibold mt-1">
-              {pending_withdrawal > 0 ? `${toFixedNumber(pending_withdrawal)} roUSD` : NA_STRING}
+              {pending_withdrawal > 0
+                ? `${withCommas(toFixedNumber(pending_withdrawal))} roUSD`
+                : NA_STRING}
             </p>
           </div>
 

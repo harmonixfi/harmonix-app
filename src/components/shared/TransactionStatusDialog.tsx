@@ -2,6 +2,8 @@ import { Fragment } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
 
+import { useChainContext } from '@/app/_providers/ChainProvider';
+
 import { ErrorIcon, SuccessIcon } from './icons';
 
 type TransactionStatusDialogProps = {
@@ -13,6 +15,8 @@ type TransactionStatusDialogProps = {
 
 const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
   const { isOpen, type, url = '', onClose } = props;
+
+  const { selectedChain } = useChainContext();
 
   const icon =
     type === 'success' ? (
@@ -69,7 +73,7 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                     target="_blank"
                     className="block relative text-sm sm:text-base font-normal underline mt-8 text-center z-30"
                   >
-                    View on Arbitrum Explorer
+                    {`View on ${selectedChain} Explorer`}
                   </a>
                 )}
                 {type === 'success' && (

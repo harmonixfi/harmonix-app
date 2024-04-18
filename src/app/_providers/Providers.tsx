@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 
-// import { VaultProvider } from './VaultProvider';
+import { ChainProvider } from './ChainProvider';
 import { WalletProvider } from './WalletProvider';
 
 type ProviderType = {
@@ -10,7 +10,11 @@ type ProviderType = {
 };
 
 const Providers = ({ children }: ProviderType) => {
-  return <WalletProvider>{children}</WalletProvider>;
+  return (
+    <WalletProvider>
+      <ChainProvider>{children}</ChainProvider>
+    </WalletProvider>
+  );
 };
 
 export default Providers;

@@ -2,10 +2,14 @@ import { BigNumberish, ethers } from 'ethers';
 import { Abi } from 'viem';
 import { useAccount, useReadContract } from 'wagmi';
 
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+import { Address } from '@/@types/common';
+import { VaultVariant } from '@/@types/enum';
 
-const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => {
+const useRockOnyxVaultQueries = (
+  vaultAbi?: Abi,
+  vaultAddress?: Address,
+  vaultVariant?: VaultVariant,
+) => {
   const account = useAccount();
 
   const { data: totalValueLockedData, isLoading: isLoadingTotalValueLocked } = useReadContract({
@@ -32,7 +36,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     address: vaultAddress,
     functionName: 'getDepositAmount',
     account: account.address,
-    query: { enabled: vaultAddress === rockOnyxUsdtVaultAddress },
+    query: { enabled: vaultVariant === VaultVariant.OptionsWheel },
   });
 
   const { data: availableWithdrawalAmountData, refetch: refetchAvailableWithdrawalAmount } =
@@ -41,7 +45,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
       address: vaultAddress,
       functionName: 'getAvailableWithdrawlAmount',
       account: account.address,
-      query: { enabled: vaultAddress === rockOnyxUsdtVaultAddress },
+      query: { enabled: vaultVariant === VaultVariant.OptionsWheel },
     });
 
   const { data: pnlData } = useReadContract({
@@ -56,7 +60,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     address: vaultAddress,
     functionName: 'getUserVaultState',
     account: account.address,
-    query: { enabled: vaultAddress === rockOnyxDeltaNeutralVaultAddress },
+    query: { enabled: vaultVariant === VaultVariant.DeltaNeutral },
   });
 
   const {
@@ -67,7 +71,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
     address: vaultAddress,
     functionName: 'getUserWithdrawlShares',
     account: account.address,
-    query: { enabled: vaultAddress === rockOnyxDeltaNeutralVaultAddress },
+    query: { enabled: vaultVariant === VaultVariant.DeltaNeutral },
   });
 
   const { data: allocatedRatioData } = useReadContract({
@@ -83,7 +87,7 @@ const useRockOnyxVaultQueries = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) =
   });
 
   const totalValueLocked = totalValueLockedData
-    ? Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6))
+    ? Math.floor(Number(ethers.utils.formatUnits(totalValueLockedData as BigNumberish, 6)))
     : 0;
 
   const balanceOf = balanceOfData
