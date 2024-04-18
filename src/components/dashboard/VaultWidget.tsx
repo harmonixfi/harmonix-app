@@ -1,9 +1,10 @@
 'use client';
 
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import Link from 'next/link';
+import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 
+import { Urls } from '@/constants/urls';
 import { toCurrency } from '@/utils/currency';
-import { toCompactNumber } from '@/utils/number';
 
 type VaultWidgetProps = {
   name: string;
@@ -50,10 +51,12 @@ const VaultWidget = (props: VaultWidgetProps) => {
   return (
     <div className="flex flex-col gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl">
       <div className="flex items-center justify-between px-6 py-4 border-b border-rock-divider border-opacity-40">
-        <p className="text-rock-gray uppercase">{name}</p>
-        <button className="rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-2 hover:ring-2 hover:ring-rock-divider">
-          View
-        </button>
+        <p className="uppercase">{name}</p>
+        <Link href={`${Urls.Dashboard}/delta-neutral-vault`}>
+          <button className="rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-2 hover:ring-2 hover:ring-rock-divider">
+            View
+          </button>
+        </Link>
       </div>
       <div className="flex flex-col gap-2 text-sm px-6">
         <div className="flex items-center justify-between">
@@ -78,16 +81,11 @@ const VaultWidget = (props: VaultWidgetProps) => {
         </div>
       </div>
       <ResponsiveContainer className="flex justify-start w-full !h-40">
-        <AreaChart
-          width={500}
-          height={400}
-          data={data}
-          margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-        >
+        <AreaChart data={data} margin={{ top: -24, left: 0, right: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0032FF" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#0032FF" stopOpacity={0} />
+              <stop offset="5%" stopColor="#0032FF" stopOpacity={0.4} />
+              <stop offset="90%" stopColor="#0032FF" stopOpacity={0} />
             </linearGradient>
           </defs>
           <Area type="monotone" dataKey="uv" stroke="#0032FF" fill="url(#colorUv)" />
