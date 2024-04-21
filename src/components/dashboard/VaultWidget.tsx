@@ -6,6 +6,8 @@ import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 import { Urls } from '@/constants/urls';
 import { toCurrency } from '@/utils/currency';
 
+import WidgetCard from './WidgetCard';
+
 type VaultWidgetProps = {
   name: string;
   tvl: number;
@@ -49,7 +51,7 @@ const VaultWidget = (props: VaultWidgetProps) => {
   const { name, tvl, pricePerShare, apy, riskFactor } = props;
 
   return (
-    <div className="flex flex-col gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl">
+    <WidgetCard>
       <div className="flex items-center justify-between px-6 py-4 border-b border-rock-divider border-opacity-40">
         <p className="uppercase">{name}</p>
         <Link href={`${Urls.Dashboard}/delta-neutral-vault`}>
@@ -80,18 +82,20 @@ const VaultWidget = (props: VaultWidgetProps) => {
           </p>
         </div>
       </div>
-      <ResponsiveContainer className="flex justify-start w-full !h-40">
-        <AreaChart data={data} margin={{ top: -24, left: 0, right: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0032FF" stopOpacity={0.4} />
-              <stop offset="90%" stopColor="#0032FF" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <Area type="monotone" dataKey="uv" stroke="#0032FF" fill="url(#colorUv)" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+      <div className="w-full h-32 sm:h-40">
+        <ResponsiveContainer width="100%" height="100%" className="flex justify-start">
+          <AreaChart data={data} margin={{ top: -24, left: 0, right: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#0032FF" stopOpacity={0.4} />
+                <stop offset="90%" stopColor="#0032FF" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <Area type="monotone" dataKey="uv" stroke="#0032FF" fill="url(#colorUv)" />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </WidgetCard>
   );
 };
 

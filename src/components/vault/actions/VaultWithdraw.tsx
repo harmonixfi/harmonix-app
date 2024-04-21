@@ -49,7 +49,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     data: portfolio,
     isLoading: isLoadingPortfolio,
     mutate: refetchPortfolio,
-  } = useSWR(address, getUserPortfolio, { refreshInterval: 2 * 60 * 100 });
+  } = useSWR(address, getUserPortfolio, { refreshInterval: 2 * 60 * 1000 });
 
   const {
     isInitiatingWithdrawal,

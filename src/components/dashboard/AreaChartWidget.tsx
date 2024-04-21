@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 
 import { ColorType, createChart } from 'lightweight-charts';
 
+import WidgetCard from './WidgetCard';
+
 type AreaChartWidgetProps = {
   title: string;
 };
@@ -74,13 +76,13 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl">
-      <div className="flex items-start justify-between mt-4 px-6">
+    <WidgetCard>
+      <div className="flex items-baseline justify-between mt-4 px-4 md:px-6">
         <div>
-          <p className="text-rock-gray uppercase">{title}</p>
-          <p className="text-rock-primary font-semibold">28.49%</p>
+          <p className="text-rock-gray uppercase text-xs md:text-base">{title}</p>
+          <p className="text-rock-primary font-semibold text-xs md:text-base">28.49%</p>
         </div>
-        <ul className="flex items-center gap-4 text-sm">
+        <ul className="flex items-center gap-4 text-xs md:text-sm">
           <li className="text-rock-gray">1W</li>
           <li>1M</li>
           <li className="text-rock-gray">3M</li>
@@ -88,8 +90,8 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
           <li className="text-rock-gray">1Y</li>
         </ul>
       </div>
-      <div ref={chartContainerRef} className="w-full h-[240px]" />
-    </div>
+      <div ref={chartContainerRef} className="w-full h-40 md:h-60" />
+    </WidgetCard>
   );
 };
 

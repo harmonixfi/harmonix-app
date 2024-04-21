@@ -1,3 +1,5 @@
+import WidgetCard from './WidgetCard';
+
 type TextWidgetProps = {
   title: string;
   value: string | number;
@@ -7,10 +9,12 @@ const TextWidget = (props: TextWidgetProps) => {
   const { title, value } = props;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl px-6 py-16">
-      <p className="text-4xl font-semibold">{value}</p>
-      <p className="text-rock-gray uppercase">{title}</p>
-    </div>
+    <WidgetCard>
+      <div className="flex flex-col items-center justify-center gap-4 py-16">
+        <p className="text-3xl 2xl:text-4xl font-semibold">{value}</p>
+        <p className="text-rock-gray uppercase text-xs sm:text-sm lg:text-base">{title}</p>
+      </div>
+    </WidgetCard>
   );
 };
 

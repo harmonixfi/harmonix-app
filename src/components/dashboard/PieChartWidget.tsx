@@ -2,6 +2,8 @@
 
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
+import WidgetCard from './WidgetCard';
+
 type PieChartWidgetProps = {
   title: string;
 };
@@ -56,35 +58,36 @@ const PieChartWidget = (props: PieChartWidgetProps) => {
   const { title } = props;
 
   return (
-    <div className="flex flex-col gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl px-6 py-2">
-      <p className="text-rock-gray uppercase mt-3 ml-2">{title}</p>
-      <ResponsiveContainer width="100%" height={200} className="flex justify-start pb-4">
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            fill="#8884d8"
-            cx="40%"
-            outerRadius="100%"
-            legendType="circle"
-            stroke="none"
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Legend
-            align="right"
-            verticalAlign="top"
-            layout="vertical"
-            iconSize={12}
-            formatter={renderLegendText}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
+    <WidgetCard name={title}>
+      <div className="w-full h-36 sm:h-52">
+        <ResponsiveContainer width="100%" height="100%" className="flex justify-start pb-4">
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              fill="#8884d8"
+              cx="50%"
+              outerRadius="100%"
+              legendType="circle"
+              stroke="none"
+              labelLine={false}
+              label={renderCustomizedLabel}
+            >
+              {data.map((_, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Legend
+              align="right"
+              verticalAlign="top"
+              layout="vertical"
+              iconSize={12}
+              formatter={renderLegendText}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </WidgetCard>
   );
 };
 
