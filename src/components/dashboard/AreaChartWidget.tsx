@@ -28,51 +28,52 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      chart.applyOptions({ width: chartContainerRef.current?.clientWidth });
-    };
+    if (chartContainerRef.current) {
+      const handleResize = () => {
+        chart.applyOptions({ width: chartContainerRef.current?.clientWidth });
+      };
 
-    const chart = createChart(chartContainerRef.current || '', {
-      layout: {
-        background: { type: ColorType.Solid, color: 'transparent' },
-        textColor: '#848E9C',
-        fontSize: 12,
-      },
-      width: chartContainerRef.current?.clientWidth,
-      height: chartContainerRef.current?.clientHeight,
-      grid: {
-        vertLines: {
-          visible: false,
+      const chart = createChart(chartContainerRef.current || '', {
+        layout: {
+          background: { type: ColorType.Solid, color: 'transparent' },
+          textColor: '#848E9C',
+          fontSize: 12,
         },
-        horzLines: {
-          visible: false,
+        width: chartContainerRef.current?.clientWidth,
+        height: chartContainerRef.current?.clientHeight,
+        grid: {
+          vertLines: {
+            visible: false,
+          },
+          horzLines: {
+            visible: false,
+          },
         },
-      },
-      localization: {
-        priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
-      },
-      timeScale: {
-        timeVisible: true,
-      },
-    });
-    chart.timeScale().fitContent();
+        localization: {
+          priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
+        },
+        timeScale: {
+          timeVisible: true,
+        },
+      });
+      chart.timeScale().fitContent();
 
-    chart
-      .addAreaSeries({
-        lineWidth: 1,
-        // color: "#0057FF",
-        priceLineVisible: false,
-        lastValueVisible: false,
-      })
-      .setData(initialData);
+      chart
+        .addAreaSeries({
+          lineWidth: 1,
+          priceLineVisible: false,
+          lastValueVisible: false,
+        })
+        .setData(initialData);
 
-    window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
 
-      chart.remove();
-    };
+        chart.remove();
+      };
+    }
   }, []);
 
   return (
