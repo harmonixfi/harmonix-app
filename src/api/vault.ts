@@ -1,4 +1,11 @@
-import { Portfolio, Vault, VaultPerformance } from '@/@types/vault';
+import {
+  GetVaultOverviewResponse,
+  GetVaultTvlHistoryResponse,
+  Portfolio,
+  Vault,
+  VaultPerformance,
+  VaultStatistic,
+} from '@/@types/vault';
 import apiFetch from '@/utils/api';
 
 export const getVaults = async () => await apiFetch<Vault[]>('/vaults/');
@@ -10,3 +17,12 @@ export const getVaultPerformance = async (id: string) =>
 
 export const getUserPortfolio = async (userAddress: string) =>
   await apiFetch<Portfolio>(`/portfolio/${userAddress}`);
+
+export const getVaultsOverview = async () =>
+  await apiFetch<GetVaultOverviewResponse>('/statistics/');
+
+export const getVaultStatistic = async (id: string) =>
+  await apiFetch<VaultStatistic>(`/statistics/${id}`);
+
+export const getVaultTvlHistory = async (id: string) =>
+  await apiFetch<GetVaultTvlHistoryResponse>(`/statistics/${id}/tvl-history`);
