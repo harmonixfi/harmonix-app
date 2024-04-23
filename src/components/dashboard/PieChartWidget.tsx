@@ -5,14 +5,11 @@ import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import WidgetCard from './WidgetCard';
 
 type PieChartWidgetProps = {
+  loading?: boolean;
   title: string;
+  data: { name: string; value: number }[];
 };
 const COLORS = ['#0E8484', '#A3C7D6'];
-
-const data = [
-  { name: 'Options wheel', value: 400 },
-  { name: 'Delta neutral', value: 300 },
-];
 
 const RADIAN = Math.PI / 180;
 
@@ -55,10 +52,10 @@ const renderLegendText = (value: string, entry: any) => {
 };
 
 const PieChartWidget = (props: PieChartWidgetProps) => {
-  const { title } = props;
+  const { loading, title, data } = props;
 
   return (
-    <WidgetCard name={title}>
+    <WidgetCard loading={loading} name={title}>
       <div className="w-full h-36 sm:h-52">
         <ResponsiveContainer width="100%" height="100%" className="flex justify-start pb-4">
           <PieChart>

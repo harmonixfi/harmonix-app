@@ -8,10 +8,11 @@ type WidgetCardProps = {
 
 const WidgetCard = (props: WidgetCardProps) => {
   const { loading, name, children } = props;
+
   return (
     <div
-      className={`w-full flex flex-col justify-center gap-6 bg-white bg-opacity-5 border border-rock-divider rounded-2xl ${
-        loading ? 'h-52 animate-pulse' : ''
+      className={`w-full flex flex-col justify-center gap-6 bg-white border border-rock-divider rounded-2xl ${
+        loading ? 'h-52 animate-pulse bg-opacity-20' : 'bg-opacity-5'
       }`}
     >
       {!loading && (

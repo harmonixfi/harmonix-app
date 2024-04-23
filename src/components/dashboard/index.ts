@@ -5,3 +5,5 @@ export { default as BalanceWidget } from './BalanceWidget';
 export { default as FeeWidget } from './FeeWidget';
 export { default as StatisticWidget } from './StatisticWidget';
 export { default as AreaChartWidget } from './AreaChartWidget';
+export { default as DashboardsTemplate } from './DashboardsTemplate';
+export { default as VaultDashboardTemplate } from './VaultDashboardTemplate';
