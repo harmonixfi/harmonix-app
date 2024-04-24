@@ -4,17 +4,20 @@ import { useEffect, useRef } from 'react';
 
 import { AreaData, ColorType, Time, createChart } from 'lightweight-charts';
 
+import { toCurrency } from '@/utils/currency';
+
 import WidgetCard from './WidgetCard';
 
 type AreaChartWidgetProps = {
   loading?: boolean;
   title: string;
   latestValue: string;
+  displayPercentage?: boolean;
   data: { time: number; value: number }[];
 };
 
 const AreaChartWidget = (props: AreaChartWidgetProps) => {
-  const { loading, title, latestValue, data } = props;
+  const { loading, title, latestValue, displayPercentage = false, data } = props;
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -41,7 +44,8 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
           },
         },
         localization: {
-          priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
+          priceFormatter: (v: string | number) =>
+            displayPercentage ? `${Math.round(Number(v) * 100) / 100}%` : toCurrency(Number(v)),
         },
         timeScale: {
           timeVisible: true,
@@ -65,7 +69,7 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
         chart.remove();
       };
     }
-  }, [data]);
+  }, [displayPercentage, data]);
 
   return (
     <WidgetCard loading={loading}>
@@ -82,7 +86,7 @@ const AreaChartWidget = (props: AreaChartWidgetProps) => {
           <li className="text-rock-gray">1Y</li>
         </ul> */}
       </div>
-      <div ref={chartContainerRef} className="w-full h-40 md:h-60" />
+      <div ref={chartContainerRef} className="w-full h-40 md:h-64" />
     </WidgetCard>
   );
 };

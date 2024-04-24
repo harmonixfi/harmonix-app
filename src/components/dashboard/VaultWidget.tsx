@@ -73,7 +73,7 @@ const VaultWidget = (props: VaultWidgetProps) => {
       </div>
       <div className="w-full h-32 sm:h-40">
         <ResponsiveContainer width="100%" height="100%" className="flex justify-start">
-          <AreaChart data={chartData} margin={{ top: -24, left: 0, right: 0, bottom: 0 }}>
+          <AreaChart data={chartData} margin={{ top: -8, left: 0, right: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#0032FF" stopOpacity={0.4} />

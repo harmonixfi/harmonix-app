@@ -109,14 +109,13 @@ const VaultDashboardTemplate = () => {
           latestValue={`${withCommas(
             toFixedNumber(performanceChartData[performanceChartData.length - 1]?.value ?? 0),
           )}%`}
+          displayPercentage
           data={performanceChartData}
         />
         <AreaChartWidget
           loading={loadingTvlHistory}
           title="Total value locked"
-          latestValue={toCurrency(
-            performanceChartData[performanceChartData.length - 1]?.value ?? 0,
-          )}
+          latestValue={toCurrency(data?.total_value_locked ?? 0)}
           data={tvlChartData}
         />
       </div>
