@@ -29,9 +29,7 @@ const WithdrawCoolDown = (props: WithdrawCoolDownProps) => {
     <div className="flex flex-col items-center bg-rock-bg rounded-lg mt-4 px-4 sm:px-6 py-6">
       <div className="flex gap-2 text-sm font-normal">
         <InformationIcon className="translate-y-0.5" />
-        <span className="text-rock-gray">
-          Time left until your shares are available to withdraw
-        </span>
+        <span className="text-rock-gray">Time left until your fund are available to withdraw</span>
       </div>
       <div className="w-full flex justify-center gap-6 sm:gap-20 lg:gap-6 2xl:gap-12 mt-4">
         {timer.map((item, index) => (
