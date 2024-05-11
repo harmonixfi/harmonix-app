@@ -194,7 +194,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     isWaitingForWithdrawPool;
 
   const withdrawalTargetDate = useMemo(() => {
-    if (!currentPosition || !currentPosition.initiated_withdrawal_at) return null;
+    if (isEnableCompleteWithdraw || !currentPosition || !currentPosition.initiated_withdrawal_at)
+      return null;
 
     let targetDate = null;
 
@@ -209,13 +210,19 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     if (new Date() > targetDate) return null;
 
     return targetDate.toISOString();
-  }, [vaultAddress, currentPosition]);
+  }, [isEnableCompleteWithdraw, vaultVariant, currentPosition]);
 
   useEffect(() => {
     if (withdrawalTargetDate) {
       setIsCoolingDown(true);
     }
   }, [withdrawalTargetDate]);
+
+  useEffect(() => {
+    if (isEnableCompleteWithdraw && isCoolingDown) {
+      setIsCoolingDown(false);
+    }
+  }, [isEnableCompleteWithdraw, isCoolingDown]);
 
   return (
     <div>
