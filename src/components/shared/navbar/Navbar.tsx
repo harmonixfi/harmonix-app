@@ -55,20 +55,27 @@ const Navbar = () => {
             <CloseIcon className="w-9 h-9" />
           </button>
         )}
-        <ul className="flex flex-col md:flex-row gap-8 md:gap-16 pl-6 md:pl-0">
+        <ul className="flex flex-col md:flex-row gap-8 lg:gap-16 pl-6 md:pl-0">
           <li
-            className={`text-base font-semibold uppercase ${
+            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
               pathname === '/products' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
             <Link href={Urls.Products}>Product</Link>
           </li>
           <li
-            className={`text-base font-semibold uppercase ${
+            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
               pathname === '/portfolio' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
             <Link href={Urls.Portfolio}>Portfolio</Link>
+          </li>
+          <li
+            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
+              pathname.startsWith('/dashboards') ? 'text-white' : 'text-rock-sub-body'
+            }`}
+          >
+            <Link href={Urls.Dashboard}>Dashboard</Link>
           </li>
         </ul>
       </div>

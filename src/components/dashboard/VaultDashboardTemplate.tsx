@@ -59,14 +59,14 @@ const VaultDashboardTemplate = () => {
 
   if (error) {
     return (
-      <div className="w-[90%] sm:w-4/5 md:w-full 3xl:w-[1250px] mx-auto pt-12 pb-24">
+      <div className="w-[90%] sm:w-4/5 md:w-5/6 3xl:w-[1250px] mx-auto pt-12 pb-24">
         <p className="text-red-600 mt-4">Oops, something went wrong! Please try again later.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-[90%] sm:w-4/5 md:w-full 3xl:w-[1250px] flex flex-col items-stretch gap-8 mx-auto pt-12 pb-24">
+    <div className="w-[90%] sm:w-4/5 md:w-5/6 3xl:w-[1250px] flex flex-col items-stretch gap-8 mx-auto pt-12 pb-24">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-0">
         <div className="flex items-center gap-2">
           <Link href={Urls.Dashboard}>

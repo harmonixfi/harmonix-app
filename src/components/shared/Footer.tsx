@@ -70,7 +70,9 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col items-center sm:items-start">
-              <p className="text-rock-sub-body text-base font-semibold uppercase">Dashboard</p>
+              <Link href={Urls.Dashboard} className="text-base font-semibold uppercase">
+                Dashboard
+              </Link>
             </div>
           </div>
         </div>

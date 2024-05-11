@@ -1,10 +1,10 @@
 import { VaultDashboardTemplate } from '@/components/dashboard';
-import HomeNavbar from '@/components/shared/navbar/HomeNavbar';
+import Navbar from '@/components/shared/navbar/Navbar';
 
 export default async function VaultDashboard() {
   return (
-    <div className="max-w-[90%] mx-auto">
-      <HomeNavbar />
+    <div className="mx-auto">
+      <Navbar />
       <VaultDashboardTemplate />
     </div>
   );
