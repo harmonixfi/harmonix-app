@@ -27,6 +27,8 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
     optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
     deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
   } = useContractMapping();
 
   const { vaultVariant, vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
@@ -37,6 +39,15 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
         vaultAddress: optionsWheelVaultAddress,
       };
     }
+
+    if (name.toLowerCase().includes('restaking')) {
+      return {
+        vaultVariant: VaultVariant.OptionsWheel,
+        vaultAbi: deltaNeutralRenzoVaultAbi,
+        vaultAddress: deltaNeutralRenzoVaultAddress,
+      };
+    }
+
     return {
       vaultVariant: VaultVariant.DeltaNeutral,
       vaultAbi: deltaNeutralVaultAbi,

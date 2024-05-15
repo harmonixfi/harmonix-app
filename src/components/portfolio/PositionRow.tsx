@@ -34,6 +34,8 @@ const PositionRow = (props: PositionRowProps) => {
     optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
     deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
   } = useContractMapping();
 
   const { vaultAbi, vaultAddress } = useMemo(() => {
@@ -43,6 +45,14 @@ const PositionRow = (props: PositionRowProps) => {
         vaultAddress: optionsWheelVaultAddress,
       };
     }
+
+    if (vault_name.toLowerCase().includes('restaking')) {
+      return {
+        vaultAbi: deltaNeutralRenzoVaultAbi,
+        vaultAddress: deltaNeutralRenzoVaultAddress,
+      };
+    }
+
     return {
       vaultAbi: deltaNeutralVaultAbi,
       vaultAddress: deltaNeutralVaultAddress,
@@ -53,6 +63,8 @@ const PositionRow = (props: PositionRowProps) => {
     optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
     deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
   ]);
 
   const { pricePerShare, totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
