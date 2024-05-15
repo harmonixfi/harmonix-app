@@ -14,6 +14,8 @@ const VaultFloatButton = () => {
     optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
     deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
   } = useContractMapping();
 
   const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
@@ -22,7 +24,12 @@ const VaultFloatButton = () => {
   const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
     useRockOnyxVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
 
-  const rockOnyxTvl = optionsWheelTvl + deltaNeutralTvl;
+  const {
+    isLoadingTotalValueLocked: isLoadingDeltaNeutralRenzo,
+    totalValueLocked: deltaNeutralRenzoTvl,
+  } = useRockOnyxVaultQueries(deltaNeutralRenzoVaultAbi, deltaNeutralRenzoVaultAddress);
+
+  const rockOnyxTvl = optionsWheelTvl + deltaNeutralTvl + deltaNeutralRenzoTvl;
 
   return (
     <Link
@@ -33,7 +40,7 @@ const VaultFloatButton = () => {
       <CurrencySymbolIcon />
       <div className="pl-2">
         <p className="text-sm font-light text-rock-sub-body">Rock Onyx TVL</p>
-        {isLoadingOptionsWheel || isLoadingDeltaNeutral ? (
+        {isLoadingOptionsWheel || isLoadingDeltaNeutral || isLoadingDeltaNeutralRenzo ? (
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
           <p className="font-bold">
