@@ -43,6 +43,14 @@ export const vaultCardMapping = (name: string, contracts: ContractMapping): Vaul
     };
   }
 
+  if (name.toLowerCase().includes('restaking')) {
+    return {
+      color: 'default',
+      vaultAbi: contracts.deltaNeutralRenzoVaultAbi,
+      vaultAddress: contracts.deltaNeutralRenzoVaultAddress,
+    };
+  }
+
   return {
     color: 'secondary',
     vaultAbi: contracts.deltaNeutralVaultAbi,
