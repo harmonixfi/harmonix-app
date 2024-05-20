@@ -2,6 +2,8 @@
 
 import { ReactNode } from 'react';
 
+import { NextUIProvider } from '@nextui-org/react';
+
 import { ChainProvider } from './ChainProvider';
 import { WalletProvider } from './WalletProvider';
 
@@ -12,7 +14,9 @@ type ProviderType = {
 const Providers = ({ children }: ProviderType) => {
   return (
     <WalletProvider>
-      <ChainProvider>{children}</ChainProvider>
+      <ChainProvider>
+        <NextUIProvider>{children}</NextUIProvider>
+      </ChainProvider>
     </WalletProvider>
   );
 };
