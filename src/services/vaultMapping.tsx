@@ -9,6 +9,11 @@ import DeltaNeutralOverview from '@/components/vault/delta-neutral/DeltaNeutralO
 import DeltaNeutralParameter from '@/components/vault/delta-neutral/DeltaNeutralParameter';
 import DeltaNeutralSafetyAssurance from '@/components/vault/delta-neutral/DeltaNeutralSafetyAssurance';
 import DeltaNeutralWithdrawal from '@/components/vault/delta-neutral/DeltaNeutralWithdrawal';
+import RestakingRenzoDescription from '@/components/vault/restaking-renzo/RestakingRenzoDescription';
+import RestakingRenzoOverview from '@/components/vault/restaking-renzo/RestakingRenzoOverview';
+import RestakingRenzoParameter from '@/components/vault/restaking-renzo/RestakingRenzoParameter';
+import RestakingRenzoSafetyAssurance from '@/components/vault/restaking-renzo/RestakingRenzoSafetyAssurance';
+import RestakingRenzoWithdrawal from '@/components/vault/restaking-renzo/RestakingRenzoWithdrawal';
 import StableCoinDescription from '@/components/vault/stable-coin/StableCoinDescription';
 import StableCoinOverview from '@/components/vault/stable-coin/StableCoinOverview';
 import StableCoinParameter from '@/components/vault/stable-coin/StableCoinParameter';
@@ -70,6 +75,20 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
         time: '8am UTC Friday',
         step2:
           'You can claim your withdrawal every Friday at 8am UTC after our options positions have expired.',
+      },
+    };
+  }
+
+  if (vaultName.toLowerCase().includes('restaking')) {
+    return {
+      description: <RestakingRenzoDescription />,
+      parameter: <RestakingRenzoParameter />,
+      overview: <RestakingRenzoOverview />,
+      safetyAssurance: <RestakingRenzoSafetyAssurance />,
+      withdrawal: {
+        description: <RestakingRenzoWithdrawal />,
+        time: '1 - 4 hours',
+        step2: 'You can claim your withdrawal after 1-4 hours.',
       },
     };
   }
