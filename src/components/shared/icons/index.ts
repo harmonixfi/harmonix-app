@@ -47,3 +47,5 @@ export { default as CamelotIcon } from './Camelot';
 export { default as AevoIcon } from './Aevo';
 export { default as LidoIcon } from './Lido';
 export { default as ChevronLeftIcon } from './ChevronLeft';
+export { default as RenzoIcon } from './Renzo';
+export { default as EigenLayerIcon } from './EigenLayer';
