@@ -75,11 +75,12 @@ export default async function Products() {
         </div>
       </div>
 
-      <div className="relative z-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-6 xl:gap-8 w-[90%] sm:w-3/5 md:w-3/4 lg:w-[90%] xl:w-4/5 2xl:w-3/4 3xl:w-[1650px] mx-auto mt-6 md:mt-16 xl:mt-24 mb-24 md:mb-32 xl:mb-48 px-6 sm:px-0">
+      <div className="relative z-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 w-[90%] sm:w-3/5 md:w-5/6 lg:w-[calc(100%-24px)] xl:w-[90%] 2xl:w-3/4 3xl:w-[1350px] mx-auto mt-6 md:mt-16 xl:mt-24 mb-24 md:mb-32 xl:mb-48 px-6 sm:px-0">
         {vaults.map((vault) => {
           return (
             <VaultCard
               key={vault.id}
+              slug={vault.slug}
               name={vault.name}
               link={`${Urls.Vaults}/${vault.slug}`}
               apy={vault.apy || 0}

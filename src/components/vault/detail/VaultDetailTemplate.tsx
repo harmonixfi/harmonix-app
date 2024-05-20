@@ -8,6 +8,7 @@ import { VaultDetailProvider } from '@/contexts/VaultDetailContext';
 import { VaultDetailMapping } from '@/services/vaultMapping';
 
 import VaultActionCard from '../actions/VaultActionCard';
+import PointCard from '../point/PointCard';
 import PositionCard from '../position/PositionCard';
 import VaultChart from './VaultChart';
 import VaultFeeTransparency from './VaultFeeTransparency';
@@ -16,6 +17,7 @@ import VaultSharePost from './VaultSharePost';
 
 type VaultDetailTemplateProps = VaultDetailMapping & {
   timeVisible?: boolean;
+  slug: string;
   name: string;
   apy: number;
   apr: number;
@@ -25,6 +27,7 @@ type VaultDetailTemplateProps = VaultDetailMapping & {
 const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   const {
     timeVisible,
+    slug,
     name,
     apy,
     apr,
@@ -60,6 +63,12 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
                 withdrawalStep2={withdrawal.step2}
               />
               <PositionCard />
+              {slug.includes('renzo') && (
+                <div className="grid grid-cols-2 gap-6">
+                  <PointCard type="renzo" available={false} point={0} />
+                  <PointCard type="eigenlayer" available={false} point={0} />
+                </div>
+              )}
             </div>
 
             <div className="border-t border-rock-divider">
@@ -100,6 +109,12 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             withdrawalStep2={withdrawal.step2}
           />
           <PositionCard />
+          {slug.includes('renzo') && (
+            <div className="grid grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
+              <PointCard type="renzo" available={false} point={0} />
+              <PointCard type="eigenlayer" available={false} point={0} />
+            </div>
+          )}
 
           <div className="flex justify-end sticky top-8">
             <div className="flex flex-col items-center gap-12">

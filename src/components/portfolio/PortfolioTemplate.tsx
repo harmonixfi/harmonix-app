@@ -11,6 +11,7 @@ import PortfolioOverview from '@/components/portfolio/PortfolioOverview';
 import Navbar from '@/components/shared/navbar/Navbar';
 
 import Loading from '../shared/Loading';
+import PointCard from '../vault/point/PointCard';
 
 const PortfolioTemplate = () => {
   const [mounted, setMounted] = useState(false);
@@ -46,6 +47,15 @@ const PortfolioTemplate = () => {
           totalBalance={data?.total_balance}
           pnl={data?.pnl}
         />
+        <div>
+          <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
+            Your points
+          </p>
+          <div className="flex items-center gap-6">
+            <PointCard type="renzo" available={false} point={0} />
+            <PointCard type="eigenlayer" available={false} point={0} />
+          </div>
+        </div>
         <ActivePositions
           status={status}
           loading={isLoading}
