@@ -2,19 +2,26 @@
 
 import { useMemo } from 'react';
 
-import { EigenLayerIcon, RenzoIcon } from '@/components/shared/icons';
+import { EigenLayerIcon, KelpDaoIcon, RenzoIcon, ZircuitIcon } from '@/components/shared/icons';
 
 type PointCardProps = {
-  type: 'renzo' | 'eigenlayer';
+  type: 'renzo' | 'eigenlayer' | 'zircuit' | 'kelpdao';
   point: number;
-  available?: boolean;
 };
 const PointCard = (props: PointCardProps) => {
-  const { available = true, point, type } = props;
+  const { point, type } = props;
 
   const PartnerIcon = useMemo(() => {
     if (type === 'renzo') {
       return RenzoIcon;
+    }
+
+    if (type === 'zircuit') {
+      return ZircuitIcon;
+    }
+
+    if (type === 'kelpdao') {
+      return KelpDaoIcon;
     }
 
     return EigenLayerIcon;
@@ -25,16 +32,24 @@ const PointCard = (props: PointCardProps) => {
       return 'Renzo';
     }
 
+    if (type === 'zircuit') {
+      return 'Zircuit';
+    }
+
+    if (type === 'kelpdao') {
+      return 'KelpDao';
+    }
+
     return 'EigenLayer';
   }, [type]);
 
   return (
-    <div className="flex flex-col gap-2 bg-white bg-opacity-5 border border-rock-divider rounded-2xl px-6 py-4">
+    <div className="flex flex-col items-center justify-between gap-2 bg-white bg-opacity-5 border border-rock-divider rounded-2xl px-3 xl:px-4 py-2">
+      <p className="text-rock-gray text-sm">{`${name} pts`}</p>
       <div className="flex items-center gap-2">
-        <PartnerIcon className="w-8 h-8" />
-        <p className="text-rock-gray">{`${name} Points`}</p>
+        <PartnerIcon className="w-6 h-6 shrink-0" />
+        <p className="text-white">{point || '--'}</p>
       </div>
-      <p className="text-rock-gray text-sm">{available ? point : 'Coming soon'}</p>
     </div>
   );
 };

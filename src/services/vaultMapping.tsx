@@ -23,8 +23,8 @@ import { ContractMapping } from '@/hooks/useContractMapping';
 
 type VaultCardMapping = {
   color?: 'default' | 'secondary';
-  vaultAbi: Abi;
-  vaultAddress: Address;
+  vaultAbi?: Abi;
+  vaultAddress?: Address;
 };
 
 export type VaultDetailMapping = {
@@ -39,7 +39,10 @@ export type VaultDetailMapping = {
   };
 };
 
-export const vaultCardMapping = (name: string, contracts: ContractMapping): VaultCardMapping => {
+export const vaultCardMapping = (
+  name: string,
+  contracts: Partial<ContractMapping>,
+): VaultCardMapping => {
   if (name.toLowerCase().includes('option')) {
     return {
       color: 'default',
@@ -48,11 +51,19 @@ export const vaultCardMapping = (name: string, contracts: ContractMapping): Vaul
     };
   }
 
-  if (name.toLowerCase().includes('restaking')) {
+  if (name.toLowerCase().includes('renzo')) {
     return {
-      color: 'default',
+      color: 'secondary',
       vaultAbi: contracts.deltaNeutralRenzoVaultAbi,
       vaultAddress: contracts.deltaNeutralRenzoVaultAddress,
+    };
+  }
+
+  if (name.toLowerCase().includes('kelp')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.deltaNeutralKelpDaoVaultAbi,
+      vaultAddress: contracts.deltaNeutralKelpDaoVaultAddress,
     };
   }
 

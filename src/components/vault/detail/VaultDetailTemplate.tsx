@@ -1,7 +1,12 @@
 'use client';
 
-import { MutableRefObject, ReactNode, useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 
+import useSWR from 'swr';
+import { useAccount } from 'wagmi';
+
+import { Address } from '@/@types/common';
+import { getUserPortfolio } from '@/api/vault';
 import Typography from '@/components/shared/Typography';
 import { LineChartData } from '@/components/shared/chart/LineChart';
 import { VaultDetailProvider } from '@/contexts/VaultDetailContext';
@@ -17,6 +22,7 @@ import VaultSharePost from './VaultSharePost';
 
 type VaultDetailTemplateProps = VaultDetailMapping & {
   timeVisible?: boolean;
+  id: string;
   slug: string;
   name: string;
   apy: number;
@@ -27,6 +33,7 @@ type VaultDetailTemplateProps = VaultDetailMapping & {
 const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   const {
     timeVisible,
+    id,
     slug,
     name,
     apy,
@@ -38,6 +45,15 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     safetyAssurance,
     withdrawal,
   } = props;
+
+  const { address } = useAccount();
+
+  const { data: portfolioData } = useSWR([address, id], ([userAddress, vaultId]) =>
+    getUserPortfolio(userAddress as Address, vaultId),
+  );
+
+  const currentVaultPortfolio = portfolioData?.positions?.find((x) => x.slug === slug);
+  const points = currentVaultPortfolio?.points;
 
   const parameterRef = useRef() as MutableRefObject<HTMLDivElement>;
   const overviewRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -63,10 +79,11 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
                 withdrawalStep2={withdrawal.step2}
               />
               <PositionCard />
-              {slug.includes('renzo') && (
-                <div className="grid grid-cols-2 gap-6">
-                  <PointCard type="renzo" available={false} point={0} />
-                  <PointCard type="eigenlayer" available={false} point={0} />
+              {points && points.length > 0 && (
+                <div className="grid grid-cols-3 gap-6">
+                  {points.map((x) => (
+                    <PointCard key={x.name} type={x.name} point={x.point} />
+                  ))}
                 </div>
               )}
             </div>
@@ -109,10 +126,11 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             withdrawalStep2={withdrawal.step2}
           />
           <PositionCard />
-          {slug.includes('renzo') && (
-            <div className="grid grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
-              <PointCard type="renzo" available={false} point={0} />
-              <PointCard type="eigenlayer" available={false} point={0} />
+          {points && points.length > 0 && (
+            <div className="grid grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 gap-6">
+              {points.map((x) => (
+                <PointCard key={x.name} type={x.name} point={x.point} />
+              ))}
             </div>
           )}
 

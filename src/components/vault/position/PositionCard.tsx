@@ -2,7 +2,7 @@
 
 import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 
 const PositionCard = () => {
@@ -16,16 +16,20 @@ const PositionCard = () => {
     availableWithdrawalAmount,
     profit,
     loss,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress, vaultVariant);
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
   const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
 
-  const isDeltaNeutralVault = vaultAddress === process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
-
+  const isOptionsWheelVault =
+    vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS;
+  console.log({ depositAmount, availableWithdrawalAmount, vaultAddress });
   if (
-    (isDeltaNeutralVault && depositAmount === 0 && deltaNeutralShares === 0) ||
-    (!isDeltaNeutralVault && depositAmount === 0)
+    (!isOptionsWheelVault &&
+      depositAmount === 0 &&
+      deltaNeutralShares === 0 &&
+      availableWithdrawalAmount === 0) ||
+    (isOptionsWheelVault && depositAmount === 0 && availableWithdrawalAmount === 0)
   ) {
     return null;
   }

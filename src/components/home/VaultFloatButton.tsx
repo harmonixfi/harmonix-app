@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { Urls } from '@/constants/urls';
 import useContractMapping from '@/hooks/useContractMapping';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
@@ -16,20 +16,33 @@ const VaultFloatButton = () => {
     deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
   } = useContractMapping();
 
   const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
-    useRockOnyxVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
+    useVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
 
   const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
-    useRockOnyxVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
+    useVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
 
   const {
     isLoadingTotalValueLocked: isLoadingDeltaNeutralRenzo,
     totalValueLocked: deltaNeutralRenzoTvl,
-  } = useRockOnyxVaultQueries(deltaNeutralRenzoVaultAbi, deltaNeutralRenzoVaultAddress);
+  } = useVaultQueries(deltaNeutralRenzoVaultAbi, deltaNeutralRenzoVaultAddress);
 
-  const rockOnyxTvl = optionsWheelTvl + deltaNeutralTvl + deltaNeutralRenzoTvl;
+  const {
+    isLoadingTotalValueLocked: isLoadingDeltaNeutralKelpDao,
+    totalValueLocked: deltaNeutralKelpDaoTvl,
+  } = useVaultQueries(deltaNeutralKelpDaoVaultAbi, deltaNeutralKelpDaoVaultAddress);
+
+  const isLoading =
+    isLoadingOptionsWheel ||
+    isLoadingDeltaNeutral ||
+    isLoadingDeltaNeutralRenzo ||
+    isLoadingDeltaNeutralKelpDao;
+
+  const tvl = optionsWheelTvl + deltaNeutralTvl + deltaNeutralRenzoTvl + deltaNeutralKelpDaoTvl;
 
   return (
     <Link
@@ -40,11 +53,11 @@ const VaultFloatButton = () => {
       <CurrencySymbolIcon />
       <div className="pl-2">
         <p className="text-sm font-light text-rock-sub-body">Rock Onyx TVL</p>
-        {isLoadingOptionsWheel || isLoadingDeltaNeutral || isLoadingDeltaNeutralRenzo ? (
+        {isLoading ? (
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
           <p className="font-bold">
-            {rockOnyxTvl.toLocaleString('en-US', {
+            {tvl.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,
