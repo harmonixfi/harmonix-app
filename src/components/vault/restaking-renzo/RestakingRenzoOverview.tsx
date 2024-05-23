@@ -4,13 +4,13 @@ import { ethers } from 'ethers';
 
 import Typography from '@/components/shared/Typography';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber } from '@/utils/number';
 
 const RestakingRenzoOverview = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
-  const { allocatedRatioData } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const { allocatedRatioData } = useVaultQueries(vaultAbi, vaultAddress);
 
   return (
     <>

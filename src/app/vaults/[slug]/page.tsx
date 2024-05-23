@@ -19,7 +19,7 @@ async function getData(slug: string) {
 
 export default async function VaultPage({ params }: { params: { slug: string } }) {
   const {
-    vaultInfo: { slug, name, apr, apy: vaultApy },
+    vaultInfo: { id, slug, name, apr, apy: vaultApy },
     vaultPerformance: { date, apy },
   } = await getData(params.slug);
 
@@ -41,6 +41,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
 
       <VaultDetailTemplate
         timeVisible={name.toLowerCase().includes('delta')}
+        id={id}
         slug={slug}
         name={name}
         apy={vaultApy || 0}

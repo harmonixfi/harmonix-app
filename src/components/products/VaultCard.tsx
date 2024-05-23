@@ -1,23 +1,28 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import Link from 'next/link';
 
+import { SupportedChain } from '@/@types/enum';
+import { Point } from '@/@types/vault';
+import { useChainContext } from '@/app/_providers/ChainProvider';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 
 import Tooltip from '../shared/Tooltip';
 import {
+  ArbitrumIcon,
   CurrencyVaultIcon,
-  EigenLayerIcon,
+  EthereumIcon,
   EthereumVaultIcon,
   InformationIcon,
-  RenzoIcon,
   TVaultIcon,
-  VaultIcon,
 } from '../shared/icons';
+import PointCard from '../vault/point/PointCard';
 
 type VaultCardProps = {
   slug: string;
@@ -26,19 +31,27 @@ type VaultCardProps = {
   apy?: number;
   maxCapacity?: number;
   available?: boolean;
+  points?: Point[];
 };
 
 const VaultCard = (props: VaultCardProps) => {
-  const { slug, name, link = '#', apy = 0, maxCapacity, available = true } = props;
+  const { name, link = '#', apy = 0, maxCapacity, available = true, points } = props;
+
+  const { selectedChain } = useChainContext();
 
   const contracts = useContractMapping();
 
   const { color, vaultAbi, vaultAddress } = vaultCardMapping(name, contracts);
 
-  const { isLoadingTotalValueLocked, totalValueLocked } = useRockOnyxVaultQueries(
-    vaultAbi,
-    vaultAddress,
-  );
+  const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
+
+  const strategy = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return 'Options Wheel';
+    }
+
+    return 'Delta Neutral';
+  }, [name]);
 
   const badgeBg = color === 'default' ? 'bg-[#0E8484] bg-opacity-40' : 'bg-[#313C69] bg-opacity-60';
 
@@ -62,21 +75,25 @@ const VaultCard = (props: VaultCardProps) => {
           <p
             className={`w-fit ${badgeBg} rounded-lg px-4 py-2 uppercase text-xs xl:text-sm font-semibold`}
           >
-            {name}
+            {strategy}
           </p>
           <span className={`${badgeBg} rounded-lg px-1.5 py-1.5 xl:px-2.5 xl:py-2`}>
-            <VaultIcon className="w-5 h-5" />
+            {selectedChain === SupportedChain.Arbitrum ? (
+              <ArbitrumIcon className="w-5 h-5" />
+            ) : (
+              <EthereumIcon className="w-5 h-5" />
+            )}
           </span>
         </div>
         <div className="flex items-center gap-1 absolute -bottom-6 xl:-bottom-8">
-          {color === 'default' ? (
-            <>
-              <TVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
-              <CurrencyVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
-            </>
-          ) : (
-            <EthereumVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
-          )}
+          {/* {color === 'default' ? ( */}
+          {/* <> */}
+          <CurrencyVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
+          <TVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
+          {/* </> */}
+          {/* ) : ( */}
+          {/* <EthereumVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" /> */}
+          {/* )} */}
         </div>
       </div>
 
@@ -84,22 +101,11 @@ const VaultCard = (props: VaultCardProps) => {
         <div className="flex flex-col gap-6">
           <p className="text-lg xl:text-xl 2xl:text-2xl font-semibold uppercase">{name}</p>
 
-          {slug.includes('renzo') && (
-            <div className="flex items-center justify-between border border-rock-divider p-4 rounded-xl shadow-md">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <RenzoIcon className="w-8 h-8" />
-                  <p className="text-rock-gray">Renzo pts</p>
-                </div>
-                <p className="text-white text-sm">Coming soon</p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <EigenLayerIcon className="w-7 h-7" />
-                  <p className="text-rock-gray">EigenLayer pts</p>
-                </div>
-                <p className="text-white text-sm">Coming soon</p>
-              </div>
+          {points && points.length > 0 && (
+            <div className="grid grid-cols-2 gap-6">
+              {points.map((x) => (
+                <PointCard key={x.name} type={x.name} point={x.point} />
+              ))}
             </div>
           )}
 

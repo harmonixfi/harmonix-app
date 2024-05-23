@@ -3,7 +3,7 @@
 // import { useState } from 'react';
 // import { useState } from 'react';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
 // import Select from '../../shared/Select';
@@ -20,7 +20,7 @@ const VaultSummary = (props: VaultSummaryProps) => {
 
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
-  const { totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const { totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
 
   // const [apyRange, setApyRange] = useState('1m');
 

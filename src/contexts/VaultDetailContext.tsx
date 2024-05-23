@@ -29,6 +29,8 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
     deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
   } = useContractMapping();
 
   const { vaultVariant, vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
@@ -40,11 +42,18 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
       };
     }
 
-    if (name.toLowerCase().includes('restaking')) {
+    if (name.toLowerCase().includes('renzo')) {
       return {
         vaultVariant: VaultVariant.OptionsWheel,
         vaultAbi: deltaNeutralRenzoVaultAbi,
         vaultAddress: deltaNeutralRenzoVaultAddress,
+      };
+    }
+
+    if (name.toLowerCase().includes('kelp')) {
+      return {
+        vaultAbi: deltaNeutralKelpDaoVaultAbi,
+        vaultAddress: deltaNeutralKelpDaoVaultAddress,
       };
     }
 
@@ -59,6 +68,10 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
     optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
     deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
   ]);
 
   return (
