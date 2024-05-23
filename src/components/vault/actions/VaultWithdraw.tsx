@@ -14,8 +14,8 @@ import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
@@ -75,7 +75,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress, vaultVariant);
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
 
   const isEnableCompleteWithdraw =
     availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;

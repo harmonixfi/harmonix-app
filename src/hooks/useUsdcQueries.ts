@@ -2,12 +2,11 @@ import { BigNumberish, ethers } from 'ethers';
 import { useAccount, useBalance, useReadContract } from 'wagmi';
 
 import { Address } from '@/@types/common';
-import usdcAbi from '@/abi/usdc.json';
 
 import useContractMapping from './useContractMapping';
 
 const useUsdcQueries = (vaultAddress?: Address) => {
-  const { usdcAddress } = useContractMapping();
+  const { usdcAbi, usdcAddress } = useContractMapping();
 
   const account = useAccount();
 

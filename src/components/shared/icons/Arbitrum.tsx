@@ -1,6 +1,6 @@
 import { IconProps } from '@/@types/common';
 
-const Vault = ({ className }: IconProps) => {
+const Arbitrum = ({ className }: IconProps) => {
   return (
     <svg
       className={className}
@@ -36,4 +36,4 @@ const Vault = ({ className }: IconProps) => {
   );
 };
 
-export default Vault;
+export default Arbitrum;

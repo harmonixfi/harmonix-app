@@ -12,13 +12,13 @@ import {
   WaterfallIcon,
 } from '@/components/shared/icons';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber } from '@/utils/number';
 
 const StableCoinSafetyAssurance = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
-  const { allocatedRatioData } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const { allocatedRatioData } = useVaultQueries(vaultAbi, vaultAddress);
 
   return (
     <div className="flex flex-col gap-16">

@@ -3,7 +3,7 @@ import { IconProps } from '@/@types/common';
 const Renzo = ({ className }: IconProps) => {
   return (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 26" fill="none">
-      <g clip-path="url(#clip0_88_150)">
+      <g clipPath="url(#clip0_88_150)">
         <path
           d="M12 24.4343C18.4483 24.4343 23.6757 19.1833 23.6757 12.7058C23.6757 6.22833 18.4483 0.977295 12 0.977295C5.55169 0.977295 0.32431 6.22833 0.32431 12.7058C0.32431 19.1833 5.55169 24.4343 12 24.4343Z"
           fill="#1D1B1D"

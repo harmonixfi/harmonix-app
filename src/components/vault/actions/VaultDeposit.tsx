@@ -10,10 +10,11 @@ import { SupportedCurrency } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
+import useContractMapping from '@/hooks/useContractMapping';
 import useDeposit from '@/hooks/useDeposit';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
 import useUsdcQueries from '@/hooks/useUsdcQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
@@ -24,6 +25,7 @@ import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
 const VaultDeposit = () => {
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
+  const { usdcAddress } = useContractMapping();
 
   const account = useAccount();
 
@@ -43,7 +45,7 @@ const VaultDeposit = () => {
     refetchBalanceOf,
     refetchDepositAmount,
     refetchUserVaultState,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  } = useVaultQueries(vaultAbi, vaultAddress);
   const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
@@ -112,7 +114,11 @@ const VaultDeposit = () => {
   };
 
   const handleDeposit = async (amount: string) => {
-    await deposit(ethers.utils.parseUnits(amount, 6));
+    const isKelpDaoVault =
+      vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS;
+    const tokenIn = isKelpDaoVault ? usdcAddress : undefined;
+    const transitToken = isKelpDaoVault ? usdcAddress : undefined;
+    await deposit(ethers.utils.parseUnits(amount, 6), tokenIn, transitToken);
   };
 
   const handleConfirm = async () => {

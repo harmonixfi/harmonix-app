@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { Position } from '@/@types/vault';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 
 type PositionRowProps = {
@@ -36,6 +36,8 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
   } = useContractMapping();
 
   const { vaultAbi, vaultAddress } = useMemo(() => {
@@ -53,6 +55,13 @@ const PositionRow = (props: PositionRowProps) => {
       };
     }
 
+    if (vault_name.toLowerCase().includes('kelp')) {
+      return {
+        vaultAbi: deltaNeutralKelpDaoVaultAbi,
+        vaultAddress: deltaNeutralKelpDaoVaultAddress,
+      };
+    }
+
     return {
       vaultAbi: deltaNeutralVaultAbi,
       vaultAddress: deltaNeutralVaultAddress,
@@ -65,9 +74,11 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
   ]);
 
-  const { pricePerShare, totalValueLocked } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  const { pricePerShare, totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
 
   return (
     <>

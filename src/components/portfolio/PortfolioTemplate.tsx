@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
+import { Point } from '@/@types/vault';
 import { getUserPortfolio } from '@/api/vault';
 import ActivePositions from '@/components/portfolio/ActivePositions';
 import PortfolioOverview from '@/components/portfolio/PortfolioOverview';
@@ -23,6 +24,22 @@ const PortfolioTemplate = () => {
   const { address, status } = useAccount();
 
   const { data, isLoading, error } = useSWR(address, getUserPortfolio);
+
+  const displayPoints = useMemo(() => {
+    const points: Point[] = [];
+    data?.positions?.forEach((positionItem) => {
+      positionItem?.points?.forEach((pointItem) => {
+        const existPoint = points.find((x) => x.name === pointItem.name);
+        if (existPoint) {
+          existPoint.point += pointItem.point;
+        } else {
+          points.push(pointItem);
+        }
+      });
+    });
+
+    return points;
+  }, [data]);
 
   if (!data && (!mounted || isLoading || status === 'connecting')) {
     return (
@@ -47,15 +64,18 @@ const PortfolioTemplate = () => {
           totalBalance={data?.total_balance}
           pnl={data?.pnl}
         />
-        <div>
-          <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
-            Your points
-          </p>
-          <div className="flex items-center gap-6">
-            <PointCard type="renzo" available={false} point={0} />
-            <PointCard type="eigenlayer" available={false} point={0} />
+        {displayPoints.length > 0 && (
+          <div>
+            <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
+              Your points
+            </p>
+            <div className="flex flex-wrap items-center gap-6">
+              {displayPoints.map((x) => (
+                <PointCard key={x.name} type={x.name} point={x.point} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <ActivePositions
           status={status}
           loading={isLoading}
