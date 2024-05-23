@@ -44,7 +44,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
 
     if (name.toLowerCase().includes('renzo')) {
       return {
-        vaultVariant: VaultVariant.OptionsWheel,
+        vaultVariant: VaultVariant.DeltaNeutral,
         vaultAbi: deltaNeutralRenzoVaultAbi,
         vaultAddress: deltaNeutralRenzoVaultAddress,
       };
@@ -52,6 +52,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
 
     if (name.toLowerCase().includes('kelp')) {
       return {
+        vaultVariant: VaultVariant.DeltaNeutral,
         vaultAbi: deltaNeutralKelpDaoVaultAbi,
         vaultAddress: deltaNeutralKelpDaoVaultAddress,
       };

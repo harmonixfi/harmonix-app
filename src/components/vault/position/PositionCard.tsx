@@ -23,7 +23,7 @@ const PositionCard = () => {
 
   const isOptionsWheelVault =
     vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS;
-  console.log({ depositAmount, availableWithdrawalAmount, vaultAddress });
+
   if (
     (!isOptionsWheelVault &&
       depositAmount === 0 &&

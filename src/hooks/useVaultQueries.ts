@@ -132,7 +132,7 @@ const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: 
   const withdrawPoolAmount = withdrawPoolAmountData
     ? Number(ethers.utils.formatUnits(withdrawPoolAmountData as BigNumberish, 6))
     : 0;
-  console.log('@userVaultStateData', userVaultStateData);
+
   return {
     isLoadingTotalValueLocked,
     totalValueLocked,
