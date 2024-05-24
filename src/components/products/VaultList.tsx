@@ -39,6 +39,7 @@ const VaultList = () => {
                 apy={vault.apy || 0}
                 maxCapacity={vault.vault_capacity}
                 points={vault.points}
+                strategy={vault.strategy_name}
               />
             );
           })}
