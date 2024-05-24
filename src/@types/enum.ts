@@ -23,3 +23,8 @@ export enum VaultNetwork {
   ArbitrumOne = 'arbitrum_one',
   Ethereum = 'ethereum',
 }
+
+export enum Strategy {
+  OptionsWheel = 'options_wheel_strategy',
+  DeltaNeutral = 'delta_neutral_strategy',
+}

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import Link from 'next/link';
 
-import { SupportedChain } from '@/@types/enum';
+import { Strategy, SupportedChain } from '@/@types/enum';
 import { Point } from '@/@types/vault';
 import { useChainContext } from '@/app/_providers/ChainProvider';
 import { NA_STRING } from '@/constants/common';
@@ -17,8 +17,7 @@ import Tooltip from '../shared/Tooltip';
 import {
   ArbitrumIcon,
   CurrencyVaultIcon,
-  EthereumIcon,
-  EthereumVaultIcon,
+  EthereumIcon, // EthereumVaultIcon,
   InformationIcon,
   TVaultIcon,
 } from '../shared/icons';
@@ -32,10 +31,11 @@ type VaultCardProps = {
   maxCapacity?: number;
   available?: boolean;
   points?: Point[];
+  strategy: Strategy;
 };
 
 const VaultCard = (props: VaultCardProps) => {
-  const { name, link = '#', apy = 0, maxCapacity, available = true, points } = props;
+  const { name, link = '#', apy = 0, maxCapacity, available = true, points, strategy } = props;
 
   const { selectedChain } = useChainContext();
 
@@ -45,13 +45,13 @@ const VaultCard = (props: VaultCardProps) => {
 
   const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
 
-  const strategy = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+  const displayedStrategy = useMemo(() => {
+    if (strategy === Strategy.OptionsWheel) {
       return 'Options Wheel';
     }
 
     return 'Delta Neutral';
-  }, [name]);
+  }, [strategy]);
 
   const badgeBg = color === 'default' ? 'bg-[#0E8484] bg-opacity-40' : 'bg-[#313C69] bg-opacity-60';
 
@@ -75,7 +75,7 @@ const VaultCard = (props: VaultCardProps) => {
           <p
             className={`w-fit ${badgeBg} rounded-lg px-4 py-2 uppercase text-xs xl:text-sm font-semibold`}
           >
-            {strategy}
+            {displayedStrategy}
           </p>
           <span className={`${badgeBg} rounded-lg px-1.5 py-1.5 xl:px-2.5 xl:py-2`}>
             {selectedChain === SupportedChain.Arbitrum ? (

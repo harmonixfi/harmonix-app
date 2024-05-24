@@ -1,4 +1,4 @@
-import { VaultCategory, VaultNetwork } from './enum';
+import { Strategy, VaultCategory, VaultNetwork } from './enum';
 
 export type Vault = {
   id: string;
@@ -12,6 +12,7 @@ export type Vault = {
   current_round: number | null;
   next_close_round_date: string | null;
   points?: Point[];
+  strategy_name: Strategy;
 };
 
 export type VaultPerformance = {
