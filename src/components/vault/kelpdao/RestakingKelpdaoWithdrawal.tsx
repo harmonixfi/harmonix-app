@@ -1,6 +1,6 @@
 import Typography from '@/components/shared/Typography';
 
-const DeltaNeutralWithdrawal = () => {
+const RestakingKelpdaoWithdrawal = () => {
   return (
     <div className="flex flex-col gap-6">
       <Typography variant="subtitle">Withdrawals</Typography>
@@ -21,4 +21,4 @@ const DeltaNeutralWithdrawal = () => {
   );
 };
 
-export default DeltaNeutralWithdrawal;
+export default RestakingKelpdaoWithdrawal;

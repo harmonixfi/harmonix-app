@@ -121,7 +121,7 @@ const StableCoinSafetyAssurance = () => {
       <div className="flex flex-col gap-6">
         <p className="uppercase">
           <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 -translate-y-0.5" />
-          Rock Onyx&apos;s Solution
+          Harmonix&apos;s Solution
         </p>
         <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
           <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
@@ -144,7 +144,7 @@ const StableCoinSafetyAssurance = () => {
             <p className="text-rock-sub-body">For smart contract risk</p>
           </div>
           <Typography variant="subbody">
-            Rock Onyx is working with 3 audit firms to conduct code audits and maintain continuous
+            Harmonix is working with 3 audit firms to conduct code audits and maintain continuous
             oversight to ensure user protection.
           </Typography>
         </div>

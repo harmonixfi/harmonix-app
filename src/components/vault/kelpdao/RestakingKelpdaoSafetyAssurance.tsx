@@ -8,7 +8,7 @@ import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber } from '@/utils/number';
 
-const RestakingRenzoSafetyAssurance = () => {
+const RestakingKelpdaoSafetyAssurance = () => {
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const { allocatedRatioData } = useVaultQueries(vaultAbi, vaultAddress);
@@ -92,4 +92,4 @@ const RestakingRenzoSafetyAssurance = () => {
   );
 };
 
-export default RestakingRenzoSafetyAssurance;
+export default RestakingKelpdaoSafetyAssurance;

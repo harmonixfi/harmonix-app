@@ -15,7 +15,7 @@ import { arbitrum, sepolia } from 'wagmi/chains';
 const projectId = process.env.NEXT_PUBLIC_W3C_PROJECT_ID ?? '';
 
 const config = getDefaultConfig({
-  appName: 'Rock Onyx',
+  appName: 'Harmonix',
   projectId,
   wallets: [
     { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
