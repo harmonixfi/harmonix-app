@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link href={Urls.Home} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
-            alt="Rock Onyx Logo"
+            alt="Harmonix Logo"
             width="100"
             height="100"
             className="w-full h-auto"

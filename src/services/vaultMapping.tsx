@@ -9,6 +9,11 @@ import DeltaNeutralOverview from '@/components/vault/delta-neutral/DeltaNeutralO
 import DeltaNeutralParameter from '@/components/vault/delta-neutral/DeltaNeutralParameter';
 import DeltaNeutralSafetyAssurance from '@/components/vault/delta-neutral/DeltaNeutralSafetyAssurance';
 import DeltaNeutralWithdrawal from '@/components/vault/delta-neutral/DeltaNeutralWithdrawal';
+import RestakingKelpdaoDescription from '@/components/vault/kelpdao/RestakingKelpdaoDescription';
+import RestakingKelpdaoOverview from '@/components/vault/kelpdao/RestakingKelpdaoOverview';
+import RestakingKelpdaoParameter from '@/components/vault/kelpdao/RestakingKelpdaoParameter';
+import RestakingKelpdaoSafetyAssurance from '@/components/vault/kelpdao/RestakingKelpdaoSafetyAssurance';
+import RestakingKelpdaoWithdrawal from '@/components/vault/kelpdao/RestakingKelpdaoWithdrawal';
 import RestakingRenzoDescription from '@/components/vault/restaking-renzo/RestakingRenzoDescription';
 import RestakingRenzoOverview from '@/components/vault/restaking-renzo/RestakingRenzoOverview';
 import RestakingRenzoParameter from '@/components/vault/restaking-renzo/RestakingRenzoParameter';
@@ -90,7 +95,7 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
     };
   }
 
-  if (vaultName.toLowerCase().includes('restaking')) {
+  if (vaultName.toLowerCase().includes('renzo')) {
     return {
       description: <RestakingRenzoDescription />,
       parameter: <RestakingRenzoParameter />,
@@ -98,6 +103,20 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
       safetyAssurance: <RestakingRenzoSafetyAssurance />,
       withdrawal: {
         description: <RestakingRenzoWithdrawal />,
+        time: '1 - 4 hours',
+        step2: 'You can claim your withdrawal after 1-4 hours.',
+      },
+    };
+  }
+
+  if (vaultName.toLowerCase().includes('kelpdao')) {
+    return {
+      description: <RestakingKelpdaoDescription />,
+      parameter: <RestakingKelpdaoParameter />,
+      overview: <RestakingKelpdaoOverview />,
+      safetyAssurance: <RestakingKelpdaoSafetyAssurance />,
+      withdrawal: {
+        description: <RestakingKelpdaoWithdrawal />,
         time: '1 - 4 hours',
         step2: 'You can claim your withdrawal after 1-4 hours.',
       },

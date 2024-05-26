@@ -47,7 +47,7 @@ const VaultChart = (props: VaultChartProps) => {
           </div> */}
           <div className="flex items-center gap-2">
             <span className="w-5 h-[1px] bg-[#0057FF]" />
-            <p className="text-sm lg:text-base text-rock-gray">Onyx Vault *</p>
+            <p className="text-sm lg:text-base text-rock-gray">Harmonix Vault *</p>
           </div>
         </div>
       </div>

@@ -20,8 +20,8 @@ const Footer = () => {
             href={Urls.Home}
             className="flex items-center justify-center sm:justify-start gap-3"
           >
-            <Image src={logoImg} alt="Rock Onyx Logo" width={48} height={48} />
-            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Rock Onyx</h4>
+            <Image src={logoImg} alt="Harmonix Logo" width={48} height={48} />
+            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Harmonix</h4>
           </Link>
           {/* <p className="text-lg font-semibold uppercase mt-4 sm:mt-10 pl-4">SLOGAN</p> */}
         </div>
@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
 
       <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 sm:gap-0 mt-12 sm:mt-48">
-        <p className="text-sm text-white font-normal">{`© Copyright • Rock Onyx • ${new Date().getFullYear()}`}</p>
+        <p className="text-sm text-white font-normal">{`© Copyright • Harmonix • ${new Date().getFullYear()}`}</p>
         <ul className="flex gap-3">
           <li>
             <a

@@ -28,7 +28,7 @@ export default async function Home() {
       <div className="flex flex-col items-center mt-8">
         <div className="z-20 text-center">
           <h3 className="text-4xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase mt-0 sm:mt-16">
-            Rock Onyx
+            Harmonix
           </h3>
           <h5 className="max-w-md text-base sm:text-lg font-light leading-7 opacity-80 mx-auto my-8">
             Automatic hedging vaults while earning good yields with low risk
@@ -52,7 +52,7 @@ export default async function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/3 lg:h-2/5 xl:h-2/3">
             <Image
               src={centerRockImg}
-              alt="Rock Onyx"
+              alt="Harmonix"
               fill
               sizes="100vw"
               className="object-contain"

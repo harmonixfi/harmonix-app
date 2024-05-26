@@ -52,7 +52,7 @@ const VaultFloatButton = () => {
       <TSymbolIcon />
       <CurrencySymbolIcon />
       <div className="pl-2">
-        <p className="text-sm font-light text-rock-sub-body">Rock Onyx TVL</p>
+        <p className="text-sm font-light text-rock-sub-body">Harmonix TVL</p>
         {isLoading ? (
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
