@@ -3,46 +3,74 @@ name: Rock Onyx App
 on:
   push:
     branches:
-      - main
-      - develop
+      - khiem/update-app-ci
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # checkout the repo
-      - name: "Checkout GitHub Action"
+      # Checkout the repo
+      - name: Checkout GitHub Action
         uses: actions/checkout@v2
 
-      # setup Node.js 20
-      - name: "Setup Node.js 20"
+      # Setup Node.js 20
+      - name: Setup Node.js 20
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '20'
 
-      - name: "List directory contents"
+      # List directory contents
+      - name: List directory contents
         run: ls -R
 
-      - name: "Login via Azure CLI"
+      # Login via Azure CLI
+      - name: Login via Azure CLI
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Build and push image"
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS }}" >> .env
+          echo "NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ETHEREUM_OPTIONS_WHEEL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_OPTIONS_WHEEL_VAULT_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS }}" >> .env
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+            echo "NEXT_PUBLIC_APP_ENV=${{ vars.NEXT_PUBLIC_APP_ENV_production }}" >> .env
+            echo "NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL_production }}" >> .env
+          else 
+            echo "NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL_development }}" >> .env
+            echo "NEXT_PUBLIC_APP_ENV=${{ vars.NEXT_PUBLIC_APP_ENV_development }}" >> .env
+          fi
+          echo "NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}" >> .env
+          echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" >> .env
+          echo "NEXT_PUBLIC_W3C_PROJECT_ID=${{ secrets.NEXT_PUBLIC_W3C_PROJECT_ID }}" >> .env
+
+      # Build and push image
+      - name: Build and push image
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-          
+      
+      # Generate Timestamp
+      - id: timestamp
+        run: echo "::set-output name=TIMESTAMP::$(date +%Y-%m-%d-%H-%M-%S)"
+        
       - run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            ENVIRONMENT_NAME=Production
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
             IMAGE_PREFIX=prod_
-          else
-            ENVIRONMENT_NAME=Testnet
+          else 
             IMAGE_PREFIX=dev_
           fi
-          IMAGE_NAME=${{ secrets.REGISTRY_LOGIN_SERVER }}/rockonyxapp:${IMAGE_PREFIX}${{ github.run_number }}
-          docker build rockonyxapp --build-arg ENVIRONMENT_NAME=$ENVIRONMENT_NAME -t $IMAGE_NAME
+          IMAGE_NAME=${{ secrets.REGISTRY_LOGIN_SERVER }}/rockonyxapp:${IMAGE_PREFIX}${{ github.run_number }}-${{ steps.timestamp.outputs.TIMESTAMP }}
+          docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
