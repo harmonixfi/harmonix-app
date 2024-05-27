@@ -43,6 +43,6 @@ jobs:
             ENVIRONMENT_NAME=Testnet
             IMAGE_PREFIX=dev_
           fi
-          IMAGE_NAME=${{ secrets.REGISTRY_LOGIN_SERVER }}/ui-app:${IMAGE_PREFIX}${{ github.run_number }}
-          docker build ui-app --build-arg ENVIRONMENT_NAME=$ENVIRONMENT_NAME -t $IMAGE_NAME
+          IMAGE_NAME=${{ secrets.REGISTRY_LOGIN_SERVER }}/rockonyxapp:${IMAGE_PREFIX}${{ github.run_number }}
+          docker build rockonyxapp --build-arg ENVIRONMENT_NAME=$ENVIRONMENT_NAME -t $IMAGE_NAME
           docker push $IMAGE_NAME
