@@ -3,7 +3,8 @@ name: Rock Onyx App
 on:
   push:
     branches:
-      - khiem/update-app-ci
+      - main
+      - develop
 
 jobs:
   build-and-deploy:
@@ -63,8 +64,8 @@ jobs:
       
       # Generate Timestamp
       - id: timestamp
-        run: echo "::set-output name=TIMESTAMP::$(date +%Y-%m-%d-%H-%M-%S)"
-        
+        run: echo "::set-output name=TIMESTAMP::$(date +%Y%m%d%H%M%S)"
+
       - run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
             IMAGE_PREFIX=prod_
