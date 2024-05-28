@@ -1,0 +1,48 @@
+name: Rock Onyx App
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # checkout the repo
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+
+      # setup Node.js 20
+      - name: "Setup Node.js 20"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: "List directory contents"
+        run: ls -R
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: "Build and push image"
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          
+      - run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            ENVIRONMENT_NAME=Production
+            IMAGE_PREFIX=prod_
+          else
+            ENVIRONMENT_NAME=Testnet
+            IMAGE_PREFIX=dev_
+          fi
+          IMAGE_NAME=${{ secrets.REGISTRY_LOGIN_SERVER }}/rockonyxapp:${IMAGE_PREFIX}${{ github.run_number }}
+          docker build rockonyxapp --build-arg ENVIRONMENT_NAME=$ENVIRONMENT_NAME -t $IMAGE_NAME
+          docker push $IMAGE_NAME
