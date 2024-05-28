@@ -18,11 +18,11 @@ COPY . .
 COPY --from=dependencies /my-project/node_modules ./node_modules
 
 # Argument to choose environment (default to 'production')
-ARG APP_ENV
+# ARG APP_ENV
 
 # Copy the appropriate .env file based on the APP_ENV argument
-COPY .env.${APP_ENV} .env
-# COPY .env .env
+# COPY .env.${APP_ENV} .env
+COPY .env .env
 
 # Build the Next.js app
 RUN yarn build
