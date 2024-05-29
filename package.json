@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4000",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev -p 4000",
+    "format": "prettier --write .",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "start": "next start"
   },
   "dependencies": {
     "@date-fns/utc": "^1.2.0",
@@ -26,6 +26,7 @@
     "react": "^18",
     "react-dom": "^18",
     "recharts": "^2.12.5",
+    "sst": "ion",
     "swr": "^2.2.5",
     "viem": "^2.7.10",
     "wagmi": "^2.5.7"

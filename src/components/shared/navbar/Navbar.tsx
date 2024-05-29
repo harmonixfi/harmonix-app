@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <nav className="relative w-full sm:w-[90%] 2xl:w-4/5 grid grid-cols-12 mx-auto px-6 sm:px-0 py-6 z-50">
       <div className="col-span-1 md:col-span-2 xl:col-span-3 flex items-center">
-        <Link href={Urls.Home} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
+        <Link href={Urls.Home} className="w-10 h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
             alt="Harmonix Logo"
