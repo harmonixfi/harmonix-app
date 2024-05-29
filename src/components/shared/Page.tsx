@@ -12,7 +12,7 @@ const Page = (props: PageProps) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between bg-rock-dark px-6 py-4">
+      <div className="flex items-center justify-between bg-secondary px-6 py-4">
         <h2 className="text-xl font-semibold">{title}</h2>
         <WalletConnectButton />
       </div>

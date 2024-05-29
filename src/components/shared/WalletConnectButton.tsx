@@ -24,7 +24,7 @@ const WalletConnectButton = () => {
               if (!connected) {
                 return (
                   <button
-                    className="text-xs sm:text-sm text-white font-normal bg-rock-primary px-3 xl:px-6 py-2 lg:py-3 rounded-3xl text-center hover:ring-2 hover:ring-gray-800"
+                    className="text-xs sm:text-sm text-white font-normal bg-primary px-3 xl:px-6 py-2 lg:py-3 rounded-3xl text-center hover:ring-2 hover:ring-gray-800"
                     type="button"
                     onClick={openConnectModal}
                   >
@@ -44,7 +44,7 @@ const WalletConnectButton = () => {
               return (
                 <div className="flex gap-3">
                   <button
-                    className="flex items-center gap-2 text-xs sm:text-sm text-white bg-white bg-opacity-10 rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
+                    className="flex items-center gap-2 text-xs sm:text-sm text-white bg-primary rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
                     type="button"
                     onClick={openChainModal}
                   >
@@ -63,7 +63,7 @@ const WalletConnectButton = () => {
                   </button>
 
                   <button
-                    className="text-xs sm:text-sm text-white uppercase bg-white bg-opacity-10 rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
+                    className="text-xs sm:text-sm text-white uppercase bg-primary rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
                     type="button"
                     onClick={openAccountModal}
                   >

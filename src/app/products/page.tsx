@@ -1,12 +1,10 @@
 import VaultList from '@/components/products/VaultList';
+import Page from '@/components/shared/Page';
 import Select from '@/components/shared/Select';
-import Navbar from '@/components/shared/navbar/Navbar';
 
 export default async function Products() {
   return (
-    <>
-      <Navbar />
-
+    <Page title="Vaults">
       <div className="hidden md:flex flex-wrap gap-6 w-fit mt-12 mx-auto px-6 sm:px-0">
         <div className="w-44">
           <Select
@@ -67,6 +65,6 @@ export default async function Products() {
       </div>
 
       <VaultList />
-    </>
+    </Page>
   );
 }

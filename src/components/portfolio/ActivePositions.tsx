@@ -29,7 +29,7 @@ const ActivePositions = (props: ActivePositionsProps) => {
         <p className="text-rock-sub-body">You have no positions</p>
       ) : (
         <>
-          <div className="sm:border sm:border-rock-divider sm:w-full 3xl:w-4/5 sm:rounded-2xl sm:p-6 2xl:p-9">
+          <div className="sm:border sm:border-rock-divider w-full sm:rounded-2xl sm:p-6 2xl:p-9">
             <div className="hidden sm:grid grid-cols-7 gap-2 px-6 mb-6 text-rock-sub-body uppercase text-left text-xs lg:text-xs xl:text-sm 2xl:text-base font-semibold">
               <p className="col-span-2 ">Vault name</p>
               <p className="text-left">Total balance</p>
