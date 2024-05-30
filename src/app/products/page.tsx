@@ -1,70 +1,46 @@
+import VaultFilter from '@/components/products/VaultFilter';
 import VaultList from '@/components/products/VaultList';
 import Page from '@/components/shared/Page';
-import Select from '@/components/shared/Select';
+import { TelegramIcon } from '@/components/shared/icons';
+import { toCurrency } from '@/utils/currency';
+import { withCommas } from '@/utils/number';
 
 export default async function Products() {
   return (
     <Page title="Vaults">
-      <div className="hidden md:flex flex-wrap gap-6 w-fit mt-12 mx-auto px-6 sm:px-0">
-        <div className="w-44">
-          <Select
-            placeholder="Strategy"
-            options={[
-              { value: 'deltaNeutral', label: 'Delta neutral' },
-              { value: 'hedging', label: 'Hedging' },
-            ]}
-          />
+      <div className="flex flex-col gap-12">
+        <div className="flex flex-col xl:flex-row items-center justify-between gap-8 xl:gap-24 pr-8">
+          <div>
+            <p className="text-xl font-semibold">Lorem Ipsum</p>
+            <p className="text-sm font-light mt-2">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam suscipit in dolor
+              possimus amet fugiat rerum vel illo blanditiis expedita? Repudiandae, magni
+              distinctio?
+            </p>
+          </div>
+          <div className="flex items-center gap-12">
+            <div className="flex items-center gap-4">
+              <TelegramIcon className="w-6 h-6" />
+              <div className="flex flex-col items-center">
+                <p className="text-sm text-gray-600">TVL</p>
+                <p className="font-semibold">{toCurrency(2000)}</p>
+              </div>
+            </div>
+            <span className="w-[1px] h-10 bg-gray-300" />
+            <div className="flex items-center gap-4">
+              <TelegramIcon className="w-6 h-6" />
+              <div className="flex flex-col items-center">
+                <p className="text-sm text-gray-600">Depositors</p>
+                <p className="font-semibold">{withCommas(1200)}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="w-52">
-          <Select
-            placeholder="Deposit asset"
-            options={[
-              { value: 'usdc', label: 'USDC' },
-              { value: 'eth', label: 'ETH' },
-              { value: 'btc', label: 'BTC' },
-            ]}
-          />
-        </div>
-        <div className="w-36">
-          <Select
-            placeholder="Sort by"
-            options={[
-              { value: 'name', label: 'Name' },
-              { value: 'apy', label: 'APY' },
-              { value: 'tvl', label: 'TVL' },
-            ]}
-          />
-        </div>
-      </div>
 
-      <div className="grid grid-cols-2 md:hidden gap-4 w-full px-6">
-        <div>
-          <Select
-            placeholder="Filter"
-            popupClassName="w-[50vw]"
-            options={[
-              { value: 'deltaNeutral', label: 'Delta neutral' },
-              { value: 'hedging', label: 'Hedging' },
-              { value: 'usdc', label: 'USDC' },
-              { value: 'eth', label: 'ETH' },
-              { value: 'btc', label: 'BTC' },
-            ]}
-          />
-        </div>
-        <div>
-          <Select
-            placeholder="Sort by"
-            popupClassName="w-[50vw] right-0"
-            options={[
-              { value: 'name', label: 'Name' },
-              { value: 'apy', label: 'APY' },
-              { value: 'tvl', label: 'TVL' },
-            ]}
-          />
-        </div>
-      </div>
+        <VaultFilter />
 
-      <VaultList />
+        <VaultList />
+      </div>
     </Page>
   );
 }

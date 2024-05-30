@@ -1,11 +1,8 @@
 'use client';
 
-import Navbar from '@/components/shared/navbar/Navbar';
-
 function ErrorPage() {
   return (
     <>
-      <Navbar />
       <div className="text-center my-20">
         <div>
           <h1 className="text-5xl lg:text-7xl font-semibold uppercase">500 Server Error</h1>

@@ -129,15 +129,11 @@ const PositionRow = (props: PositionRowProps) => {
       <div className="sm:hidden bg-white bg-opacity-10 rounded-2xl mt-6 p-6">
         <div className="grid grid-cols-2 gap-x-2 gap-y-4">
           <p className="text-rock-gray text-sm font-semibold">Vault name</p>
-          <p className="text-white text-sm font-semibold">{vault_name}</p>
+          <p className="text-sm font-semibold">{vault_name}</p>
           <p className="text-rock-gray text-sm font-semibold">Total Balance</p>
-          <p className="text-white text-sm font-semibold">
-            {withCommas(toFixedNumber(total_balance))} USDC
-          </p>
+          <p className="text-sm font-semibold">{withCommas(toFixedNumber(total_balance))} USDC</p>
           <p className="text-rock-gray text-sm font-semibold">Initial Deposit</p>
-          <p className="text-white text-sm font-semibold">
-            {withCommas(toFixedNumber(init_deposit))} USDC
-          </p>
+          <p className="text-sm font-semibold">{withCommas(toFixedNumber(init_deposit))} USDC</p>
           <p className="text-rock-gray text-sm font-semibold">PnL</p>
           <p
             className={`text-sm font-semibold ${

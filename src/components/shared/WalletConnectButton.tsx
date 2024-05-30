@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@nextui-org/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from 'next/image';
 
@@ -23,31 +24,23 @@ const WalletConnectButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button
-                    className="text-xs sm:text-sm text-white font-normal bg-primary px-3 xl:px-6 py-2 lg:py-3 rounded-3xl text-center hover:ring-2 hover:ring-gray-800"
-                    type="button"
-                    onClick={openConnectModal}
-                  >
+                  <Button color="primary" className="rounded-full px-6" onClick={openConnectModal}>
                     Connect wallet
-                  </button>
+                  </Button>
                 );
               }
 
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <Button color="primary" className="rounded-full px-6" onClick={openChainModal}>
                     Wrong network
-                  </button>
+                  </Button>
                 );
               }
 
               return (
                 <div className="flex gap-3">
-                  <button
-                    className="flex items-center gap-2 text-xs sm:text-sm text-white bg-primary rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
-                    type="button"
-                    onClick={openChainModal}
-                  >
+                  <Button color="primary" className="rounded-full" onClick={openChainModal}>
                     {chain.hasIcon && chain.iconUrl && (
                       <span className="w-5 h-5 block">
                         <Image
@@ -60,15 +53,11 @@ const WalletConnectButton = () => {
                       </span>
                     )}
                     {chain.name}
-                  </button>
+                  </Button>
 
-                  <button
-                    className="text-xs sm:text-sm text-white uppercase bg-primary rounded-3xl px-3 lg:px-4 xl:px-6 py-2 lg:py-3 text-center hover:ring-2 hover:ring-gray-800"
-                    type="button"
-                    onClick={openAccountModal}
-                  >
+                  <Button color="primary" className="rounded-full" onClick={openAccountModal}>
                     {account.displayName}
-                  </button>
+                  </Button>
                 </div>
               );
             })()}

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { Card } from '@nextui-org/react';
+
 import { VaultNetwork } from '@/@types/enum';
 
 import VaultDeposit from './VaultDeposit';
@@ -20,13 +22,13 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
 
   return (
-    <div className="bg-white bg-opacity-5 border border-rock-divider rounded-2xl backdrop-blur-sm p-6 xl:p-9">
+    <Card className="p-6 xl:p-9">
       <ul className="flex w-full">
         <li className="flex-1">
           <button
             type="button"
             className={`w-full text-sm lg:text-base ${
-              selectedTab === 'deposit' ? 'bg-rock-blue' : ''
+              selectedTab === 'deposit' ? 'bg-primary text-white' : ''
             }  rounded-full py-2.5`}
             onClick={() => setSelectedTab('deposit')}
           >
@@ -37,7 +39,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
           <button
             type="button"
             className={`w-full text-sm lg:text-base ${
-              selectedTab === 'withdraw' ? 'bg-rock-blue' : ''
+              selectedTab === 'withdraw' ? 'bg-primary text-white' : ''
             }  rounded-full py-2.5`}
             onClick={() => setSelectedTab('withdraw')}
           >
@@ -55,7 +57,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
           withdrawalStep2={withdrawalStep2}
         />
       )}
-    </div>
+    </Card>
   );
 };
 

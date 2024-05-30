@@ -1,7 +1,8 @@
 'use client';
 
-import { Link } from '@nextui-org/react';
+import { Chip } from '@nextui-org/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { SOCIAL_URLS } from '@/constants/socials';
@@ -56,21 +57,18 @@ const Sidebar = () => {
 
         <ul className="space-y-2 mt-12">
           {items.map((x) => (
-            <li
-              key={x.text}
-              className={`px-4 py-2.5 rounded-xl ${
-                pathname === x.link ? 'bg-secondary' : 'bg-transparent'
-              } ${x.disabled ? '' : 'hover:bg-secondary'}`}
-            >
+            <li key={x.text}>
               <Link
                 href={x.link}
-                isDisabled={x.disabled}
-                className="w-full flex items-center gap-2"
+                // isDisabled={x.disabled}
+                className={`w-full flex items-center gap-2 px-4 py-2.5 rounded-xl ${
+                  pathname === x.link ? 'bg-secondary' : 'bg-transparent'
+                } ${x.disabled ? '' : 'hover:bg-secondary'}`}
               >
                 <x.icon />
                 <div className="flex flex-col">
                   <span>{x.text}</span>
-                  {x.disabled && <span className="text-xs">Coming soon</span>}
+                  {x.disabled && <Chip size="sm">Coming soon</Chip>}
                 </div>
               </Link>
             </li>
@@ -78,40 +76,37 @@ const Sidebar = () => {
         </ul>
       </div>
 
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex flex-col items-center gap-2 w-full bg-primary py-4 rounded-xl">
-          <p className="text-white">Follow us on</p>
-          <ul className="flex gap-3">
-            <li>
-              <a
-                href={SOCIAL_URLS.Twitter}
-                target="_blank"
-                className="text-secondary block border border-secondary rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
-              >
-                <TwitterLineIcon />
-              </a>
-            </li>
-            <li>
-              <a
-                href={SOCIAL_URLS.Telegram}
-                target="_blank"
-                className="text-secondary block border border-secondary rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
-              >
-                <TelegramIcon />
-              </a>
-            </li>
-            <li>
-              <a
-                href={SOCIAL_URLS.Github}
-                target="_blank"
-                className="text-secondary block border border-secondary rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
-              >
-                <GithubLineIcon />
-              </a>
-            </li>
-          </ul>
-        </div>
-        <p className="text-sm">{`© Copyright • Onyx • ${new Date().getFullYear()}`}</p>
+      <div className="flex flex-col items-center gap-2 w-full bg-primary py-4 rounded-xl">
+        <p className="text-white">Follow us on</p>
+        <ul className="flex gap-3">
+          <li>
+            <a
+              href={SOCIAL_URLS.Twitter}
+              target="_blank"
+              className="text-secondary block border border-secondary rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
+            >
+              <TwitterLineIcon />
+            </a>
+          </li>
+          <li>
+            <a
+              href={SOCIAL_URLS.Telegram}
+              target="_blank"
+              className="text-secondary block border border-secondary rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
+            >
+              <TelegramIcon />
+            </a>
+          </li>
+          <li>
+            <a
+              href={SOCIAL_URLS.Github}
+              target="_blank"
+              className="text-secondary block border border-secondary rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-secondary hover:border-secondary hover:text-primary"
+            >
+              <GithubLineIcon />
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );

@@ -68,14 +68,8 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
 
   return (
     <VaultDetailProvider name={name} contractAddress={contractAddress}>
-      <div className="relative w-full sm:w-[90%] lg:w-full 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 xl:gap-12 mx-auto my-12 z-20 px-6 sm:px-0 lg:px-12 xl:px-20 2xl:px-0">
+      <div className="relative w-full flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 xl:gap-12 z-20">
         <div className="lg:col-span-3">
-          <div className="flex flex-col gap-8 mb-8 sm:mb-10 lg:mb-20">
-            <Typography variant="heading" className="relative z-20">
-              {name}
-            </Typography>
-            {description}
-          </div>
           <div className="flex flex-col gap-16 sm:gap-24">
             <div className="flex flex-col gap-16 lg:hidden">
               <VaultActionCard

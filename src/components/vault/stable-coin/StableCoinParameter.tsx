@@ -8,7 +8,7 @@ const StableCoinParameter = () => {
         <p className="text-rock-sub-body font-light text-center">Deposit assets</p>
         <div className="flex items-center gap-2">
           <UsdcCircleIcon className="w-6 h-6" />
-          <p className="text-white font-semibold text-sm text-center">USDC</p>
+          <p className="font-semibold text-sm text-center">USDC</p>
         </div>
       </li>
 
@@ -16,7 +16,7 @@ const StableCoinParameter = () => {
         <p className="text-rock-sub-body font-light text-center">Settlement asset</p>
         <div className="flex items-center gap-2">
           <UsdcCircleIcon className="w-6 h-6" />
-          <p className="text-white font-semibold text-sm text-center">USDC</p>
+          <p className="font-semibold text-sm text-center">USDC</p>
         </div>
       </li>
 
@@ -27,17 +27,17 @@ const StableCoinParameter = () => {
             <QuestionIcon className="w-4 h-4" />
           </Tooltip>
         </div>
-        <p className="text-white font-semibold text-sm text-center">wstEth-Eth</p>
+        <p className="font-semibold text-sm text-center">wstEth-Eth</p>
       </li>
 
       <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-2xl p-4">
         <p className="text-rock-sub-body font-light text-center">Initiate Withdrawal</p>
-        <p className="text-white font-semibold text-sm text-center">Any time</p>
+        <p className="font-semibold text-sm text-center">Any time</p>
       </li>
 
       <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-2xl p-4">
         <p className="text-rock-sub-body font-light text-center">Withdrawal</p>
-        <p className="text-white font-semibold text-sm text-center">Every Friday at 8am UTC</p>
+        <p className="font-semibold text-sm text-center">Every Friday at 8am UTC</p>
       </li>
     </ul>
   );

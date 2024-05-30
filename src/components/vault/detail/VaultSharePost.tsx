@@ -7,17 +7,17 @@ const VaultSharePost = () => {
 
       <ul className="flex items-center gap-8">
         <li>
-          <span className="text-white block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
+          <span className="block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
             <TwitterLineIcon />
           </span>
         </li>
         <li>
-          <span className="text-white block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
+          <span className="block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
             <TelegramIcon />
           </span>
         </li>
         <li>
-          <span className="text-white block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
+          <span className="block cursor-pointer transition duration-150 ease-in-out hover:scale-125">
             <GithubLineIcon />
           </span>
         </li>

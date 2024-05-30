@@ -12,11 +12,11 @@ const Page = (props: PageProps) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between bg-secondary px-6 py-4">
+      <div className="flex items-center rounded-tl-xl rounded-tr-xl justify-between bg-[#F5F5F5] px-6 py-4">
         <h2 className="text-xl font-semibold">{title}</h2>
         <WalletConnectButton />
       </div>
-      <div className="p-6">{children}</div>
+      <div className="h-[calc(100vh-124px)] p-6 overflow-auto">{children}</div>
     </div>
   );
 };
