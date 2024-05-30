@@ -38,7 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="flex h-screen">
               <Sidebar />
               <div className="flex-1 pr-6 py-6">
-                <div className="rounded-xl bg-white">{children}</div>
+                <div className="rounded-bl-3xl rounded-br-3xl rounded-tl-[28px] rounded-tr-[28px] bg-[#F1F1EB]">
+                  {children}
+                </div>
               </div>
             </main>
           </Suspense>
