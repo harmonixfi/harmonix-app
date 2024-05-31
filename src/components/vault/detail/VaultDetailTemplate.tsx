@@ -25,6 +25,7 @@ type VaultDetailTemplateProps = VaultDetailMapping & {
   id: string;
   slug: string;
   name: string;
+  contractAddress: Address;
   apy: number;
   apr: number;
   onyxData: LineChartData[];
@@ -36,6 +37,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     id,
     slug,
     name,
+    contractAddress,
     apy,
     apr,
     onyxData,
@@ -62,7 +64,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   const withdrawalRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   return (
-    <VaultDetailProvider name={name}>
+    <VaultDetailProvider name={name} contractAddress={contractAddress}>
       <div className="relative w-full sm:w-[90%] lg:w-full 2xl:w-4/5 flex flex-col-reverse lg:grid lg:grid-cols-5 gap-8 xl:gap-12 mx-auto my-12 z-20 px-6 sm:px-0 lg:px-12 xl:px-20 2xl:px-0">
         <div className="lg:col-span-3">
           <div className="flex flex-col gap-8 mb-8 sm:mb-10 lg:mb-20">

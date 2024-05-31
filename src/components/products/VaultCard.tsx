@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import Link from 'next/link';
 
+import { Address } from '@/@types/common';
 import { Strategy, SupportedChain } from '@/@types/enum';
 import { Point } from '@/@types/vault';
 import { useChainContext } from '@/app/_providers/ChainProvider';
@@ -32,18 +33,31 @@ type VaultCardProps = {
   available?: boolean;
   points?: Point[];
   strategy: Strategy;
+  contractAddress: Address;
 };
 
 const VaultCard = (props: VaultCardProps) => {
-  const { name, link = '#', apy = 0, maxCapacity, available = true, points, strategy } = props;
+  const {
+    name,
+    link = '#',
+    apy = 0,
+    maxCapacity,
+    available = true,
+    points,
+    strategy,
+    contractAddress,
+  } = props;
 
   const { selectedChain } = useChainContext();
 
   const contracts = useContractMapping();
 
-  const { color, vaultAbi, vaultAddress } = vaultCardMapping(name, contracts);
+  const { color, vaultAbi } = vaultCardMapping(name, contracts);
 
-  const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
+  const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(
+    vaultAbi,
+    contractAddress,
+  );
 
   const displayedStrategy = useMemo(() => {
     if (strategy === Strategy.OptionsWheel) {
@@ -103,8 +117,10 @@ const VaultCard = (props: VaultCardProps) => {
 
           {points && points.length > 0 && (
             <div className="grid grid-cols-2 gap-6">
-              {points.map((x) => (
-                <PointCard key={x.name} type={x.name} point={x.point} />
+              {points.map((x, index) => (
+                <div key={x.name} className={`${index === 2 ? 'col-span-2' : ''}`}>
+                  <PointCard type={x.name} point={x.point} />
+                </div>
               ))}
             </div>
           )}

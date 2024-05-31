@@ -29,7 +29,6 @@ import { ContractMapping } from '@/hooks/useContractMapping';
 type VaultCardMapping = {
   color?: 'default' | 'secondary';
   vaultAbi?: Abi;
-  vaultAddress?: Address;
 };
 
 export type VaultDetailMapping = {
@@ -52,7 +51,6 @@ export const vaultCardMapping = (
     return {
       color: 'default',
       vaultAbi: contracts.optionsWheelVaultAbi,
-      vaultAddress: contracts.optionsWheelVaultAddress,
     };
   }
 
@@ -60,22 +58,19 @@ export const vaultCardMapping = (
     return {
       color: 'secondary',
       vaultAbi: contracts.deltaNeutralRenzoVaultAbi,
-      vaultAddress: contracts.deltaNeutralRenzoVaultAddress,
     };
   }
 
-  if (name.toLowerCase().includes('kelp')) {
+  if (name.toLowerCase().includes('kelpdao')) {
     return {
       color: 'secondary',
       vaultAbi: contracts.deltaNeutralKelpDaoVaultAbi,
-      vaultAddress: contracts.deltaNeutralKelpDaoVaultAddress,
     };
   }
 
   return {
     color: 'secondary',
     vaultAbi: contracts.deltaNeutralVaultAbi,
-    vaultAddress: contracts.deltaNeutralVaultAddress,
   };
 };
 

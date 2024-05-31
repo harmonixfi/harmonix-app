@@ -12,26 +12,12 @@ import { useChainContext } from '@/app/_providers/ChainProvider';
 
 // SEPOLIA Contract address
 const sepoliaUsdcAddress = process.env.NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS;
-const sepoliaOptionsWheelVaultAddress = process.env.NEXT_PUBLIC_SEPOLIA_OPTIONS_WHEEL_VAULT_ADDRESS;
-const sepoliaDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_SEPOLIA_DELTA_NEUTRAL_VAULT_ADDRESS;
-const sepoliaDeltaNeutralRenzoVaultAddress =
-  process.env.NEXT_PUBLIC_SEPOLIA_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS;
 
 // ARBITRUM Contract address
 const arbitrumUsdcAddress = process.env.NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS;
-const arbitrumOptionsWheelVaultAddress =
-  process.env.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS;
-const arbitrumDeltaNeutralVaultAddress =
-  process.env.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_VAULT_ADDRESS;
-const arbitrumDeltaNeutralRenzoVaultAddress =
-  process.env.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS;
-const arbitrumDeltaNeutralKelpDaoVaultAddress =
-  process.env.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS;
 
 // ETHEREUM Contract address
 const ethereumUsdcAddress = process.env.NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS;
-const ethereumDeltaNeutralRenzoVaultAddress =
-  process.env.NEXT_PUBLIC_ETHEREUM_OPTIONS_WHEEL_VAULT_ADDRESS;
 
 export type ContractMapping = {
   usdcAbi: Abi;
@@ -53,13 +39,9 @@ const useContractMapping = () => {
       usdcAbi: usdcArbitrumAbi as Abi,
       usdcAddress: sepoliaUsdcAddress,
       optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
-      optionsWheelVaultAddress: sepoliaOptionsWheelVaultAddress,
       deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
-      deltaNeutralVaultAddress: sepoliaDeltaNeutralVaultAddress,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
-      deltaNeutralRenzoVaultAddress: sepoliaDeltaNeutralRenzoVaultAddress,
       deltaNeutralKelpDaoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
-      deltaNeutralKelpDaoVaultAddress: sepoliaDeltaNeutralRenzoVaultAddress,
     };
   }
 
@@ -67,14 +49,7 @@ const useContractMapping = () => {
     return {
       usdcAbi: usdcEthereumAbi as Abi,
       usdcAddress: ethereumUsdcAddress,
-      // optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
-      // optionsWheelVaultAddress: arbitrumOptionsWheelVaultAddress,
-      // deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
-      // deltaNeutralVaultAddress: arbitrumDeltaNeutralVaultAddress,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
-      deltaNeutralRenzoVaultAddress: ethereumDeltaNeutralRenzoVaultAddress,
-      // deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
-      // deltaNeutralKelpDaoVaultAddress: arbitrumDeltaNeutralKelpDaoVaultAddress,
     };
   }
 
@@ -82,13 +57,8 @@ const useContractMapping = () => {
     usdcAbi: usdcArbitrumAbi as Abi,
     usdcAddress: arbitrumUsdcAddress,
     optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
-    optionsWheelVaultAddress: arbitrumOptionsWheelVaultAddress,
     deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
-    deltaNeutralVaultAddress: arbitrumDeltaNeutralVaultAddress,
-    deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
-    deltaNeutralRenzoVaultAddress: arbitrumDeltaNeutralRenzoVaultAddress,
     deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
-    deltaNeutralKelpDaoVaultAddress: arbitrumDeltaNeutralKelpDaoVaultAddress,
   };
 };
 

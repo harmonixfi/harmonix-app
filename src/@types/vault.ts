@@ -1,3 +1,4 @@
+import { Address } from './common';
 import { Strategy, VaultCategory, VaultNetwork } from './enum';
 
 export type Vault = {
@@ -13,6 +14,7 @@ export type Vault = {
   next_close_round_date: string | null;
   points?: Point[];
   strategy_name: Strategy;
+  contract_address: Address;
 };
 
 export type VaultPerformance = {
@@ -25,6 +27,7 @@ export type Position = {
   vault_id: string;
   vault_name: string;
   vault_currency: string;
+  vault_address: Address;
   user_address: string;
   total_balance: number;
   init_deposit: number;
