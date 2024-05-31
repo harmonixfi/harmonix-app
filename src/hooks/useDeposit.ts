@@ -2,7 +2,9 @@ import { BigNumberish } from 'ethers';
 import { Abi } from 'viem';
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
-const useDeposit = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => {
+import { Address } from '@/@types/common';
+
+const useDeposit = (vaultAbi?: Abi, vaultAddress?: Address) => {
   const {
     isPending,
     data: hash,
@@ -20,13 +22,19 @@ const useDeposit = (vaultAbi?: Abi, vaultAddress?: `0x${string}`) => {
     hash,
   });
 
-  const handleDeposit = async (amount: BigNumberish) => {
+  const handleDeposit = async (amount: BigNumberish, tokenIn?: Address, transitToken?: Address) => {
     if (!vaultAbi || !vaultAddress) return;
+
+    let params = [amount];
+    if (tokenIn && transitToken) {
+      params = params.concat([tokenIn, transitToken]);
+    }
+
     return await writeContract({
       abi: vaultAbi,
       address: vaultAddress,
       functionName: 'deposit',
-      args: [amount],
+      args: params,
     });
   };
 

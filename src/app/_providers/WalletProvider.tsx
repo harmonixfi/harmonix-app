@@ -15,12 +15,12 @@ import { arbitrum, sepolia } from 'wagmi/chains';
 const projectId = process.env.NEXT_PUBLIC_W3C_PROJECT_ID ?? '';
 
 const config = getDefaultConfig({
-  appName: 'Rock Onyx',
+  appName: 'Harmonix',
   projectId,
   wallets: [
     { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
   ],
-  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [sepolia],
+  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [arbitrum, sepolia],
   ssr: true,
 });
 
@@ -30,11 +30,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          initialChain={process.env.NEXT_PUBLIC_APP_ENV === 'production' ? arbitrum : sepolia}
-          theme={darkTheme()}
-          modalSize="compact"
-        >
+        <RainbowKitProvider initialChain={arbitrum} theme={darkTheme()} modalSize="compact">
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

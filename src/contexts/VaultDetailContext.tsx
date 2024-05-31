@@ -2,15 +2,14 @@ import { ReactNode, createContext, useContext, useMemo } from 'react';
 
 import { Abi } from 'viem';
 
-import rockOnyxDeltaNeutralVaultAbi from '@/abi/RockOnyxDeltaNeutralVault.json';
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+import { Address } from '@/@types/common';
+import { VaultVariant } from '@/@types/enum';
+import useContractMapping from '@/hooks/useContractMapping';
 
 type VaultDetailContextData = {
+  vaultVariant?: VaultVariant;
   vaultAbi?: Abi;
-  vaultAddress?: `0x${string}`;
+  vaultAddress?: Address;
 };
 
 const VaultDetailContext = createContext<VaultDetailContextData>({});
@@ -23,22 +22,63 @@ type VaultDetailProviderProps = {
 export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
   const { name, children } = props;
 
-  const { vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
+  const {
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
+  } = useContractMapping();
+
+  const { vaultVariant, vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
     if (name.toLowerCase().includes('option')) {
       return {
-        vaultAbi: rockOnyxUsdtVaultAbi as Abi,
-        vaultAddress: rockOnyxUsdtVaultAddress,
+        vaultVariant: VaultVariant.OptionsWheel,
+        vaultAbi: optionsWheelVaultAbi,
+        vaultAddress: optionsWheelVaultAddress,
       };
     }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return {
+        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultAbi: deltaNeutralRenzoVaultAbi,
+        vaultAddress: deltaNeutralRenzoVaultAddress,
+      };
+    }
+
+    if (name.toLowerCase().includes('kelp')) {
+      return {
+        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultAbi: deltaNeutralKelpDaoVaultAbi,
+        vaultAddress: deltaNeutralKelpDaoVaultAddress,
+      };
+    }
+
     return {
-      vaultAbi: rockOnyxDeltaNeutralVaultAbi as Abi,
-      vaultAddress: rockOnyxDeltaNeutralVaultAddress,
+      vaultVariant: VaultVariant.DeltaNeutral,
+      vaultAbi: deltaNeutralVaultAbi,
+      vaultAddress: deltaNeutralVaultAddress,
     };
-  }, [name]);
+  }, [
+    name,
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
+  ]);
 
   return (
     <VaultDetailContext.Provider
       value={{
+        vaultVariant,
         vaultAbi,
         vaultAddress,
       }}

@@ -7,6 +7,7 @@ import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../public/images/logo.png';
+import { GithubLineIcon, TelegramIcon, TwitterLineIcon } from './icons';
 
 // import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
 
@@ -19,8 +20,8 @@ const Footer = () => {
             href={Urls.Home}
             className="flex items-center justify-center sm:justify-start gap-3"
           >
-            <Image src={logoImg} alt="Rock Onyx Logo" width={48} height={48} />
-            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Rock Onyx</h4>
+            <Image src={logoImg} alt="Harmonix Logo" width={48} height={48} />
+            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Harmonix</h4>
           </Link>
           {/* <p className="text-lg font-semibold uppercase mt-4 sm:mt-10 pl-4">SLOGAN</p> */}
         </div>
@@ -40,12 +41,12 @@ const Footer = () => {
                     Blog
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={Urls.Home}>Team</Link>
                 </li>
                 <li>
                   <Link href={Urls.Home}>Audit</Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="flex flex-col items-center sm:items-start">
@@ -69,36 +70,45 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col items-center sm:items-start">
-              <p className="text-rock-sub-body text-base font-semibold uppercase">Dashboard</p>
+              <Link href={Urls.Dashboard} className="text-base font-semibold uppercase">
+                Dashboard
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-center md:justify-between mt-12 sm:mt-48">
-        <p className="text-sm text-white font-normal">{`© Copyright • Rock Onyx • ${new Date().getFullYear()}`}</p>
-        {/* <ul className="flex gap-6">
+      <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 sm:gap-0 mt-12 sm:mt-48">
+        <p className="text-sm text-white font-normal">{`© Copyright • Harmonix • ${new Date().getFullYear()}`}</p>
+        <ul className="flex gap-3">
           <li>
-            <a href="#">
-              <LinkedinIcon />
+            <a
+              href={SOCIAL_URLS.Twitter}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <TwitterLineIcon />
             </a>
           </li>
           <li>
-            <a href="#">
-              <TwitterIcon />
+            <a
+              href={SOCIAL_URLS.Telegram}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <TelegramIcon />
             </a>
           </li>
           <li>
-            <a href="#">
-              <FacebookIcon />
+            <a
+              href={SOCIAL_URLS.Github}
+              target="_blank"
+              className="text-white block border border-rock-gray border-opacity-25 rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-rock-primary hover:border-rock-primary"
+            >
+              <GithubLineIcon />
             </a>
           </li>
-          <li>
-            <a href="#">
-              <InstagramIcon />
-            </a>
-          </li>
-        </ul> */}
+        </ul>
       </div>
     </footer>
   );

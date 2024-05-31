@@ -1,13 +1,25 @@
+'use client';
+
+import { ethers } from 'ethers';
+
 import Typography from '@/components/shared/Typography';
 import {
+  AevoIcon,
+  CamelotIcon,
   ChartPinIcon,
   OrderIcon,
   StatIcon,
-  VaultIcon,
   WaterfallIcon,
 } from '@/components/shared/icons';
+import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
+import useVaultQueries from '@/hooks/useVaultQueries';
+import { toFixedNumber } from '@/utils/number';
 
 const StableCoinSafetyAssurance = () => {
+  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+
+  const { allocatedRatioData } = useVaultQueries(vaultAbi, vaultAddress);
+
   return (
     <div className="flex flex-col gap-16">
       <div className="border border-rock-divider rounded-2xl p-6 sm:p-9">
@@ -20,25 +32,43 @@ const StableCoinSafetyAssurance = () => {
           </thead>
           <tbody className="mt-2">
             <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>ETH</span>
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+                <CamelotIcon className="w-10 h-10 p-1.5 rounded-md" />
+                <span className="text-rock-sub-body">ETH</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">60%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+                {`${
+                  Array.isArray(allocatedRatioData) && allocatedRatioData[0]
+                    ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[0], 2)))
+                    : 0
+                }%`}
+              </td>
             </tr>
             <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>USDC</span>
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+                <CamelotIcon className="w-10 h-10 p-1.5 rounded-md" />
+                <span className="text-rock-sub-body">USDC</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">20%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+                {`${
+                  Array.isArray(allocatedRatioData) && allocatedRatioData[1]
+                    ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[1], 2)))
+                    : 0
+                }%`}
+              </td>
             </tr>
             <tr>
-              <td className="flex items-center gap-4 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
-                <VaultIcon className="bg-rock-blue opacity-60 w-10 h-10 p-1.5 rounded-md" />
-                <span>USDC.e</span>
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+                <AevoIcon className="w-10 h-10 p-1.5 rounded-md" />
+                <span className="text-rock-sub-body">USDC</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">20%</td>
+              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+                {`${
+                  Array.isArray(allocatedRatioData) && allocatedRatioData[2]
+                    ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[2], 2)))
+                    : 0
+                }%`}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -91,7 +121,7 @@ const StableCoinSafetyAssurance = () => {
       <div className="flex flex-col gap-6">
         <p className="uppercase">
           <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 -translate-y-0.5" />
-          Rock Onyx&apos;s Solution
+          Harmonix&apos;s Solution
         </p>
         <div className="border border-rock-divider rounded-2xl sm:rounded-3xl p-6">
           <div className="flex items-center gap-2 mb-2 text-rock-sub-body">
@@ -114,7 +144,7 @@ const StableCoinSafetyAssurance = () => {
             <p className="text-rock-sub-body">For smart contract risk</p>
           </div>
           <Typography variant="subbody">
-            Rock Onyx is working with 3 audit firms to conduct code audits and maintain continuous
+            Harmonix is working with 3 audit firms to conduct code audits and maintain continuous
             oversight to ensure user protection.
           </Typography>
         </div>

@@ -1,25 +1,28 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
+import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
+import { useParams } from 'next/navigation';
+import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
+import { VaultVariant } from '@/@types/enum';
+import { getUserPortfolio } from '@/api/vault';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useAppConfig from '@/hooks/useAppConfig';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import { toFixedNumber } from '@/utils/number';
+import useVaultQueries from '@/hooks/useVaultQueries';
+import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 import Tooltip from '../../shared/Tooltip';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
-
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-const rockOnyxDeltaNeutralVaultAddress = process.env.NEXT_PUBLIC_DELTA_NEUTRAL_VAULT_ADDRESS;
+import WithdrawCoolDown from './WithdrawCoolDown';
 
 type VaultWithdrawProps = {
   apr: number;
@@ -30,14 +33,23 @@ type VaultWithdrawProps = {
 const VaultWithdraw = (props: VaultWithdrawProps) => {
   const { withdrawalTime, withdrawalStep2 } = props;
 
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const params = useParams();
+
+  const { vaultVariant, vaultAbi, vaultAddress } = useVaultDetailContext();
 
   const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState('');
+  const [isCoolingDown, setIsCoolingDown] = useState(false);
 
-  const { transactionBaseUrl } = useAppConfig();
   const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
 
   const { status, address } = useAccount();
+
+  const {
+    data: portfolio,
+    isLoading: isLoadingPortfolio,
+    mutate: refetchPortfolio,
+  } = useSWR(address, getUserPortfolio, { refreshInterval: 2 * 60 * 1000 });
 
   const {
     isInitiatingWithdrawal,
@@ -59,15 +71,17 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     balanceOf,
     pricePerShare,
     availableWithdrawalAmount,
+    withdrawPoolAmount,
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress);
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
 
-  const isEnableCompleteWithdraw = availableWithdrawalAmount > 0;
+  const isEnableCompleteWithdraw =
+    availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;
 
   const handleRefetchAvailableWithdrawalAmount = () => {
-    if (vaultAddress === rockOnyxUsdtVaultAddress) {
+    if (vaultVariant === VaultVariant.OptionsWheel) {
       refetchAvailableWithdrawalAmount();
     } else {
       refetchDeltaNeutralAvailableWithdrawalShares();
@@ -75,13 +89,14 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   };
 
   useEffect(() => {
-    if (availableWithdrawalAmount > 0) {
+    if (isCoolingDown || isEnableCompleteWithdraw) {
       setInputValue(String(availableWithdrawalAmount));
     }
-  }, [availableWithdrawalAmount]);
+  }, [isCoolingDown, isEnableCompleteWithdraw, availableWithdrawalAmount]);
 
   useEffect(() => {
     if (isConfirmedInitiateWithdrawal) {
+      refetchPortfolio();
       setInputValue('');
       onOpenDialog('success');
       refetchBalanceOf();
@@ -91,19 +106,29 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
   useEffect(() => {
     if (isConfirmedCompleteWithdrawal) {
+      refetchPortfolio();
       setInputValue('');
-      onOpenDialog('success', `${transactionBaseUrl}/${completeWithdrawalTransactionHash}`);
+      onOpenDialog('success', completeWithdrawalTransactionHash);
       refetchBalanceOf();
       handleRefetchAvailableWithdrawalAmount();
     }
   }, [isConfirmedCompleteWithdrawal]);
 
   useEffect(() => {
-    if (isInitiateWithdrawalError || isCompleteWithdrawalError) {
+    if (isInitiateWithdrawalError) {
       onOpenDialog('error');
-      console.error(initiateWithdrawalError || completeWithdrawalError);
+      Sentry.captureException(initiateWithdrawalError);
+      console.error(initiateWithdrawalError);
     }
-  }, [isInitiateWithdrawalError, isCompleteWithdrawalError]);
+  }, [isInitiateWithdrawalError]);
+
+  useEffect(() => {
+    if (isCompleteWithdrawalError) {
+      onOpenDialog('error');
+      Sentry.captureException(completeWithdrawalError);
+      console.error(completeWithdrawalError);
+    }
+  }, [isCompleteWithdrawalError]);
 
   const handleInitiateWithdraw = async () => {
     const amount = ethers.utils.parseUnits(inputValue, 6);
@@ -126,18 +151,78 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    if (value.match(FLOAT_REGEX)) setInputValue(value);
+    if (value.match(FLOAT_REGEX)) {
+      setInputValue(value);
+      if (isEnableCompleteWithdraw) {
+        if (Number(value) > availableWithdrawalAmount) {
+          setInputError('Insufficient balance');
+        } else {
+          setInputError('');
+        }
+      } else {
+        if (Number(value) > balanceOf) {
+          setInputError('Insufficient balance');
+        } else {
+          setInputError('');
+        }
+      }
+    }
   };
 
   const handleClickWithdrawAll = () => {
     setInputValue(balanceOf > 0 ? String(balanceOf) : '');
+    setInputError('');
   };
 
   const isConnectedWallet = status === 'connected';
 
   const isWithdrawing = isInitiatingWithdrawal || isCompletingWithdrawal;
 
-  const disabledButton = !isConnectedWallet || isWithdrawing || !inputValue;
+  const currentPosition = useMemo(
+    () => portfolio?.positions?.find((x) => x.slug === params.slug),
+    [portfolio, params.slug],
+  );
+
+  const isWaitingForWithdrawPool = availableWithdrawalAmount > 0 && !isEnableCompleteWithdraw;
+
+  const disabledButton =
+    !isConnectedWallet ||
+    isWithdrawing ||
+    !inputValue ||
+    !!inputError ||
+    isCoolingDown ||
+    isWaitingForWithdrawPool;
+
+  const withdrawalTargetDate = useMemo(() => {
+    if (isEnableCompleteWithdraw || !currentPosition || !currentPosition.initiated_withdrawal_at)
+      return null;
+
+    let targetDate = null;
+
+    if (vaultVariant === VaultVariant.OptionsWheel) {
+      /** Options wheel vault: 8am UTC Friday */
+      targetDate = getOptionsWheelWithdrawalDate();
+    } else {
+      /** Delta neutral vault: after 4 hours from initiated_withdrawal_at */
+      targetDate = getDeltaNeutralWithdrawalDate(currentPosition.initiated_withdrawal_at);
+    }
+
+    if (new Date() > targetDate) return null;
+
+    return targetDate.toISOString();
+  }, [isEnableCompleteWithdraw, vaultVariant, currentPosition]);
+
+  useEffect(() => {
+    if (withdrawalTargetDate) {
+      setIsCoolingDown(true);
+    }
+  }, [withdrawalTargetDate]);
+
+  useEffect(() => {
+    if (isEnableCompleteWithdraw && isCoolingDown) {
+      setIsCoolingDown(false);
+    }
+  }, [isEnableCompleteWithdraw, isCoolingDown]);
 
   return (
     <div>
@@ -149,7 +234,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       )}
 
       <div className="mt-6 sm:mt-10">
-        <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
+        <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Harmonix vault</p>
         <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -176,48 +261,69 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
 
       <div className="flex items-center justify-between mt-6 sm:mt-12">
         <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
-        {!isEnableCompleteWithdraw && (
-          <button
-            type="button"
-            className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
-            onClick={handleClickWithdrawAll}
-          >
-            Withdraw all
-          </button>
-        )}
+        {!isLoadingPortfolio &&
+          !isCoolingDown &&
+          !isEnableCompleteWithdraw &&
+          !isWaitingForWithdrawPool && (
+            <button
+              type="button"
+              className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
+              onClick={handleClickWithdrawAll}
+            >
+              Withdraw all
+            </button>
+          )}
       </div>
 
       <div className="relative mt-3 sm:mt-6">
         <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-12 h-12" />
         <input
-          className="w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white focus:ring-2 focus:outline-none"
+          className={`w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white ${
+            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+          } focus:outline-none`}
           type="text"
           placeholder="0.0"
-          disabled={!isConnectedWallet || isEnableCompleteWithdraw}
+          disabled={
+            !isConnectedWallet ||
+            isCoolingDown ||
+            isWaitingForWithdrawPool ||
+            isEnableCompleteWithdraw
+          }
           value={inputValue}
           onChange={handleChangeInputValue}
         />
       </div>
+      {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
 
       <div className="text-rock-gray mt-6 text-sm lg:text-base">
-        {!isEnableCompleteWithdraw && (
-          <>
-            <div className="flex items-center justify-between">
-              <p>Your available amount</p>
-              <p>{`${toFixedNumber(balanceOf)} roUSD`}</p>
-            </div>
+        {!isLoadingPortfolio &&
+          !isCoolingDown &&
+          !isEnableCompleteWithdraw &&
+          !isWaitingForWithdrawPool && (
+            <>
+              <div className="flex items-center justify-between">
+                <p>Your available amount</p>
+                <p>{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
+              </div>
 
-            <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
-          </>
-        )}
+              <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
+            </>
+          )}
 
         <div className="flex items-center justify-between">
           <p>You will receive</p>
-          <p className="text-white">{`${toFixedNumber(
-            (Number(inputValue) || 0) * pricePerShare,
+          <p className="text-white">{`${withCommas(
+            toFixedNumber((Number(inputValue) || 0) * pricePerShare),
           )} USDC`}</p>
         </div>
       </div>
+
+      {isCoolingDown && withdrawalTargetDate && (
+        <WithdrawCoolDown
+          targetDate={withdrawalTargetDate}
+          onCoolDownEnd={() => setIsCoolingDown(false)}
+        />
+      )}
 
       <button
         type="button"
@@ -228,7 +334,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         onClick={handleWithdraw}
       >
         {isWithdrawing && <SpinnerIcon className="w-6 h-6 animate-spin" />}
-        {isEnableCompleteWithdraw ? 'Complete withdrawal' : 'Initiate withdrawal'}
+        {isCoolingDown || isWaitingForWithdrawPool || isEnableCompleteWithdraw
+          ? 'Complete withdrawal'
+          : 'Initiate withdrawal'}
       </button>
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />

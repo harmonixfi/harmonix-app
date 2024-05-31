@@ -1,42 +1,63 @@
 'use client';
 
 import Link from 'next/link';
-import useSWR from 'swr';
-import { Abi } from 'viem';
 
-import rockOnyxUsdtVaultAbi from '@/abi/RockOnyxUSDTVault.json';
-import { getVaults } from '@/api/vault';
 import { Urls } from '@/constants/urls';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
+import useContractMapping from '@/hooks/useContractMapping';
+import useVaultQueries from '@/hooks/useVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
-const rockOnyxUsdtVaultAddress = process.env.NEXT_PUBLIC_ROCK_ONYX_USDT_VAULT_ADDRESS;
-
 const VaultFloatButton = () => {
-  const { isLoadingTotalValueLocked, totalValueLocked } = useRockOnyxVaultQueries(
-    rockOnyxUsdtVaultAbi as Abi,
-    rockOnyxUsdtVaultAddress,
-  );
+  const {
+    optionsWheelVaultAbi,
+    optionsWheelVaultAddress,
+    deltaNeutralVaultAbi,
+    deltaNeutralVaultAddress,
+    deltaNeutralRenzoVaultAbi,
+    deltaNeutralRenzoVaultAddress,
+    deltaNeutralKelpDaoVaultAbi,
+    deltaNeutralKelpDaoVaultAddress,
+  } = useContractMapping();
 
-  const { data } = useSWR('get-vaults', getVaults);
+  const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
+    useVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
 
-  const optionWheelVaultSlug = data?.find((x) => x.name.toLowerCase().includes('option'))?.slug;
+  const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
+    useVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
+
+  const {
+    isLoadingTotalValueLocked: isLoadingDeltaNeutralRenzo,
+    totalValueLocked: deltaNeutralRenzoTvl,
+  } = useVaultQueries(deltaNeutralRenzoVaultAbi, deltaNeutralRenzoVaultAddress);
+
+  const {
+    isLoadingTotalValueLocked: isLoadingDeltaNeutralKelpDao,
+    totalValueLocked: deltaNeutralKelpDaoTvl,
+  } = useVaultQueries(deltaNeutralKelpDaoVaultAbi, deltaNeutralKelpDaoVaultAddress);
+
+  const isLoading =
+    isLoadingOptionsWheel ||
+    isLoadingDeltaNeutral ||
+    isLoadingDeltaNeutralRenzo ||
+    isLoadingDeltaNeutralKelpDao;
+
+  const tvl = optionsWheelTvl + deltaNeutralTvl + deltaNeutralRenzoTvl + deltaNeutralKelpDaoTvl;
 
   return (
     <Link
-      href={`${Urls.Vaults}/${optionWheelVaultSlug}`}
+      href={Urls.Products}
       className="flex gap-1 backdrop-blur-sm w-fit bg-white bg-opacity-10 shadow-sm rounded-full pl-1 pr-8 py-1 cursor-pointer transition duration-150 ease-in-out hover:scale-105"
     >
       <TSymbolIcon />
       <CurrencySymbolIcon />
       <div className="pl-2">
-        <p className="text-sm font-light text-rock-sub-body">Options Wheel Vault TVL</p>
-        {isLoadingTotalValueLocked ? (
+        <p className="text-sm font-light text-rock-sub-body">Harmonix TVL</p>
+        {isLoading ? (
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
           <p className="font-bold">
-            {totalValueLocked.toLocaleString('en-US', {
+            {tvl.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,

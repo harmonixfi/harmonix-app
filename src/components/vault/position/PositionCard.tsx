@@ -2,19 +2,35 @@
 
 import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
-import { formatPnl, toFixedNumber } from '@/utils/number';
+import useVaultQueries from '@/hooks/useVaultQueries';
+import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 
 const PositionCard = () => {
-  const { vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
 
-  const { depositAmount, pricePerShare, balanceOf, availableWithdrawalAmount, profit, loss } =
-    useRockOnyxVaultQueries(vaultAbi, vaultAddress);
-  const totalBalance = balanceOf * pricePerShare;
+  const {
+    depositAmount,
+    pricePerShare,
+    balanceOf,
+    deltaNeutralShares,
+    availableWithdrawalAmount,
+    profit,
+    loss,
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
+  const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
 
-  if (depositAmount === 0) {
+  const isOptionsWheelVault =
+    vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS;
+
+  if (
+    (!isOptionsWheelVault &&
+      depositAmount === 0 &&
+      deltaNeutralShares === 0 &&
+      availableWithdrawalAmount === 0) ||
+    (isOptionsWheelVault && depositAmount === 0 && availableWithdrawalAmount === 0)
+  ) {
     return null;
   }
 
@@ -25,12 +41,12 @@ const PositionCard = () => {
       <div className="flex flex-col gap-3 bg-rock-bg rounded-xl p-4 sm:p-6 mt-3 sm:mt-6">
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Total balance</p>
-          <p className="text-white">{toFixedNumber(totalBalance)} USDC</p>
+          <p className="text-white">{withCommas(toFixedNumber(totalBalance))} USDC</p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Total shares</p>
-          <p className="text-white">{toFixedNumber(balanceOf)} roUSD</p>
+          <p className="text-white">{withCommas(toFixedNumber(balanceOf))} roUSD</p>
         </div>
 
         <div className="flex items-center justify-between">
@@ -39,21 +55,23 @@ const PositionCard = () => {
             className={`text-right ${
               Number(toFixedNumber(netYield)) >= 0 ? 'text-rock-green' : 'text-red-600'
             }`}
-          >{`${formatPnl(toFixedNumber(netYield))} USDC (${toFixedNumber(pnl * 100)}%)`}</p>
+          >{`${formatPnl(toFixedNumber(netYield))} USDC (${formatPnl(
+            toFixedNumber(pnl * 100),
+          )}%)`}</p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Pending withdrawal</p>
           <p className="text-white">
             {availableWithdrawalAmount !== 0
-              ? `${toFixedNumber(availableWithdrawalAmount)} roUSD`
+              ? `${withCommas(toFixedNumber(availableWithdrawalAmount))} roUSD`
               : NA_STRING}
           </p>
         </div>
 
         <div className="flex items-center justify-between">
           <p className="text-white font-extralight">Initial deposit amount</p>
-          <p className="text-rock-primary">{toFixedNumber(depositAmount)} USDC</p>
+          <p className="text-rock-primary">{withCommas(toFixedNumber(depositAmount))} USDC</p>
         </div>
       </div>
     </div>

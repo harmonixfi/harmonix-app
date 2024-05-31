@@ -12,7 +12,11 @@ export const withCommas = (input: number | string = '') => {
 
 export const formatPnl = (pnl: number | string, isPercent = false) => {
   const percent = isPercent ? '%' : '';
-  if (Number(pnl) < 0) return `${pnl}${percent}`;
+  if (Number(pnl) < 0) return `${withCommas(pnl)}${percent}`;
   if (Number(pnl) === 0) return `0${percent}`;
-  return `+${pnl}${percent}`;
+  return `+${withCommas(pnl)}${percent}`;
+};
+
+export const minDigits = (value: number, digits = 2) => {
+  return ('0' + value).slice(-digits);
 };

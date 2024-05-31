@@ -1,17 +1,20 @@
 import { BigNumberish } from 'ethers';
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
-import usdcAbi from '@/abi/usdc.json';
+import { Address } from '@/@types/common';
 
-const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
+import useContractMapping from './useContractMapping';
 
-const useApprove = (vaultAddress?: `0x${string}`) => {
+const useApprove = (vaultAddress?: Address) => {
+  const { usdcAbi, usdcAddress } = useContractMapping();
+
   const { isPending, isError: isApprovalError, data: hash, writeContract } = useWriteContract();
 
   const {
     isError: isTxError,
     isLoading: isConfirming,
     isSuccess: isConfirmed,
+    error: approvalError,
   } = useWaitForTransactionReceipt({
     hash,
   });
@@ -28,6 +31,7 @@ const useApprove = (vaultAddress?: `0x${string}`) => {
     isApproving: isPending || isConfirming,
     isConfirmedApproval: isConfirmed,
     isApproveError: isApprovalError || isTxError,
+    approvalError,
     approve: handleApprove,
   };
 };

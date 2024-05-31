@@ -25,7 +25,7 @@ export const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: 'Rock Onyx',
+  title: 'Harmonix',
   description: 'Automatic Hedging Vaults While Earning Good Yields With Low Risk',
 };
 
