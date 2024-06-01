@@ -39,6 +39,7 @@ next-env.d.ts
 .env.production
 # Sentry Config File
 .sentryclirc
+build.ps1
 
 # sst
 .sst

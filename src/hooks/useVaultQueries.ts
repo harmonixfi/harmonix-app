@@ -56,7 +56,7 @@ const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: 
     address: vaultAddress,
     functionName: 'getUserVaultState',
     account: account.address,
-    query: { enabled: vaultVariant !== VaultVariant.OptionsWheel },
+    query: { enabled: vaultVariant === VaultVariant.DeltaNeutral },
   });
 
   const {
@@ -67,7 +67,7 @@ const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: 
     address: vaultAddress,
     functionName: 'getUserWithdrawlShares',
     account: account.address,
-    query: { enabled: vaultVariant !== VaultVariant.OptionsWheel },
+    query: { enabled: vaultVariant === VaultVariant.DeltaNeutral },
   });
 
   const { data: allocatedRatioData } = useReadContract({

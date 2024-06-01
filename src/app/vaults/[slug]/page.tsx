@@ -19,7 +19,7 @@ async function getData(slug: string) {
 
 export default async function VaultPage({ params }: { params: { slug: string } }) {
   const {
-    vaultInfo: { id, slug, name, apr, apy: vaultApy, contract_address },
+    vaultInfo: { id, slug, name, apr, apy: vaultApy },
     vaultPerformance: { date, apy },
   } = await getData(params.slug);
 
@@ -44,7 +44,6 @@ export default async function VaultPage({ params }: { params: { slug: string } }
         id={id}
         slug={slug}
         name={name}
-        contractAddress={contract_address}
         apy={vaultApy || 0}
         apr={apr || 0}
         onyxData={onyxData}
