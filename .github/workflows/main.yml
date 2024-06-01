@@ -32,17 +32,6 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=${{ vars.NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS }}" >> .env
-          echo "NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_RENZO_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_DELTA_NEUTRAL_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ETHEREUM_OPTIONS_WHEEL_VAULT_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_OPTIONS_WHEEL_VAULT_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=${{ vars.NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS }}" >> .env
-          echo "NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS }}" >> .env
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
             echo "NEXT_PUBLIC_APP_ENV=${{ vars.NEXT_PUBLIC_APP_ENV_production }}" >> .env
             echo "NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL_production }}" >> .env
@@ -50,9 +39,18 @@ jobs:
             echo "NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL_development }}" >> .env
             echo "NEXT_PUBLIC_APP_ENV=${{ vars.NEXT_PUBLIC_APP_ENV_development }}" >> .env
           fi
+
+          echo "NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS }}" >> .env
+          echo "NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS }}" >> .env
+          echo "NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS }}" >> .env
+          echo "NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS=${{ vars.NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS }}" >> .env
+
           echo "NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}" >> .env
           echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" >> .env
           echo "NEXT_PUBLIC_W3C_PROJECT_ID=${{ secrets.NEXT_PUBLIC_W3C_PROJECT_ID }}" >> .env
+          echo "NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS=${{ secrets.NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=${{ secrets.NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS }}" >> .env
+          echo "NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=${{ secrets.NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS }}" >> .env
 
       # Build and push image
       - name: Build and push image
@@ -61,7 +59,7 @@ jobs:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      
+
       # Generate Timestamp
       - id: timestamp
         run: echo "::set-output name=TIMESTAMP::$(date +%Y%m%d%H%M%S)"
