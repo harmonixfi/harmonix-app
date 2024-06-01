@@ -6,6 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { Inter, Sora } from 'next/font/google';
 
 import GoogleAnalytics from '@/components/scripts/GoogleAnalytics';
+import FeedbackButton from '@/components/shared/FeedbackButton';
 import Footer from '@/components/shared/Footer';
 
 import Providers from './_providers/Providers';
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="relative pb-4">
               <div>{children}</div>
               <Footer />
+              <FeedbackButton />
             </main>
           </Suspense>
         </Providers>

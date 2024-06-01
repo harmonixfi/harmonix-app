@@ -36,7 +36,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
     vaultDetailMapping(name);
 
   return (
-    <div className="relative z-40 pb-16 sm:pb-40">
+    <div className="relative pb-16 sm:pb-40">
       <Navbar />
 
       <VaultDetailTemplate
