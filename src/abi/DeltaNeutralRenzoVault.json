@@ -3,17 +3,17 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_usdc",
         "type": "address"
       },
       {
         "internalType": "address",
         "name": "_weth",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_swapProxy",
         "type": "address"
       },
       {
@@ -44,6 +44,21 @@
       {
         "internalType": "address[]",
         "name": "_stakingProxies",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address",
+        "name": "_swapProxy",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_token0s",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_token1s",
         "type": "address[]"
       },
       {
@@ -500,6 +515,24 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "allocatedRatio",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -557,6 +590,16 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "transitToken",
+        "type": "address"
       }
     ],
     "name": "deposit",
@@ -1377,6 +1420,16 @@
   {
     "inputs": [
       {
+        "internalType": "address[]",
+        "name": "_token0s",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_token1s",
+        "type": "address[]"
+      },
+      {
         "internalType": "uint24[]",
         "name": "_fees",
         "type": "uint24[]"
@@ -1399,5 +1452,22 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_restakingPoolAddresses",
+        "type": "address[]"
+      }
+    ],
+    "name": "updateRestakingPoolAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]

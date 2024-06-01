@@ -40,6 +40,7 @@ const VaultList = () => {
                 maxCapacity={vault.vault_capacity}
                 points={vault.points}
                 strategy={vault.strategy_name}
+                contractAddress={vault.contract_address}
               />
             );
           })}

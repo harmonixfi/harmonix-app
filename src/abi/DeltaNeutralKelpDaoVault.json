@@ -3,6 +3,11 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_usdc",
         "type": "address"
       },
@@ -40,6 +45,11 @@
         "internalType": "address[]",
         "name": "_stakingProxies",
         "type": "address[]"
+      },
+      {
+        "internalType": "string",
+        "name": "_refId",
+        "type": "string"
       },
       {
         "internalType": "address",
@@ -507,6 +517,24 @@
     "name": "acquireWithdrawalFunds",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "allocatedRatio",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1429,5 +1457,22 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_restakingPoolAddresses",
+        "type": "address[]"
+      }
+    ],
+    "name": "updateRestakingPoolAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]

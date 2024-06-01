@@ -16,63 +16,52 @@ const VaultDetailContext = createContext<VaultDetailContextData>({});
 
 type VaultDetailProviderProps = {
   name: string;
+  contractAddress: Address;
   children: ReactNode;
 };
 
 export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
-  const { name, children } = props;
+  const { name, contractAddress, children } = props;
 
   const {
     optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
-    deltaNeutralRenzoVaultAddress,
     deltaNeutralKelpDaoVaultAbi,
-    deltaNeutralKelpDaoVaultAddress,
   } = useContractMapping();
 
-  const { vaultVariant, vaultAbi, vaultAddress }: VaultDetailContextData = useMemo(() => {
+  const { vaultVariant, vaultAbi }: VaultDetailContextData = useMemo(() => {
     if (name.toLowerCase().includes('option')) {
       return {
         vaultVariant: VaultVariant.OptionsWheel,
         vaultAbi: optionsWheelVaultAbi,
-        vaultAddress: optionsWheelVaultAddress,
       };
     }
 
     if (name.toLowerCase().includes('renzo')) {
       return {
-        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultVariant: VaultVariant.RenzoRestaking,
         vaultAbi: deltaNeutralRenzoVaultAbi,
-        vaultAddress: deltaNeutralRenzoVaultAddress,
       };
     }
 
-    if (name.toLowerCase().includes('kelp')) {
+    if (name.toLowerCase().includes('kelpdao')) {
       return {
-        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultVariant: VaultVariant.KelpdaoRestaking,
         vaultAbi: deltaNeutralKelpDaoVaultAbi,
-        vaultAddress: deltaNeutralKelpDaoVaultAddress,
       };
     }
 
     return {
       vaultVariant: VaultVariant.DeltaNeutral,
       vaultAbi: deltaNeutralVaultAbi,
-      vaultAddress: deltaNeutralVaultAddress,
     };
   }, [
     name,
     optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
-    deltaNeutralRenzoVaultAddress,
     deltaNeutralKelpDaoVaultAbi,
-    deltaNeutralKelpDaoVaultAddress,
   ]);
 
   return (
@@ -80,7 +69,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
       value={{
         vaultVariant,
         vaultAbi,
-        vaultAddress,
+        vaultAddress: contractAddress,
       }}
     >
       {children}

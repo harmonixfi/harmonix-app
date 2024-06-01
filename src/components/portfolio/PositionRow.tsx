@@ -27,58 +27,30 @@ const PositionRow = (props: PositionRowProps) => {
     next_close_round_date,
     trade_start_date,
     entry_price,
+    vault_address,
   } = position;
 
   const {
     optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
-    deltaNeutralRenzoVaultAddress,
     deltaNeutralKelpDaoVaultAbi,
-    deltaNeutralKelpDaoVaultAddress,
   } = useContractMapping();
 
-  const { vaultAbi, vaultAddress } = useMemo(() => {
-    if (vault_name.toLowerCase().includes('option')) {
-      return {
-        vaultAbi: optionsWheelVaultAbi,
-        vaultAddress: optionsWheelVaultAddress,
-      };
-    }
-
-    if (vault_name.toLowerCase().includes('restaking')) {
-      return {
-        vaultAbi: deltaNeutralRenzoVaultAbi,
-        vaultAddress: deltaNeutralRenzoVaultAddress,
-      };
-    }
-
-    if (vault_name.toLowerCase().includes('kelp')) {
-      return {
-        vaultAbi: deltaNeutralKelpDaoVaultAbi,
-        vaultAddress: deltaNeutralKelpDaoVaultAddress,
-      };
-    }
-
-    return {
-      vaultAbi: deltaNeutralVaultAbi,
-      vaultAddress: deltaNeutralVaultAddress,
-    };
+  const vaultAbi = useMemo(() => {
+    if (vault_name.toLowerCase().includes('option')) return optionsWheelVaultAbi;
+    if (vault_name.toLowerCase().includes('renzo')) return deltaNeutralRenzoVaultAbi;
+    if (vault_name.toLowerCase().includes('kelpdao')) return deltaNeutralKelpDaoVaultAbi;
+    return deltaNeutralVaultAbi;
   }, [
     vault_name,
     optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
     deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
     deltaNeutralRenzoVaultAbi,
-    deltaNeutralRenzoVaultAddress,
     deltaNeutralKelpDaoVaultAbi,
-    deltaNeutralKelpDaoVaultAddress,
   ]);
 
-  const { pricePerShare, totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
+  const { pricePerShare, totalValueLocked } = useVaultQueries(vaultAbi, vault_address);
 
   return (
     <>

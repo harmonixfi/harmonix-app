@@ -1,48 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import useSWR from 'swr';
 
+import { getVaultsOverview } from '@/api/vault';
 import { Urls } from '@/constants/urls';
-import useContractMapping from '@/hooks/useContractMapping';
-import useVaultQueries from '@/hooks/useVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
 const VaultFloatButton = () => {
-  const {
-    optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
-    deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
-    deltaNeutralRenzoVaultAbi,
-    deltaNeutralRenzoVaultAddress,
-    deltaNeutralKelpDaoVaultAbi,
-    deltaNeutralKelpDaoVaultAddress,
-  } = useContractMapping();
-
-  const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
-    useVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
-
-  const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
-    useVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
-
-  const {
-    isLoadingTotalValueLocked: isLoadingDeltaNeutralRenzo,
-    totalValueLocked: deltaNeutralRenzoTvl,
-  } = useVaultQueries(deltaNeutralRenzoVaultAbi, deltaNeutralRenzoVaultAddress);
-
-  const {
-    isLoadingTotalValueLocked: isLoadingDeltaNeutralKelpDao,
-    totalValueLocked: deltaNeutralKelpDaoTvl,
-  } = useVaultQueries(deltaNeutralKelpDaoVaultAbi, deltaNeutralKelpDaoVaultAddress);
-
-  const isLoading =
-    isLoadingOptionsWheel ||
-    isLoadingDeltaNeutral ||
-    isLoadingDeltaNeutralRenzo ||
-    isLoadingDeltaNeutralKelpDao;
-
-  const tvl = optionsWheelTvl + deltaNeutralTvl + deltaNeutralRenzoTvl + deltaNeutralKelpDaoTvl;
+  const { data, isLoading, error } = useSWR('get-vaults-overview', getVaultsOverview);
 
   return (
     <Link
@@ -57,7 +24,7 @@ const VaultFloatButton = () => {
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
           <p className="font-bold">
-            {tvl.toLocaleString('en-US', {
+            {data?.tvl_in_all_vaults?.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,
