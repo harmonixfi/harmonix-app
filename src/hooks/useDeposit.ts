@@ -22,13 +22,19 @@ const useDeposit = (vaultAbi?: Abi, vaultAddress?: Address) => {
     hash,
   });
 
-  const handleDeposit = async (amount: BigNumberish) => {
+  const handleDeposit = async (amount: BigNumberish, tokenIn?: Address, transitToken?: Address) => {
     if (!vaultAbi || !vaultAddress) return;
+
+    let params = [amount];
+    if (tokenIn && transitToken) {
+      params = params.concat([tokenIn, transitToken]);
+    }
+
     return await writeContract({
       abi: vaultAbi,
       address: vaultAddress,
       functionName: 'deposit',
-      args: [amount],
+      args: params,
     });
   };
 

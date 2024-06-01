@@ -1,28 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import useSWR from 'swr';
 
+import { getVaultsOverview } from '@/api/vault';
 import { Urls } from '@/constants/urls';
-import useContractMapping from '@/hooks/useContractMapping';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 
 import { CurrencySymbolIcon, TSymbolIcon } from '../shared/icons';
 
 const VaultFloatButton = () => {
-  const {
-    optionsWheelVaultAbi,
-    optionsWheelVaultAddress,
-    deltaNeutralVaultAbi,
-    deltaNeutralVaultAddress,
-  } = useContractMapping();
-
-  const { isLoadingTotalValueLocked: isLoadingOptionsWheel, totalValueLocked: optionsWheelTvl } =
-    useRockOnyxVaultQueries(optionsWheelVaultAbi, optionsWheelVaultAddress);
-
-  const { isLoadingTotalValueLocked: isLoadingDeltaNeutral, totalValueLocked: deltaNeutralTvl } =
-    useRockOnyxVaultQueries(deltaNeutralVaultAbi, deltaNeutralVaultAddress);
-
-  const rockOnyxTvl = optionsWheelTvl + deltaNeutralTvl;
+  const { data, isLoading, error } = useSWR('get-vaults-overview', getVaultsOverview);
 
   return (
     <Link
@@ -32,12 +19,12 @@ const VaultFloatButton = () => {
       <TSymbolIcon />
       <CurrencySymbolIcon />
       <div className="pl-2">
-        <p className="text-sm font-light text-rock-sub-body">Rock Onyx TVL</p>
-        {isLoadingOptionsWheel || isLoadingDeltaNeutral ? (
+        <p className="text-sm font-light text-rock-sub-body">Harmonix TVL</p>
+        {isLoading ? (
           <p className="text-sm font-light animate-pulse">Loading...</p>
         ) : (
           <p className="font-bold">
-            {rockOnyxTvl.toLocaleString('en-US', {
+            {data?.tvl_in_all_vaults?.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,

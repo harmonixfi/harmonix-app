@@ -5,11 +5,7 @@ import { useAccount, useReadContract } from 'wagmi';
 import { Address } from '@/@types/common';
 import { VaultVariant } from '@/@types/enum';
 
-const useRockOnyxVaultQueries = (
-  vaultAbi?: Abi,
-  vaultAddress?: Address,
-  vaultVariant?: VaultVariant,
-) => {
+const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: VaultVariant) => {
   const account = useAccount();
 
   const { data: totalValueLockedData, isLoading: isLoadingTotalValueLocked } = useReadContract({
@@ -157,4 +153,4 @@ const useRockOnyxVaultQueries = (
   };
 };
 
-export default useRockOnyxVaultQueries;
+export default useVaultQueries;

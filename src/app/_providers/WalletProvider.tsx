@@ -10,17 +10,20 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
-import { arbitrum, sepolia } from 'wagmi/chains';
+import { arbitrum, mainnet, sepolia } from 'wagmi/chains';
 
 const projectId = process.env.NEXT_PUBLIC_W3C_PROJECT_ID ?? '';
 
 const config = getDefaultConfig({
-  appName: 'Rock Onyx',
+  appName: 'Harmonix',
   projectId,
   wallets: [
     { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
   ],
-  chains: process.env.NEXT_PUBLIC_APP_ENV === 'production' ? [arbitrum] : [arbitrum, sepolia],
+  chains:
+    process.env.NEXT_PUBLIC_APP_ENV === 'production'
+      ? [arbitrum, mainnet]
+      : [arbitrum, mainnet, sepolia],
   ssr: true,
 });
 

@@ -26,10 +26,10 @@ const HomeNavbar = () => {
   return (
     <nav className="relative w-full grid grid-cols-12 z-30 mx-auto py-4 md:p-4">
       <div className="col-span-2 lg:col-span-3 flex items-center">
-        <Link href={Urls.Home} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 block">
+        <Link href={Urls.Home} className="w-10 h-10 lg:w-12 lg:h-12 block">
           <Image
             src={logoImg}
-            alt="Rock Onyx Logo"
+            alt="Harmonix Logo"
             width="100"
             height="100"
             className="w-full h-auto"

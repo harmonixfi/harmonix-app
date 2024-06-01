@@ -14,8 +14,8 @@ import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
 import useInitiateWithdrawal from '@/hooks/useInitiateWithdrawal';
-import useRockOnyxVaultQueries from '@/hooks/useRockOnyxVaultQueries';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
+import useVaultQueries from '@/hooks/useVaultQueries';
 import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
@@ -75,7 +75,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     refetchBalanceOf,
     refetchAvailableWithdrawalAmount,
     refetchDeltaNeutralAvailableWithdrawalShares,
-  } = useRockOnyxVaultQueries(vaultAbi, vaultAddress, vaultVariant);
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
 
   const isEnableCompleteWithdraw =
     availableWithdrawalAmount > 0 && withdrawPoolAmount >= availableWithdrawalAmount;
@@ -234,7 +234,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       )}
 
       <div className="mt-6 sm:mt-10">
-        <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Rock onyx vault</p>
+        <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Harmonix vault</p>
         <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

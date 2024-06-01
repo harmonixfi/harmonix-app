@@ -1,3 +1,6 @@
+import { Address } from './common';
+import { Strategy, VaultCategory, VaultNetwork } from './enum';
+
 export type Vault = {
   id: string;
   name: string;
@@ -9,6 +12,9 @@ export type Vault = {
   vault_currency: string;
   current_round: number | null;
   next_close_round_date: string | null;
+  points?: Point[];
+  strategy_name: Strategy;
+  contract_address: Address;
 };
 
 export type VaultPerformance = {
@@ -21,6 +27,7 @@ export type Position = {
   vault_id: string;
   vault_name: string;
   vault_currency: string;
+  vault_address: Address;
   user_address: string;
   total_balance: number;
   init_deposit: number;
@@ -34,6 +41,7 @@ export type Position = {
   entry_price: number;
   slug: string;
   initiated_withdrawal_at: string;
+  points?: Point[];
 };
 
 export type Portfolio = {
@@ -78,4 +86,14 @@ export type VaultStatistic = {
 export type GetVaultTvlHistoryResponse = {
   date: string[];
   tvl: number[];
+};
+
+export type Point = {
+  name: 'renzo' | 'eigenlayer' | 'zircuit';
+  point: number;
+};
+
+export type GetVaultsPayload = {
+  category?: VaultCategory;
+  network?: VaultNetwork;
 };

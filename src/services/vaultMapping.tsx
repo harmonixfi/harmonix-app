@@ -9,6 +9,16 @@ import DeltaNeutralOverview from '@/components/vault/delta-neutral/DeltaNeutralO
 import DeltaNeutralParameter from '@/components/vault/delta-neutral/DeltaNeutralParameter';
 import DeltaNeutralSafetyAssurance from '@/components/vault/delta-neutral/DeltaNeutralSafetyAssurance';
 import DeltaNeutralWithdrawal from '@/components/vault/delta-neutral/DeltaNeutralWithdrawal';
+import RestakingKelpdaoDescription from '@/components/vault/kelpdao/RestakingKelpdaoDescription';
+import RestakingKelpdaoOverview from '@/components/vault/kelpdao/RestakingKelpdaoOverview';
+import RestakingKelpdaoParameter from '@/components/vault/kelpdao/RestakingKelpdaoParameter';
+import RestakingKelpdaoSafetyAssurance from '@/components/vault/kelpdao/RestakingKelpdaoSafetyAssurance';
+import RestakingKelpdaoWithdrawal from '@/components/vault/kelpdao/RestakingKelpdaoWithdrawal';
+import RestakingRenzoDescription from '@/components/vault/restaking-renzo/RestakingRenzoDescription';
+import RestakingRenzoOverview from '@/components/vault/restaking-renzo/RestakingRenzoOverview';
+import RestakingRenzoParameter from '@/components/vault/restaking-renzo/RestakingRenzoParameter';
+import RestakingRenzoSafetyAssurance from '@/components/vault/restaking-renzo/RestakingRenzoSafetyAssurance';
+import RestakingRenzoWithdrawal from '@/components/vault/restaking-renzo/RestakingRenzoWithdrawal';
 import StableCoinDescription from '@/components/vault/stable-coin/StableCoinDescription';
 import StableCoinOverview from '@/components/vault/stable-coin/StableCoinOverview';
 import StableCoinParameter from '@/components/vault/stable-coin/StableCoinParameter';
@@ -18,8 +28,7 @@ import { ContractMapping } from '@/hooks/useContractMapping';
 
 type VaultCardMapping = {
   color?: 'default' | 'secondary';
-  vaultAbi: Abi;
-  vaultAddress: Address;
+  vaultAbi?: Abi;
 };
 
 export type VaultDetailMapping = {
@@ -34,19 +43,34 @@ export type VaultDetailMapping = {
   };
 };
 
-export const vaultCardMapping = (name: string, contracts: ContractMapping): VaultCardMapping => {
+export const vaultCardMapping = (
+  name: string,
+  contracts: Partial<ContractMapping>,
+): VaultCardMapping => {
   if (name.toLowerCase().includes('option')) {
     return {
       color: 'default',
       vaultAbi: contracts.optionsWheelVaultAbi,
-      vaultAddress: contracts.optionsWheelVaultAddress,
+    };
+  }
+
+  if (name.toLowerCase().includes('renzo')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.deltaNeutralRenzoVaultAbi,
+    };
+  }
+
+  if (name.toLowerCase().includes('kelpdao')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.deltaNeutralKelpDaoVaultAbi,
     };
   }
 
   return {
     color: 'secondary',
     vaultAbi: contracts.deltaNeutralVaultAbi,
-    vaultAddress: contracts.deltaNeutralVaultAddress,
   };
 };
 
@@ -62,6 +86,34 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
         time: '8am UTC Friday',
         step2:
           'You can claim your withdrawal every Friday at 8am UTC after our options positions have expired.',
+      },
+    };
+  }
+
+  if (vaultName.toLowerCase().includes('renzo')) {
+    return {
+      description: <RestakingRenzoDescription />,
+      parameter: <RestakingRenzoParameter />,
+      overview: <RestakingRenzoOverview />,
+      safetyAssurance: <RestakingRenzoSafetyAssurance />,
+      withdrawal: {
+        description: <RestakingRenzoWithdrawal />,
+        time: '1 - 4 hours',
+        step2: 'You can claim your withdrawal after 1-4 hours.',
+      },
+    };
+  }
+
+  if (vaultName.toLowerCase().includes('kelpdao')) {
+    return {
+      description: <RestakingKelpdaoDescription />,
+      parameter: <RestakingKelpdaoParameter />,
+      overview: <RestakingKelpdaoOverview />,
+      safetyAssurance: <RestakingKelpdaoSafetyAssurance />,
+      withdrawal: {
+        description: <RestakingKelpdaoWithdrawal />,
+        time: '1 - 4 hours',
+        step2: 'You can claim your withdrawal after 1-4 hours.',
       },
     };
   }
