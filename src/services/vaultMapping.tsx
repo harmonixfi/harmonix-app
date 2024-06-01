@@ -138,6 +138,14 @@ export const vaultWhitelistWalletsMapping = (vaultVariant?: VaultVariant) => {
     return process.env.NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS ?? '';
   }
 
+  if (vaultVariant === VaultVariant.KelpdaoRestaking) {
+    return process.env.NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS ?? '';
+  }
+
+  if (vaultVariant === VaultVariant.RenzoRestaking) {
+    return process.env.NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS ?? '';
+  }
+
   return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
 };
 
@@ -146,6 +154,14 @@ export const vaultDisableDepositMapping = (vaultVariant?: VaultVariant) => {
 
   if (vaultVariant === VaultVariant.OptionsWheel) {
     return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT === 'true';
+  }
+
+  if (vaultVariant === VaultVariant.KelpdaoRestaking) {
+    return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT === 'true';
+  }
+
+  if (vaultVariant === VaultVariant.RenzoRestaking) {
+    return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT === 'true';
   }
 
   return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT === 'true';

@@ -12,6 +12,8 @@ export enum SupportedChain {
 export enum VaultVariant {
   OptionsWheel = 'OPTIONS_WHEEL',
   DeltaNeutral = 'DELTA_NEUTRAL',
+  KelpdaoRestaking = 'KELPDAO_RESTAKING',
+  RenzoRestaking = 'RENZO_RESTAKING',
 }
 
 export enum VaultCategory {

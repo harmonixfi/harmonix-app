@@ -40,14 +40,14 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
 
     if (name.toLowerCase().includes('renzo')) {
       return {
-        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultVariant: VaultVariant.RenzoRestaking,
         vaultAbi: deltaNeutralRenzoVaultAbi,
       };
     }
 
     if (name.toLowerCase().includes('kelpdao')) {
       return {
-        vaultVariant: VaultVariant.DeltaNeutral,
+        vaultVariant: VaultVariant.KelpdaoRestaking,
         vaultAbi: deltaNeutralKelpDaoVaultAbi,
       };
     }
