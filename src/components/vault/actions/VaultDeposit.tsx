@@ -13,10 +13,10 @@ import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
+import useAssetQueries from '@/hooks/useAssetQueries';
 import useContractMapping from '@/hooks/useContractMapping';
 import useDeposit from '@/hooks/useDeposit';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import useUsdcQueries from '@/hooks/useUsdcQueries';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber, withCommas } from '@/utils/number';
@@ -67,7 +67,11 @@ const VaultDeposit = (props: VaultDepositProps) => {
     refetchDepositAmount,
     refetchUserVaultState,
   } = useVaultQueries(vaultAbi, vaultAddress, undefined, targetNetwork?.id);
-  const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
+
+  const { allowance, balance, refetchAllowance, refetchBalance } = useAssetQueries(
+    selectedCurrency,
+    vaultAddress,
+  );
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
   const {
