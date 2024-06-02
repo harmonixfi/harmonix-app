@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
-import { SupportedCurrency } from '@/@types/enum';
+import { SupportedCurrency, VaultVariant } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
@@ -114,10 +114,11 @@ const VaultDeposit = () => {
   };
 
   const handleDeposit = async (amount: string) => {
-    const isKelpDaoVault =
-      vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_DELTA_NEUTRAL_KELPDAO_VAULT_ADDRESS;
-    const tokenIn = isKelpDaoVault ? usdcAddress : undefined;
-    const transitToken = isKelpDaoVault ? usdcAddress : undefined;
+    const isRestakingVault =
+      vaultVariant === VaultVariant.KelpdaoRestaking ||
+      vaultVariant === VaultVariant.RenzoRestaking;
+    const tokenIn = isRestakingVault ? usdcAddress : undefined;
+    const transitToken = isRestakingVault ? usdcAddress : undefined;
     await deposit(ethers.utils.parseUnits(amount, 6), tokenIn, transitToken);
   };
 
