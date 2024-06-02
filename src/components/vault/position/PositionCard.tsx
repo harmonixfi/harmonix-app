@@ -1,5 +1,6 @@
 'use client';
 
+import { VaultVariant } from '@/@types/enum';
 import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
@@ -21,8 +22,7 @@ const PositionCard = () => {
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
 
-  const isOptionsWheelVault =
-    vaultAddress === process.env.NEXT_PUBLIC_ARBITRUM_OPTIONS_WHEEL_VAULT_ADDRESS;
+  const isOptionsWheelVault = vaultVariant === VaultVariant.OptionsWheel;
 
   if (
     (!isOptionsWheelVault &&
