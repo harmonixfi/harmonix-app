@@ -1,12 +1,13 @@
+import { Card } from '@nextui-org/react';
+
 import Tooltip from '@/components/shared/Tooltip';
-import Typography from '@/components/shared/Typography';
 import { QuestionIcon } from '@/components/shared/icons';
 
 const VaultFeeTransparency = () => {
   return (
-    <div className="flex flex-col gap-6">
-      <Typography variant="subtitle">Fee transparency</Typography>
-      <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 bg-white bg-opacity-5 border border-rock-divider rounded-2xl uppercase py-4 sm:py-8">
+    <Card className="px-6 py-4 space-y-6">
+      <p className="uppercase">Fee transparency</p>
+      <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 pb-4">
         <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
           <p className="text-rock-sub-body text-xs xl:text-base">Entry</p>
           <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0%</p>
@@ -42,7 +43,7 @@ const VaultFeeTransparency = () => {
         <div className="w-[1px] h-full absolute top-0 left-1/2 bg-rock-divider" />
         <div className="hidden sm:block w-[1px] h-full absolute top-0 left-3/4 bg-rock-divider" />
       </div>
-    </div>
+    </Card>
   );
 };
 

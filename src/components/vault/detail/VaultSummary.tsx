@@ -1,13 +1,9 @@
 'use client';
 
-// import { useState } from 'react';
-// import { useState } from 'react';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
-// import Select from '../../shared/Select';
-// import Select from '../shared/Select';
 import Tooltip from '../../shared/Tooltip';
 import { QuestionIcon } from '../../shared/icons';
 
@@ -22,36 +18,20 @@ const VaultSummary = (props: VaultSummaryProps) => {
 
   const { totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
 
-  // const [apyRange, setApyRange] = useState('1m');
-
   return (
     <div className="flex gap-4 sm:gap-8 lg:gap-16">
       <div className="flex flex-col justify-between sm:gap-1">
         <div className="flex items-center gap-4 text-rock-gray font-semibold">
-          <p className="text-xs sm:text-sm md:text-base 2xl:text-lg">APY</p>
+          <p className="text-xs sm:text-sm md:text-base">APY</p>
           <Tooltip message="The Annual Percentage Yield (APY) Is Extrapolated From The Previous Month/Week.">
             <QuestionIcon className="w-4 h-4" />
           </Tooltip>
-          {/* <div>
-            <Select
-              options={[
-                { label: '1W', value: '1w' },
-                { label: '1M', value: '1m' },
-              ]}
-              defaultValue={{ label: '1M', value: '1m' }}
-              onChange={(selected) => setApyRange(selected.value)}
-            />
-          </div> */}
         </div>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(
-          toFixedNumber(apy),
-        )}%`}</p>
+        <p className="text-base sm:text-lg font-semibold">{`${withCommas(toFixedNumber(apy))}%`}</p>
       </div>
       <div className="flex flex-col justify-between sm:gap-1">
-        <p className="text-xs sm:text-sm md:text-base 2xl:text-lg text-rock-gray font-semibold">
-          TVL
-        </p>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">
+        <p className="text-xs sm:text-sm md:text-baseg text-rock-gray font-semibold">TVL</p>
+        <p className="text-base sm:text-lg font-semibold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
