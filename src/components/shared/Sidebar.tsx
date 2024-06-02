@@ -1,7 +1,5 @@
 'use client';
 
-import { Chip } from '@nextui-org/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,7 +7,13 @@ import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../public/images/logo.png';
-import { BetaLogoIcon, GithubLineIcon, TelegramIcon, TwitterLineIcon } from './icons';
+import {
+  BetaLogoIcon,
+  GithubLineIcon,
+  SidebarCurveIcon,
+  TelegramIcon,
+  TwitterLineIcon,
+} from './icons';
 
 const items = [
   {
@@ -39,7 +43,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col justify-between w-72 h-full p-6">
+    <div className="relative flex flex-col justify-between w-72 h-full p-6">
       <div>
         <Link href={Urls.Home} className="block mt-2">
           <BetaLogoIcon className="w-4/5 h-auto" />
@@ -55,12 +59,16 @@ const Sidebar = () => {
                   pathname === x.link
                     ? 'bg-[#10272B] text-secondary'
                     : 'bg-transparent text-[#F1F1EB]'
-                } ${x.disabled ? '' : 'hover:bg-[#10272B]'}`}
+                } ${x.disabled ? 'opacity-60 pointer-events-none' : 'hover:bg-[#10272B]'}`}
               >
                 <x.icon />
                 <div className="flex flex-col">
                   <span className="font-light">{x.text}</span>
-                  {x.disabled && <Chip size="sm">Coming soon</Chip>}
+                  {x.disabled && (
+                    <span className="block w-fit bg-secondary bg-opacity-20 border border-secondary text-center text-xs text-secondary rounded-full px-2 py-0.5">
+                      Coming soon
+                    </span>
+                  )}
                 </div>
               </Link>
             </li>
@@ -100,6 +108,8 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
+
+      <SidebarCurveIcon className="absolute bottom-0 left-0 w-[160%] h-auto opacity-30" />
     </div>
   );
 };

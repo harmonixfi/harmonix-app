@@ -2,6 +2,8 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import { ArrowDownIcon } from '@heroicons/react/16/solid';
+import { Button, Select, SelectItem } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
@@ -19,7 +21,6 @@ import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/serv
 import { toFixedNumber, withCommas } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
-import CurrencySelect from '../../shared/CurrencySelect';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
@@ -172,66 +173,73 @@ const VaultDeposit = (props: VaultDepositProps) => {
         <span>The minimum deposit amount is $5.</span>
       </div>
 
-      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between">
-        <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
+      <div className="relative space-y-2">
+        <div className="flex flex-col gap-4 bg-gray-200 px-6 pt-2 pb-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex-1 flex items-center gap-3">
+              <Select
+                aria-label="assets"
+                size="md"
+                variant="bordered"
+                className="max-w-[100px]"
+                defaultSelectedKeys={['usdc']}
+              >
+                <SelectItem key="usdc">USDC</SelectItem>
+                <SelectItem key="usdt">USDT</SelectItem>
+              </Select>
+              <Button variant="light" onClick={handleClickMax}>
+                MAX
+              </Button>
+            </div>
+            <p className="text-xs uppercase">You pay</p>
+          </div>
+          <div className="space-y-1">
+            <input
+              className={`w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-6 pr-[160px] text-2xl text-white ${
+                !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+              } focus:outline-none`}
+              type="text"
+              placeholder="0.0"
+              disabled={!isConnectedWallet}
+              value={inputValue}
+              onChange={handleChangeInputValue}
+            />
+            {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
+          </div>
+          <p className="text-sm">
+            Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
           </p>
-          <button
-            type="button"
-            className="border border-rock-primary rounded-full px-3 py-0.5 text-sm font-light uppercase hover:ring-2 hover:ring-blue-800"
-            onClick={handleClickMax}
-          >
-            Max
-          </button>
         </div>
-      </div>
 
-      <div className="relative mt-6">
-        <input
-          className={`w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-6 pr-[160px] text-2xl text-white ${
-            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
-          } focus:outline-none`}
-          type="text"
-          placeholder="0.0"
-          disabled={!isConnectedWallet}
-          value={inputValue}
-          onChange={handleChangeInputValue}
-        />
-        <div className="absolute top-1 right-2 sm:right-4">
-          <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
+        <div className="flex flex-col gap-4 bg-gray-200 px-6 pt-2 pb-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-semibold">roUSD</span>
+            <p className="text-xs uppercase">You receive</p>
+          </div>
+          <p className="w-full block bg-rock-bg rounded-xl px-3 py-4 text-2xl text-white">
+            {withCommas(
+              toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
+            )}
+          </p>
+          <p className="text-sm">Your shares: {withCommas(toFixedNumber(balanceOf))} roUSD</p>
         </div>
-      </div>
-      <div className={`flex items-center ${!!inputError ? 'justify-between' : 'justify-end'}`}>
-        {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
-        {pricePerShare > 0 && (
-          <p className="text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
-            pricePerShare,
-            4,
-          ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
-        )}
+
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-600 rounded-full p-2">
+          <ArrowDownIcon className="w-6 h-6 text-white" />
+        </span>
       </div>
 
-      <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
-        <p>You will receive</p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-white">{`${withCommas(
-            toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
-          )} roUSD`}</p>
-        </div>
-      </div>
-
-      <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
-
-      <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
-        <p>Current Deposit</p>
-        <p className="text-white">{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
+      <div className="flex items-center justify-between text-sm font-light mt-1">
+        <p>Price per share</p>
+        <p>{`1 roUSD = ${toFixedNumber(
+          pricePerShare,
+          4,
+        ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
       </div>
 
       <button
         type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
+        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 py-2.5 ${
           disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
         } ${isButtonLoading ? 'animate-pulse' : ''}`}
         disabled={disabledButton}

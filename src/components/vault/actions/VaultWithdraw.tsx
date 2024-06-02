@@ -2,6 +2,8 @@
 
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
+import { ArrowDownIcon } from '@heroicons/react/16/solid';
+import { Button } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useParams } from 'next/navigation';
@@ -235,7 +237,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         </div>
       )}
 
-      <div className="mt-6 sm:mt-10">
+      <div className="mt-4 mb-8">
         <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Harmonix vault</p>
         <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
           <div className="flex items-center justify-between">
@@ -259,6 +261,59 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
             <p>{withdrawalTime}</p>
           </div>
         </div>
+      </div>
+
+      <div className="relative space-y-2">
+        <div className="flex flex-col gap-4 bg-gray-200 px-6 pt-2 pb-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex-1 flex items-center gap-3">
+              <span className="text-xl font-semibold">roUSD</span>
+              <Button variant="light" onClick={handleClickWithdrawAll}>
+                MAX
+              </Button>
+            </div>
+            <p className="text-xs uppercase">You withdraw</p>
+          </div>
+          <div className="space-y-1">
+            <input
+              className={`w-full h-16 block bg-rock-bg rounded-xl px-3 text-2xl text-white ${
+                !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+              } focus:outline-none`}
+              type="text"
+              placeholder="0.0"
+              disabled={
+                !isConnectedWallet ||
+                isCoolingDown ||
+                isWaitingForWithdrawPool ||
+                isEnableCompleteWithdraw
+              }
+              value={inputValue}
+              onChange={handleChangeInputValue}
+            />
+            {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
+          </div>
+          <p className="text-sm">Your shares: {withCommas(toFixedNumber(balanceOf))} roUSD</p>
+        </div>
+
+        <div className="flex flex-col gap-4 bg-gray-200 px-6 pt-2 pb-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-semibold">USDC</span>
+            <p className="text-xs uppercase">You receive</p>
+          </div>
+          <p className="w-full block bg-rock-bg rounded-xl px-3 py-4 text-2xl text-white">
+            {withCommas(
+              toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
+            )}
+          </p>
+          <p className="text-sm">
+            You will receive: {withCommas(toFixedNumber((Number(inputValue) || 0) * pricePerShare))}{' '}
+            USDC
+          </p>
+        </div>
+
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-600 rounded-full p-2">
+          <ArrowDownIcon className="w-6 h-6 text-white" />
+        </span>
       </div>
 
       <div className="flex items-center justify-between mt-6 sm:mt-12">
