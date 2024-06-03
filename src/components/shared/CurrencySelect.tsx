@@ -9,12 +9,13 @@ import { SupportedCurrency } from '@/@types/enum';
 import { ChevronDownIcon, DaiIcon, UsdcCircleIcon, UsdtCircleIcon } from './icons';
 
 type CurrencySelectProps = {
+  disabled?: boolean;
   value: SupportedCurrency;
   onChange: (v: SupportedCurrency) => void;
 };
 
 const CurrencySelect = (props: CurrencySelectProps) => {
-  const { value, onChange } = props;
+  const { disabled, value, onChange } = props;
 
   const options = useMemo(
     () =>
@@ -33,7 +34,7 @@ const CurrencySelect = (props: CurrencySelectProps) => {
   };
 
   return (
-    <Listbox value={value} onChange={handleChange}>
+    <Listbox disabled={disabled} value={value} onChange={handleChange}>
       <div className="relative mt-1">
         <Listbox.Button className="relative flex items-center justify-center gap-2 cursor-pointer rounded-full shadow-md text-sm text-white font-normal uppercase border border-rock-light-blue px-2 py-1.5">
           {value === SupportedCurrency.Usdt ? (

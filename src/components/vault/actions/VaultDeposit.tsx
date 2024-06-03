@@ -39,7 +39,8 @@ const VaultDeposit = (props: VaultDepositProps) => {
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
   const { selectedChain } = useChainContext();
-  const { usdcAddress } = useContractMapping();
+
+  const { usdcAddress, usdtAddress, daiAddress } = useContractMapping();
 
   const account = useAccount();
 
@@ -72,8 +73,10 @@ const VaultDeposit = (props: VaultDepositProps) => {
     selectedCurrency,
     vaultAddress,
   );
-  const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
-    useApprove(vaultAddress);
+  const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } = useApprove(
+    selectedCurrency,
+    vaultAddress,
+  );
   const {
     isDepositing,
     isConfirmedDeposit,
@@ -142,8 +145,23 @@ const VaultDeposit = (props: VaultDepositProps) => {
     const isRestakingVault =
       vaultVariant === VaultVariant.KelpdaoRestaking ||
       vaultVariant === VaultVariant.RenzoRestaking;
-    const tokenIn = isRestakingVault ? usdcAddress : undefined;
-    const transitToken = isRestakingVault ? usdcAddress : undefined;
+
+    let tokenIn = undefined;
+    let transitToken = undefined;
+
+    if (isRestakingVault) {
+      if (selectedCurrency === SupportedCurrency.Usdc) {
+        tokenIn = usdcAddress;
+        transitToken = usdcAddress;
+      } else if (selectedCurrency === SupportedCurrency.Usdt) {
+        tokenIn = usdtAddress;
+        transitToken = usdtAddress;
+      } else {
+        tokenIn = daiAddress;
+        transitToken = usdtAddress;
+      }
+    }
+
     await deposit(ethers.utils.parseUnits(amount, 6), tokenIn, transitToken);
   };
 
