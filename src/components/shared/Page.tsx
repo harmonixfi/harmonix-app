@@ -11,12 +11,12 @@ const Page = (props: PageProps) => {
   const { title, children } = props;
 
   return (
-    <div>
-      <div className="flex items-center rounded-tl-3xl rounded-tr-3xl justify-between bg-[#10272B] px-6 py-4">
-        <h2 className="text-3xl font-semibold text-secondary">{title}</h2>
+    <div className="h-full">
+      <div className="flex items-center justify-between px-10 py-4 border-b border-b-rock-gray">
+        <h2 className="text-2xl font-bold text-primary">{title}</h2>
         <WalletConnectButton />
       </div>
-      <div className="h-[calc(100vh-124px)] p-6 overflow-auto">{children}</div>
+      <div className="h-[calc(100vh-73px)] px-10 py-6 overflow-auto">{children}</div>
     </div>
   );
 };

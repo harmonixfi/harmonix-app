@@ -40,7 +40,12 @@ const WalletConnectButton = () => {
 
               return (
                 <div className="flex gap-3">
-                  <Button color="primary" className="rounded-full" onClick={openChainModal}>
+                  <Button
+                    variant="bordered"
+                    color="primary"
+                    className="rounded-full"
+                    onClick={openChainModal}
+                  >
                     {chain.hasIcon && chain.iconUrl && (
                       <span className="w-5 h-5 block">
                         <Image
@@ -55,7 +60,12 @@ const WalletConnectButton = () => {
                     {chain.name}
                   </Button>
 
-                  <Button color="primary" className="rounded-full" onClick={openAccountModal}>
+                  <Button
+                    variant="bordered"
+                    color="primary"
+                    className="rounded-full"
+                    onClick={openAccountModal}
+                  >
                     {account.displayName}
                   </Button>
                 </div>

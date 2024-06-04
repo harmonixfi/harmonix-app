@@ -1,3 +1,5 @@
+import { Card } from '@nextui-org/react';
+
 import VaultFilter from '@/components/products/VaultFilter';
 import VaultList from '@/components/products/VaultList';
 import Page from '@/components/shared/Page';
@@ -9,33 +11,29 @@ export default async function Products() {
   return (
     <Page title="Vaults">
       <div className="flex flex-col gap-12">
-        <div className="flex flex-col xl:flex-row items-center justify-between gap-8 xl:gap-24 pr-8">
+        <Card className="flex flex-row items-center justify-between px-8 py-4 rounded-3xl">
           <div>
-            <p className="text-xl font-semibold">Lorem Ipsum</p>
-            <p className="text-sm font-light mt-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam suscipit in dolor
-              possimus amet fugiat rerum vel illo blanditiis expedita? Repudiandae, magni
-              distinctio?
-            </p>
-          </div>
-          <div className="flex items-center gap-12">
-            <div className="flex items-center gap-4">
-              <TelegramIcon className="w-6 h-6" />
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-gray-600">TVL</p>
-                <p className="font-semibold">{toCurrency(2000)}</p>
-              </div>
-            </div>
-            <span className="w-[1px] h-10 bg-gray-300" />
-            <div className="flex items-center gap-4">
-              <TelegramIcon className="w-6 h-6" />
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-gray-600">Depositors</p>
-                <p className="font-semibold">{withCommas(1200)}</p>
-              </div>
+            <div className="w-3/4 space-y-3">
+              <p className="text-xl font-semibold text-primary">Lorem Ipsum</p>
+              <p className="text-sm text-primary font-normal">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam suscipit in dolor
+                possimus amet fugiat rerum vel illo blanditiis expedita? Repudiandae, magni
+                distinctio?
+              </p>
             </div>
           </div>
-        </div>
+          <div className="flex items-center gap-12 bg-secondary rounded-2xl px-8 py-4">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-sm text-primary opacity-60">TVL</p>
+              <p className="text-lg text-primary font-medium">{toCurrency(2000)}</p>
+            </div>
+            <span className="w-[1px] h-10 bg-rock-g80 bg-opacity-30" />
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-sm text-primary opacity-60">Depositors</p>
+              <p className="text-lg text-primary font-medium">{withCommas(1200)}</p>
+            </div>
+          </div>
+        </Card>
 
         <VaultFilter />
 

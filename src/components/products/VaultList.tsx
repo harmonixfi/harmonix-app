@@ -21,7 +21,7 @@ const VaultList = () => {
   );
 
   return (
-    <div className="relative z-30 grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 w-full mx-auto px-6 sm:px-0">
+    <div className="relative z-30 grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-12 w-full mx-auto px-6 sm:px-0">
       {isLoading
         ? [...Array(3)].map((_, index) => (
             <div

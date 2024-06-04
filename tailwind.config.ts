@@ -40,6 +40,9 @@ const config: Config = {
           'sub-body': '#87909F',
           footer: '#1A1A34',
           'light-blue': '#4281FF',
+          g80: '#07161D',
+          g70: '#0B1E24',
+          grey01: '#F5F6F6',
         },
       },
       backgroundImage: {

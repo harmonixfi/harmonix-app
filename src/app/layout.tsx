@@ -31,16 +31,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.className} bg-primary`}>
+    <html lang="en" className={`${inter.variable} ${sora.className} bg-[#F5F5F5]`}>
       <body className="font-inconsolata">
         <Providers>
           <Suspense fallback={<Loading />}>
             <main className="flex h-screen">
               <Sidebar />
-              <div className="flex-1 pr-6 py-6">
-                <div className="rounded-bl-3xl rounded-br-3xl rounded-tl-[28px] rounded-tr-[28px] bg-[#F1F1EB]">
-                  {children}
-                </div>
+              <div className="flex-1">
+                <div className="h-full">{children}</div>
               </div>
             </main>
           </Suspense>
