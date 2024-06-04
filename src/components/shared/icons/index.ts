@@ -52,3 +52,4 @@ export { default as EigenLayerIcon } from './EigenLayer';
 export { default as ZircuitIcon } from './Zircuit';
 export { default as EthereumIcon } from './Ethereum';
 export { default as KelpDaoIcon } from './KelpDao';
+export { default as LogoWithTextIcon } from './LogoWithText';

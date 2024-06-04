@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 
-import { SupportedCurrency, VaultVariant } from '@/@types/enum';
+import { SupportedCurrency, VaultNetwork, VaultVariant } from '@/@types/enum';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
@@ -23,7 +23,13 @@ import CurrencySelect from '../../shared/CurrencySelect';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
 
-const VaultDeposit = () => {
+type VaultDepositProps = {
+  networkChain: VaultNetwork;
+};
+
+const VaultDeposit = (props: VaultDepositProps) => {
+  const { networkChain } = props;
+
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
   const { usdcAddress } = useContractMapping();
 
@@ -36,7 +42,8 @@ const VaultDeposit = () => {
   );
   const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
-  const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
+  const { isOpen, type, url, onOpenDialog, onCloseDialog } =
+    useTransactionStatusDialog(networkChain);
 
   const { status } = useAccount();
   const {

@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 
 import { EigenLayerIcon, KelpDaoIcon, RenzoIcon, ZircuitIcon } from '@/components/shared/icons';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 type PointCardProps = {
   type: 'renzo' | 'eigenlayer' | 'zircuit' | 'kelpdao';
@@ -48,7 +49,7 @@ const PointCard = (props: PointCardProps) => {
       <p className="text-rock-gray text-sm">{`${name} pts`}</p>
       <div className="flex items-center gap-2">
         <PartnerIcon className="w-6 h-6 shrink-0" />
-        <p className="text-white">{point || '--'}</p>
+        <p className="text-white">{point ? withCommas(toFixedNumber(point, 1)) : '--'}</p>
       </div>
     </div>
   );

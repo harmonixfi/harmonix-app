@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { useChainId, useChains } from 'wagmi';
+import { VaultNetwork } from '@/@types/enum';
 
-const useTransactionStatusDialog = () => {
-  const configuredChains = useChains();
-  const currentChainId = useChainId();
-
+const useTransactionStatusDialog = (vaultNetwork?: VaultNetwork) => {
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState<'success' | 'error'>('success');
   const [url, setUrl] = useState('');
 
-  const currentChain = configuredChains.find((x) => x.id === currentChainId);
-  const explorerUrl = currentChain?.blockExplorers?.default?.url;
+  const explorerUrl = useMemo(() => {
+    if (vaultNetwork === VaultNetwork.Ethereum) {
+      return 'https://etherscan.io';
+    }
+
+    return 'https://arbiscan.io';
+  }, [vaultNetwork]);
 
   const onOpenDialog = (type: 'success' | 'error', transactionHash?: string) => {
     setIsOpen(true);

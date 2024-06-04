@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import { Address } from '@/@types/common';
+import { VaultNetwork } from '@/@types/enum';
 import { getUserPortfolio } from '@/api/vault';
 import Typography from '@/components/shared/Typography';
 import { LineChartData } from '@/components/shared/chart/LineChart';
@@ -26,6 +27,7 @@ type VaultDetailTemplateProps = VaultDetailMapping & {
   slug: string;
   name: string;
   contractAddress: Address;
+  networkChain: VaultNetwork;
   apy: number;
   apr: number;
   onyxData: LineChartData[];
@@ -38,6 +40,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     slug,
     name,
     contractAddress,
+    networkChain,
     apy,
     apr,
     onyxData,
@@ -77,6 +80,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             <div className="flex flex-col gap-16 lg:hidden">
               <VaultActionCard
                 apr={apr}
+                networkChain={networkChain}
                 withdrawalTime={withdrawal.time}
                 withdrawalStep2={withdrawal.step2}
               />
@@ -124,6 +128,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
         <div className="hidden lg:col-span-2 lg:flex flex-col gap-12">
           <VaultActionCard
             apr={apr}
+            networkChain={networkChain}
             withdrawalTime={withdrawal.time}
             withdrawalStep2={withdrawal.step2}
           />

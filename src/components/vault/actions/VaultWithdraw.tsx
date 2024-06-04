@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
-import { VaultVariant } from '@/@types/enum';
+import { VaultNetwork, VaultVariant } from '@/@types/enum';
 import { getUserPortfolio } from '@/api/vault';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
@@ -26,12 +26,13 @@ import WithdrawCoolDown from './WithdrawCoolDown';
 
 type VaultWithdrawProps = {
   apr: number;
+  networkChain: VaultNetwork;
   withdrawalTime: string;
   withdrawalStep2: string;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
-  const { withdrawalTime, withdrawalStep2 } = props;
+  const { networkChain, withdrawalTime, withdrawalStep2 } = props;
 
   const params = useParams();
 
@@ -41,7 +42,8 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
   const [inputError, setInputError] = useState('');
   const [isCoolingDown, setIsCoolingDown] = useState(false);
 
-  const { isOpen, type, url, onOpenDialog, onCloseDialog } = useTransactionStatusDialog();
+  const { isOpen, type, url, onOpenDialog, onCloseDialog } =
+    useTransactionStatusDialog(networkChain);
 
   const { status, address } = useAccount();
 

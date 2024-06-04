@@ -15,6 +15,7 @@ export type Vault = {
   points?: Point[];
   strategy_name: Strategy;
   contract_address: Address;
+  network_chain: VaultNetwork;
 };
 
 export type VaultPerformance = {
@@ -81,6 +82,7 @@ export type VaultStatistic = {
   sortino_ratio: number;
   downside_risk: number;
   earned_fee: number;
+  vault_network_chain: VaultNetwork;
 };
 
 export type GetVaultTvlHistoryResponse = {
