@@ -1,29 +1,20 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
-import logoImg from '../../../public/images/logo.png';
-import { GithubLineIcon, TelegramIcon, TwitterLineIcon } from './icons';
-
-// import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from './icons';
+import { GithubLineIcon, LogoWithTextIcon, TelegramIcon, TwitterLineIcon } from './icons';
 
 const Footer = () => {
   return (
     <footer className="relative max-w-[90%] bg-rock-footer backdrop-blur-sm px-8 lg:px-20 pt-12 lg:pt-28 pb-16 mb-2 sm:mb-16 mx-auto rounded-3xl sm:rounded-[46px] z-20">
       <div className="relative sm:grid grid-cols-3 lg:grid-cols-2 items-start z-30">
         <div className="mb-8 sm:mb-0 -translate-y-4">
-          <Link
-            href={Urls.Home}
-            className="flex items-center justify-center sm:justify-start gap-3"
-          >
-            <Image src={logoImg} alt="Harmonix Logo" width={48} height={48} />
-            <h4 className="uppercase text-2xl lg:text-3xl font-semibold">Harmonix</h4>
+          <Link href={Urls.Home}>
+            <LogoWithTextIcon className="w-auto h-10 md:h-12 lg:h-16 mx-auto md:mx-0" />
           </Link>
-          {/* <p className="text-lg font-semibold uppercase mt-4 sm:mt-10 pl-4">SLOGAN</p> */}
         </div>
         <div className="sm:col-span-2 lg:col-span-1 pl-0 sm:pl-6 lg:pl-0">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-0">

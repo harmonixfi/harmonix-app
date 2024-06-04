@@ -10,7 +10,7 @@ import WalletConnectButton from '@/components/shared/WalletConnectButton';
 import { Urls } from '@/constants/urls';
 
 import logoImg from '../../../../public/images/logo.png';
-import { CloseIcon, MenuIcon } from '../icons';
+import { CloseIcon, LogoWithTextIcon, MenuIcon } from '../icons';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -28,14 +28,17 @@ const Navbar = () => {
   return (
     <nav className="relative w-full sm:w-[90%] 2xl:w-4/5 grid grid-cols-12 mx-auto px-6 sm:px-0 py-6 z-50">
       <div className="col-span-1 md:col-span-2 xl:col-span-3 flex items-center">
-        <Link href={Urls.Home} className="w-10 h-10 lg:w-12 lg:h-12 block">
-          <Image
-            src={logoImg}
-            alt="Harmonix Logo"
-            width="100"
-            height="100"
-            className="w-full h-auto"
-          />
+        <Link href={Urls.Home}>
+          <LogoWithTextIcon className="hidden lg:block w-auto h-8 md:h-6 lg:h-9 xl:h-12 -translate-y-1 xl:-translate-y-2 text-[#E2F6A1]" />
+          <span className="block w-10 h-10 lg:hidden ">
+            <Image
+              src={logoImg}
+              alt="Harmonix Logo"
+              width="100"
+              height="100"
+              className="w-full h-auto"
+            />
+          </span>
         </Link>
       </div>
       <div
@@ -57,21 +60,21 @@ const Navbar = () => {
         )}
         <ul className="flex flex-col md:flex-row gap-8 lg:gap-16 pl-6 md:pl-0">
           <li
-            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
+            className={`text-base md:text-sm xl:text-base font-semibold uppercase ${
               pathname === '/products' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
             <Link href={Urls.Products}>Product</Link>
           </li>
           <li
-            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
+            className={`text-base md:text-sm xl:text-base font-semibold uppercase ${
               pathname === '/portfolio' ? 'text-white' : 'text-rock-sub-body'
             }`}
           >
             <Link href={Urls.Portfolio}>Portfolio</Link>
           </li>
           <li
-            className={`text-base md:text-sm lg:text-base font-semibold uppercase ${
+            className={`text-base md:text-sm xl:text-base font-semibold uppercase ${
               pathname.startsWith('/dashboards') ? 'text-white' : 'text-rock-sub-body'
             }`}
           >

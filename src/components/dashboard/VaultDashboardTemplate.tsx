@@ -7,8 +7,8 @@ import { startCase } from 'lodash';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-import { useChainId, useChains } from 'wagmi';
 
+import { VaultNetwork } from '@/@types/enum';
 import { getVaultPerformance, getVaultStatistic, getVaultTvlHistory } from '@/api/vault';
 import { Urls } from '@/constants/urls';
 import { toCurrency } from '@/utils/currency';
@@ -20,12 +20,6 @@ import { ChevronLeftIcon } from '../shared/icons';
 
 const VaultDashboardTemplate = () => {
   const params = useParams();
-
-  const configuredChains = useChains();
-  const currentChainId = useChainId();
-
-  const currentChain = configuredChains.find((x) => x.id === currentChainId);
-  const explorerUrl = currentChain?.blockExplorers?.default?.url;
 
   const { data, isLoading, error } = useSWR('get-vault-statistic', () =>
     getVaultStatistic(String(params.id)),
@@ -40,6 +34,14 @@ const VaultDashboardTemplate = () => {
     ['get-vault-tvl-history', params.id],
     () => getVaultTvlHistory(String(params.id)),
   );
+
+  const explorerUrl = useMemo(() => {
+    if (data?.vault_network_chain === VaultNetwork.Ethereum) {
+      return 'https://etherscan.io';
+    }
+
+    return 'https://arbiscan.io';
+  }, [data?.vault_network_chain]);
 
   const performanceChartData = useMemo(() => {
     if (!performance) return [];
