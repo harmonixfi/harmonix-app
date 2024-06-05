@@ -2,19 +2,21 @@ import { IconProps } from '@/@types/common';
 
 const Ethereum = ({ className }: IconProps) => {
   return (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" fill="none">
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+      <path d="M16.498 4V12.87L23.995 16.22L16.498 4Z" fill="#627EEA" fillOpacity="0.602" />
+      <path d="M16.498 4L9 16.22L16.498 12.87V4Z" fill="#627EEA" />
       <path
-        d="M10.6648 0L10.4317 0.772142V23.1759L10.6648 23.4027L21.3268 17.2555L10.6648 0Z"
-        fill="#343434"
+        d="M16.498 21.9682V27.9952L24 17.6162L16.498 21.9682Z"
+        fill="#627EEA"
+        fillOpacity="0.602"
       />
-      <path d="M10.6623 0L0 17.2555L10.6623 23.4027V12.5285V0Z" fill="#8C8C8C" />
+      <path d="M16.498 27.9952V21.9672L9 17.6162L16.498 27.9952Z" fill="#627EEA" />
       <path
-        d="M10.6649 25.3715L10.5335 25.5277V33.5083L10.6649 33.8823L21.3334 19.2275L10.6649 25.3715Z"
-        fill="#3C3C3B"
+        d="M16.498 20.5731L23.995 16.2201L16.498 12.8721V20.5731Z"
+        fill="#627EEA"
+        fillOpacity="0.2"
       />
-      <path d="M10.6623 33.8823V25.3715L0 19.2275L10.6623 33.8823Z" fill="#8C8C8C" />
-      <path d="M10.6607 23.4022L21.3227 17.2551L10.6607 12.5281V23.4022Z" fill="#141414" />
-      <path d="M0 17.2551L10.6623 23.4022V12.5281L0 17.2551Z" fill="#393939" />
+      <path d="M9 16.2201L16.498 20.5731V12.8721L9 16.2201Z" fill="#627EEA" fillOpacity="0.602" />
     </svg>
   );
 };

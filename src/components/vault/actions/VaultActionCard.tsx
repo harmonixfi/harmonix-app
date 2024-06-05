@@ -18,8 +18,15 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   const { apr, networkChain, withdrawalTime, withdrawalStep2 } = props;
 
   return (
-    <Card className="p-6">
-      <Tabs variant="underlined" aria-label="Tabs variants">
+    <Card className="p-8">
+      <Tabs
+        variant="underlined"
+        aria-label="Tabs variants"
+        classNames={{
+          cursor: 'hidden',
+          tabContent: 'text-lg text-gray-400 group-data-[selected=true]:font-bold',
+        }}
+      >
         <Tab key="deposit" title="Deposit">
           <VaultDeposit networkChain={networkChain} />
         </Tab>

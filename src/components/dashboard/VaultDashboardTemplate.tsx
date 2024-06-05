@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 
+import { Button } from '@nextui-org/react';
 import { getUnixTime } from 'date-fns';
 import { startCase } from 'lodash';
 import Link from 'next/link';
@@ -62,8 +63,8 @@ const VaultDashboardTemplate = () => {
 
   if (error) {
     return (
-      <Page title="Dashboard">
-        <div className="w-[90%] sm:w-4/5 md:w-5/6 3xl:w-[1250px] mx-auto pt-12 pb-24">
+      <Page backUrl={Urls.Dashboard}>
+        <div className="w-full">
           <p className="text-red-600 mt-4">Oops, something went wrong! Please try again later.</p>
         </div>
       </Page>
@@ -71,27 +72,26 @@ const VaultDashboardTemplate = () => {
   }
 
   return (
-    <Page title={startCase(data?.name)}>
-      <div className="w-[90%] sm:w-4/5 md:w-5/6 3xl:w-[1250px] flex flex-col items-stretch gap-8 mx-auto pt-12 pb-24">
+    <Page backUrl={Urls.Dashboard}>
+      <div className="w-full flex flex-col gap-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-0">
           <div className="flex items-center gap-2">
-            <Link href={Urls.Dashboard}>
-              <ChevronLeftIcon className="w-4 h-4 sm:w-6 sm:h-6" />
-            </Link>
             <h3 className="text-xl sm:text-3xl 2xl:text-4xl font-bold uppercase">
               {startCase(data?.name)}
             </h3>
           </div>
 
-          <Link
+          <Button
+            as={Link}
             href={`${Urls.Vaults}/${data?.slug}`}
-            className="inline-block rounded-3xl text-center text-white text-sm font-normal bg-rock-primary px-8 py-2 sm:py-3 hover:ring-2 hover:ring-rock-divider"
+            color="primary"
+            className="rounded-full px-6"
           >
             Deposit
-          </Link>
+          </Button>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8">
           <TextWidget
             loading={isLoading}
             title="Price per share"
@@ -108,7 +108,7 @@ const VaultDashboardTemplate = () => {
             value={toCurrency(data?.total_value_locked ?? 0)}
           />
         </div>
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid xl:grid-cols-2 gap-8">
           <AreaChartWidget
             loading={loadingPerformance || isLoading}
             title="Performance"

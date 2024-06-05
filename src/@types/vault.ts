@@ -15,6 +15,7 @@ export type Vault = {
   points?: Point[];
   strategy_name: Strategy;
   contract_address: Address;
+  category: VaultCategory;
   network_chain: VaultNetwork;
 };
 

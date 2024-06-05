@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import { Inter, Sora } from 'next/font/google';
+import { Outfit } from 'next/font/google';
 
 import GoogleAnalytics from '@/components/scripts/GoogleAnalytics';
 import Sidebar from '@/components/shared/Sidebar';
@@ -12,17 +12,7 @@ import Providers from './_providers/Providers';
 import './globals.css';
 import Loading from './loading';
 
-export const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-
-export const sora = Sora({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-sora',
-});
+const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Harmonix',
@@ -31,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.className} bg-[#F5F5F5]`}>
+    <html lang="en" className={`${outfit.className} bg-[#F5F5F5]`}>
       <body className="font-inconsolata">
         <Providers>
           <Suspense fallback={<Loading />}>

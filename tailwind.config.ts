@@ -13,10 +13,6 @@ const config: Config = {
       screens: {
         '3xl': '1780px',
       },
-      fontFamily: {
-        inter: ['var(--font-inter)'],
-        sora: 'var(--font-sora)',
-      },
       colors: {
         rock: {
           dark: '#0C060A',
