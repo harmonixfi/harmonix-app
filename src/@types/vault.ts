@@ -30,6 +30,7 @@ export type Position = {
   vault_name: string;
   vault_currency: string;
   vault_address: Address;
+  vault_network: VaultNetwork;
   user_address: string;
   total_balance: number;
   init_deposit: number;

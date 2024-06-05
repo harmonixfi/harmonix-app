@@ -7,10 +7,12 @@ import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
 import { getUserPortfolio } from '@/api/vault';
+import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
@@ -26,24 +28,27 @@ import WithdrawCoolDown from './WithdrawCoolDown';
 
 type VaultWithdrawProps = {
   apr: number;
-  networkChain: VaultNetwork;
+  vaultNetwork: VaultNetwork;
   withdrawalTime: string;
   withdrawalStep2: string;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
-  const { networkChain, withdrawalTime, withdrawalStep2 } = props;
+  const { vaultNetwork, withdrawalTime, withdrawalStep2 } = props;
 
   const params = useParams();
 
   const { vaultVariant, vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { selectedChain } = useChainContext();
+
+  const { chains, switchChain } = useSwitchChain();
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
   const [isCoolingDown, setIsCoolingDown] = useState(false);
 
   const { isOpen, type, url, onOpenDialog, onCloseDialog } =
-    useTransactionStatusDialog(networkChain);
+    useTransactionStatusDialog(vaultNetwork);
 
   const { status, address } = useAccount();
 
@@ -226,6 +231,10 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     }
   }, [isEnableCompleteWithdraw, isCoolingDown]);
 
+  const isWrongNetwork = supportedChainMapping[vaultNetwork] !== selectedChain;
+
+  const targetNetwork = chains.find((x) => x.name === supportedChainMapping[vaultNetwork]);
+
   return (
     <div className="flex flex-col gap-6">
       {!isConnectedWallet && (
@@ -240,8 +249,12 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
           <div className="flex items-center gap-2">
             <p className="text-rock-gray">Withdrawals</p>
             <Tooltip
+              showArrow
+              color="foreground"
+              closeDelay={100}
+              classNames={{ base: 'w-64' }}
               content={
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 p-2">
                   <p>
                     If you want to withdraw funds that have been invested in the vault&apos;s weekly
                     options strategy, you need to follow a 2-step process:
@@ -251,7 +264,9 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
                 </div>
               }
             >
-              <QuestionIcon />
+              <span>
+                <QuestionIcon />
+              </span>
             </Tooltip>
           </div>
           <p>{withdrawalTime}</p>
@@ -317,19 +332,30 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         />
       )}
 
-      <Button
-        type="button"
-        size="lg"
-        color="primary"
-        fullWidth
-        isLoading={isWithdrawing}
-        isDisabled={disabledButton}
-        onClick={handleWithdraw}
-      >
-        {isCoolingDown || isWaitingForWithdrawPool || isEnableCompleteWithdraw
-          ? 'Complete withdrawal'
-          : 'Initiate withdrawal'}
-      </Button>
+      {isWrongNetwork && targetNetwork ? (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          onClick={() => switchChain({ chainId: targetNetwork.id })}
+        >
+          Switch Network
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          fullWidth
+          isLoading={isWithdrawing}
+          isDisabled={disabledButton}
+          onClick={handleWithdraw}
+        >
+          {isCoolingDown || isWaitingForWithdrawPool || isEnableCompleteWithdraw
+            ? 'Complete withdrawal'
+            : 'Initiate withdrawal'}
+        </Button>
+      )}
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
     </div>

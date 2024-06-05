@@ -1,3 +1,7 @@
+'use client';
+
+import { useMemo } from 'react';
+
 import { Card } from '@nextui-org/react';
 import Link from 'next/link';
 
@@ -13,15 +17,36 @@ type VaultIntroProps = {
 const VaultIntro = (props: VaultIntroProps) => {
   const { name, points } = props;
 
+  const description = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return `This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not only
+      exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns by up
+      to 50% during bearish/downward market
+      trends.`;
+    }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return 'Generate yield by swapping 50% of the fund deposit into ETH and re-staking it on Renzo, while converting the remaining 50% into stablecoins and shorting at 1x leverage on decentralized derivative exchanges.';
+    }
+
+    if (name.toLowerCase().includes('kelpdao')) {
+      return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
+    }
+
+    return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+  }, [name]);
+
   return (
     <Card className="flex flex-col 2xl:flex-row items-center gap-12 rounded-2xl p-8">
       <div className="space-y-3">
-        <p className="text-3xl font-bold">{name}</p>
-        <p className="text-base font-light">
-          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-          voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati
-          cupiditate non provident.{' '}
-          <Link href="#" target="_blank" className="underline font-semibold">
+        <p className="text-3xl sm:text-4xl font-bold">{name}</p>
+        <p className="text-base sm:text-lg font-light">
+          {description}{' '}
+          <Link
+            href="https://rock-onyx.gitbook.io/rock-onyx-docs/rock-onyx-vaults/overview-vaults"
+            target="_blank"
+            className="underline font-semibold"
+          >
             Learn more
           </Link>
         </p>

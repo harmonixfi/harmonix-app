@@ -2,13 +2,15 @@
 
 import { useMemo } from 'react';
 
+import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
 import { Card, Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
+import { useChains } from 'wagmi';
 
 import { Address } from '@/@types/common';
 import { Strategy, VaultNetwork } from '@/@types/enum';
 import { Point } from '@/@types/vault';
-import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
@@ -43,28 +45,17 @@ type VaultCardProps = {
 const MAX_CAPACITY = 50 * 1000;
 
 const VaultCard = (props: VaultCardProps) => {
-  const {
-    name,
-    link = '#',
-    apy = 0,
-    maxCapacity,
-    available = true,
-    points,
-    strategy,
-    contractAddress,
-    network,
-  } = props;
+  const { name, link = '#', apy = 0, points, strategy, contractAddress, network } = props;
 
-  const { selectedChain } = useChainContext();
+  const configuredChains = useChains();
 
   const contracts = useContractMapping();
 
-  const { color, vaultAbi } = vaultCardMapping(name, contracts);
+  const { vaultAbi } = vaultCardMapping(name, contracts);
 
-  const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(
-    vaultAbi,
-    contractAddress,
-  );
+  const chainId = configuredChains.find((x) => x.name === supportedChainMapping[network])?.id;
+
+  const { totalValueLocked } = useVaultQueries(vaultAbi, contractAddress, undefined, chainId);
 
   const displayedStrategy = useMemo(() => {
     if (strategy === Strategy.OptionsWheel) {
@@ -74,25 +65,51 @@ const VaultCard = (props: VaultCardProps) => {
     return 'Delta Neutral';
   }, [strategy]);
 
-  const vaultCardClass = useMemo(() => {
+  const description = useMemo(() => {
     if (name.toLowerCase().includes('option')) {
-      return 'options-wheel-card';
+      return `This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not only
+      exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns by up
+      to 50% during bearish/downward market
+      trends.`;
     }
 
     if (name.toLowerCase().includes('renzo')) {
-      return 'renzo-card';
+      return 'Generate yield by swapping 50% of the fund deposit into ETH and re-staking it on Renzo, while converting the remaining 50% into stablecoins and shorting at 1x leverage on decentralized derivative exchanges.';
     }
 
     if (name.toLowerCase().includes('kelpdao')) {
-      return 'kelpdao-card';
+      return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
     }
 
-    return 'delta-neutral-card';
+    return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+  }, [name]);
+
+  const { vaultCardClass, capacityBarClass } = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return { vaultCardClass: 'options-wheel-card', capacityBarClass: 'options-wheel-capacity' };
+    }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return { vaultCardClass: 'renzo-card', capacityBarClass: 'renzo-capacity' };
+    }
+
+    if (name.toLowerCase().includes('kelpdao')) {
+      return { vaultCardClass: 'kelpdao-card', capacityBarClass: 'kelpdao-capacity' };
+    }
+
+    return { vaultCardClass: 'delta-neutral-card', capacityBarClass: 'delta-neutral-capacity' };
   }, [name]);
 
   return (
     <Card className={`rounded-none vault-card ${vaultCardClass}`}>
-      <Link href={link} className="flex flex-col gap-6 p-8 text-primary">
+      <Link href={link} className="flex flex-col gap-6 p-8 text-primary relative">
+        {name.toLowerCase().includes('option') && (
+          <div className="risk-badge">
+            <Tooltip color="foreground" showArrow content="Perceive risk">
+              <ExclamationTriangleIcon className="w-6 h-6 absolute top-16 left-9 rotate-45" />
+            </Tooltip>
+          </div>
+        )}
         <div className="flex items-center justify-between bg-rock-grey01 px-6 py-4 rounded-2xl">
           <div>
             <p className="text-xl font-bold capitalize">{name}</p>
@@ -106,16 +123,13 @@ const VaultCard = (props: VaultCardProps) => {
             </div>
           </div>
           <div className="flex items-center">
-            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
-            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
             <DaiAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
           </div>
         </div>
 
-        <p className="text-sm font-light">
-          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-          voluptatum deleniti atque corrupti quos dolores.
-        </p>
+        <p className="text-base font-light">{description}</p>
 
         <div
           className={`grid ${points && points.length > 0 ? 'grid-cols-2' : 'grid-cols-1'} gap-6`}
@@ -195,9 +209,9 @@ const VaultCard = (props: VaultCardProps) => {
             <p>Max Capacity</p>
             <p>{MAX_CAPACITY ? toCompactNumber(MAX_CAPACITY) : NA_STRING}</p>
           </div>
-          <div className="w-full h-1.5 bg-gray-300 rounded-full">
+          <div className="w-full h-2 bg-gray-200 rounded-full">
             <div
-              className="h-1.5 bg-primary rounded-full"
+              className={`h-2 ${capacityBarClass} rounded-full`}
               style={{ width: `${MAX_CAPACITY ? (totalValueLocked * 100) / MAX_CAPACITY : 0}%` }}
             ></div>
           </div>

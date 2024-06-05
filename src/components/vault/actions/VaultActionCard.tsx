@@ -28,12 +28,12 @@ const VaultActionCard = (props: VaultActionCardProps) => {
         }}
       >
         <Tab key="deposit" title="Deposit">
-          <VaultDeposit networkChain={networkChain} />
+          <VaultDeposit vaultNetwork={networkChain} />
         </Tab>
         <Tab key="withdraw" title="Withdraw">
           <VaultWithdraw
             apr={apr}
-            networkChain={networkChain}
+            vaultNetwork={networkChain}
             withdrawalTime={withdrawalTime}
             withdrawalStep2={withdrawalStep2}
           />

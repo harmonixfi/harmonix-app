@@ -63,3 +63,7 @@ export { default as DaiAssetIcon } from './DaiAsset';
 export { default as VaultPositionCurveIcon } from './VaultPositionCurve';
 export { default as VaultPositionCoinIcon } from './VaultPositionCoin';
 export { default as VaultTransferArrowDownIcon } from './VaultTransferArrowDown';
+export { default as DepositStepIcon } from './DepositStep';
+export { default as RestakingStepIcon } from './RestakingStep';
+export { default as ProfitStepIcon } from './ProfitStep';
+export { default as RiskIcon } from './Risk';

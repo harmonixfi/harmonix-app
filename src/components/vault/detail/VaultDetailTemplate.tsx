@@ -15,6 +15,7 @@ import VaultActionCard from '../actions/VaultActionCard';
 import VaultAllocation from './VaultAllocation';
 import VaultChart from './VaultChart';
 import VaultFeeTransparency from './VaultFeeTransparency';
+import VaultHowItWorks from './VaultHowItWorks';
 import VaultIntro from './VaultIntro';
 import VaultPosition from './VaultPosition';
 
@@ -24,8 +25,8 @@ type VaultDetailTemplateProps = VaultDetailMapping & {
   slug: string;
   name: string;
   contractAddress: Address;
-  networkChain: VaultNetwork;
   points?: Point[];
+  networkChain: VaultNetwork;
   apy: number;
   apr: number;
   onyxData: LineChartData[];
@@ -38,8 +39,8 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     slug,
     name,
     contractAddress,
-    networkChain,
     points: vaultPoints,
+    networkChain,
     apy,
     apr,
     onyxData,
@@ -76,15 +77,20 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
               />
             </div>
 
-            <div>
-              <VaultChart timeVisible={timeVisible} apy={apy} onyxData={onyxData} />
-            </div>
+            <VaultChart
+              timeVisible={timeVisible}
+              apy={apy}
+              network={networkChain}
+              onyxData={onyxData}
+            />
+
+            <VaultHowItWorks name={name} />
 
             <div className="grid grid-cols-12 items-stretch gap-6">
-              <div className="h-full col-span-12 xl:col-span-6 2xl:col-span-5">
-                <VaultAllocation />
+              <div className="h-full col-span-12 2xl:col-span-5">
+                <VaultAllocation vaultNetwork={networkChain} />
               </div>
-              <div className="h-full col-span-12 xl:col-span-6 2xl:col-span-7">
+              <div className="h-full col-span-12 2xl:col-span-7">
                 <VaultFeeTransparency />
               </div>
             </div>

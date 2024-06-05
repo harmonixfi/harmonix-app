@@ -3,8 +3,10 @@
 import { useMemo } from 'react';
 
 import { format } from 'date-fns';
+import { useChains } from 'wagmi';
 
 import { Position } from '@/@types/vault';
+import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
@@ -28,6 +30,7 @@ const PositionRow = (props: PositionRowProps) => {
     trade_start_date,
     entry_price,
     vault_address,
+    vault_network,
   } = position;
 
   const {
@@ -50,7 +53,16 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralKelpDaoVaultAbi,
   ]);
 
-  const { pricePerShare, totalValueLocked } = useVaultQueries(vaultAbi, vault_address);
+  const configuredChains = useChains();
+
+  const chainId = configuredChains.find((x) => x.name === supportedChainMapping[vault_network])?.id;
+
+  const { pricePerShare, totalValueLocked } = useVaultQueries(
+    vaultAbi,
+    vault_address,
+    undefined,
+    chainId,
+  );
 
   return (
     <>

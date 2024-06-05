@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Button } from '@nextui-org/react';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import Link from 'next/link';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
 import useSWR from 'swr';
 
 import { getVaultPerformance } from '@/api/vault';

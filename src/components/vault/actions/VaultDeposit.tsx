@@ -5,9 +5,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Select, SelectItem } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 import { SupportedCurrency, VaultNetwork, VaultVariant } from '@/@types/enum';
+import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
@@ -21,19 +23,31 @@ import { toFixedNumber, withCommas } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
-import { CurrencySymbolIcon, VaultTransferArrowDownIcon, WarningIcon } from '../../shared/icons';
+import {
+  CurrencySymbolIcon,
+  UsdcAssetIcon,
+  VaultTransferArrowDownIcon,
+  WarningIcon,
+} from '../../shared/icons';
 
 type VaultDepositProps = {
-  networkChain: VaultNetwork;
+  vaultNetwork: VaultNetwork;
 };
 
 const VaultDeposit = (props: VaultDepositProps) => {
-  const { networkChain } = props;
+  const { vaultNetwork } = props;
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
+  const { selectedChain } = useChainContext();
   const { usdcAddress } = useContractMapping();
 
   const account = useAccount();
+
+  const { chains, switchChain } = useSwitchChain();
+
+  const isWrongNetwork = supportedChainMapping[vaultNetwork] !== selectedChain;
+
+  const targetNetwork = chains.find((x) => x.name === supportedChainMapping[vaultNetwork]);
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
@@ -43,7 +57,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
   const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
   const { isOpen, type, url, onOpenDialog, onCloseDialog } =
-    useTransactionStatusDialog(networkChain);
+    useTransactionStatusDialog(vaultNetwork);
 
   const { status } = useAccount();
   const {
@@ -52,7 +66,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
     refetchBalanceOf,
     refetchDepositAmount,
     refetchUserVaultState,
-  } = useVaultQueries(vaultAbi, vaultAddress);
+  } = useVaultQueries(vaultAbi, vaultAddress, undefined, targetNetwork?.id);
   const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
@@ -196,7 +210,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
               renderValue={(items) => {
                 return items.map((x) => (
                   <div key={x.key} className="flex items-center gap-2">
-                    <CurrencySymbolIcon className="w-6 h-6" />
+                    <UsdcAssetIcon className="w-6 h-6" />
                     <span>{x.textValue}</span>
                   </div>
                 ));
@@ -204,14 +218,14 @@ const VaultDeposit = (props: VaultDepositProps) => {
             >
               <SelectItem key="usdc" textValue="USDC">
                 <div className="flex items-center gap-2">
-                  <CurrencySymbolIcon /> USDC
+                  <UsdcAssetIcon className="w-6 h-6" /> USDC
                 </div>
               </SelectItem>
-              <SelectItem key="usdt" textValue="USDT">
+              {/* <SelectItem key="usdt" textValue="USDT">
                 <div className="flex items-center gap-2">
                   <CurrencySymbolIcon /> USDT
                 </div>
-              </SelectItem>
+              </SelectItem> */}
             </Select>
           </div>
           <div className="flex items-center justify-between">
@@ -256,16 +270,27 @@ const VaultDeposit = (props: VaultDepositProps) => {
         </li>
       </ul>
 
-      <Button
-        type="button"
-        size="lg"
-        color="primary"
-        isLoading={isButtonLoading}
-        isDisabled={disabledButton}
-        onClick={() => setIsOpenConfirmDialog(true)}
-      >
-        {skipApprove ? 'Deposit' : 'Approve'}
-      </Button>
+      {isWrongNetwork && targetNetwork ? (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          onClick={() => switchChain({ chainId: targetNetwork.id })}
+        >
+          Switch Network
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          isLoading={isButtonLoading}
+          isDisabled={disabledButton}
+          onClick={() => setIsOpenConfirmDialog(true)}
+        >
+          {skipApprove ? 'Deposit' : 'Approve'}
+        </Button>
+      )}
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
 

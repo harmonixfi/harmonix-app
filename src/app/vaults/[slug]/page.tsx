@@ -47,6 +47,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
           contractAddress={contract_address}
           networkChain={network_chain}
           points={points}
+          networkChain={network_chain}
           apy={vaultApy || 0}
           apr={apr || 0}
           onyxData={onyxData}

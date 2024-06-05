@@ -74,7 +74,7 @@ const Sidebar = () => {
           openMobileSidebar ? 'flex absolute bg-opacity-100 z-50' : 'hidden'
         } md:relative md:flex flex-col justify-between min-w-72 w-72 h-full p-6 bg-rock-g80 overflow-hidden`}
       >
-        <div>
+        <div className="z-40">
           <div className="flex items-center justify-between mt-2 ">
             <Link href={Urls.Home} className="block pl-1">
               <BetaLogoIcon className="w-4/5 h-auto" />

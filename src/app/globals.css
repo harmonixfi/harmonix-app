@@ -54,12 +54,13 @@
 
 .vault-card {
   --b: 0.4em; /* border length*/
-  --d: 20px; /* the cube depth */
+  --d: 10px; /* the cube depth */
 
   --_s: calc(var(--d) + var(--b));
 
   border: solid #0000;
   border-width: var(--b) var(--b) var(--_s) var(--_s);
+  border-radius: 16px;
   transform: translate(calc(var(--d) / -1), var(--d));
   clip-path: polygon(
     var(--d) 0%,
@@ -145,4 +146,27 @@
       border-box,
     conic-gradient(at left var(--_s) bottom var(--_s), #ffff 90deg, var(--c) 0) 0 100% /
       calc(100% - var(--b)) calc(100% - var(--b)) border-box;
+}
+
+.options-wheel-capacity {
+  background-color: #ffaf1d;
+}
+.delta-neutral-capacity {
+  background-color: #627eea;
+}
+.renzo-capacity {
+  background-color: #ace730;
+}
+.kelpdao-capacity {
+  background-color: #075a5a;
+}
+
+.risk-badge {
+  background-color: #ffaf1d;
+  position: absolute;
+  left: -50px;
+  top: -50px;
+  width: 100px;
+  height: 100px;
+  -webkit-transform: rotate(-45deg);
 }
