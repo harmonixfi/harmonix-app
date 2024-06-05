@@ -45,7 +45,6 @@ export default async function VaultPage({ params }: { params: { slug: string } }
           slug={slug}
           name={name}
           contractAddress={contract_address}
-          networkChain={network_chain}
           points={points}
           networkChain={network_chain}
           apy={vaultApy || 0}
