@@ -17,11 +17,13 @@ import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 
 import {
   ArbitrumIcon,
+  DaiAssetIcon,
   EigenLayerIcon,
   EthereumIcon,
   InformationIcon,
   RenzoIcon,
   UsdcAssetIcon,
+  UsdtAssetIcon,
   ZircuitIcon,
 } from '../shared/icons';
 
@@ -72,8 +74,24 @@ const VaultCard = (props: VaultCardProps) => {
     return 'Delta Neutral';
   }, [strategy]);
 
+  const vaultCardClass = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return 'options-wheel-card';
+    }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return 'renzo-card';
+    }
+
+    if (name.toLowerCase().includes('kelpdao')) {
+      return 'kelpdao-card';
+    }
+
+    return 'delta-neutral-card';
+  }, [name]);
+
   return (
-    <Card>
+    <Card className={`rounded-none vault-card ${vaultCardClass}`}>
       <Link href={link} className="flex flex-col gap-6 p-8 text-primary">
         <div className="flex items-center justify-between bg-rock-grey01 px-6 py-4 rounded-2xl">
           <div>
@@ -87,7 +105,11 @@ const VaultCard = (props: VaultCardProps) => {
               <p className="text-sm capitalize">{displayedStrategy}</p>
             </div>
           </div>
-          <UsdcAssetIcon className="w-10 h-10" />
+          <div className="flex items-center">
+            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
+            <DaiAssetIcon className="w-10 h-10 -mx-2" />
+          </div>
         </div>
 
         <p className="text-sm font-light">

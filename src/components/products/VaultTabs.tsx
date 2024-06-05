@@ -18,6 +18,9 @@ const VaultTabs = () => {
 
   return (
     <div className="relative">
+      <div className="xl:absolute top-0 right-0 mb-8 xl:mb-0">
+        <VaultFilter selectedNetWork={selectedNetWork} onSelectNetWork={handleSelectNetwork} />
+      </div>
       <Tabs
         aria-label="Category"
         color="primary"
@@ -36,9 +39,6 @@ const VaultTabs = () => {
           <VaultList selectedCategory={VaultCategory.Points} selectedNetwork={selectedNetWork} />
         </Tab>
       </Tabs>
-      <div className="absolute top-0 right-0">
-        <VaultFilter selectedNetWork={selectedNetWork} onSelectNetWork={handleSelectNetwork} />
-      </div>
     </div>
   );
 };

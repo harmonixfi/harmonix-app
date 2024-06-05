@@ -6,7 +6,7 @@ type VaultAllocationProps = {};
 
 const VaultAllocation = (props: VaultAllocationProps) => {
   return (
-    <Card className="p-8 text-primary">
+    <Card className="h-full p-8 text-primary">
       <p className="text-xl font-medium capitalize opacity-50">Vault allocation</p>
       <table className="w-full border-separate border-spacing-3 mt-6 py-4 bg-rock-grey01 rounded-2xl">
         <thead>

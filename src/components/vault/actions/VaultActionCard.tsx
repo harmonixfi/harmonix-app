@@ -18,7 +18,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   const { apr, networkChain, withdrawalTime, withdrawalStep2 } = props;
 
   return (
-    <Card className="p-8">
+    <Card className="p-4 sm:p-8">
       <Tabs
         variant="underlined"
         aria-label="Tabs variants"

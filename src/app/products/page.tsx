@@ -9,18 +9,18 @@ export default async function Products() {
   return (
     <Page title="Vaults">
       <div>
-        <Card className="flex flex-row items-center justify-between px-8 py-4 rounded-3xl mb-12">
+        <Card className="flex flex-col lg:flex-row items-center justify-between gap-4 px-8 py-4 rounded-3xl mb-12">
           <div>
-            <div className="w-3/4 space-y-3">
+            <div className="ư-full xl:w-3/4 space-y-3">
               <p className="text-xl font-semibold text-primary">Lorem Ipsum</p>
-              <p className="text-sm text-primary font-normal">
+              <p className="text-base text-primary font-normal">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam suscipit in dolor
                 possimus amet fugiat rerum vel illo blanditiis expedita? Repudiandae, magni
                 distinctio?
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-12 bg-secondary rounded-2xl px-8 py-4">
+          <div className="w-full lg:w-auto flex items-center justify-center gap-12 bg-secondary rounded-2xl px-8 lg:px-12 py-4">
             <div className="flex flex-col items-center gap-2">
               <p className="text-base text-primary opacity-60">TVL</p>
               <p className="text-lg text-primary font-bold">{toCurrency(2000)}</p>

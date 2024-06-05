@@ -78,11 +78,11 @@ const VaultPosition = (props: VaultPositionProps) => {
 
   return (
     <Card className="text-primary relative">
-      <VaultPositionCurveIcon className="absolute top-0 -right-2 w-auto h-3/4 opacity-30 z-10" />
-      <VaultPositionCoinIcon className="absolute top-3 right-12 w-auto h-1/3" />
+      <VaultPositionCurveIcon className="absolute top-0 -right-2 w-auto h-1/3 sm:h-1/2 2xl:h-3/4 opacity-30 z-10" />
+      <VaultPositionCoinIcon className="absolute top-3 right-8 2xl:right-12 w-auto h-24 sm:h-28 xl:h-1/5 2xl:h-1/3" />
       <div className="p-8 z-20">
         <p className="text-xl font-medium capitalize opacity-50">Your position</p>
-        <p className="text-4xl font-bold mt-4">
+        <p className="flex flex-col xl:flex-row text-4xl font-bold mt-4">
           <span>{`${formatPnl(toFixedNumber(netYield))} USDC`}</span>
           <span
             className={`ml-2 ${
@@ -90,13 +90,13 @@ const VaultPosition = (props: VaultPositionProps) => {
             }`}
           >{`(${formatPnl(toFixedNumber(pnl * 100))}%)`}</span>
         </p>
-        <div className="flex items-center gap-4 mt-12">
+        <div className="flex flex-wrap items-center gap-4 mt-12">
           {displayedFields.map((x) => (
             <div
               key={x.label}
-              className="shrink-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
+              className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
             >
-              <p className="opacity-60">{x.label}</p>
+              <p className="text-sm sm:text-base opacity-60">{x.label}</p>
               <p className="text-lg font-bold">{x.value}</p>
             </div>
           ))}

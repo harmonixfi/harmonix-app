@@ -17,11 +17,11 @@ const Page = (props: PageProps) => {
   return (
     <div className="h-full">
       <div className="flex items-center justify-between px-4 pl-12 md:px-10 py-4 border-b border-b-rock-gray">
-        {title && <h2 className="text-2xl font-bold text-primary">{title}</h2>}
+        {title && <h2 className="text-base sm:text-2xl font-bold text-primary">{title}</h2>}
         {backUrl && (
           <Link href={backUrl} className="flex items-center gap-1">
-            <ChevronLeftIcon className="w-8 h-8" />
-            <span className="text-2xl font-bold text-primary">Back</span>
+            <ChevronLeftIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+            <span className="text-base sm:text-2xl font-bold text-primary">Back</span>
           </Link>
         )}
         <WalletConnectButton />

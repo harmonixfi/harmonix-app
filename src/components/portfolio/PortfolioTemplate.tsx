@@ -11,7 +11,7 @@ import ActivePositions from '@/components/portfolio/ActivePositions';
 import PortfolioOverview from '@/components/portfolio/PortfolioOverview';
 
 import Loading from '../shared/Loading';
-import PointCard from '../vault/point/PointCard';
+import PortfolioPoints from './PortfolioPoints';
 
 const PortfolioTemplate = () => {
   const [mounted, setMounted] = useState(false);
@@ -42,32 +42,27 @@ const PortfolioTemplate = () => {
 
   if (!data && (!mounted || isLoading || status === 'connecting')) {
     return (
-      <div className="flex justify-center mt-32 mb-64">
+      <div className="flex justify-center">
         <Loading />
       </div>
     );
   }
 
   return (
-    <div className="w-full lg:w-[90%] xl:w-4/5 2xl:w-3/4 3xl:w-5/6 mx-auto mt-6 md:mt-16 xl:mt-24 mb-16 md:mb-32 xl:mb-48 px-6 sm:px-4 md:px-8 lg:px-0">
-      <PortfolioOverview
-        status={status}
-        error={!!error}
-        totalBalance={data?.total_balance}
-        pnl={data?.pnl}
-      />
-      {displayPoints.length > 0 && (
-        <div>
-          <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
-            Your points
-          </p>
-          <div className="flex flex-wrap items-center gap-6">
-            {displayPoints.map((x) => (
-              <PointCard key={x.name} type={x.name} point={x.point} />
-            ))}
-          </div>
+    <div className="w-full space-y-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 items-stretch gap-6">
+        <div className="h-full">
+          <PortfolioOverview
+            status={status}
+            error={!!error}
+            totalBalance={data?.total_balance}
+            pnl={data?.pnl}
+          />
         </div>
-      )}
+        <div className="">
+          <PortfolioPoints points={displayPoints} />
+        </div>
+      </div>
       <ActivePositions
         status={status}
         loading={isLoading}

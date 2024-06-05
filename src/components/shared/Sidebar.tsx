@@ -100,7 +100,7 @@ const Sidebar = () => {
                 >
                   <x.icon className="w-7 h-7" />
                   <div className="flex flex-col">
-                    <span className="font-light text-sm">{x.text}</span>
+                    <span className="font-light text-base">{x.text}</span>
                     {x.disabled && (
                       <span className="block w-fit bg-secondary bg-opacity-20 border border-secondary text-center text-xs text-secondary rounded-full px-2 py-0.5">
                         Coming soon

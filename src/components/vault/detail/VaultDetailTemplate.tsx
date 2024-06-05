@@ -62,8 +62,8 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   return (
     <VaultDetailProvider name={name} contractAddress={contractAddress}>
       <VaultIntro name={name} points={vaultPoints} />
-      <div className="relative w-full flex flex-col-reverse lg:grid lg:grid-cols-5 gap-6 mt-6 z-20">
-        <div className="lg:col-span-3">
+      <div className="relative w-full flex flex-col-reverse xl:grid xl:grid-cols-5 gap-6 mt-6 z-20">
+        <div className="xl:col-span-3">
           <div className="flex flex-col gap-6">
             <VaultPosition points={userPoints} />
 
@@ -81,17 +81,17 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
             </div>
 
             <div className="grid grid-cols-12 items-stretch gap-6">
-              <div className="col-span-4">
+              <div className="h-full col-span-12 xl:col-span-6 2xl:col-span-5">
                 <VaultAllocation />
               </div>
-              <div className="col-span-8">
+              <div className="h-full col-span-12 xl:col-span-6 2xl:col-span-7">
                 <VaultFeeTransparency />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="hidden lg:col-span-2 lg:flex flex-col gap-12">
+        <div className="hidden xl:col-span-2 lg:flex flex-col gap-12">
           <VaultActionCard
             apr={apr}
             networkChain={networkChain}

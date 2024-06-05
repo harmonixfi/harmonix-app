@@ -22,17 +22,15 @@ const ActivePositions = (props: ActivePositionsProps) => {
   }
 
   return (
-    <div>
-      <p className="text-lg md:text-xl lg:text-3xl font-semibold uppercase mt-12 lg:mt-16 xl:mt-24 mb-4 lg:mb-6">
-        Your active positions
-      </p>
+    <Card className="p-8 text-primary">
+      <p className="text-xl font-medium opacity-50 capitalize">Your active positions</p>
 
       {positions.length === 0 ? (
-        <p className="text-rock-sub-body">You have no positions</p>
+        <p className="mt-4">You have no positions</p>
       ) : (
         <>
-          <Card className="w-full sm:p-6 2xl:p-9">
-            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 mb-6 text-rock-sub-body uppercase text-left text-xs lg:text-xs xl:text-sm 2xl:text-base font-semibold">
+          <div className="w-full p-6 bg-rock-grey01 rounded-2xl mt-6">
+            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 text-left text-sm xl:text-base 2xl:text-lg font-semibold">
               <p className="col-span-2 ">Vault name</p>
               <p className="text-left">Total balance</p>
               <p className="text-left">Initial deposit</p>
@@ -44,10 +42,10 @@ const ActivePositions = (props: ActivePositionsProps) => {
             {positions.map((item) => (
               <PositionRow key={item.id} position={item} />
             ))}
-          </Card>
+          </div>
         </>
       )}
-    </div>
+    </Card>
   );
 };
 

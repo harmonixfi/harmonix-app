@@ -14,7 +14,7 @@ const VaultIntro = (props: VaultIntroProps) => {
   const { name, points } = props;
 
   return (
-    <Card className="flex flex-row items-center gap-12 rounded-2xl p-8">
+    <Card className="flex flex-col 2xl:flex-row items-center gap-12 rounded-2xl p-8">
       <div className="space-y-3">
         <p className="text-3xl font-bold">{name}</p>
         <p className="text-base font-light">
@@ -27,7 +27,7 @@ const VaultIntro = (props: VaultIntroProps) => {
         </p>
       </div>
       {points && points.length > 0 && (
-        <div className="shrink-0 flex items-center bg-secondary text-primary rounded-2xl py-8">
+        <div className="w-full 2xl:w-auto shrink-0 flex flex-wrap items-center justify-center gap-8 bg-secondary text-primary rounded-2xl py-8">
           {points.map((x, index) => {
             const { label, icon: Icon } =
               x.name === 'renzo'
@@ -38,9 +38,8 @@ const VaultIntro = (props: VaultIntroProps) => {
             return (
               <div
                 key={x.name}
-                className={`space-y-2 px-14 ${
-                  index > 0 ? 'border-l border-l-primary border-opacity-10' : ''
-                }`}
+                className={`shrink-0 basis-1/2 lg:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 px-12 md:px-6 2xl:px-8
+                `}
               >
                 <p className="text-base capitalize opacity-60">{label}</p>
                 <div className="flex items-center justify-center gap-2">

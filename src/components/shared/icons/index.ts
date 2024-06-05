@@ -58,6 +58,8 @@ export { default as DashboardMenuIcon } from './DashboardMenu';
 export { default as PortfolioMenuIcon } from './PortfolioMenu';
 export { default as ReferralMenuIcon } from './ReferralMenu';
 export { default as UsdcAssetIcon } from './UsdcAsset';
+export { default as UsdtAssetIcon } from './UsdtAsset';
+export { default as DaiAssetIcon } from './DaiAsset';
 export { default as VaultPositionCurveIcon } from './VaultPositionCurve';
 export { default as VaultPositionCoinIcon } from './VaultPositionCoin';
 export { default as VaultTransferArrowDownIcon } from './VaultTransferArrowDown';
