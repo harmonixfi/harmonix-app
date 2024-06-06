@@ -47,7 +47,12 @@ const useAssetQueries = (currency: SupportedCurrency, vaultAddress?: Address) =>
   });
 
   const allowance = allowanceData
-    ? Number(ethers.utils.formatUnits(allowanceData as BigNumberish, 6))
+    ? Number(
+        ethers.utils.formatUnits(
+          allowanceData as BigNumberish,
+          currency === SupportedCurrency.Dai ? 18 : 6,
+        ),
+      )
     : 0;
 
   return {

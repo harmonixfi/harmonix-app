@@ -35,6 +35,8 @@ type VaultDepositProps = {
   vaultNetwork: VaultNetwork;
 };
 
+const MINIMUM_DEPOSIT_AMOUNT = 10;
+
 const VaultDeposit = (props: VaultDepositProps) => {
   const { vaultNetwork } = props;
 
@@ -162,7 +164,9 @@ const VaultDeposit = (props: VaultDepositProps) => {
   };
 
   const handleApprove = async (amount: string) => {
-    await approve(ethers.utils.parseUnits(amount, 6));
+    await approve(
+      ethers.utils.parseUnits(amount, selectedCurrency === SupportedCurrency.Dai ? 18 : 6),
+    );
   };
 
   const handleDeposit = async (amount: string) => {
@@ -330,7 +334,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
         </li>
         <li className="flex items-center justify-between text-sm font-light">
           <p className="font-normal">Minimum deposit amount</p>
-          <p className="font-bold">$5</p>
+          <p className="font-bold">{`$${MINIMUM_DEPOSIT_AMOUNT}`}</p>
         </li>
       </ul>
 
