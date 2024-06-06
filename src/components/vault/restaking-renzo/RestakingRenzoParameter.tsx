@@ -8,7 +8,7 @@ const RestakingRenzoParameter = () => {
         <p className="text-rock-sub-body font-light text-center">Deposit assets</p>
         <div className="flex items-center gap-2">
           <UsdcCircleIcon className="w-6 h-6" />
-          <p className="text-white font-semibold text-sm text-center">USDC/USDT</p>
+          <p className="font-semibold text-sm text-center">USDC/USDT</p>
         </div>
       </li>
 
@@ -16,7 +16,7 @@ const RestakingRenzoParameter = () => {
         <p className="text-rock-sub-body font-light text-center">Settlement assets</p>
         <div className="flex items-center gap-2">
           <UsdcCircleIcon className="w-6 h-6" />
-          <p className="text-white font-semibold text-sm text-center">USDC/USDT</p>
+          <p className="font-semibold text-sm text-center">USDC/USDT</p>
         </div>
       </li>
 
@@ -27,17 +27,17 @@ const RestakingRenzoParameter = () => {
             <QuestionIcon className="w-4 h-4" />
           </Tooltip>
         </div>
-        <p className="text-white font-semibold text-sm text-center">wstEth-Eth</p>
+        <p className="font-semibold text-sm text-center">wstEth-Eth</p>
       </li>
 
       <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-2xl p-4">
         <p className="text-rock-sub-body font-light text-center">Initiate Withdrawal</p>
-        <p className="text-white font-semibold text-sm text-center">Any time</p>
+        <p className="font-semibold text-sm text-center">Any time</p>
       </li>
 
       <li className="flex flex-col items-center gap-3 bg-white bg-opacity-5 border border-rock-divider rounded-2xl p-4">
         <p className="text-rock-sub-body font-light text-center">Withdrawal</p>
-        <p className="text-white font-semibold text-sm text-center">After 1 - 4 hours</p>
+        <p className="font-semibold text-sm text-center">After 1 - 4 hours</p>
       </li>
     </ul>
   );

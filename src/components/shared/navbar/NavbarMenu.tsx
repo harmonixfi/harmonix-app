@@ -49,7 +49,7 @@ const NavbarMenu = (props: NavbarMenuProps) => {
             key={x.text}
             href={x.url}
             target={x.target}
-            className="block w-full text-gray-300 sm:text-base sm:text-center font-inter font-normal px-4 py-2 hover:text-white"
+            className="block w-full text-gray-300 sm:text-base sm:text-center font-normal px-4 py-2 hover:text-white"
           >
             {x.text}
           </Link>

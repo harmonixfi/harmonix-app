@@ -1,48 +1,69 @@
-import Tooltip from '@/components/shared/Tooltip';
-import Typography from '@/components/shared/Typography';
+import { Card, Tooltip } from '@nextui-org/react';
+
 import { QuestionIcon } from '@/components/shared/icons';
 
 const VaultFeeTransparency = () => {
   return (
-    <div className="flex flex-col gap-6">
-      <Typography variant="subtitle">Fee transparency</Typography>
-      <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-y-8 bg-white bg-opacity-5 border border-rock-divider rounded-2xl uppercase py-4 sm:py-8">
-        <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
-          <p className="text-rock-sub-body text-xs xl:text-base">Entry</p>
-          <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0%</p>
+    <Card className="h-full p-8 space-y-6 text-primary">
+      <p className="text-xl font-medium capitalize opacity-50">Fee transparency</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-1/4 grow flex flex-col items-center justify-between gap-2 bg-rock-grey01 rounded-2xl py-6">
+          <p className="opacity-50">Entry</p>
+          <p className="text-lg font-bold">0%</p>
         </div>
-        <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
-          <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-sub-body">
-            <p className="text-xs xl:text-base">Exit</p>
-            <Tooltip message="Penalty fee when you withdraw in 1 month.">
-              <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
+        <div className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-1/4 grow flex flex-col items-center justify-between gap-2 bg-rock-grey01 rounded-2xl py-6">
+          <div className="flex items-center gap-1 xl:gap-2">
+            <p className="opacity-50">Exit</p>
+            <Tooltip
+              showArrow
+              color="foreground"
+              closeDelay={100}
+              classNames={{ base: 'w-64' }}
+              content="Penalty fee when you withdraw in 1 month."
+            >
+              <span>
+                <QuestionIcon className="w-4 h-4" />
+              </span>
             </Tooltip>
           </div>
-          <p className="text-sm sm:text-xl xl:text-3xl font-semibold">0.5%</p>
+          <p className="text-lg font-bold">0.5%</p>
         </div>
-        <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
-          <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-sub-body">
-            <p className="text-xs xl:text-base">Performance</p>
-            <Tooltip message="We will charge the performance fee when you withdraw fund with profit.">
-              <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
+        <div className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-1/4 grow flex flex-col items-center justify-between gap-2 bg-rock-grey01 rounded-2xl py-6">
+          <div className="flex items-center gap-1 xl:gap-2">
+            <p className="opacity-50">Performance</p>
+            <Tooltip
+              showArrow
+              color="foreground"
+              closeDelay={100}
+              classNames={{ base: 'w-64' }}
+              content="We will charge the performance fee when you withdraw fund with profit."
+            >
+              <span>
+                <QuestionIcon className="w-4 h-4" />
+              </span>
             </Tooltip>
           </div>
-          <p className="text-sm sm:text-xl xl:text-3xl font-semibold">10%</p>
+          <p className="text-lg font-bold">10%</p>
         </div>
-        <div className="flex flex-col items-center justify-between gap-2 xl:gap-6">
-          <div className="flex items-center gap-1 xl:gap-2 text-sm xl:text-base text-rock-sub-body">
-            <p className="text-xs xl:text-base">Management</p>
-            <Tooltip message="We will charge the management fee when you withdraw fund.">
-              <QuestionIcon className="w-4 h-4 xl:w-6 xl:h-6" />
+        <div className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-1/4 grow flex flex-col items-center justify-between gap-2 bg-rock-grey01 rounded-2xl py-6">
+          <div className="flex items-center gap-1 xl:gap-2">
+            <p className="opacity-50">Management</p>
+            <Tooltip
+              showArrow
+              color="foreground"
+              closeDelay={100}
+              classNames={{ base: 'w-64' }}
+              content="We will charge the management fee when you withdraw fund."
+            >
+              <span>
+                <QuestionIcon className="w-4 h-4" />
+              </span>
             </Tooltip>
           </div>
-          <p className="text-sm sm:text-xl xl:text-3xl font-semibold">1%</p>
+          <p className="text-lg font-bold">1%</p>
         </div>
-        <div className="w-full h-[1px] sm:w-[1px] sm:h-full absolute top-1/2 left-0 sm:top-0 sm:left-1/4 bg-rock-divider" />
-        <div className="w-[1px] h-full absolute top-0 left-1/2 bg-rock-divider" />
-        <div className="hidden sm:block w-[1px] h-full absolute top-0 left-3/4 bg-rock-divider" />
       </div>
-    </div>
+    </Card>
   );
 };
 

@@ -2,14 +2,7 @@ import { IconProps } from '@/@types/common';
 
 const CurrencySymbol = ({ className }: IconProps) => {
   return (
-    <svg
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      width="46"
-      height="46"
-      viewBox="0 0 46 46"
-      fill="none"
-    >
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" fill="none">
       <path
         opacity="0.1"
         d="M23 46C35.7466 46 46 35.7466 46 23C46 10.2534 35.7466 0 23 0C10.2534 0 0 10.2534 0 23C0 35.7466 10.2534 46 23 46Z"

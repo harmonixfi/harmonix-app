@@ -25,11 +25,11 @@ const RestakingKelpdaoSafetyAssurance = () => {
           </thead>
           <tbody className="mt-2">
             <tr>
-              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-gray-400">
                 <LidoIcon className="w-10 h-10 p-1.5 rounded-md pl-3" />
                 <span className="-ml-4 pl-3 -translate-y-0.5 text-rock-sub-body">wstETH</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+              <td className="p-3 rounded-r-lg font-semibold bg-gray-400">
                 {`${
                   Array.isArray(allocatedRatioData) && allocatedRatioData[0]
                     ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[0], 2)))
@@ -38,11 +38,11 @@ const RestakingKelpdaoSafetyAssurance = () => {
               </td>
             </tr>
             <tr>
-              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-white bg-opacity-5">
+              <td className="flex items-center gap-2 font-light p-3 rounded-l-lg bg-gray-400">
                 <AevoIcon className="w-10 h-10 p-1.5 rounded-md" />
                 <span className="text-rock-sub-body">USDC, USDT</span>
               </td>
-              <td className="p-3 rounded-r-lg font-semibold bg-white bg-opacity-5">
+              <td className="p-3 rounded-r-lg font-semibold bg-gray-400">
                 {`${
                   Array.isArray(allocatedRatioData) && allocatedRatioData[1]
                     ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[1], 2)))

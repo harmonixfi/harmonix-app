@@ -23,14 +23,14 @@ const DashboardsTemplate = () => {
 
   if (error) {
     return (
-      <div className="w-[90%] sm:w-4/5 md:w-full lg:w-[90%] xl:w-4/5 2xl:w-3/4 3xl:w-[1050px]">
+      <div className="w-full">
         <p className="text-red-600 mt-4">Oops, something went wrong! Please try again later.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-[90%] sm:w-4/5 md:w-full lg:w-[90%] xl:w-4/5 2xl:w-3/4 3xl:w-[1050px] grid md:grid-cols-2 gap-8">
+    <div className="w-full grid lg:grid-cols-2 gap-6">
       <TextWidget
         loading={isLoading}
         title="TVL in all vaults"

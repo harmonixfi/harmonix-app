@@ -2,27 +2,31 @@
 
 import { useMemo } from 'react';
 
+import { Card, Chip, Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
+import { useChains } from 'wagmi';
 
 import { Address } from '@/@types/common';
-import { Strategy, SupportedChain } from '@/@types/enum';
+import { Strategy, VaultNetwork } from '@/@types/enum';
 import { Point } from '@/@types/vault';
-import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 
-import Tooltip from '../shared/Tooltip';
 import {
   ArbitrumIcon,
-  CurrencyVaultIcon,
-  EthereumIcon, // EthereumVaultIcon,
+  DaiAssetIcon,
+  EigenLayerIcon,
+  EthereumIcon,
   InformationIcon,
-  TVaultIcon,
+  RenzoIcon,
+  UsdcAssetIcon,
+  UsdtAssetIcon,
+  ZircuitIcon,
 } from '../shared/icons';
-import PointCard from '../vault/point/PointCard';
 
 type VaultCardProps = {
   slug: string;
@@ -34,30 +38,23 @@ type VaultCardProps = {
   points?: Point[];
   strategy: Strategy;
   contractAddress: Address;
+  network: VaultNetwork;
 };
 
-const VaultCard = (props: VaultCardProps) => {
-  const {
-    name,
-    link = '#',
-    apy = 0,
-    maxCapacity,
-    available = true,
-    points,
-    strategy,
-    contractAddress,
-  } = props;
+const MAX_CAPACITY = 50 * 1000;
 
-  const { selectedChain } = useChainContext();
+const VaultCard = (props: VaultCardProps) => {
+  const { name, link = '#', apy = 0, points, strategy, contractAddress, network } = props;
+
+  const configuredChains = useChains();
 
   const contracts = useContractMapping();
 
-  const { color, vaultAbi } = vaultCardMapping(name, contracts);
+  const { vaultAbi } = vaultCardMapping(name, contracts);
 
-  const { isLoadingTotalValueLocked, totalValueLocked } = useVaultQueries(
-    vaultAbi,
-    contractAddress,
-  );
+  const chainId = configuredChains.find((x) => x.name === supportedChainMapping[network])?.id;
+
+  const { totalValueLocked } = useVaultQueries(vaultAbi, contractAddress, undefined, chainId);
 
   const displayedStrategy = useMemo(() => {
     if (strategy === Strategy.OptionsWheel) {
@@ -67,72 +64,87 @@ const VaultCard = (props: VaultCardProps) => {
     return 'Delta Neutral';
   }, [strategy]);
 
-  const badgeBg = color === 'default' ? 'bg-[#0E8484] bg-opacity-40' : 'bg-[#313C69] bg-opacity-60';
+  const description = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return `This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not only
+      exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns by up
+      to 50% during bearish/downward market
+      trends.`;
+    }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return 'Generate yield by swapping 50% of the fund deposit into ETH and re-staking it on Renzo, while converting the remaining 50% into stablecoins and shorting at 1x leverage on decentralized derivative exchanges.';
+    }
+
+    if (name.toLowerCase().includes('kelpdao')) {
+      return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
+    }
+
+    return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+  }, [name]);
+
+  const { vaultCardClass, capacityBarClass } = useMemo(() => {
+    if (name.toLowerCase().includes('option')) {
+      return { vaultCardClass: 'options-wheel-card', capacityBarClass: 'options-wheel-capacity' };
+    }
+
+    if (name.toLowerCase().includes('renzo')) {
+      return { vaultCardClass: 'renzo-card', capacityBarClass: 'renzo-capacity' };
+    }
+
+    if (name.toLowerCase().includes('kelpdao')) {
+      return { vaultCardClass: 'kelpdao-card', capacityBarClass: 'kelpdao-capacity' };
+    }
+
+    return { vaultCardClass: 'delta-neutral-card', capacityBarClass: 'delta-neutral-capacity' };
+  }, [name]);
 
   return (
-    <Link
-      href={link}
-      className="flex flex-col bg-white bg-opacity-5 rounded-2xl border border-rock-divider"
-    >
-      <div className="relative rounded-tl-2xl rounded-tr-2xl p-6 pb-10 xl:pb-14">
-        <div
-          className="absolute inset-0 rounded-tl-2xl rounded-tr-2xl"
-          style={{
-            opacity: 0.4,
-            background:
-              color === 'default'
-                ? 'linear-gradient(180deg, #0E8484 -60%, rgba(5, 41, 41) 70%)'
-                : 'linear-gradient(180deg, #313C69 -10%, rgba(31, 38, 66) 80%)',
-          }}
-        />
-        <div className="relative flex items-center gap-2">
-          <p
-            className={`w-fit ${badgeBg} rounded-lg px-4 py-2 uppercase text-xs xl:text-sm font-semibold`}
-          >
-            {displayedStrategy}
-          </p>
-          <span className={`${badgeBg} rounded-lg px-1.5 py-1.5 xl:px-2.5 xl:py-2`}>
-            {selectedChain === SupportedChain.Arbitrum ? (
-              <ArbitrumIcon className="w-5 h-5" />
-            ) : (
-              <EthereumIcon className="w-5 h-5" />
-            )}
-          </span>
-        </div>
-        <div className="flex items-center gap-1 absolute -bottom-6 xl:-bottom-8">
-          {/* {color === 'default' ? ( */}
-          {/* <> */}
-          <CurrencyVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
-          <TVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" />
-          {/* </> */}
-          {/* ) : ( */}
-          {/* <EthereumVaultIcon className="w-12 h-12 xl:w-16 xl:h-16" /> */}
-          {/* )} */}
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col justify-between gap-6 px-6 pt-10 xl:pt-16 pb-6">
-        <div className="flex flex-col gap-6">
-          <p className="text-lg xl:text-xl 2xl:text-2xl font-semibold uppercase">{name}</p>
-
-          {points && points.length > 0 && (
-            <div className="grid grid-cols-2 gap-6">
-              {points.map((x, index) => (
-                <div key={x.name} className={`${index === 2 ? 'col-span-2' : ''}`}>
-                  <PointCard type={x.name} point={x.point} />
-                </div>
-              ))}
-            </div>
-          )}
-
+    <Card className={`rounded-none vault-card ${vaultCardClass}`}>
+      <Link href={link} className="flex flex-col gap-6 p-8 text-primary relative">
+        <div className="flex items-center justify-between bg-rock-grey01 px-6 py-4 rounded-2xl">
           <div>
+            <p className="text-xl font-bold capitalize">{name}</p>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-rock-sub-body">APY</p>
+              {network === VaultNetwork.ArbitrumOne ? (
+                <ArbitrumIcon className="w-5 h-5" />
+              ) : (
+                <EthereumIcon className="w-5 h-5" />
+              )}
+              <p className="text-sm capitalize">{displayedStrategy}</p>
+              {name.toLowerCase().includes('option') && (
+                <Chip variant="flat" color="warning" className="animate-pulse">
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block bg-orange-300 w-1.5 h-1.5 rounded-full" />
+                    <span>Risk</span>
+                  </div>
+                </Chip>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center">
+            <DaiAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
+          </div>
+        </div>
 
+        <p className="text-base font-light">{description}</p>
+
+        <div
+          className={`grid ${points && points.length > 0 ? 'grid-cols-2' : 'grid-cols-1'} gap-6`}
+        >
+          <div className="flex flex-col gap-2 items-center bg-rock-grey01 p-4 rounded-2xl">
+            <div className="flex items-center gap-2">
+              <p className="text-sm opacity-60">APY</p>
               <Tooltip
-                message={
-                  <div>
-                    <div className="flex justify-between text-sm text-rock-sub-body">
+                showArrow
+                color="foreground"
+                closeDelay={100}
+                classNames={{ base: 'w-64' }}
+                content={
+                  <div className="p-2">
+                    <div className="flex justify-between text-sm text-primary">
                       <p className="text-rock-light-blue">APY</p>
                       <p className="text-rock-light-blue justify-self-end">{`${withCommas(
                         toFixedNumber(apy),
@@ -145,46 +157,67 @@ const VaultCard = (props: VaultCardProps) => {
                   </div>
                 }
               >
-                <InformationIcon />
+                <span>
+                  <InformationIcon className="block w-4 h-4" />
+                </span>
               </Tooltip>
             </div>
-            <p className="text-lg xl:text-2xl font-semibold">{`${withCommas(
-              toFixedNumber(apy),
-            )}%`}</p>
+            <p className="text-xl font-semibold">{`${withCommas(toFixedNumber(apy))}%`}</p>
           </div>
 
-          <div>
-            <p className="text-sm font-semibold text-rock-sub-body">Total value locked TVL</p>
-            {!available ? (
-              <p className="text-sm text-rock-yellow leading-8">Coming soon</p>
-            ) : isLoadingTotalValueLocked ? (
-              <p className="text-lg animate-pulse">Loading...</p>
-            ) : (
-              <p className="text-lg xl:text-2xl font-semibold">
-                {totalValueLocked.toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  maximumFractionDigits: 0,
-                })}
-              </p>
-            )}
+          <div className="flex flex-col gap-2 items-center bg-rock-grey01 p-4 rounded-2xl">
+            <p className="text-sm opacity-60">TVL</p>
+            <p className="text-xl font-semibold">
+              {totalValueLocked.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0,
+              })}
+            </p>
           </div>
         </div>
+
+        {points && points.length > 0 && (
+          <div className="bg-rock-grey01 p-4 rounded-2xl">
+            <div className="flex items-center justify-around gap-6">
+              {points.map((x) => {
+                const { label, icon: Icon } =
+                  x.name === 'renzo'
+                    ? { label: 'Renzo pts', icon: RenzoIcon }
+                    : x.name === 'eigenlayer'
+                      ? { label: 'EigenLayer pts', icon: EigenLayerIcon }
+                      : { label: 'Zircuit pts', icon: ZircuitIcon };
+
+                return (
+                  <div key={x.name} className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-1">
+                      <Icon className="w-5 h-5" />
+                      <span className="text-sm opacity-60">{label}</span>
+                    </div>
+                    <p className="font-semibold">
+                      {x.point ? withCommas(toFixedNumber(x.point, 1)) : 'Variable'}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col gap-2">
-          <div className="w-full h-1 bg-rock-gray bg-opacity-20 rounded-full">
+          <div className="flex items-center justify-between text-sm text-caption">
+            <p>Max Capacity</p>
+            <p>{MAX_CAPACITY ? toCompactNumber(MAX_CAPACITY) : NA_STRING}</p>
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full">
             <div
-              className="h-1 bg-white rounded-full"
-              style={{ width: `${maxCapacity ? (totalValueLocked * 100) / maxCapacity : 0}%` }}
+              className={`h-2 ${capacityBarClass} rounded-full`}
+              style={{ width: `${MAX_CAPACITY ? (totalValueLocked * 100) / MAX_CAPACITY : 0}%` }}
             ></div>
           </div>
-          <div className="flex items-center justify-between text-sm text-caption">
-            <p className="text-rock-sub-body">Max Capacity</p>
-            <p>{maxCapacity ? toCompactNumber(maxCapacity) : NA_STRING}</p>
-          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 

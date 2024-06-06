@@ -1,72 +1,46 @@
-import VaultList from '@/components/products/VaultList';
-import Select from '@/components/shared/Select';
-import Navbar from '@/components/shared/navbar/Navbar';
+import { Card } from '@nextui-org/react';
+
+import { getVaultsOverview } from '@/api/vault';
+import VaultTabs from '@/components/products/VaultTabs';
+import Page from '@/components/shared/Page';
+import { toCurrency } from '@/utils/currency';
+import { withCommas } from '@/utils/number';
+
+async function getData() {
+  const response = await getVaultsOverview();
+  return response;
+}
 
 export default async function Products() {
+  const { tvl_in_all_vaults } = await getData();
+
   return (
-    <>
-      <Navbar />
+    <Page title="Vaults">
+      <div>
+        <Card className="flex flex-col lg:flex-row items-center justify-between gap-4 px-8 py-4 rounded-3xl mb-12">
+          <div className="w-full space-y-3">
+            <p className="text-xl font-semibold text-primary">Harmonix&apos;s Vaults</p>
+            <p className="text-base text-primary font-normal">
+              Crypto investment on autopilot. Secure your wealth, earn more with automated hedging.
+            </p>
+          </div>
+          <div className="w-full lg:w-auto flex items-center justify-center gap-12 bg-secondary rounded-2xl px-8 lg:px-12 py-4">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-base text-primary opacity-60">TVL</p>
+              <p className="text-lg text-primary font-bold">{toCurrency(tvl_in_all_vaults)}</p>
+            </div>
+            <span className="w-[1px] h-10 bg-rock-g80 bg-opacity-30" />
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-base text-primary opacity-60">Depositors</p>
+              <p className="text-lg text-primary font-bold">{withCommas(12)}+</p>
+            </div>
+          </div>
+        </Card>
 
-      <div className="hidden md:flex flex-wrap gap-6 w-fit mt-12 mx-auto px-6 sm:px-0">
-        <div className="w-44">
-          <Select
-            placeholder="Strategy"
-            options={[
-              { value: 'deltaNeutral', label: 'Delta neutral' },
-              { value: 'hedging', label: 'Hedging' },
-            ]}
-          />
-        </div>
-        <div className="w-52">
-          <Select
-            placeholder="Deposit asset"
-            options={[
-              { value: 'usdc', label: 'USDC' },
-              { value: 'eth', label: 'ETH' },
-              { value: 'btc', label: 'BTC' },
-            ]}
-          />
-        </div>
-        <div className="w-36">
-          <Select
-            placeholder="Sort by"
-            options={[
-              { value: 'name', label: 'Name' },
-              { value: 'apy', label: 'APY' },
-              { value: 'tvl', label: 'TVL' },
-            ]}
-          />
-        </div>
+        <VaultTabs />
+
+        {/* <VaultFilter /> */}
       </div>
-
-      <div className="grid grid-cols-2 md:hidden gap-4 w-full px-6">
-        <div>
-          <Select
-            placeholder="Filter"
-            popupClassName="w-[50vw]"
-            options={[
-              { value: 'deltaNeutral', label: 'Delta neutral' },
-              { value: 'hedging', label: 'Hedging' },
-              { value: 'usdc', label: 'USDC' },
-              { value: 'eth', label: 'ETH' },
-              { value: 'btc', label: 'BTC' },
-            ]}
-          />
-        </div>
-        <div>
-          <Select
-            placeholder="Sort by"
-            popupClassName="w-[50vw] right-0"
-            options={[
-              { value: 'name', label: 'Name' },
-              { value: 'apy', label: 'APY' },
-              { value: 'tvl', label: 'TVL' },
-            ]}
-          />
-        </div>
-      </div>
-
-      <VaultList />
-    </>
+    </Page>
   );
 }

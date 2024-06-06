@@ -2,11 +2,14 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import { Button, Select, SelectItem } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 import { SupportedCurrency, VaultNetwork, VaultVariant } from '@/@types/enum';
+import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
@@ -19,21 +22,32 @@ import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/serv
 import { toFixedNumber, withCommas } from '@/utils/number';
 
 import ConfirmDialog from '../../shared/ConfirmDialog';
-import CurrencySelect from '../../shared/CurrencySelect';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
-import { InformationIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
+import {
+  CurrencySymbolIcon,
+  UsdcAssetIcon,
+  VaultTransferArrowDownIcon,
+  WarningIcon,
+} from '../../shared/icons';
 
 type VaultDepositProps = {
-  networkChain: VaultNetwork;
+  vaultNetwork: VaultNetwork;
 };
 
 const VaultDeposit = (props: VaultDepositProps) => {
-  const { networkChain } = props;
+  const { vaultNetwork } = props;
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
+  const { selectedChain } = useChainContext();
   const { usdcAddress } = useContractMapping();
 
   const account = useAccount();
+
+  const { chains, switchChain } = useSwitchChain();
+
+  const isWrongNetwork = supportedChainMapping[vaultNetwork] !== selectedChain;
+
+  const targetNetwork = chains.find((x) => x.name === supportedChainMapping[vaultNetwork]);
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
@@ -43,7 +57,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
   const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false);
 
   const { isOpen, type, url, onOpenDialog, onCloseDialog } =
-    useTransactionStatusDialog(networkChain);
+    useTransactionStatusDialog(vaultNetwork);
 
   const { status } = useAccount();
   const {
@@ -52,7 +66,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
     refetchBalanceOf,
     refetchDepositAmount,
     refetchUserVaultState,
-  } = useVaultQueries(vaultAbi, vaultAddress);
+  } = useVaultQueries(vaultAbi, vaultAddress, undefined, targetNetwork?.id);
   const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
   const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
     useApprove(vaultAddress);
@@ -159,87 +173,124 @@ const VaultDeposit = (props: VaultDepositProps) => {
     : 0;
 
   return (
-    <div>
+    <div className="flex flex-col gap-6 text-primary mt-6">
       {!isConnectedWallet && (
-        <div className="flex items-center gap-2 mt-12">
-          <WarningIcon />
-          <p className="text-sm font-normal text-rock-yellow">Please connect wallet to deposit</p>
+        <div className="flex items-center gap-2">
+          <WarningIcon className="w-6 h-6 text-yellow-600" />
+          <p className="text-sm font-normal text-yellow-600">Please connect wallet to deposit</p>
         </div>
       )}
 
-      <div className="flex items-center gap-2 text-sm font-normal text-rock-gray rounded-lg bg-rock-bg mt-6 sm:mt-8 mb-6 p-4">
-        <InformationIcon />
-        <span>The minimum deposit amount is $5.</span>
-      </div>
+      <div className="space-y-1">
+        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl">
+          <p className="opacity-50 capitalize font-medium">You pay</p>
+          <div className="flex items-start justify-between gap-4">
+            <div className="grow space-y-1">
+              <input
+                className={`w-full h-14 px-4 rounded-xl bg-white text-3xl ${
+                  !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+                } focus:outline-none`}
+                type="text"
+                placeholder="0"
+                disabled={!isConnectedWallet}
+                value={inputValue}
+                onChange={handleChangeInputValue}
+              />
+              {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
+            </div>
+            <Select
+              aria-label="assets"
+              size="md"
+              variant="bordered"
+              className="max-w-[120px] translate-y-2.5"
+              classNames={{
+                trigger: 'rounded-full bg-white border border-[#F1F1EB]',
+              }}
+              defaultSelectedKeys={['usdc']}
+              renderValue={(items) => {
+                return items.map((x) => (
+                  <div key={x.key} className="flex items-center gap-2">
+                    <UsdcAssetIcon className="w-6 h-6" />
+                    <span>{x.textValue}</span>
+                  </div>
+                ));
+              }}
+            >
+              <SelectItem key="usdc" textValue="USDC">
+                <div className="flex items-center gap-2">
+                  <UsdcAssetIcon className="w-6 h-6" /> USDC
+                </div>
+              </SelectItem>
+              {/* <SelectItem key="usdt" textValue="USDT">
+                <div className="flex items-center gap-2">
+                  <CurrencySymbolIcon /> USDT
+                </div>
+              </SelectItem> */}
+            </Select>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="text-sm opacity-50 font-medium">
+              Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
+            </p>
+            <Button variant="light" onClick={handleClickMax}>
+              Max
+            </Button>
+          </div>
+        </div>
 
-      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between">
-        <p className="text-lg lg:text-xl text-rock-gray font-semibold uppercase">{`Amount (${selectedCurrency})`}</p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm text-rock-gray">
-            Wallet Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
+        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl relative">
+          <p className="opacity-50 capitalize font-medium">You receive</p>
+          <p className="text-3xl font-medium">
+            {withCommas(
+              toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
+            )}{' '}
+            roUSD
           </p>
-          <button
-            type="button"
-            className="border border-rock-primary rounded-full px-3 py-0.5 text-sm font-light uppercase hover:ring-2 hover:ring-blue-800"
-            onClick={handleClickMax}
-          >
-            Max
-          </button>
+          <p className="text-sm opacity-50 font-medium">
+            Your shares: {withCommas(toFixedNumber(balanceOf))} roUSD
+          </p>
+
+          <span className="absolute -top-6 left-1/2 -translate-x-1/2">
+            <VaultTransferArrowDownIcon className="w-10 h-10" />
+          </span>
         </div>
       </div>
 
-      <div className="relative mt-6">
-        <input
-          className={`w-full h-16 block bg-rock-bg rounded-xl pl-3 sm:pl-6 pr-[160px] text-2xl text-white ${
-            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
-          } focus:outline-none`}
-          type="text"
-          placeholder="0.0"
-          disabled={!isConnectedWallet}
-          value={inputValue}
-          onChange={handleChangeInputValue}
-        />
-        <div className="absolute top-1 right-2 sm:right-4">
-          <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
-        </div>
-      </div>
-      <div className={`flex items-center ${!!inputError ? 'justify-between' : 'justify-end'}`}>
-        {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
-        {pricePerShare > 0 && (
-          <p className="text-rock-gray text-xs font-light mt-2">{`1 roUSD = ${toFixedNumber(
+      <ul className="space-y-1">
+        <li className="flex items-center justify-between text-sm font-light">
+          <p className="font-normal">Price per share</p>
+          <p className="font-bold">{`1 roUSD = ${toFixedNumber(
             pricePerShare,
             4,
           ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
-        )}
-      </div>
+        </li>
+        <li className="flex items-center justify-between text-sm font-light">
+          <p className="font-normal">Minimum deposit amount</p>
+          <p className="font-bold">$5</p>
+        </li>
+      </ul>
 
-      <div className="flex items-center justify-between mt-8 text-rock-gray text-sm lg:text-base">
-        <p>You will receive</p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-white">{`${withCommas(
-            toFixedNumber(pricePerShare > 0 ? Number(inputValue) / Number(pricePerShare) : 0),
-          )} roUSD`}</p>
-        </div>
-      </div>
-
-      <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
-
-      <div className="flex items-center justify-between text-sm lg:text-base text-rock-gray">
-        <p>Current Deposit</p>
-        <p className="text-white">{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
-      </div>
-
-      <button
-        type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
-          disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
-        } ${isButtonLoading ? 'animate-pulse' : ''}`}
-        disabled={disabledButton}
-        onClick={() => setIsOpenConfirmDialog(true)}
-      >
-        {isButtonLoading && <SpinnerIcon className="w-6 h-6 animate-spin" />}
-        {skipApprove ? 'Deposit' : 'Approve'}
-      </button>
+      {isWrongNetwork && targetNetwork ? (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          onClick={() => switchChain({ chainId: targetNetwork.id })}
+        >
+          Switch Network
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          isLoading={isButtonLoading}
+          isDisabled={disabledButton}
+          onClick={() => setIsOpenConfirmDialog(true)}
+        >
+          {skipApprove ? 'Deposit' : 'Approve'}
+        </Button>
+      )}
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
 

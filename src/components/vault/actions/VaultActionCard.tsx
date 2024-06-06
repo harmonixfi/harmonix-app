@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Card, Tab, Tabs } from '@nextui-org/react';
 
 import { VaultNetwork } from '@/@types/enum';
 
@@ -17,45 +17,29 @@ type VaultActionCardProps = {
 const VaultActionCard = (props: VaultActionCardProps) => {
   const { apr, networkChain, withdrawalTime, withdrawalStep2 } = props;
 
-  const [selectedTab, setSelectedTab] = useState<'deposit' | 'withdraw'>('deposit');
-
   return (
-    <div className="bg-white bg-opacity-5 border border-rock-divider rounded-2xl backdrop-blur-sm p-6 xl:p-9">
-      <ul className="flex w-full">
-        <li className="flex-1">
-          <button
-            type="button"
-            className={`w-full text-sm lg:text-base ${
-              selectedTab === 'deposit' ? 'bg-rock-blue' : ''
-            }  rounded-full py-2.5`}
-            onClick={() => setSelectedTab('deposit')}
-          >
-            Deposit
-          </button>
-        </li>
-        <li className="flex-1">
-          <button
-            type="button"
-            className={`w-full text-sm lg:text-base ${
-              selectedTab === 'withdraw' ? 'bg-rock-blue' : ''
-            }  rounded-full py-2.5`}
-            onClick={() => setSelectedTab('withdraw')}
-          >
-            Withdraw
-          </button>
-        </li>
-      </ul>
-
-      {selectedTab === 'deposit' && <VaultDeposit networkChain={networkChain} />}
-      {selectedTab === 'withdraw' && (
-        <VaultWithdraw
-          apr={apr}
-          networkChain={networkChain}
-          withdrawalTime={withdrawalTime}
-          withdrawalStep2={withdrawalStep2}
-        />
-      )}
-    </div>
+    <Card className="p-4 sm:p-8">
+      <Tabs
+        variant="underlined"
+        aria-label="Tabs variants"
+        classNames={{
+          cursor: 'hidden',
+          tabContent: 'text-lg text-gray-400 group-data-[selected=true]:font-bold',
+        }}
+      >
+        <Tab key="deposit" title="Deposit">
+          <VaultDeposit vaultNetwork={networkChain} />
+        </Tab>
+        <Tab key="withdraw" title="Withdraw">
+          <VaultWithdraw
+            apr={apr}
+            vaultNetwork={networkChain}
+            withdrawalTime={withdrawalTime}
+            withdrawalStep2={withdrawalStep2}
+          />
+        </Tab>
+      </Tabs>
+    </Card>
   );
 };
 

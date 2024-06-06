@@ -49,6 +49,9 @@ const useContractMapping = () => {
     return {
       usdcAbi: usdcEthereumAbi as Abi,
       usdcAddress: ethereumUsdcAddress,
+      optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
+      deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
+      deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
     };
   }
@@ -59,6 +62,7 @@ const useContractMapping = () => {
     optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
     deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
     deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
+    deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
   };
 };
 

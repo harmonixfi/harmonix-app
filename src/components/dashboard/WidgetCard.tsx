@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { Card } from '@nextui-org/react';
+
 type WidgetCardProps = {
   loading?: boolean;
   name?: string;
@@ -10,8 +12,8 @@ const WidgetCard = (props: WidgetCardProps) => {
   const { loading, name, children } = props;
 
   return (
-    <div
-      className={`w-full flex flex-col justify-center gap-6 bg-white border border-rock-divider rounded-2xl ${
+    <Card
+      className={`w-full flex flex-col justify-center gap-6 ${
         loading ? 'h-52 animate-pulse bg-opacity-20' : 'bg-opacity-5'
       }`}
     >
@@ -25,7 +27,7 @@ const WidgetCard = (props: WidgetCardProps) => {
           {children}
         </>
       )}
-    </div>
+    </Card>
   );
 };
 

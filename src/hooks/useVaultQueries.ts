@@ -5,13 +5,19 @@ import { useAccount, useReadContract } from 'wagmi';
 import { Address } from '@/@types/common';
 import { VaultVariant } from '@/@types/enum';
 
-const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: VaultVariant) => {
+const useVaultQueries = (
+  vaultAbi?: Abi,
+  vaultAddress?: Address,
+  vaultVariant?: VaultVariant,
+  chainId?: number,
+) => {
   const account = useAccount();
 
   const { data: totalValueLockedData, isLoading: isLoadingTotalValueLocked } = useReadContract({
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'totalValueLocked',
+    chainId,
   });
 
   const { data: balanceOfData, refetch: refetchBalanceOf } = useReadContract({
@@ -25,6 +31,7 @@ const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: 
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'pricePerShare',
+    chainId,
   });
 
   const { data: depositAmountData, refetch: refetchDepositAmount } = useReadContract({
@@ -74,6 +81,7 @@ const useVaultQueries = (vaultAbi?: Abi, vaultAddress?: Address, vaultVariant?: 
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'allocatedRatio',
+    chainId,
   });
 
   const { data: withdrawPoolAmountData } = useReadContract({
