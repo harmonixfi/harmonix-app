@@ -17,14 +17,7 @@ import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint } from '@/utils/vault';
 
-import {
-  ArbitrumIcon,
-  DaiAssetIcon,
-  EthereumIcon,
-  InformationIcon,
-  UsdcAssetIcon,
-  UsdtAssetIcon,
-} from '../shared/icons';
+import { ArbitrumIcon, EthereumIcon, InformationIcon, UsdcAssetIcon } from '../shared/icons';
 
 type VaultCardProps = {
   slug: string;
