@@ -66,7 +66,7 @@ const PositionRow = (props: PositionRowProps) => {
 
   return (
     <>
-      <div className="hidden lg:grid grid-cols-7 mt-4 p-6 bg-white rounded-2xl text-sm lg:text-base font-semibold">
+      <div className="hidden lg:grid grid-cols-7 p-6 bg-white rounded-2xl text-sm lg:text-base font-semibold">
         <p className="col-span-2">{vault_name}</p>
         <p>{withCommas(toFixedNumber(total_balance))} USDC</p>
         <p>{withCommas(toFixedNumber(init_deposit))} USDC</p>

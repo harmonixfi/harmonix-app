@@ -66,7 +66,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
       <div className="relative w-full flex flex-col-reverse xl:grid xl:grid-cols-5 gap-6 mt-6 z-20">
         <div className="xl:col-span-3">
           <div className="flex flex-col gap-6">
-            <VaultPosition points={userPoints} />
+            <VaultPosition points={userPoints} vaultNetwork={networkChain} />
 
             <div className="flex flex-col gap-16 lg:hidden">
               <VaultActionCard

@@ -3,8 +3,9 @@
 import { useMemo } from 'react';
 
 import { Card } from '@nextui-org/react';
+import { useChains } from 'wagmi';
 
-import { VaultVariant } from '@/@types/enum';
+import { VaultNetwork, VaultVariant } from '@/@types/enum';
 import { Point } from '@/@types/vault';
 import {
   EigenLayerIcon,
@@ -13,6 +14,7 @@ import {
   VaultPositionCurveIcon,
   ZircuitIcon,
 } from '@/components/shared/icons';
+import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
@@ -20,12 +22,17 @@ import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 
 type VaultPositionProps = {
   points?: Point[];
+  vaultNetwork: VaultNetwork;
 };
 
 const VaultPosition = (props: VaultPositionProps) => {
-  const { points } = props;
+  const { points, vaultNetwork } = props;
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
+
+  const configuredChains = useChains();
+
+  const chainId = configuredChains.find((x) => x.name === supportedChainMapping[vaultNetwork])?.id;
 
   const {
     depositAmount,
@@ -35,7 +42,8 @@ const VaultPosition = (props: VaultPositionProps) => {
     availableWithdrawalAmount,
     profit,
     loss,
-  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant);
+  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant, chainId);
+
   const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
   const netYield = totalBalance - depositAmount;
   const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
@@ -79,7 +87,7 @@ const VaultPosition = (props: VaultPositionProps) => {
   return (
     <Card className="text-primary relative">
       <VaultPositionCurveIcon className="absolute top-0 -right-2 w-auto h-1/3 sm:h-1/2 2xl:h-3/4 opacity-30 z-10" />
-      <VaultPositionCoinIcon className="absolute top-3 right-8 2xl:right-12 w-auto h-24 sm:h-28 xl:h-1/5 2xl:h-1/3" />
+      <VaultPositionCoinIcon className="absolute top-3 right-6 2xl:right-12 w-auto h-20 sm:h-28 xl:h-1/5 2xl:h-1/3" />
       <div className="p-8 z-20">
         <p className="text-xl font-medium capitalize opacity-50">Your position</p>
         <p className="flex flex-col xl:flex-row text-4xl font-bold mt-4">
@@ -94,7 +102,7 @@ const VaultPosition = (props: VaultPositionProps) => {
           {displayedFields.map((x) => (
             <div
               key={x.label}
-              className="shrink-0 basis-1/3 xl:basis-1/3 2xl:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
+              className="shrink-0 basis-1/2 xl:basis-1/3 2xl:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
             >
               <p className="text-sm sm:text-base opacity-60">{x.label}</p>
               <p className="text-lg font-bold">{x.value}</p>
@@ -103,7 +111,7 @@ const VaultPosition = (props: VaultPositionProps) => {
         </div>
       </div>
       {points && points.length > 0 && (
-        <div className="flex items-center justify-center gap-12 py-6 border-t border-[#E8EDEC]">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-12 py-6 border-t border-[#E8EDEC]">
           {' '}
           {points.map((x) => {
             const { label, icon: Icon } =
@@ -113,9 +121,9 @@ const VaultPosition = (props: VaultPositionProps) => {
                   ? { label: 'EigenLayer points', icon: EigenLayerIcon }
                   : { label: 'Zircuit points', icon: ZircuitIcon };
             return (
-              <div key={x.name} className="flex items-center gap-2">
-                <Icon className="w-8 h-8" />
-                <p className="text-base font-normal opacity-60">{`${x.point} ${label}`}</p>
+              <div key={x.name} className="flex items-center gap-1 sm:gap-2">
+                <Icon className="w-4 h-4 sm:w-8 sm:h-8" />
+                <p className="text-sm sm:text-base font-normal opacity-60">{`${x.point} ${label}`}</p>
               </div>
             );
           })}
