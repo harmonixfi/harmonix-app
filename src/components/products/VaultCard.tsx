@@ -17,7 +17,14 @@ import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint } from '@/utils/vault';
 
-import { ArbitrumIcon, EthereumIcon, InformationIcon, UsdcAssetIcon } from '../shared/icons';
+import {
+  ArbitrumIcon,
+  DaiAssetIcon,
+  EthereumIcon,
+  InformationIcon,
+  UsdcAssetIcon,
+  UsdtAssetIcon,
+} from '../shared/icons';
 
 type VaultCardProps = {
   slug: string;
@@ -114,9 +121,9 @@ const VaultCard = (props: VaultCardProps) => {
             </div>
           </div>
           <div className="flex items-center">
-            {/* <DaiAssetIcon className="w-10 h-10 -mx-2" /> */}
-            {/* <UsdtAssetIcon className="w-10 h-10 -mx-2" /> */}
-            <UsdcAssetIcon className="w-10 h-10" />
+            <DaiAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
+            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
           </div>
         </div>
 
