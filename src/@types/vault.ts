@@ -93,7 +93,7 @@ export type GetVaultTvlHistoryResponse = {
 };
 
 export type Point = {
-  name: 'renzo' | 'eigenlayer' | 'zircuit';
+  name: 'renzo' | 'eigenlayer' | 'zircuit' | 'kelpdao';
   point: number;
 };
 

@@ -1,12 +1,36 @@
+import { useMemo } from 'react';
+
 import { BigNumberish } from 'ethers';
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
 import { Address } from '@/@types/common';
+import { SupportedCurrency } from '@/@types/enum';
 
 import useContractMapping from './useContractMapping';
 
-const useApprove = (vaultAddress?: Address) => {
-  const { usdcAbi, usdcAddress } = useContractMapping();
+const useApprove = (currency: SupportedCurrency, vaultAddress?: Address) => {
+  const { usdcAbi, usdcAddress, usdtAbi, usdtAddress, daiAbi, daiAddress } = useContractMapping();
+
+  const { assetAbi, assetContractAddress } = useMemo(() => {
+    if (currency === SupportedCurrency.Usdt) {
+      return {
+        assetAbi: usdtAbi,
+        assetContractAddress: usdtAddress,
+      };
+    }
+
+    if (currency === SupportedCurrency.Dai) {
+      return {
+        assetAbi: daiAbi,
+        assetContractAddress: daiAddress,
+      };
+    }
+
+    return {
+      assetAbi: usdcAbi,
+      assetContractAddress: usdcAddress,
+    };
+  }, [currency, usdcAbi, usdcAddress, usdtAbi, usdtAddress, daiAbi, daiAddress]);
 
   const { isPending, isError: isApprovalError, data: hash, writeContract } = useWriteContract();
 
@@ -21,8 +45,8 @@ const useApprove = (vaultAddress?: Address) => {
 
   const handleApprove = async (amount: BigNumberish) =>
     await writeContract({
-      abi: usdcAbi,
-      address: usdcAddress,
+      abi: assetAbi,
+      address: assetContractAddress,
       functionName: 'approve',
       args: [vaultAddress, amount],
     });

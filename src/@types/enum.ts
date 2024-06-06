@@ -1,6 +1,7 @@
 export enum SupportedCurrency {
-  Usdt = 'usdt',
   Usdc = 'usdc',
+  Usdt = 'usdt',
+  Dai = 'dai',
 }
 
 export enum SupportedChain {

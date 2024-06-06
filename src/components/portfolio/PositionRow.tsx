@@ -124,7 +124,7 @@ const PositionRow = (props: PositionRowProps) => {
               <p className="3xl:col-span-2">
                 {pricePerShare ? `1 roUSD = ${toFixedNumber(pricePerShare, 4)} USDC` : NA_STRING}
               </p>
-              <p>Total Locked Value:</p>
+              <p>Total Value Locked:</p>
               <p className="3xl:col-span-2">
                 {totalValueLocked.toLocaleString('en-US', {
                   style: 'currency',
@@ -215,7 +215,7 @@ const PositionRow = (props: PositionRowProps) => {
           </div>
 
           <div>
-            <p className="text-sm font-normal">Total Locked Value:</p>
+            <p className="text-sm font-normal">Total Value Locked:</p>
             <p className="text-sm font-semibold mt-1">
               {totalValueLocked.toLocaleString('en-US', {
                 style: 'currency',

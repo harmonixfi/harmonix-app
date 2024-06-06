@@ -15,17 +15,15 @@ import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
+import { getDisplayedPoint } from '@/utils/vault';
 
 import {
   ArbitrumIcon,
   DaiAssetIcon,
-  EigenLayerIcon,
   EthereumIcon,
   InformationIcon,
-  RenzoIcon,
   UsdcAssetIcon,
   UsdtAssetIcon,
-  ZircuitIcon,
 } from '../shared/icons';
 
 type VaultCardProps = {
@@ -181,12 +179,7 @@ const VaultCard = (props: VaultCardProps) => {
           <div className="bg-rock-grey01 p-4 rounded-2xl">
             <div className="flex items-center justify-around gap-6">
               {points.map((x) => {
-                const { label, icon: Icon } =
-                  x.name === 'renzo'
-                    ? { label: 'Renzo pts', icon: RenzoIcon }
-                    : x.name === 'eigenlayer'
-                      ? { label: 'EigenLayer pts', icon: EigenLayerIcon }
-                      : { label: 'Zircuit pts', icon: ZircuitIcon };
+                const { label, icon: Icon } = getDisplayedPoint(x);
 
                 return (
                   <div key={x.name} className="flex flex-col items-center gap-1">

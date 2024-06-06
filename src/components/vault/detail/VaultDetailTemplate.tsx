@@ -18,6 +18,7 @@ import VaultFeeTransparency from './VaultFeeTransparency';
 import VaultHowItWorks from './VaultHowItWorks';
 import VaultIntro from './VaultIntro';
 import VaultPosition from './VaultPosition';
+import VaultWithdrawal from './VaultWithdrawal';
 
 type VaultDetailTemplateProps = VaultDetailMapping & {
   timeVisible?: boolean;
@@ -68,7 +69,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
           <div className="flex flex-col gap-6">
             <VaultPosition points={userPoints} vaultNetwork={networkChain} />
 
-            <div className="flex flex-col gap-16 lg:hidden">
+            <div className="lg:hidden">
               <VaultActionCard
                 apr={apr}
                 networkChain={networkChain}
@@ -94,10 +95,12 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
                 <VaultFeeTransparency />
               </div>
             </div>
+
+            <VaultWithdrawal name={name} />
           </div>
         </div>
 
-        <div className="hidden xl:col-span-2 lg:flex flex-col gap-12">
+        <div className="hidden xl:col-span-2 lg:block">
           <VaultActionCard
             apr={apr}
             networkChain={networkChain}

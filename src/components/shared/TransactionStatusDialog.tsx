@@ -90,7 +90,7 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
                   <div
                     className="w-64 h-64 z-10 absolute top-[64%] left-1/2 -translate-x-1/2 rounded-full mix-blend-difference blur-[120px] rotate-[15deg]"
                     style={{
-                      background: 'linear-gradient(15deg, #F6465D, #F66646)',
+                      background: 'linear-gradient(15deg, #00ff00, #0099cc)',
                     }}
                   />
                 )}

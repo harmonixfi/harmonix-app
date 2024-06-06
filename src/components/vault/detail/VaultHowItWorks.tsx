@@ -80,7 +80,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
             Deposit<span className="inline lg:hidden ml-1">*</span>
           </p>
           <p className="hidden lg:block text-white text-sm md:text-base font-light opacity-60">
-            Deposit your USDT, USDC, or DAI into our secure vault.
+            Deposit your USDC, USDT or DAI into our secure vault.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
       </div>
       <div className="block lg:hidden bg-primary h-60 rounded-bl-3xl rounded-br-3xl -translate-y-1 space-y-3 px-4 pt-10">
         <p className="text-white opacity-60 text-sm">
-          * Initiate your journey towards maximized returns by depositing your USDT, USDC, or DAI
+          * Initiate your journey towards maximized returns by depositing your USDC, USDT or DAI
           into our secure vault.
         </p>
         <p className="text-white opacity-60 text-sm">** {profit}</p>

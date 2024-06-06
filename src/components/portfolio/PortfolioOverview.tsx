@@ -35,11 +35,11 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
     <Card className="w-full h-full p-8 pb-12 text-primary">
       <p className="text-xl font-medium capitalize opacity-50">Your balance</p>
       <div className="flex items-center gap-6 mt-6">
-        <p className="text-base sm:text-2xl lg:text-3xl font-bold leading-4">
+        <p className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-4">
           {withCommas(toFixedNumber(totalBalance))} USDC
         </p>
         <p
-          className={`text-base sm:text-2xl lg:text-3xl leading-4 font-bold ${
+          className={`text-2xl sm:text-3xl lg:text-4xl leading-4 font-bold ${
             Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
           }`}
         >

@@ -6,8 +6,8 @@ import { Card } from '@nextui-org/react';
 import Link from 'next/link';
 
 import { Point } from '@/@types/vault';
-import { EigenLayerIcon, RenzoIcon, ZircuitIcon } from '@/components/shared/icons';
 import { toFixedNumber, withCommas } from '@/utils/number';
+import { getDisplayedPoint } from '@/utils/vault';
 
 type VaultIntroProps = {
   name: string;
@@ -53,20 +53,14 @@ const VaultIntro = (props: VaultIntroProps) => {
       </div>
       {points && points.length > 0 && (
         <div className="w-full 2xl:w-auto shrink-0 flex flex-wrap items-center justify-center gap-8 bg-secondary text-primary rounded-2xl py-8">
-          {points.map((x, index) => {
-            const { label, icon: Icon } =
-              x.name === 'renzo'
-                ? { label: 'Total Renzo points', icon: RenzoIcon }
-                : x.name === 'eigenlayer'
-                  ? { label: 'Total EigenLayer points', icon: EigenLayerIcon }
-                  : { label: 'Total Zircuit points', icon: ZircuitIcon };
+          {points.map((x) => {
+            const { label, icon: Icon } = getDisplayedPoint(x);
             return (
               <div
                 key={x.name}
-                className={`shrink-0 basis-1/2 lg:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 px-12 md:px-6 2xl:px-8
-                `}
+                className="shrink-0 basis-1/2 lg:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 px-12 md:px-6 2xl:px-8"
               >
-                <p className="text-base capitalize opacity-60">{label}</p>
+                <p className="text-base capitalize opacity-60">{`Total ${label}`}</p>
                 <div className="flex items-center justify-center gap-2">
                   <Icon className="w-8 h-8" />
                   <span className="font-bold text-2xl">
