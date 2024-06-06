@@ -30,7 +30,7 @@ const ActivePositions = (props: ActivePositionsProps) => {
       ) : (
         <>
           <div className="w-full p-6 bg-rock-grey01 rounded-2xl mt-6">
-            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 text-left text-sm xl:text-base 2xl:text-lg font-semibold">
+            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 text-left text-sm xl:text-base 2xl:text-lg font-semibold mb-6">
               <p className="col-span-2 ">Vault name</p>
               <p className="text-left">Total balance</p>
               <p className="text-left">Initial deposit</p>
@@ -39,9 +39,11 @@ const ActivePositions = (props: ActivePositionsProps) => {
               <p className="text-center">APY</p>
             </div>
 
-            {positions.map((item) => (
-              <PositionRow key={item.id} position={item} />
-            ))}
+            <div className="flex flex-col gap-4">
+              {positions.map((item) => (
+                <PositionRow key={item.id} position={item} />
+              ))}
+            </div>
           </div>
         </>
       )}

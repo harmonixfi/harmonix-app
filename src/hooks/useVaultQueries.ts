@@ -25,6 +25,7 @@ const useVaultQueries = (
     address: vaultAddress,
     functionName: 'balanceOf',
     args: [account.address],
+    chainId,
   });
 
   const { data: pricePerShareData } = useReadContract({
@@ -40,6 +41,7 @@ const useVaultQueries = (
     functionName: 'getDepositAmount',
     account: account.address,
     query: { enabled: vaultVariant === VaultVariant.OptionsWheel },
+    chainId,
   });
 
   const { data: availableWithdrawalAmountData, refetch: refetchAvailableWithdrawalAmount } =
@@ -49,6 +51,7 @@ const useVaultQueries = (
       functionName: 'getAvailableWithdrawlAmount',
       account: account.address,
       query: { enabled: vaultVariant === VaultVariant.OptionsWheel },
+      chainId,
     });
 
   const { data: pnlData } = useReadContract({
@@ -56,6 +59,7 @@ const useVaultQueries = (
     address: vaultAddress,
     functionName: 'getPnL',
     account: account.address,
+    chainId,
   });
 
   const { data: userVaultStateData, refetch: refetchUserVaultState } = useReadContract({
@@ -64,6 +68,7 @@ const useVaultQueries = (
     functionName: 'getUserVaultState',
     account: account.address,
     query: { enabled: vaultVariant !== VaultVariant.OptionsWheel },
+    chainId,
   });
 
   const {
@@ -75,6 +80,7 @@ const useVaultQueries = (
     functionName: 'getUserWithdrawlShares',
     account: account.address,
     query: { enabled: vaultVariant !== VaultVariant.OptionsWheel },
+    chainId,
   });
 
   const { data: allocatedRatioData } = useReadContract({
@@ -88,6 +94,7 @@ const useVaultQueries = (
     abi: vaultAbi,
     address: vaultAddress,
     functionName: 'getWithdrawPoolAmount',
+    chainId,
   });
 
   const totalValueLocked = totalValueLockedData
