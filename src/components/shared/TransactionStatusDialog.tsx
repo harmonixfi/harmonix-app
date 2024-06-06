@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
+import { Button } from '@nextui-org/react';
 
 import { useChainContext } from '@/app/_providers/ChainProvider';
 
@@ -54,17 +55,18 @@ const TransactionStatusDialog = (props: TransactionStatusDialogProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-[32px] bg-rock-bg-tab border border-rock-divider py-16 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-[32px] bg-white py-16 text-left align-middle shadow-xl transition-all">
                 <div className="relative flex flex-col items-center gap-10 z-30">
                   {icon}
                   <h3 className="text-lg sm:text-2xl text-center">{message}</h3>
-                  <button
-                    className="w-fit bg-white text-rock-muted rounded-full uppercase px-16 sm:px-20 py-2.5 text-sm sm:text-base"
+                  <Button
+                    className="rounded-full uppercase bg-white px-12 sm:px-24"
                     type="button"
+                    size="lg"
                     onClick={onClose}
                   >
                     Dismiss
-                  </button>
+                  </Button>
                 </div>
 
                 {type === 'success' && url && (

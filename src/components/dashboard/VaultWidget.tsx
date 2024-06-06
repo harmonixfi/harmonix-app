@@ -2,9 +2,10 @@
 
 import { useMemo } from 'react';
 
+import { Button } from '@nextui-org/react';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import Link from 'next/link';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
 import useSWR from 'swr';
 
 import { getVaultPerformance } from '@/api/vault';
@@ -41,13 +42,11 @@ const VaultWidget = (props: VaultWidgetProps) => {
 
   return (
     <WidgetCard loading={isLoading}>
-      <div className="flex items-center justify-between px-6 py-4 border-b border-rock-divider border-opacity-40">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-400 border-opacity-40">
         <p className="uppercase">{name}</p>
-        <Link href={`${Urls.Dashboard}/${id}`}>
-          <button className="rounded-3xl text-white text-sm font-normal bg-rock-primary px-6 py-2 hover:ring-2 hover:ring-rock-divider">
-            View
-          </button>
-        </Link>
+        <Button as={Link} href={`${Urls.Dashboard}/${id}`} color="primary" className="rounded-full">
+          View
+        </Button>
       </div>
       <div className="flex flex-col gap-2 text-sm px-6">
         <div className="flex items-center justify-between">

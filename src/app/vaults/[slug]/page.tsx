@@ -3,9 +3,10 @@ import { UTCTimestamp } from 'lightweight-charts';
 import { notFound } from 'next/navigation';
 
 import { getVaultInfo, getVaultPerformance } from '@/api/vault';
+import Page from '@/components/shared/Page';
 import { LineChartData } from '@/components/shared/chart/LineChart';
-import Navbar from '@/components/shared/navbar/Navbar';
 import VaultDetailTemplate from '@/components/vault/detail/VaultDetailTemplate';
+import { Urls } from '@/constants/urls';
 import { vaultDetailMapping } from '@/services/vaultMapping';
 
 async function getData(slug: string) {
@@ -19,7 +20,7 @@ async function getData(slug: string) {
 
 export default async function VaultPage({ params }: { params: { slug: string } }) {
   const {
-    vaultInfo: { id, slug, name, apr, apy: vaultApy, contract_address, network_chain },
+    vaultInfo: { id, slug, name, apr, apy: vaultApy, contract_address, points, network_chain },
     vaultPerformance: { date, apy },
   } = await getData(params.slug);
 
@@ -36,25 +37,26 @@ export default async function VaultPage({ params }: { params: { slug: string } }
     vaultDetailMapping(name);
 
   return (
-    <div className="relative pb-16 sm:pb-40">
-      <Navbar />
-
-      <VaultDetailTemplate
-        timeVisible={name.toLowerCase().includes('delta')}
-        id={id}
-        slug={slug}
-        name={name}
-        contractAddress={contract_address}
-        networkChain={network_chain}
-        apy={vaultApy || 0}
-        apr={apr || 0}
-        onyxData={onyxData}
-        description={description}
-        parameter={parameter}
-        overview={overview}
-        safetyAssurance={safetyAssurance}
-        withdrawal={withdrawal}
-      />
-    </div>
+    <Page backUrl={Urls.Products}>
+      <div className="relative z-40 pb-16 sm:pb-40">
+        <VaultDetailTemplate
+          timeVisible={name.toLowerCase().includes('delta')}
+          id={id}
+          slug={slug}
+          name={name}
+          contractAddress={contract_address}
+          points={points}
+          networkChain={network_chain}
+          apy={vaultApy || 0}
+          apr={apr || 0}
+          onyxData={onyxData}
+          description={description}
+          parameter={parameter}
+          overview={overview}
+          safetyAssurance={safetyAssurance}
+          withdrawal={withdrawal}
+        />
+      </div>
+    </Page>
   );
 }

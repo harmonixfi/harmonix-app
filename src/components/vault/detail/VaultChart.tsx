@@ -1,32 +1,36 @@
+import { Card } from '@nextui-org/react';
+
+import { VaultNetwork } from '@/@types/enum';
+
 import LineChart, { LineChartData } from '../../shared/chart/LineChart';
 import VaultSummary from './VaultSummary';
 
 type VaultChartProps = {
   timeVisible?: boolean;
   apy: number;
+  network: VaultNetwork;
   onyxData: LineChartData[];
 };
 
 const VaultChart = (props: VaultChartProps) => {
-  const { timeVisible, apy, onyxData } = props;
+  const { timeVisible, apy, network, onyxData } = props;
 
   return (
-    <div className="relative">
-      {/* <div className="flex items-center gap-3 pl-4">
-        <p className="text-xl">APR</p>
-        <span className="px-2 py-0.5 border border-rock-green border-opacity-40 rounded-md text-rock-green font-semibold">
-          {`${Math.round(apr)}%`}
-        </span>
-      </div> */}
-      <div className="h-[240px] lg:h-[300px] translate-y-20">
+    <Card className="relative p-8 text-primary">
+      <div className="flex flex-col lg:flex-row justify-between gap-4 mb-6">
+        <p className="text-xl font-medium opacity-50">Performance</p>
+        <div>
+          <VaultSummary apy={apy} network={network} />
+          <div className="flex items-center gap-2 mt-8 float-right">
+            <span className="w-8 h-0.5 bg-green-400" />
+            <p className="text-sm text-rock-gray">Vault *</p>
+          </div>
+        </div>
+      </div>
+      <div className="h-[240px] lg:h-[240px] -ml-2">
         <LineChart
           timeVisible={timeVisible}
           options={[
-            // {
-            //   id: 'market',
-            //   data: marketData,
-            //   lineColor: '#9EB50E',
-            // },
             {
               id: 'onyx',
               data: onyxData,
@@ -35,23 +39,7 @@ const VaultChart = (props: VaultChartProps) => {
           ]}
         />
       </div>
-
-      <div className="absolute top-0 left-0 w-full flex items-center justify-between mb-6 -mt-2 z-50">
-        <div className="translate-y-4">
-          <VaultSummary apy={apy} />
-        </div>
-        <div className="flex items-center gap-4 lg:gap-10">
-          {/* <div className="flex items-center gap-2">
-            <span className="w-5 h-[1px] bg-[#9EB50E]" />
-            <p className="text-sm lg:text-base text-rock-gray">Market</p>
-          </div> */}
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-[1px] bg-[#0057FF]" />
-            <p className="text-sm lg:text-base text-rock-gray">Harmonix Vault *</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Card>
   );
 };
 

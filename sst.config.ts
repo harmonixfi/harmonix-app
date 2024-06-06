@@ -9,6 +9,6 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Nextjs('HarmonixAppTestnet');
+    new sst.aws.Nextjs('HarmonixApp');
   },
 });

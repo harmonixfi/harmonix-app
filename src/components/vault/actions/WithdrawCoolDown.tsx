@@ -26,15 +26,15 @@ const WithdrawCoolDown = (props: WithdrawCoolDownProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center bg-rock-bg rounded-lg mt-4 px-4 sm:px-6 py-6">
-      <div className="flex gap-2 text-sm font-normal">
-        <InformationIcon className="translate-y-0.5" />
-        <span className="text-rock-gray">Time left until your fund are available to withdraw</span>
+    <div className="flex flex-col items-center bg-primary rounded-lg mt-4 px-4 sm:px-6 py-6">
+      <div className="flex gap-2 font-normal">
+        <InformationIcon className="translate-y-0.5 text-white" />
+        <span className="text-white">Time left until your fund are available to withdraw</span>
       </div>
       <div className="w-full flex justify-center gap-6 sm:gap-20 lg:gap-6 2xl:gap-12 mt-4">
         {timer.map((item, index) => (
           <div key={item.label} className="relative flex flex-col items-center gap-2">
-            <span className="text-xs uppercase text-rock-gray">{item.label}</span>
+            <span className="text-xs uppercase text-white">{item.label}</span>
             <div className="flex items-center justify-center bg-gray-50 rounded-md text-xl sm:text-2xl lg:text-xl xl:text-2xl font-semibold text-rock-bg w-10 sm:w-14 lg:w-10 xl:w-14 h-10 sm:h-1 lg:h-10 xl:h-14">
               {minDigits(item.value)}
             </div>

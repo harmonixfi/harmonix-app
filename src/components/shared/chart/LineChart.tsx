@@ -43,25 +43,33 @@ const LineChart = (props: LineChartProps) => {
           visible: false,
         },
         horzLines: {
-          visible: false,
+          visible: true,
+          style: 2,
         },
       },
+      leftPriceScale: {
+        visible: true,
+        borderColor: '#E3E3E3',
+      },
+      rightPriceScale: {
+        visible: false,
+      },
+
       localization: {
         priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
       },
       timeScale: {
         timeVisible,
+        borderColor: '#E3E3E3',
       },
     });
     chart.timeScale().fitContent();
 
     options.map((option) => {
       chart
-        .addLineSeries({
+        .addAreaSeries({
           lineWidth: 1,
-          color: option.lineColor,
           priceLineVisible: false,
-          // lastValueVisible: false,
         })
         .setData(option.data);
     });

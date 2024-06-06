@@ -2,14 +2,17 @@
 
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
+import { Button, Tooltip } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
 import { ethers } from 'ethers';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
 import { getUserPortfolio } from '@/api/vault';
+import { useChainContext } from '@/app/_providers/ChainProvider';
+import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useCompleteWithdrawal from '@/hooks/useCompleteWithdrawal';
@@ -19,31 +22,33 @@ import useVaultQueries from '@/hooks/useVaultQueries';
 import { getDeltaNeutralWithdrawalDate, getOptionsWheelWithdrawalDate } from '@/utils/date';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
-import Tooltip from '../../shared/Tooltip';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
-import { QuestionIcon, RockOnyxTokenIcon, SpinnerIcon, WarningIcon } from '../../shared/icons';
+import { QuestionIcon, VaultTransferArrowDownIcon, WarningIcon } from '../../shared/icons';
 import WithdrawCoolDown from './WithdrawCoolDown';
 
 type VaultWithdrawProps = {
   apr: number;
-  networkChain: VaultNetwork;
+  vaultNetwork: VaultNetwork;
   withdrawalTime: string;
   withdrawalStep2: string;
 };
 
 const VaultWithdraw = (props: VaultWithdrawProps) => {
-  const { networkChain, withdrawalTime, withdrawalStep2 } = props;
+  const { vaultNetwork, withdrawalTime, withdrawalStep2 } = props;
 
   const params = useParams();
 
   const { vaultVariant, vaultAbi, vaultAddress } = useVaultDetailContext();
+  const { selectedChain } = useChainContext();
+
+  const { chains, switchChain } = useSwitchChain();
 
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState('');
   const [isCoolingDown, setIsCoolingDown] = useState(false);
 
   const { isOpen, type, url, onOpenDialog, onCloseDialog } =
-    useTransactionStatusDialog(networkChain);
+    useTransactionStatusDialog(vaultNetwork);
 
   const { status, address } = useAccount();
 
@@ -226,97 +231,97 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
     }
   }, [isEnableCompleteWithdraw, isCoolingDown]);
 
+  const isWrongNetwork = supportedChainMapping[vaultNetwork] !== selectedChain;
+
+  const targetNetwork = chains.find((x) => x.name === supportedChainMapping[vaultNetwork]);
+
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       {!isConnectedWallet && (
-        <div className="flex items-center gap-2 mt-12">
-          <WarningIcon />
-          <p className="text-sm font-normal text-rock-yellow">Please connect wallet to deposit</p>
+        <div className="flex items-center gap-2">
+          <WarningIcon className="w-6 h-6 text-yellow-600" />
+          <p className="text-sm font-normal text-yellow-600">Please connect wallet to deposit</p>
         </div>
       )}
 
-      <div className="mt-6 sm:mt-10">
-        <p className="text-lg lg:text-xl font-semibold uppercase text-rock-gray">Harmonix vault</p>
-        <div className="flex flex-col gap-3 lg:gap-6 bg-rock-bg rounded-2xl mt-4 p-4 lg:p-7">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <p className="text-rock-gray">Withdrawals</p>
-              <Tooltip
-                message={
-                  <div className="flex flex-col gap-3">
-                    <p>
-                      If you want to withdraw funds that have been invested in the vault&apos;s
-                      weekly options strategy, you need to follow a 2-step process:
-                    </p>
-                    <p>Step 1: You need to initiate the withdrawal request.</p>
-                    <p>{`Step 2: ${withdrawalStep2}`}`</p>
-                  </div>
-                }
-              >
+      <div className="flex flex-col gap-3 lg:gap-6 bg-rock-grey01 rounded-2xl mt-4 p-4 lg:p-7">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <p className="text-rock-gray">Withdrawals</p>
+            <Tooltip
+              showArrow
+              color="foreground"
+              closeDelay={100}
+              classNames={{ base: 'w-64' }}
+              content={
+                <div className="flex flex-col gap-3 p-2">
+                  <p>
+                    If you want to withdraw funds that have been invested in the vault&apos;s weekly
+                    options strategy, you need to follow a 2-step process:
+                  </p>
+                  <p>Step 1: You need to initiate the withdrawal request.</p>
+                  <p>{`Step 2: ${withdrawalStep2}`}`</p>
+                </div>
+              }
+            >
+              <span>
                 <QuestionIcon />
-              </Tooltip>
-            </div>
-            <p>{withdrawalTime}</p>
+              </span>
+            </Tooltip>
           </div>
+          <p>{withdrawalTime}</p>
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-6 sm:mt-12">
-        <p className="text-lg lg:text-xl text-rock-gray font-semibold">roUSD AMOUNT</p>
-        {!isLoadingPortfolio &&
-          !isCoolingDown &&
-          !isEnableCompleteWithdraw &&
-          !isWaitingForWithdrawPool && (
-            <button
-              type="button"
-              className="border border-rock-primary rounded-full px-3 py-1 text-sm font-light hover:ring-2 hover:ring-blue-800"
-              onClick={handleClickWithdrawAll}
-            >
-              Withdraw all
-            </button>
-          )}
-      </div>
-
-      <div className="relative mt-3 sm:mt-6">
-        <RockOnyxTokenIcon className="absolute top-1/2 left-3 -translate-y-1/2 w-12 h-12" />
-        <input
-          className={`w-full h-16 block bg-rock-bg rounded-xl pl-20 pr-3 text-2xl text-white ${
-            !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
-          } focus:outline-none`}
-          type="text"
-          placeholder="0.0"
-          disabled={
-            !isConnectedWallet ||
-            isCoolingDown ||
-            isWaitingForWithdrawPool ||
-            isEnableCompleteWithdraw
-          }
-          value={inputValue}
-          onChange={handleChangeInputValue}
-        />
-      </div>
-      {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
-
-      <div className="text-rock-gray mt-6 text-sm lg:text-base">
-        {!isLoadingPortfolio &&
-          !isCoolingDown &&
-          !isEnableCompleteWithdraw &&
-          !isWaitingForWithdrawPool && (
-            <>
+      <div className="space-y-1">
+        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl">
+          <p className="opacity-50 capitalize font-medium">You withdraw</p>
+          <div className="flex items-start justify-between gap-4">
+            <div className="grow space-y-1">
+              <input
+                className={`w-full h-14 px-4 rounded-xl bg-white text-3xl ${
+                  !!inputError ? 'focus:ring-0 border border-red-600' : 'focus:ring-2'
+                } focus:outline-none`}
+                type="text"
+                placeholder="0"
+                disabled={
+                  !isConnectedWallet ||
+                  isCoolingDown ||
+                  isWaitingForWithdrawPool ||
+                  isEnableCompleteWithdraw
+                }
+                value={inputValue}
+                onChange={handleChangeInputValue}
+              />
+              {!!inputError && <p className="text-red-600 text-sm font-light mt-1">{inputError}</p>}
+            </div>
+            <p className="text-3xl font-medium translate-y-2.5">roUSD</p>
+          </div>
+          {!isLoadingPortfolio &&
+            !isCoolingDown &&
+            !isEnableCompleteWithdraw &&
+            !isWaitingForWithdrawPool && (
               <div className="flex items-center justify-between">
-                <p>Your available amount</p>
-                <p>{`${withCommas(toFixedNumber(balanceOf))} roUSD`}</p>
+                <p className="text-sm opacity-50 font-medium">
+                  Your available shares: {withCommas(toFixedNumber(balanceOf))} roUSD
+                </p>
+
+                <Button variant="light" onClick={handleClickWithdrawAll}>
+                  Max
+                </Button>
               </div>
+            )}
+        </div>
 
-              <div className="w-full h-[1px] my-3 lg:my-6 bg-rock-bg" />
-            </>
-          )}
+        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl relative">
+          <p className="opacity-50 capitalize font-medium">You receive</p>
+          <p className="text-3xl font-medium">
+            {withCommas(toFixedNumber((Number(inputValue) || 0) * pricePerShare))} USDC
+          </p>
 
-        <div className="flex items-center justify-between">
-          <p>You will receive</p>
-          <p className="text-white">{`${withCommas(
-            toFixedNumber((Number(inputValue) || 0) * pricePerShare),
-          )} USDC`}</p>
+          <span className="absolute -top-6 left-1/2 -translate-x-1/2">
+            <VaultTransferArrowDownIcon className="w-10 h-10" />
+          </span>
         </div>
       </div>
 
@@ -327,19 +332,30 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
         />
       )}
 
-      <button
-        type="button"
-        className={`w-full flex items-center justify-center gap-2 bg-rock-primary text-sm lg:text-base text-white font-light rounded-full mt-8 sm:mt-16 py-2.5 ${
-          disabledButton ? 'bg-opacity-20 text-opacity-40' : ''
-        } ${isWithdrawing ? 'animate-pulse' : ''}`}
-        disabled={disabledButton}
-        onClick={handleWithdraw}
-      >
-        {isWithdrawing && <SpinnerIcon className="w-6 h-6 animate-spin" />}
-        {isCoolingDown || isWaitingForWithdrawPool || isEnableCompleteWithdraw
-          ? 'Complete withdrawal'
-          : 'Initiate withdrawal'}
-      </button>
+      {isWrongNetwork && targetNetwork ? (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          onClick={() => switchChain({ chainId: targetNetwork.id })}
+        >
+          Switch Network
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          size="lg"
+          color="primary"
+          fullWidth
+          isLoading={isWithdrawing}
+          isDisabled={disabledButton}
+          onClick={handleWithdraw}
+        >
+          {isCoolingDown || isWaitingForWithdrawPool || isEnableCompleteWithdraw
+            ? 'Complete withdrawal'
+            : 'Initiate withdrawal'}
+        </Button>
+      )}
 
       <TransactionStatusDialog isOpen={isOpen} type={type} url={url} onClose={onCloseDialog} />
     </div>

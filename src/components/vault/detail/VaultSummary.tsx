@@ -1,63 +1,60 @@
 'use client';
 
-// import { useState } from 'react';
-// import { useState } from 'react';
+import { Tooltip } from '@nextui-org/react';
+import { useChains } from 'wagmi';
+
+import { VaultNetwork } from '@/@types/enum';
+import { supportedChainMapping } from '@/constants/chain';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
-// import Select from '../../shared/Select';
-// import Select from '../shared/Select';
-import Tooltip from '../../shared/Tooltip';
 import { QuestionIcon } from '../../shared/icons';
 
 type VaultSummaryProps = {
   apy: number;
+  network: VaultNetwork;
 };
 
 const VaultSummary = (props: VaultSummaryProps) => {
-  const { apy } = props;
+  const { apy, network } = props;
 
   const { vaultAbi, vaultAddress } = useVaultDetailContext();
 
-  const { totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress);
+  const configuredChains = useChains();
 
-  // const [apyRange, setApyRange] = useState('1m');
+  const chainId = configuredChains.find((x) => x.name === supportedChainMapping[network])?.id;
+
+  const { totalValueLocked } = useVaultQueries(vaultAbi, vaultAddress, undefined, chainId);
 
   return (
-    <div className="flex gap-4 sm:gap-8 lg:gap-16">
-      <div className="flex flex-col justify-between sm:gap-1">
-        <div className="flex items-center gap-4 text-rock-gray font-semibold">
-          <p className="text-xs sm:text-sm md:text-base 2xl:text-lg">APY</p>
-          <Tooltip message="The Annual Percentage Yield (APY) Is Extrapolated From The Previous Month/Week.">
-            <QuestionIcon className="w-4 h-4" />
-          </Tooltip>
-          {/* <div>
-            <Select
-              options={[
-                { label: '1W', value: '1w' },
-                { label: '1M', value: '1m' },
-              ]}
-              defaultValue={{ label: '1M', value: '1m' }}
-              onChange={(selected) => setApyRange(selected.value)}
-            />
-          </div> */}
-        </div>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">{`${withCommas(
-          toFixedNumber(apy),
-        )}%`}</p>
-      </div>
-      <div className="flex flex-col justify-between sm:gap-1">
-        <p className="text-xs sm:text-sm md:text-base 2xl:text-lg text-rock-gray font-semibold">
-          TVL
-        </p>
-        <p className="text-base sm:text-lg lg:text-2xl font-semibold">
+    <div className="flex gap-2">
+      <div className="flex flex-col items-center justify-between gap-1 bg-rock-grey01 px-6 py-4 rounded-2xl">
+        <p className="text-sm font-normal opacity-60">Total value locked</p>
+        <p className="text-lg font-bold">
           {totalValueLocked.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
             maximumFractionDigits: 0,
           })}
         </p>
+      </div>
+      <div className="flex flex-col items-center justify-between gap-1 bg-rock-grey01 px-6 py-4 rounded-2xl">
+        <div className="flex items-center gap-2 text-rock-gray font-semibold">
+          <p className="text-sm font-normal opacity-60">APY</p>
+          <Tooltip
+            showArrow
+            color="foreground"
+            closeDelay={100}
+            classNames={{ base: 'w-64' }}
+            content="The Annual Percentage Yield (APY) Is Extrapolated From The Previous Month/Week."
+          >
+            <span>
+              <QuestionIcon className="w-4 h-4" />
+            </span>
+          </Tooltip>
+        </div>
+        <p className="text-lg font-bold">{`${withCommas(toFixedNumber(apy))}%`}</p>
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 'use client';
 
+import { Card } from '@nextui-org/react';
+
 import { WalletConnectStatus } from '@/@types/wallet';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
-
-import Typography from '../shared/Typography';
 
 type PortfolioOverviewProps = {
   status: WalletConnectStatus;
@@ -26,34 +26,27 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
   if (error) {
     return (
       <div>
-        <Typography variant="subheading">Portfolio Overview</Typography>
         <p className="text-red-600 mt-4">Oops, something went wrong! Please try again later.</p>
       </div>
     );
   }
 
   return (
-    <div>
-      <Typography variant="subheading">Portfolio Overview</Typography>
-
-      <div className="sm:w-[360px] xl:w-[400px] bg-white bg-opacity-10 border border-rock-divider p-6 md:p-8 xl:p-11 rounded-2xl mt-4 lg:mt-8">
-        <p className="text-sm md:text-base xl:text-xl uppercase text-rock-gray leading-3">
-          Your balance
+    <Card className="w-full h-full p-8 pb-12 text-primary">
+      <p className="text-xl font-medium capitalize opacity-50">Your balance</p>
+      <div className="flex items-center gap-6 mt-6">
+        <p className="text-base sm:text-2xl lg:text-3xl font-bold leading-4">
+          {withCommas(toFixedNumber(totalBalance))} USDC
         </p>
-        <div className="flex items-center gap-6 mt-6 lg:mt-10">
-          <p className="text-sm md:text-xl xl:text-2xl font-semibold leading-4">
-            {withCommas(toFixedNumber(totalBalance))} USDC
-          </p>
-          <p
-            className={`text-sm md:text-xl xl:text-2xl leading-4 font-normal ${
-              Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
-            }`}
-          >
-            {formatPnl(toFixedNumber(pnl), true)}
-          </p>
-        </div>
+        <p
+          className={`text-base sm:text-2xl lg:text-3xl leading-4 font-bold ${
+            Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
+          }`}
+        >
+          {`(${formatPnl(toFixedNumber(pnl), true)})`}
+        </p>
       </div>
-    </div>
+    </Card>
   );
 };
 

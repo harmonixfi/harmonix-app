@@ -48,14 +48,12 @@ const VaultNavigation = (props: VaultNavigationProps) => {
             >
               <div
                 className={`w-2 h-2 rounded-full flex items-center justify-center ${
-                  index === selectedTab ? 'bg-white' : 'bg-rock-sub-body'
+                  index === selectedTab ? 'bg-primary' : 'bg-rock-sub-body'
                 }`}
               />
               <p
                 className={
-                  index === selectedTab
-                    ? 'text-white font-semibold'
-                    : 'text-rock-sub-body font-light'
+                  index === selectedTab ? 'font-semibold' : 'text-rock-sub-body font-light'
                 }
               >
                 {item.name}

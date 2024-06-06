@@ -1,6 +1,6 @@
+import { Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
 
-import Tooltip from '../shared/Tooltip';
 import { ExternalLinkIcon, QuestionIcon } from '../shared/icons';
 
 type WidgetMetricProps = {
@@ -30,8 +30,16 @@ const WidgetMetric = (props: WidgetMetricProps) => {
       {labelTooltip ? (
         <div className="flex items-center gap-2">
           <p className="text-rock-gray font-extralight">{label}</p>
-          <Tooltip message={labelTooltip}>
-            <QuestionIcon className="w-4 h-4" />
+          <Tooltip
+            showArrow
+            color="foreground"
+            closeDelay={100}
+            classNames={{ base: 'w-64' }}
+            content={labelTooltip}
+          >
+            <span>
+              <QuestionIcon className="w-4 h-4" />
+            </span>
           </Tooltip>
         </div>
       ) : (
