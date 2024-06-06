@@ -32,7 +32,7 @@ const PortfolioOverview = (props: PortfolioOverviewProps) => {
   }
 
   return (
-    <Card className="w-full h-full p-8 text-primary">
+    <Card className="w-full h-full p-8 pb-12 text-primary">
       <p className="text-xl font-medium capitalize opacity-50">Your balance</p>
       <div className="flex items-center gap-6 mt-6">
         <p className="text-base sm:text-2xl lg:text-3xl font-bold leading-4">

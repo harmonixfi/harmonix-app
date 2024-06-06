@@ -160,13 +160,3 @@
 .kelpdao-capacity {
   background-color: #075a5a;
 }
-
-.risk-badge {
-  background-color: #ffaf1d;
-  position: absolute;
-  left: -50px;
-  top: -50px;
-  width: 100px;
-  height: 100px;
-  -webkit-transform: rotate(-45deg);
-}

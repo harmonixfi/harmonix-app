@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Button, Card } from '@nextui-org/react';
 import Link from 'next/link';
 
-import { DepositStepIcon, ProfitStepIcon, RestakingStepIcon } from '@/components/shared/icons';
+import { VaultWorksIcon } from '@/components/shared/icons';
 
 type VaultHowItWorksProps = {
   name: string;
@@ -17,8 +17,10 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
   const { rebalance, profit } = useMemo(() => {
     if (name.toLowerCase().includes('option')) {
       return {
-        rebalance:
-          'Allocates USDC deposits to WETH/wstETH and USDC/USDC.e liquidity positions, with a portion set aside for aeUSD collateral in AEVO, facilitating bi-weekly options trading.',
+        rebalance: [
+          'Allocates USDC deposits to WETH/wstETH and USDC/USDC.e liquidity positions',
+          'with a portion set aside for aeUSD collateral in AEVO, facilitating bi-weekly options trading.',
+        ],
         profit: 'Earning yield through liquidity farming and option premium fees.',
       };
     }
@@ -46,8 +48,10 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
     }
 
     return {
-      rebalance:
-        'Short ETH on perpetual markets with a favorable funding rate while holding ETH in spot or yield to maintain a neutral delta against USD.',
+      rebalance: [
+        'Short ETH on perpetual markets with a favorable funding rate',
+        'Holding ETH in spot or yield to maintain a neutral delta against USD.',
+      ],
       profit:
         'Earning yield through funding fees on Perp DEXes, staked ETH, and borrow APY on Radiant Capital.',
     };
@@ -69,49 +73,39 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 3xl:grid-cols-3 gap-6 mt-8">
-        <div className="space-y-3 p-6 bg-[#DFF9F0] bg-opacity-50 rounded-2xl">
-          <div className="flex items-center gap-2">
-            <span className="w-12 h-12 relative bg-primary rounded-full">
-              <DepositStepIcon className="w-6 h-6 text-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            </span>
-            <p className="text-xl font-bold">Deposit</p>
-          </div>
-          <p className="text-lg opacity-60">
-            Initiate your journey towards maximized returns by depositing your USDT, USDC, or DAI
-            into our secure vault.
+      <div className="relative h-[280px] sm:h-[320px] lg:h-[400px] bg-primary mt-8 p-8 rounded-tl-3xl rounded-tr-3xl lg:rounded-bl-3xl lg:rounded-br-3xl">
+        <VaultWorksIcon className="w-[55%] sm:w-1/2 h-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <div className="w-1/5 absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 text-center space-y-3">
+          <p className="text-white text-sm md:text-base font-bold">
+            Deposit<span className="inline lg:hidden ml-1">*</span>
+          </p>
+          <p className="hidden lg:block text-white text-sm md:text-base font-light opacity-60">
+            Deposit your USDT, USDC, or DAI into our secure vault.
           </p>
         </div>
 
-        <div className="space-y-3 p-6 bg-[#F5EDFA] bg-opacity-50 rounded-2xl">
-          <div className="flex items-center gap-2">
-            <span className="w-12 h-12 relative bg-primary rounded-full">
-              <RestakingStepIcon className="w-6 h-6 text-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            </span>
-            <p className="text-xl font-bold">Rebalance</p>
-          </div>
-          {typeof rebalance === 'string' ? (
-            <p className="text-lg opacity-60">{rebalance}</p>
-          ) : (
-            <div className="space-y-2">
-              {rebalance.map((x) => (
-                <p key={x} className="text-lg opacity-60">
-                  {x}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
+        <p className="w-2/3 lg:w-1/2 absolute top-4 left-1/2 -translate-x-1/2 text-white text-sm md:text-base font-light text-center opacity-60">
+          {rebalance[0]}
+        </p>
+        <p className="w-2/3 lg:w-1/2 absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm md:text-base font-light text-center opacity-60">
+          {rebalance[1]}
+        </p>
 
-        <div className="space-y-3 p-6 bg-[#FEF8EC] bg-opacity-50 rounded-2xl">
-          <div className="flex items-center gap-2">
-            <span className="w-12 h-12 relative bg-primary rounded-full">
-              <ProfitStepIcon className="w-6 h-6 text-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            </span>
-            <p className="text-xl font-bold">Profit</p>
-          </div>
-          <p className="text-lg opacity-60">{profit}</p>
+        <div className="w-1/5 absolute top-1/2 right-2 lg:right-4 -translate-y-1/2 text-center space-y-3">
+          <p className="text-white text-sm md:text-base font-bold">
+            Profit<span className="inline lg:hidden ml-1">**</span>
+          </p>
+          <p className="hidden lg:block text-white text-sm md:text-base font-light opacity-60">
+            {profit}
+          </p>
         </div>
+      </div>
+      <div className="block lg:hidden bg-primary h-60 rounded-bl-3xl rounded-br-3xl -translate-y-1 space-y-3 px-4 pt-10">
+        <p className="text-white opacity-60 text-sm">
+          * Initiate your journey towards maximized returns by depositing your USDT, USDC, or DAI
+          into our secure vault.
+        </p>
+        <p className="text-white opacity-60 text-sm">** {profit}</p>
       </div>
     </Card>
   );

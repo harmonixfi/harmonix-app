@@ -50,19 +50,15 @@ const PortfolioTemplate = () => {
 
   return (
     <div className="w-full space-y-6">
-      <div className="grid grid-cols-1 xl:grid-cols-2 items-stretch gap-6">
-        <div className="h-full">
-          <PortfolioOverview
-            status={status}
-            error={!!error}
-            totalBalance={data?.total_balance}
-            pnl={data?.pnl}
-          />
-        </div>
-        <div className="">
-          <PortfolioPoints points={displayPoints} />
-        </div>
+      <div className="w-full md:w-[500px] h-full">
+        <PortfolioOverview
+          status={status}
+          error={!!error}
+          totalBalance={data?.total_balance}
+          pnl={data?.pnl}
+        />
       </div>
+      <PortfolioPoints points={displayPoints} />
       <ActivePositions
         status={status}
         loading={isLoading}

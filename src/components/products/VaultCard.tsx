@@ -2,8 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
-import { Card, Tooltip } from '@nextui-org/react';
+import { Card, Chip, Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
 import { useChains } from 'wagmi';
 
@@ -103,13 +102,6 @@ const VaultCard = (props: VaultCardProps) => {
   return (
     <Card className={`rounded-none vault-card ${vaultCardClass}`}>
       <Link href={link} className="flex flex-col gap-6 p-8 text-primary relative">
-        {name.toLowerCase().includes('option') && (
-          <div className="risk-badge">
-            <Tooltip color="foreground" showArrow content="Perceive risk">
-              <ExclamationTriangleIcon className="w-6 h-6 absolute top-16 left-9 rotate-45" />
-            </Tooltip>
-          </div>
-        )}
         <div className="flex items-center justify-between bg-rock-grey01 px-6 py-4 rounded-2xl">
           <div>
             <p className="text-xl font-bold capitalize">{name}</p>
@@ -120,6 +112,14 @@ const VaultCard = (props: VaultCardProps) => {
                 <EthereumIcon className="w-5 h-5" />
               )}
               <p className="text-sm capitalize">{displayedStrategy}</p>
+              {name.toLowerCase().includes('option') && (
+                <Chip variant="flat" color="warning" className="animate-pulse">
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block bg-orange-300 w-1.5 h-1.5 rounded-full" />
+                    <span>Risk</span>
+                  </div>
+                </Chip>
+              )}
             </div>
           </div>
           <div className="flex items-center">
@@ -162,12 +162,12 @@ const VaultCard = (props: VaultCardProps) => {
                 </span>
               </Tooltip>
             </div>
-            <p className="text-lg font-semibold">{`${withCommas(toFixedNumber(apy))}%`}</p>
+            <p className="text-xl font-semibold">{`${withCommas(toFixedNumber(apy))}%`}</p>
           </div>
 
           <div className="flex flex-col gap-2 items-center bg-rock-grey01 p-4 rounded-2xl">
             <p className="text-sm opacity-60">TVL</p>
-            <p className="text-lg font-semibold">
+            <p className="text-xl font-semibold">
               {totalValueLocked.toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',

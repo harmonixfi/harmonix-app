@@ -67,3 +67,4 @@ export { default as DepositStepIcon } from './DepositStep';
 export { default as RestakingStepIcon } from './RestakingStep';
 export { default as ProfitStepIcon } from './ProfitStep';
 export { default as RiskIcon } from './Risk';
+export { default as VaultWorksIcon } from './VaultWorks';
