@@ -123,7 +123,9 @@ const VaultPosition = (props: VaultPositionProps) => {
             return (
               <div key={x.name} className="flex items-center gap-1 sm:gap-2">
                 <Icon className="w-4 h-4 sm:w-8 sm:h-8" />
-                <p className="text-sm sm:text-base font-normal opacity-60">{`${x.point} ${label}`}</p>
+                <p className="text-sm sm:text-base font-normal opacity-60">{`${withCommas(
+                  toFixedNumber(x.point, 1),
+                )} ${label}`}</p>
               </div>
             );
           })}

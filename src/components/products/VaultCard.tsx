@@ -123,9 +123,9 @@ const VaultCard = (props: VaultCardProps) => {
             </div>
           </div>
           <div className="flex items-center">
-            <DaiAssetIcon className="w-10 h-10 -mx-2" />
-            <UsdtAssetIcon className="w-10 h-10 -mx-2" />
-            <UsdcAssetIcon className="w-10 h-10 -mx-2" />
+            {/* <DaiAssetIcon className="w-10 h-10 -mx-2" /> */}
+            {/* <UsdtAssetIcon className="w-10 h-10 -mx-2" /> */}
+            <UsdcAssetIcon className="w-10 h-10" />
           </div>
         </div>
 

@@ -18,6 +18,7 @@ import VaultFeeTransparency from './VaultFeeTransparency';
 import VaultHowItWorks from './VaultHowItWorks';
 import VaultIntro from './VaultIntro';
 import VaultPosition from './VaultPosition';
+import VaultWithdrawal from './VaultWithdrawal';
 
 type VaultDetailTemplateProps = VaultDetailMapping & {
   timeVisible?: boolean;
@@ -94,6 +95,8 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
                 <VaultFeeTransparency />
               </div>
             </div>
+
+            <VaultWithdrawal name={name} />
           </div>
         </div>
 
