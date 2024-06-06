@@ -7,18 +7,13 @@ import { useChains } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
 import { Point } from '@/@types/vault';
-import {
-  EigenLayerIcon,
-  RenzoIcon,
-  VaultPositionCoinIcon,
-  VaultPositionCurveIcon,
-  ZircuitIcon,
-} from '@/components/shared/icons';
+import { VaultPositionCoinIcon, VaultPositionCurveIcon } from '@/components/shared/icons';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
+import { getDisplayedPoint } from '@/utils/vault';
 
 type VaultPositionProps = {
   points?: Point[];
@@ -114,12 +109,7 @@ const VaultPosition = (props: VaultPositionProps) => {
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-12 py-6 border-t border-[#E8EDEC]">
           {' '}
           {points.map((x) => {
-            const { label, icon: Icon } =
-              x.name === 'renzo'
-                ? { label: 'Renzo points', icon: RenzoIcon }
-                : x.name === 'eigenlayer'
-                  ? { label: 'EigenLayer points', icon: EigenLayerIcon }
-                  : { label: 'Zircuit points', icon: ZircuitIcon };
+            const { label, icon: Icon } = getDisplayedPoint(x);
             return (
               <div key={x.name} className="flex items-center gap-1 sm:gap-2">
                 <Icon className="w-4 h-4 sm:w-8 sm:h-8" />
