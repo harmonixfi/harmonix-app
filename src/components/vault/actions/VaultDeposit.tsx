@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
 import { Button, Select, SelectItem } from '@nextui-org/react';
 import * as Sentry from '@sentry/nextjs';
@@ -13,10 +13,10 @@ import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useApprove from '@/hooks/useApprove';
+import useAssetQueries from '@/hooks/useAssetQueries';
 import useContractMapping from '@/hooks/useContractMapping';
 import useDeposit from '@/hooks/useDeposit';
 import useTransactionStatusDialog from '@/hooks/useTransactionStatusDialog';
-import useUsdcQueries from '@/hooks/useUsdcQueries';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultDisableDepositMapping, vaultWhitelistWalletsMapping } from '@/services/vaultMapping';
 import { toFixedNumber, withCommas } from '@/utils/number';
@@ -24,8 +24,9 @@ import { toFixedNumber, withCommas } from '@/utils/number';
 import ConfirmDialog from '../../shared/ConfirmDialog';
 import TransactionStatusDialog from '../../shared/TransactionStatusDialog';
 import {
-  CurrencySymbolIcon,
+  DaiAssetIcon,
   UsdcAssetIcon,
+  UsdtAssetIcon,
   VaultTransferArrowDownIcon,
   WarningIcon,
 } from '../../shared/icons';
@@ -34,12 +35,15 @@ type VaultDepositProps = {
   vaultNetwork: VaultNetwork;
 };
 
+const MINIMUM_DEPOSIT_AMOUNT = 10;
+
 const VaultDeposit = (props: VaultDepositProps) => {
   const { vaultNetwork } = props;
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
   const { selectedChain } = useChainContext();
-  const { usdcAddress } = useContractMapping();
+
+  const { usdcAddress, usdtAddress, daiAddress } = useContractMapping();
 
   const account = useAccount();
 
@@ -67,9 +71,15 @@ const VaultDeposit = (props: VaultDepositProps) => {
     refetchDepositAmount,
     refetchUserVaultState,
   } = useVaultQueries(vaultAbi, vaultAddress, undefined, targetNetwork?.id);
-  const { allowance, balance, refetchAllowance, refetchBalance } = useUsdcQueries(vaultAddress);
-  const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } =
-    useApprove(vaultAddress);
+
+  const { allowance, balance, refetchAllowance, refetchBalance } = useAssetQueries(
+    selectedCurrency,
+    vaultAddress,
+  );
+  const { isApproving, isApproveError, isConfirmedApproval, approvalError, approve } = useApprove(
+    selectedCurrency,
+    vaultAddress,
+  );
   const {
     isDepositing,
     isConfirmedDeposit,
@@ -78,6 +88,10 @@ const VaultDeposit = (props: VaultDepositProps) => {
     depositTransactionHash,
     deposit,
   } = useDeposit(vaultAbi, vaultAddress);
+
+  const walletBalance = balance
+    ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
+    : 0;
 
   useEffect(() => {
     if (isConfirmedDeposit) {
@@ -113,6 +127,25 @@ const VaultDeposit = (props: VaultDepositProps) => {
     }
   }, [isConfirmedApproval]);
 
+  useEffect(() => {
+    if (Number(inputValue) > walletBalance) {
+      setInputError('Insufficient balance');
+    } else {
+      setInputError('');
+    }
+  }, [walletBalance]);
+
+  const currencyOptions = useMemo(() => {
+    if (
+      !vaultVariant ||
+      [VaultVariant.OptionsWheel, VaultVariant.DeltaNeutral].includes(vaultVariant)
+    ) {
+      return [SupportedCurrency.Usdc];
+    }
+
+    return Object.values(SupportedCurrency);
+  }, [vaultVariant]);
+
   const handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value.match(FLOAT_REGEX)) {
@@ -131,16 +164,35 @@ const VaultDeposit = (props: VaultDepositProps) => {
   };
 
   const handleApprove = async (amount: string) => {
-    await approve(ethers.utils.parseUnits(amount, 6));
+    await approve(
+      ethers.utils.parseUnits(amount, selectedCurrency === SupportedCurrency.Dai ? 18 : 6),
+    );
   };
 
   const handleDeposit = async (amount: string) => {
     const isRestakingVault =
       vaultVariant === VaultVariant.KelpdaoRestaking ||
       vaultVariant === VaultVariant.RenzoRestaking;
-    const tokenIn = isRestakingVault ? usdcAddress : undefined;
-    const transitToken = isRestakingVault ? usdcAddress : undefined;
-    await deposit(ethers.utils.parseUnits(amount, 6), tokenIn, transitToken);
+
+    let decimals = 6;
+    let tokenIn = undefined;
+    let transitToken = undefined;
+
+    if (isRestakingVault) {
+      if (selectedCurrency === SupportedCurrency.Usdc) {
+        tokenIn = usdcAddress;
+        transitToken = usdcAddress;
+      } else if (selectedCurrency === SupportedCurrency.Usdt) {
+        tokenIn = usdtAddress;
+        transitToken = usdtAddress;
+      } else {
+        decimals = 18;
+        tokenIn = daiAddress;
+        transitToken = usdtAddress;
+      }
+    }
+
+    await deposit(ethers.utils.parseUnits(amount, decimals), tokenIn, transitToken);
   };
 
   const handleConfirm = async () => {
@@ -168,9 +220,10 @@ const VaultDeposit = (props: VaultDepositProps) => {
     isButtonLoading ||
     !!inputError;
   const skipApprove = allowance > 0 && Number(inputValue) <= allowance;
-  const walletBalance = balance
-    ? Number(ethers.utils.formatUnits(balance.value, balance.decimals))
-    : 0;
+
+  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCurrency(e.target.value as SupportedCurrency);
+  };
 
   return (
     <div className="flex flex-col gap-6 text-primary mt-6">
@@ -184,7 +237,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
       <div className="space-y-1">
         <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl">
           <p className="opacity-50 capitalize font-medium">You pay</p>
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-2 2xl:gap-4">
             <div className="grow space-y-1">
               <input
                 className={`w-full h-14 px-4 rounded-xl bg-white text-3xl ${
@@ -202,35 +255,50 @@ const VaultDeposit = (props: VaultDepositProps) => {
               aria-label="assets"
               size="md"
               variant="bordered"
-              className="max-w-[120px] translate-y-2.5"
               classNames={{
-                trigger: 'rounded-full bg-white border border-[#F1F1EB]',
+                base: 'w-28 2xl:w-32 shrink-0',
+                trigger: 'rounded-full bg-white border border-[#F1F1EB] translate-y-2.5',
               }}
-              defaultSelectedKeys={['usdc']}
+              selectedKeys={[selectedCurrency]}
+              onChange={handleSelectionChange}
               renderValue={(items) => {
-                return items.map((x) => (
-                  <div key={x.key} className="flex items-center gap-2">
-                    <UsdcAssetIcon className="w-6 h-6" />
-                    <span>{x.textValue}</span>
-                  </div>
-                ));
+                return items.map((x) => {
+                  const Icon =
+                    x.key === 'usdc'
+                      ? UsdcAssetIcon
+                      : x.key === 'usdt'
+                        ? UsdtAssetIcon
+                        : DaiAssetIcon;
+                  return (
+                    <div key={x.key} className="flex items-center gap-2">
+                      <Icon className="w-6 h-6" />
+                      <span>{x.textValue}</span>
+                    </div>
+                  );
+                });
               }}
             >
-              <SelectItem key="usdc" textValue="USDC">
-                <div className="flex items-center gap-2">
-                  <UsdcAssetIcon className="w-6 h-6" /> USDC
-                </div>
-              </SelectItem>
-              {/* <SelectItem key="usdt" textValue="USDT">
-                <div className="flex items-center gap-2">
-                  <CurrencySymbolIcon /> USDT
-                </div>
-              </SelectItem> */}
+              {currencyOptions.map((x) => {
+                const Icon =
+                  x === SupportedCurrency.Usdc
+                    ? UsdcAssetIcon
+                    : x === SupportedCurrency.Usdt
+                      ? UsdtAssetIcon
+                      : DaiAssetIcon;
+                return (
+                  <SelectItem key={x} textValue={x.toUpperCase()}>
+                    <div className="flex items-center gap-2">
+                      <Icon className="w-6 h-6" /> {x.toUpperCase()}
+                    </div>
+                  </SelectItem>
+                );
+              })}
             </Select>
           </div>
           <div className="flex items-center justify-between">
             <p className="text-sm opacity-50 font-medium">
-              Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'} USDC
+              Balance: {balance ? withCommas(toFixedNumber(walletBalance)) : '0'}{' '}
+              {selectedCurrency.toUpperCase()}
             </p>
             <Button variant="light" onClick={handleClickMax}>
               Max
@@ -262,11 +330,11 @@ const VaultDeposit = (props: VaultDepositProps) => {
           <p className="font-bold">{`1 roUSD = ${toFixedNumber(
             pricePerShare,
             4,
-          ).toString()} ${selectedCurrency.toUpperCase()}`}</p>
+          ).toString()} USDC`}</p>
         </li>
         <li className="flex items-center justify-between text-sm font-light">
           <p className="font-normal">Minimum deposit amount</p>
-          <p className="font-bold">$5</p>
+          <p className="font-bold">{`$${MINIMUM_DEPOSIT_AMOUNT}`}</p>
         </li>
       </ul>
 
