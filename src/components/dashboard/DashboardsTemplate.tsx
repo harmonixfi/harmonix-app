@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 
-import startCase from 'lodash/startCase';
 import useSWR from 'swr';
 
 import { getVaultsOverview } from '@/api/vault';
@@ -16,7 +15,7 @@ const DashboardsTemplate = () => {
   const compositionData = useMemo(() => {
     if (!data?.tvl_composition) return [];
     return Object.keys(data.tvl_composition).map((x) => ({
-      name: startCase(x),
+      name: x,
       value: data.tvl_composition[x],
     }));
   }, [data]);

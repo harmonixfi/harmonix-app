@@ -18,7 +18,6 @@ import { toFixedNumber, withCommas } from '@/utils/number';
 import { maskAddress } from '@/utils/string';
 
 import { AreaChartWidget, StatisticWidget, TextWidget } from '.';
-import { ChevronLeftIcon } from '../shared/icons';
 
 const VaultDashboardTemplate = () => {
   const params = useParams();

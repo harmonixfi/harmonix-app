@@ -1,13 +1,8 @@
-import Navbar from '@/components/shared/navbar/Navbar';
-
 function NotFoundPage() {
   return (
-    <>
-      <Navbar />
-      <div className="text-center my-20">
-        <h1 className="text-5xl lg:text-7xl font-semibold uppercase">404 Page not found</h1>
-      </div>
-    </>
+    <div className="text-center my-20">
+      <h1 className="text-5xl lg:text-7xl font-semibold uppercase">404 Page not found</h1>
+    </div>
   );
 }
 

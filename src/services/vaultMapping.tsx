@@ -1,29 +1,6 @@
-import { ReactNode } from 'react';
-
 import { Abi } from 'viem';
 
-import { Address } from '@/@types/common';
 import { VaultVariant } from '@/@types/enum';
-import DeltaNeutralDescription from '@/components/vault/delta-neutral/DeltaNeutralDescription';
-import DeltaNeutralOverview from '@/components/vault/delta-neutral/DeltaNeutralOverview';
-import DeltaNeutralParameter from '@/components/vault/delta-neutral/DeltaNeutralParameter';
-import DeltaNeutralSafetyAssurance from '@/components/vault/delta-neutral/DeltaNeutralSafetyAssurance';
-import DeltaNeutralWithdrawal from '@/components/vault/delta-neutral/DeltaNeutralWithdrawal';
-import RestakingKelpdaoDescription from '@/components/vault/kelpdao/RestakingKelpdaoDescription';
-import RestakingKelpdaoOverview from '@/components/vault/kelpdao/RestakingKelpdaoOverview';
-import RestakingKelpdaoParameter from '@/components/vault/kelpdao/RestakingKelpdaoParameter';
-import RestakingKelpdaoSafetyAssurance from '@/components/vault/kelpdao/RestakingKelpdaoSafetyAssurance';
-import RestakingKelpdaoWithdrawal from '@/components/vault/kelpdao/RestakingKelpdaoWithdrawal';
-import RestakingRenzoDescription from '@/components/vault/restaking-renzo/RestakingRenzoDescription';
-import RestakingRenzoOverview from '@/components/vault/restaking-renzo/RestakingRenzoOverview';
-import RestakingRenzoParameter from '@/components/vault/restaking-renzo/RestakingRenzoParameter';
-import RestakingRenzoSafetyAssurance from '@/components/vault/restaking-renzo/RestakingRenzoSafetyAssurance';
-import RestakingRenzoWithdrawal from '@/components/vault/restaking-renzo/RestakingRenzoWithdrawal';
-import StableCoinDescription from '@/components/vault/stable-coin/StableCoinDescription';
-import StableCoinOverview from '@/components/vault/stable-coin/StableCoinOverview';
-import StableCoinParameter from '@/components/vault/stable-coin/StableCoinParameter';
-import StableCoinSafetyAssurance from '@/components/vault/stable-coin/StableCoinSafetyAssurance';
-import StableCoinWithdrawal from '@/components/vault/stable-coin/StableCoinWithdrawal';
 import { ContractMapping } from '@/hooks/useContractMapping';
 
 type VaultCardMapping = {
@@ -32,12 +9,7 @@ type VaultCardMapping = {
 };
 
 export type VaultDetailMapping = {
-  description: ReactNode;
-  parameter: ReactNode;
-  overview: ReactNode;
-  safetyAssurance: ReactNode;
   withdrawal: {
-    description: ReactNode;
     time: string;
     step2: string;
   };
@@ -77,12 +49,7 @@ export const vaultCardMapping = (
 export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
   if (vaultName.toLowerCase().includes('option')) {
     return {
-      description: <StableCoinDescription />,
-      parameter: <StableCoinParameter />,
-      overview: <StableCoinOverview />,
-      safetyAssurance: <StableCoinSafetyAssurance />,
       withdrawal: {
-        description: <StableCoinWithdrawal />,
         time: '8am UTC Friday',
         step2:
           'You can claim your withdrawal every Friday at 8am UTC after our options positions have expired.',
@@ -92,12 +59,7 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
 
   if (vaultName.toLowerCase().includes('renzo')) {
     return {
-      description: <RestakingRenzoDescription />,
-      parameter: <RestakingRenzoParameter />,
-      overview: <RestakingRenzoOverview />,
-      safetyAssurance: <RestakingRenzoSafetyAssurance />,
       withdrawal: {
-        description: <RestakingRenzoWithdrawal />,
         time: '1 - 4 hours',
         step2: 'You can claim your withdrawal after 1-4 hours.',
       },
@@ -106,12 +68,7 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
 
   if (vaultName.toLowerCase().includes('kelpdao')) {
     return {
-      description: <RestakingKelpdaoDescription />,
-      parameter: <RestakingKelpdaoParameter />,
-      overview: <RestakingKelpdaoOverview />,
-      safetyAssurance: <RestakingKelpdaoSafetyAssurance />,
       withdrawal: {
-        description: <RestakingKelpdaoWithdrawal />,
         time: '1 - 4 hours',
         step2: 'You can claim your withdrawal after 1-4 hours.',
       },
@@ -119,12 +76,7 @@ export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
   }
 
   return {
-    description: <DeltaNeutralDescription />,
-    parameter: <DeltaNeutralParameter />,
-    overview: <DeltaNeutralOverview />,
-    safetyAssurance: <DeltaNeutralSafetyAssurance />,
     withdrawal: {
-      description: <DeltaNeutralWithdrawal />,
       time: '1 - 4 hours',
       step2: 'You can claim your withdrawal after 1-4 hours.',
     },

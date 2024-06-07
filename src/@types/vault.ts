@@ -66,6 +66,7 @@ export type VaultOverview = {
 export type GetVaultOverviewResponse = {
   tvl_composition: Record<string, number>;
   tvl_in_all_vaults: number;
+  total_depositors: number;
   vaults: VaultOverview[];
 };
 

@@ -33,8 +33,7 @@ export default async function VaultPage({ params }: { params: { slug: string } }
     value: apy[index],
   }));
 
-  const { description, parameter, overview, safetyAssurance, withdrawal } =
-    vaultDetailMapping(name);
+  const { withdrawal } = vaultDetailMapping(name);
 
   return (
     <Page backUrl={Urls.Products}>
@@ -50,10 +49,6 @@ export default async function VaultPage({ params }: { params: { slug: string } }
           apy={vaultApy || 0}
           apr={apr || 0}
           onyxData={onyxData}
-          description={description}
-          parameter={parameter}
-          overview={overview}
-          safetyAssurance={safetyAssurance}
           withdrawal={withdrawal}
         />
       </div>
