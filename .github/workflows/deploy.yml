@@ -8,6 +8,12 @@ on:
 jobs:
   build-and-sst-deploy:
     runs-on: ubuntu-latest
+    env: |
+      if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+        STAGE=mainnet
+      else 
+        STAGE=testnet
+      fi
 
     steps:
       - name: Checkout code
@@ -85,13 +91,7 @@ jobs:
         run: npm run build
 
       - name: Set SST Secret
-        run: sst secret set DomainCert ${{ secrets.TESTNET_DOMAIN_CERT }}
+        run: sst secret set DomainCert ${{ secrets.TESTNET_DOMAIN_CERT }} --stage=$STAGE
 
       - name: Deploy with SST
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
-            STAGE=mainnet
-          else 
-            STAGE=testnet
-          fi
-          sst deploy --stage=$STAGE
+        run: sst deploy --stage=$STAGE
