@@ -4,16 +4,23 @@ export default $config({
   app(input) {
     return {
       name: 'rock-onyx-app',
-      removal: input?.stage === 'production' ? 'retain' : 'remove',
+      removal: input?.stage === 'mainnet' ? 'retain' : 'remove',
       home: 'aws',
     };
   },
   async run() {
-    new sst.aws.Nextjs('HarmonixApp', {
+    const isMainnet = $app.stage === 'mainnet';
+
+    const appName = isMainnet ? 'HarmonixMainnetApp' : 'HarmonixTestnetApp';
+
+    const domainName = isMainnet ? 'app.harmonix.fi' : 'testnet.harmonix.fi';
+    const domainCertSecret = new sst.Secret('DomainCert');
+
+    new sst.aws.Nextjs(appName, {
       domain: {
-        name: 'app.harmonix.fi',
+        name: domainName,
         dns: false,
-        cert: 'arn:aws:acm:us-east-1:211125391360:certificate/5dfcdc71-bf51-46c9-811d-d3f5089a17b0',
+        cert: domainCertSecret.value,
       },
     });
   },

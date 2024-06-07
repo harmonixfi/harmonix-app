@@ -1,0 +1,97 @@
+name: Deploy Harmonix App with SST
+
+on:
+  push:
+    branches:
+      - setup-ci-cd-deploy-sst
+
+jobs:
+  build-and-sst-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install SST CLI
+        run: curl -fsSL https://ion.sst.dev/install | bash
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Modify this based on your deployment region
+
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_APP_ENV=development" >> .env
+
+          echo "NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}" >> .env
+          echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" >> .env
+          echo "NEXT_PUBLIC_W3C_PROJECT_ID=${{ secrets.NEXT_PUBLIC_W3C_PROJECT_ID }}" >> .env
+
+          NEXT_PUBLIC_API_URL=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_API_URL" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env
+
+          NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT" >> .env
+          NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT" >> .env
+          NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT" >> .env
+          NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT" >> .env
+
+          NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=$NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS" >> .env
+          NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=$NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS" >> .env
+          NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS=$NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS" >> .env
+          NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS=$NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS" >> .env
+
+          NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS=$NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS" >> .env
+          NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS=$NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS" >> .env
+          NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS=$NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS" >> .env
+
+          NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=$NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS" >> .env
+          NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS=$NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS" >> .env
+          NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS=$NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS" >> .env
+
+          NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=$NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS" >> .env
+          NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS=$NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS" >> .env
+          NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
+          echo "NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" >> .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Set SST Secret
+        run: sst secret set DomainCert ${{ secrets.TESTNET_DOMAIN_CERT }}
+
+      - name: Deploy with SST
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+            STAGE=mainnet
+          else 
+            STAGE=testnet
+          fi
+          sst deploy --stage=$STAGE
