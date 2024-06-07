@@ -45,10 +45,6 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     apy,
     apr,
     onyxData,
-    description,
-    parameter,
-    overview,
-    safetyAssurance,
     withdrawal,
   } = props;
 

@@ -32,14 +32,12 @@ export default async function Products() {
             <span className="w-[1px] h-10 bg-rock-g80 bg-opacity-30" />
             <div className="flex flex-col items-center gap-2">
               <p className="text-base text-primary opacity-60">Depositors</p>
-              <p className="text-lg text-primary font-bold">{withCommas(12)}+</p>
+              <p className="text-lg text-primary font-bold">{withCommas(20)}+</p>
             </div>
           </div>
         </Card>
 
         <VaultTabs />
-
-        {/* <VaultFilter /> */}
       </div>
     </Page>
   );
