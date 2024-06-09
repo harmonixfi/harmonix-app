@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
       - name: Set STAGE variable
         run: |
@@ -28,8 +28,8 @@ jobs:
             echo "STAGE=testnet" >> $GITHUB_ENV
           fi
 
-      - name: Install SST CLI
-        run: curl -fsSL https://ion.sst.dev/install | bash
+      # - name: Install SST CLI
+      #   run: curl -fsSL https://ion.sst.dev/install | bash
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -40,12 +40,13 @@ jobs:
 
       - name: test env
         run: |
-          params=$(aws ssm get-parameters-by-path --path /harmonix-app/$STAGE --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
+          PARAM_PATH="/harmonix-app/$STAGE/"
+          params=$(aws ssm get-parameters-by-path --path PARAM_PATH --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
           for row in $(echo "${params}" | jq -r '.[] | @base64'); do
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
             }
-            param_name=$(_jq '.Name' | sed 's/^\/harmonix-app\/$STAGE\///')
+            param_name=$(_jq '.Name' | sed 's|^'"$PARAM_PATH"'||')
             param_value=$(_jq '.Value')
             echo "${param_name}=${param_value}"
           done
