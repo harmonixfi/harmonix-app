@@ -23,9 +23,9 @@ jobs:
       - name: Set STAGE variable
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
-            echo "STAGE=mainnet" >> $GITHUB_ENV
-          else 
             echo "STAGE=testnet" >> $GITHUB_ENV
+          else 
+            echo "STAGE=mainnet" >> $GITHUB_ENV
           fi
 
       - name: Install SST CLI
