@@ -80,8 +80,13 @@ jobs:
           NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
           echo "NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" >> .env
 
-      - name: Build project
-        run: npm run build
+      - name: Set STAGE variable
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+            echo "STAGE=mainnet" >> $GITHUB_ENV
+          else 
+            echo "STAGE=testnet" >> $GITHUB_ENV
+          fi
 
       - name: Set SST Secret
         run: |
