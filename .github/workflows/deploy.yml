@@ -42,7 +42,7 @@ jobs:
         run: |
           PARAM_PATH="/harmonix-app/$STAGE"
           echo $PARAM_PATH
-          params=$(aws ssm get-parameters-by-path --path PARAM_PATH --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
+          params=$(aws ssm get-parameters-by-path --path $PARAM_PATH --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
           for row in $(echo "${params}" | jq -r '.[] | @base64'); do
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
