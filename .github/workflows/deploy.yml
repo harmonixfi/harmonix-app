@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: '20'
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Set STAGE variable
         run: |
@@ -28,8 +28,8 @@ jobs:
             echo "STAGE=testnet" >> $GITHUB_ENV
           fi
 
-      # - name: Install SST CLI
-      #   run: curl -fsSL https://ion.sst.dev/install | bash
+      - name: Install SST CLI
+        run: curl -fsSL https://ion.sst.dev/install | bash
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -38,8 +38,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 # Modify this based on your deployment region
 
-      - name: test env
+      - name: Create .env file
         run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+            NEXT_PUBLIC_APP_ENV='production'
+          else 
+            NEXT_PUBLIC_APP_ENV='development'
+          fi
+          echo "NEXT_PUBLIC_APP_ENV=$NEXT_PUBLIC_APP_ENV" >> .env
+
+          echo "NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}" >> .env
+          echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" >> .env
+          echo "NEXT_PUBLIC_W3C_PROJECT_ID=${{ secrets.NEXT_PUBLIC_W3C_PROJECT_ID }}" >> .env
+
           PARAM_PATH="/harmonix-app/$STAGE/"
           echo $PARAM_PATH
           params=$(aws ssm get-parameters-by-path --path $PARAM_PATH --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
@@ -49,67 +60,17 @@ jobs:
             }
             param_name=$(_jq '.Name' | sed 's|^'"$PARAM_PATH"'||')
             param_value=$(_jq '.Value')
-            echo "${param_name}=${param_value}"
+            echo "${param_name}=${param_value}" >> .env
           done
 
-      # - name: Create .env file
-      #   run: |
-      #     echo "NEXT_PUBLIC_APP_ENV=development" >> .env
+      - name: Set SST Secret
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            DOMAIN_CERT=${{ secrets.MAINNET_DOMAIN_CERT }}
+          else
+            DOMAIN_CERT=${{ secrets.TESTNET_DOMAIN_CERT }}
+          fi
+          sst secret set DomainCert $DOMAIN_CERT --stage=$STAGE
 
-      #     echo "NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}" >> .env
-      #     echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" >> .env
-      #     echo "NEXT_PUBLIC_W3C_PROJECT_ID=${{ secrets.NEXT_PUBLIC_W3C_PROJECT_ID }}" >> .env
-
-      #     NEXT_PUBLIC_API_URL=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_API_URL" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env
-
-      #     NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_OPTIONS_VAULT" >> .env
-      #     NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT" >> .env
-      #     NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_KELPDAO_RESTAKING_VAULT" >> .env
-      #     NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT=$NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT" >> .env
-
-      #     NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS=$NEXT_PUBLIC_OPTIONS_WHEEL_WHITELIST_WALLETS" >> .env
-      #     NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS=$NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS" >> .env
-      #     NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS=$NEXT_PUBLIC_KELPDAO_RESTAKING_WHITELIST_WALLETS" >> .env
-      #     NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS=$NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS" >> .env
-
-      #     NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS=$NEXT_PUBLIC_SEPOLIA_USDC_ADDRESS" >> .env
-      #     NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS=$NEXT_PUBLIC_SEPOLIA_USDT_ADDRESS" >> .env
-      #     NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS=$NEXT_PUBLIC_SEPOLIA_DAI_ADDRESS" >> .env
-
-      #     NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS=$NEXT_PUBLIC_ARBITRUM_USDC_ADDRESS" >> .env
-      #     NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS=$NEXT_PUBLIC_ARBITRUM_USDT_ADDRESS" >> .env
-      #     NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS=$NEXT_PUBLIC_ARBITRUM_DAI_ADDRESS" >> .env
-
-      #     NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS=$NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS" >> .env
-      #     NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS=$NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS" >> .env
-      #     NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$(aws ssm get-parameter --name "/harmonix-app/testnet/NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" --with-decryption --query "Parameter.Value" --output text)
-      #     echo "NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS=$NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS" >> .env
-
-      # - name: Set SST Secret
-      #   run: |
-      #     if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-      #       DOMAIN_CERT=${{ secrets.MAINNET_DOMAIN_CERT }}
-      #     else
-      #       DOMAIN_CERT=${{ secrets.TESTNET_DOMAIN_CERT }}
-      #     fi
-      #     sst secret set DomainCert $DOMAIN_CERT --stage=$STAGE
-
-      # - name: Deploy with SST
-      #   run: sst deploy --stage=$STAGE
+      - name: Deploy with SST
+        run: sst deploy --stage=$STAGE
