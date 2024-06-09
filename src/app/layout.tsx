@@ -6,6 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { Outfit } from 'next/font/google';
 
 import GoogleAnalytics from '@/components/scripts/GoogleAnalytics';
+import FeedbackButton from '@/components/shared/FeedbackButton';
 import Sidebar from '@/components/shared/Sidebar';
 
 import Providers from './_providers/Providers';
@@ -25,11 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-inconsolata">
         <Providers>
           <Suspense fallback={<Loading />}>
-            <main className="flex h-screen">
+            <main className="flex h-screen relative">
               <Sidebar />
               <div className="flex-1">
                 <div className="h-full">{children}</div>
               </div>
+              <FeedbackButton />
             </main>
           </Suspense>
         </Providers>
