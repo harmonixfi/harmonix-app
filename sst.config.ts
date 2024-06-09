@@ -3,7 +3,7 @@
 export default $config({
   app(input) {
     return {
-      name: 'rock-onyx-app',
+      name: 'harmonix-app',
       removal: input?.stage === 'mainnet' ? 'retain' : 'remove',
       home: 'aws',
     };
@@ -13,9 +13,15 @@ export default $config({
 
     const appName = isMainnet ? 'HarmonixMainnetApp' : 'HarmonixTestnetApp';
 
-    // const domainName = isMainnet ? 'app.harmonix.fi' : 'testnet.harmonix.fi';
-    // const domainCertSecret = new sst.Secret('DomainCert');
+    const domainName = isMainnet ? 'app.harmonix.fi' : 'testnet.harmonix.fi';
+    const domainCertSecret = new sst.Secret('DomainCert');
 
-    new sst.aws.Nextjs(appName);
+    new sst.aws.Nextjs(appName, {
+      domain: {
+        name: domainName,
+        dns: false,
+        cert: domainCertSecret.value,
+      },
+    });
   },
 });
