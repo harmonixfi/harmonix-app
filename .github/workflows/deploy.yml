@@ -3,7 +3,8 @@ name: Deploy Harmonix App with SST
 on:
   push:
     branches:
-      - setup-ci-cd-deploy-sst
+      - main
+      - develop
 
 jobs:
   build-and-sst-deploy:
@@ -17,15 +18,15 @@ jobs:
         with:
           node-version: '20'
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Set STAGE variable
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
-            echo "STAGE=testnet" >> $GITHUB_ENV
-          else 
             echo "STAGE=mainnet" >> $GITHUB_ENV
+          else 
+            echo "STAGE=testnet" >> $GITHUB_ENV
           fi
 
       - name: Install SST CLI
@@ -59,18 +60,17 @@ jobs:
             }
             param_name=$(_jq '.Name' | sed 's|^'"$PARAM_PATH"'||')
             param_value=$(_jq '.Value')
-            echo "${param_name}=${param_value}"
             echo "${param_name}=${param_value}" >> .env
           done
 
-      # - name: Set SST Secret
-      #   run: |
-      #     if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-      #       DOMAIN_CERT=${{ secrets.MAINNET_DOMAIN_CERT }}
-      #     else
-      #       DOMAIN_CERT=${{ secrets.TESTNET_DOMAIN_CERT }}
-      #     fi
-      #     sst secret set DomainCert $DOMAIN_CERT --stage=$STAGE
+      - name: Set SST Secret
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            DOMAIN_CERT=${{ secrets.MAINNET_DOMAIN_CERT }}
+          else
+            DOMAIN_CERT=${{ secrets.TESTNET_DOMAIN_CERT }}
+          fi
+          sst secret set DomainCert $DOMAIN_CERT --stage=$STAGE
 
-      # - name: Deploy with SST
-      #   run: sst deploy --stage=$STAGE
+      - name: Deploy with SST
+        run: sst deploy --stage=$STAGE
