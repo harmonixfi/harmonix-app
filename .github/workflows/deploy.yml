@@ -23,9 +23,9 @@ jobs:
       - name: Set STAGE variable
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
-            echo "STAGE=testnet" >> $GITHUB_ENV
-          else 
             echo "STAGE=mainnet" >> $GITHUB_ENV
+          else 
+            echo "STAGE=testnet" >> $GITHUB_ENV
           fi
 
       - name: Install SST CLI
@@ -40,8 +40,15 @@ jobs:
 
       - name: test env
         run: |
-          NEXT_PUBLIC_API_URL=$(aws ssm get-parameter --name "/harmonix-app/$STAGE/NEXT_PUBLIC_API_URL" --with-decryption --query "Parameter.Value" --output text)
-          echo $NEXT_PUBLIC_API_URL
+          params=$(aws ssm get-parameters-by-path --path /harmonix-app/$STAGE --with-decryption --query "Parameters[*].{Name:Name,Value:Value}")
+          for row in $(echo "${params}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            param_name=$(_jq '.Name' | sed 's/^\/harmonix-app\/$STAGE\///')
+            param_value=$(_jq '.Value')
+            echo "${param_name}=${param_value}"
+          done
 
       # - name: Create .env file
       #   run: |
