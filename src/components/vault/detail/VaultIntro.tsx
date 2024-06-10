@@ -43,7 +43,7 @@ const VaultIntro = (props: VaultIntroProps) => {
         <p className="text-base sm:text-lg font-light">
           {description}{' '}
           <Link
-            href="https://rock-onyx.gitbook.io/rock-onyx-docs/rock-onyx-vaults/overview-vaults"
+            href="https://harmonix-finance.gitbook.io/harmonix-docs/harmonix-vaults/overview-vaults"
             target="_blank"
             className="underline font-semibold"
           >
