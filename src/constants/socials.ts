@@ -1,5 +1,5 @@
 export const SOCIAL_URLS = {
   Github: 'https://github.com/harmonixfi',
-  Telegram: 'http://t.me/rockonyx001',
+  Telegram: 'https://t.me/harmonix_chat',
   Twitter: 'https://twitter.com/harmonixfi',
 };
