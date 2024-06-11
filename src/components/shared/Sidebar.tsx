@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/16/solid';
+import { Bars3Icon, ChartPieIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -37,6 +37,12 @@ const items = [
     icon: PortfolioMenuIcon,
     text: 'Portfolio',
     link: Urls.Portfolio,
+  },
+  {
+    icon: ChartPieIcon,
+    text: 'Stats',
+    link: 'https://dune.com/harmonix_fi/harmonix-overview',
+    isExternal: true,
   },
   {
     icon: ReferralMenuIcon,
@@ -91,6 +97,7 @@ const Sidebar = () => {
               <li key={x.text}>
                 <Link
                   href={x.link}
+                  target={x.isExternal ? '_blank' : undefined}
                   onClick={handleCloseMobileSidebar}
                   className={`w-full flex items-center gap-4 px-4 py-2 rounded-xl ${
                     pathname === x.link ||
