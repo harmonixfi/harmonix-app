@@ -5,7 +5,9 @@ import { ReactNode } from 'react';
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from '@rainbow-me/rainbowkit';
 import {
   coinbaseWallet,
+  gateWallet,
   metaMaskWallet,
+  okxWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -18,7 +20,10 @@ const config = getDefaultConfig({
   appName: 'Harmonix',
   projectId,
   wallets: [
-    { groupName: 'Popular', wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet] },
+    {
+      groupName: 'Popular',
+      wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet, gateWallet, okxWallet],
+    },
   ],
   chains:
     process.env.NEXT_PUBLIC_APP_ENV === 'production'
