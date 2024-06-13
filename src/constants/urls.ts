@@ -4,4 +4,5 @@ export enum Urls {
   Vaults = '/vaults',
   Portfolio = '/portfolio',
   Dashboard = '/dashboards',
+  Referral = '/referral',
 }

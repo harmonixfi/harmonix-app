@@ -47,8 +47,8 @@ const items = [
   {
     icon: ReferralMenuIcon,
     text: 'Referral program',
-    link: '#',
-    disabled: true,
+    link: Urls.Referral,
+    disabled: false,
   },
 ];
 
