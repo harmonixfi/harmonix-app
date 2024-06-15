@@ -8,7 +8,7 @@ import { useChains } from 'wagmi';
 
 import { Address } from '@/@types/common';
 import { Strategy, VaultNetwork } from '@/@types/enum';
-import { Point } from '@/@types/vault';
+import { Point } from '@/@types/portfolio';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';

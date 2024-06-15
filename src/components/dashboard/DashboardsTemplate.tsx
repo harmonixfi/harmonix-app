@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import useSWR from 'swr';
 
-import { getVaultsOverview } from '@/api/vault';
+import { getVaultsOverview } from '@/api/statistic';
 import { toCurrency } from '@/utils/currency';
 
 import { PieChartWidget, TextWidget, VaultWidget } from '.';

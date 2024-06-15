@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { useChains } from 'wagmi';
 
-import { Position } from '@/@types/vault';
+import { Position } from '@/@types/portfolio';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
 import useContractMapping from '@/hooks/useContractMapping';

@@ -1,6 +1,6 @@
 import { Card } from '@nextui-org/react';
 
-import { getVaultsOverview } from '@/api/vault';
+import { getVaultsOverview } from '@/api/statistic';
 import VaultTabs from '@/components/products/VaultTabs';
 import Page from '@/components/shared/Page';
 import { toCurrency } from '@/utils/currency';

@@ -2,7 +2,7 @@
 
 import { Card } from '@nextui-org/react';
 
-import { Position } from '@/@types/vault';
+import { Position } from '@/@types/portfolio';
 import { WalletConnectStatus } from '@/@types/wallet';
 
 import PositionRow from './PositionRow';

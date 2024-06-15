@@ -5,8 +5,8 @@ import { useAccount } from 'wagmi';
 
 import { Address } from '@/@types/common';
 import { VaultNetwork } from '@/@types/enum';
-import { Point } from '@/@types/vault';
-import { getUserPortfolio } from '@/api/vault';
+import { Point } from '@/@types/portfolio';
+import { getUserPortfolio } from '@/api/portfolio';
 import { LineChartData } from '@/components/shared/chart/LineChart';
 import { VaultDetailProvider } from '@/contexts/VaultDetailContext';
 import { VaultDetailMapping } from '@/services/vaultMapping';
