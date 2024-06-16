@@ -5,4 +5,5 @@ export enum Urls {
   Portfolio = '/portfolio',
   Dashboard = '/dashboards',
   Referral = '/referral',
+  Rewards = '/rewards',
 }

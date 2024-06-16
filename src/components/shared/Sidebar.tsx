@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Bars3Icon, ChartPieIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { Bars3Icon, ChartPieIcon, GiftIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -48,6 +48,12 @@ const items = [
     icon: ReferralMenuIcon,
     text: 'Referral program',
     link: Urls.Referral,
+    disabled: false,
+  },
+  {
+    icon: GiftIcon,
+    text: 'Rewards',
+    link: Urls.Rewards,
     disabled: false,
   },
 ];

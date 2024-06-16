@@ -1,15 +1,15 @@
 import { Card } from '@nextui-org/react';
 
-import InviteLink from '@/components/referral/InviteLink';
+import ReferralLinks from '@/components/referral/ReferralLinks';
 import Page from '@/components/shared/Page';
 import SignButton from '@/components/shared/SignButton';
 
 export default async function Referral() {
   return (
     <Page title="Referral Program">
-      <div className="flex flex-col gap-6">
+      <div className="max-w-3xl flex flex-col gap-6 mx-auto">
         <Card className="flex flex-col items-center gap-6 p-8 text-primary">
-          <p className="text-2xl">You earn 10% of the points your friends make</p>
+          <p className="text-2xl">You earn 5% of the points your friends make</p>
           <p className="font-light">
             Referral deposits are supported on Ethereum mainnet and Layer 2s. To activate the
             referral, users need to use the referral link and deposit ETH on mainnet to start
@@ -17,33 +17,25 @@ export default async function Referral() {
             of all points, across all chains.
           </p>
 
-          <SignButton />
+          {/* <SignButton /> */}
         </Card>
 
-        <div className="grid grid-cols-2 gap-6 text-primary">
-          <Card className="flex flex-col items-center gap-4 p-8 text-primary">
-            <p>Referral Points</p>
-            <p className="text-2xl font-semibold">
-              0 <span className="text-xl font-light">Pts</span>
+        <div className="grid lg:grid-cols-2 gap-6 text-primary">
+          <Card className="p-8 space-y-3">
+            <p className="text-xl font-medium capitalize">Your referral reward</p>
+            <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-5xl font-bold">
+              8% <span className="font-semibold">fee</span>
             </p>
           </Card>
-          <Card className="flex flex-col items-center gap-4 p-8 text-primary">
-            <p>Referral Points</p>
-            <p className="text-2xl font-semibold">
-              0 <span className="text-xl font-light">Pts</span>
+          <Card className="p-8 space-y-3">
+            <p className="text-xl font-medium capitalize">Your active referral</p>
+            <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-5xl font-bold">
+              20 <span className="font-semibold">users</span>
             </p>
           </Card>
         </div>
 
-        <Card className="flex flex-col gap-4 p-8 text-primary">
-          <div>
-            <p className="text-xl">Share your referral link</p>
-            <p className="text-sm opacity-80">
-              Copy and paste it or send it directly to your friends
-            </p>
-          </div>
-          <InviteLink link="https://abc.xyz/?invite=b4312c18" />
-        </Card>
+        <ReferralLinks />
       </div>
     </Page>
   );
