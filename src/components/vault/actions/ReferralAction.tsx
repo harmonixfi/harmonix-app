@@ -8,6 +8,7 @@ import useSWRMutation from 'swr/mutation';
 import { Address } from '@/@types/common';
 import { JoinUserPayload } from '@/@types/referral';
 import { joinUser } from '@/api/referral';
+import { LOCAL_STORAGE_INVITE_CODE_KEY } from '@/constants/common';
 
 async function updateUser(url: string, { arg }: { arg: JoinUserPayload }) {
   await joinUser(arg);
@@ -21,7 +22,7 @@ type ReferralActionProps = {
 const ReferralAction = (props: ReferralActionProps) => {
   const { walletAddress, onRefetchUser } = props;
 
-  const storageInviteCode = localStorage.getItem('invite_code');
+  const storageInviteCode = localStorage.getItem(LOCAL_STORAGE_INVITE_CODE_KEY);
 
   const [value, setValue] = useState(storageInviteCode || '');
 
@@ -35,7 +36,7 @@ const ReferralAction = (props: ReferralActionProps) => {
       {
         onSuccess: () => {
           onRefetchUser();
-          localStorage.removeItem('invite_code');
+          localStorage.removeItem(LOCAL_STORAGE_INVITE_CODE_KEY);
         },
       },
     );

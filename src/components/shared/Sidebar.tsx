@@ -6,6 +6,7 @@ import { Bars3Icon, ChartPieIcon, GiftIcon, XMarkIcon } from '@heroicons/react/1
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+import { LOCAL_STORAGE_INVITE_CODE_KEY } from '@/constants/common';
 import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
@@ -52,8 +53,8 @@ const items = [
   },
   {
     icon: GiftIcon,
-    text: 'Rewards',
-    link: Urls.Rewards,
+    text: 'Points Reward',
+    link: Urls.PointsReward,
     disabled: false,
   },
 ];
@@ -68,7 +69,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (refCode) {
-      localStorage.setItem('invite_code', refCode);
+      localStorage.setItem(LOCAL_STORAGE_INVITE_CODE_KEY, refCode);
     }
   }, [refCode]);
 

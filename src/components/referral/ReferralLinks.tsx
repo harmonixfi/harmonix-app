@@ -10,11 +10,6 @@ const ReferralLinks = () => {
         <p className="text-sm opacity-80">Copy and paste it or send it directly to your friends</p>
       </div>
       <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
-      <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
-      <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
-      <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
-      <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
-      <InviteLink link="https://app.harmonix.fi/?ref=b4312c18" />
     </Card>
   );
 };
