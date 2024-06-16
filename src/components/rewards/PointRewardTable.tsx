@@ -2,6 +2,7 @@
 
 import {
   Badge,
+  Card,
   Chip,
   Table,
   TableBody,
@@ -11,6 +12,10 @@ import {
   TableRow,
 } from '@nextui-org/react';
 import { format } from 'date-fns';
+import useSWR from 'swr';
+import { useAccount } from 'wagmi';
+
+import { getPointReward } from '@/api/point';
 
 import { FlatLogoIcon } from '../shared/icons';
 
@@ -22,7 +27,23 @@ const PointIcon = () => {
   );
 };
 
-const RewardPointTable = () => {
+const PointRewardTable = () => {
+  const { address } = useAccount();
+
+  const { data, isLoading } = useSWR(address ? ['get-point-reward', address] : null, () =>
+    getPointReward(address || '0x00'),
+  );
+
+  const loading = !data || isLoading;
+
+  if (!address) {
+    return (
+      <Card className="p-8">
+        <p className="text-primary opacity-50 text-xl">Connect your wallet to check more</p>
+      </Card>
+    );
+  }
+
   return (
     <Table
       aria-label="Reward point table"
@@ -78,4 +99,4 @@ const RewardPointTable = () => {
   );
 };
 
-export default RewardPointTable;
+export default PointRewardTable;

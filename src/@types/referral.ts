@@ -4,13 +4,13 @@ export type User = {
   joined: boolean;
 };
 
-export type UserReferralCodes = {
-  codes: string[];
-};
-
 export type JoinUserPayload = {
   walletAddress: Address;
   referralCode: string;
+};
+
+export type JoinUserResponse = {
+  valid: boolean;
 };
 
 export type ReferralReward = {

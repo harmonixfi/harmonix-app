@@ -26,7 +26,7 @@ const ReferralAction = (props: ReferralActionProps) => {
 
   const [value, setValue] = useState(storageInviteCode || '');
 
-  const { trigger } = useSWRMutation('join-user', updateUser);
+  const { trigger, isMutating } = useSWRMutation('join-user', updateUser);
 
   const handleSubmit = () => {
     if (!walletAddress) return;
@@ -69,6 +69,7 @@ const ReferralAction = (props: ReferralActionProps) => {
         color="secondary"
         className="text-primary"
         isDisabled={!value}
+        isLoading={isMutating}
         onClick={handleSubmit}
       >
         Submit

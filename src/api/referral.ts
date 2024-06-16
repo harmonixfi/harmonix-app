@@ -1,15 +1,15 @@
 import { Address } from '@/@types/common';
-import { JoinUserPayload, ReferralReward, User, UserReferralCodes } from '@/@types/referral';
+import { JoinUserPayload, JoinUserResponse, ReferralReward, User } from '@/@types/referral';
 import apiFetch from '@/utils/api';
 
 export const getUser = async (walletAddress: Address) =>
   await apiFetch<User>(`/referral/users/${walletAddress}`);
 
 export const getUserReferralCodes = async (walletAddress: Address) =>
-  await apiFetch<UserReferralCodes>(`/referral/users/${walletAddress}/referral`);
+  await apiFetch<string[]>(`/referral/users/${walletAddress}/referral`);
 
 export const joinUser = async ({ walletAddress, referralCode }: JoinUserPayload) =>
-  await apiFetch<UserReferralCodes>('/referral/users/join', {
+  await apiFetch<JoinUserResponse>('/referral/users/join', {
     method: 'POST',
     body: JSON.stringify({
       user_address: walletAddress,

@@ -53,7 +53,7 @@ const items = [
   },
   {
     icon: GiftIcon,
-    text: 'Points Reward',
+    text: 'Points reward',
     link: Urls.PointsReward,
     disabled: false,
   },

@@ -54,7 +54,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
     return (
       <Card className="p-4 sm:p-8">
         <p className="text-center text-xl font-medium">
-          Connect your wallet to seamlessly begin your deposit.
+          Connect your wallet to begin your deposit.
         </p>
         <Button
           color="secondary"
