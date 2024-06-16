@@ -26,9 +26,13 @@ const VaultActionCard = (props: VaultActionCardProps) => {
 
   const { address } = useAccount();
 
-  const { data, isLoading } = useSWR(address ? ['get-user', address] : null, () =>
+  const { data, isLoading, mutate } = useSWR(address ? ['get-user', address] : null, () =>
     getUser(address ?? '0x00'),
   );
+
+  const handleRefetchUser = () => {
+    mutate();
+  };
 
   if (isLoading) {
     return (
@@ -67,7 +71,7 @@ const VaultActionCard = (props: VaultActionCardProps) => {
   if (!data?.joined) {
     return (
       <Card className="p-4 sm:p-8">
-        <ReferralAction walletAddress={address} />
+        <ReferralAction walletAddress={address} onRefetchUser={handleRefetchUser} />
       </Card>
     );
   }

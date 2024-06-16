@@ -15,19 +15,30 @@ async function updateUser(url: string, { arg }: { arg: JoinUserPayload }) {
 
 type ReferralActionProps = {
   walletAddress?: Address;
+  onRefetchUser: () => void;
 };
 
 const ReferralAction = (props: ReferralActionProps) => {
-  const { walletAddress } = props;
+  const { walletAddress, onRefetchUser } = props;
 
-  const [value, setValue] = useState('ABCXYZ12');
+  const storageInviteCode = localStorage.getItem('invite_code');
+
+  const [value, setValue] = useState(storageInviteCode || '');
 
   const { trigger } = useSWRMutation('join-user', updateUser);
 
   const handleSubmit = () => {
     if (!walletAddress) return;
 
-    trigger({ walletAddress, referralCode: value });
+    trigger(
+      { walletAddress, referralCode: value },
+      {
+        onSuccess: () => {
+          onRefetchUser();
+          localStorage.removeItem('invite_code');
+        },
+      },
+    );
   };
 
   return (
