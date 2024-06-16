@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import { getReferralReward } from '@/api/referral';
+import { withCommas } from '@/utils/number';
 
 const ReferralReward = () => {
   const { address } = useAccount();
@@ -31,7 +32,7 @@ const ReferralReward = () => {
           <Skeleton className="w-3/5 h-12 rounded-xl" />
         ) : (
           <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-5xl font-bold">
-            {data.depositors} <span className="font-semibold">users</span>
+            {withCommas(data.depositors)} <span className="font-semibold">users</span>
           </p>
         )}
       </Card>

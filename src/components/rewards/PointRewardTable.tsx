@@ -1,9 +1,9 @@
 'use client';
 
 import {
-  Badge,
   Card,
   Chip,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -30,7 +30,7 @@ const PointIcon = () => {
 const PointRewardTable = () => {
   const { address } = useAccount();
 
-  const { data, isLoading } = useSWR(address ? ['get-point-reward', address] : null, () =>
+  const { data = [], isLoading } = useSWR(address ? ['get-point-reward', address] : null, () =>
     getPointReward(address || '0x00'),
   );
 
@@ -59,41 +59,51 @@ const PointRewardTable = () => {
         <TableColumn>End date</TableColumn>
         <TableColumn>Epoch points</TableColumn>
       </TableHeader>
-      <TableBody>
-        <TableRow key="1">
-          <TableCell>Epoch 1</TableCell>
-          <TableCell>{format(new Date(2014, 1, 11), 'MMM dd, yyyy hh:mm aa')}</TableCell>
-          <TableCell>{format(new Date(2014, 2, 11), 'MMM dd, yyyy hh:mm aa')}</TableCell>
-          <TableCell>
-            <Chip
-              color="primary"
-              variant="bordered"
-              size="lg"
-              endContent={<PointIcon />}
-              className="text-xl py-4"
-            >
-              200
-            </Chip>
-          </TableCell>
-        </TableRow>
-        <TableRow key="2">
-          <TableCell>Epoch 2</TableCell>
-          <TableCell>{format(new Date(2014, 3, 11), 'MMM dd, yyyy hh:mm aa')}</TableCell>
-          <TableCell>
-            <span className="opacity-60">N/A</span>
-          </TableCell>
-          <TableCell>
-            <Chip
-              color="primary"
-              variant="bordered"
-              size="lg"
-              endContent={<PointIcon />}
-              className="text-xl py-4"
-            >
-              100
-            </Chip>
-          </TableCell>
-        </TableRow>
+      <TableBody
+        emptyContent={
+          loading ? (
+            <div className="space-y-2">
+              <Spinner />
+              <p>Loading</p>
+            </div>
+          ) : (
+            'No rows to display.'
+          )
+        }
+        items={data}
+      >
+        {(x) => (
+          <TableRow key={x.session_name}>
+            <TableRow key={x.session_name}>
+              <TableCell>{x.session_name}</TableCell>
+              <TableCell>
+                {x.start_date ? (
+                  <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                ) : (
+                  <span className="opacity-60">N/A</span>
+                )}
+              </TableCell>
+              <TableCell>
+                {x.end_date ? (
+                  <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                ) : (
+                  <span className="opacity-60">N/A</span>
+                )}
+              </TableCell>
+              <TableCell>
+                <Chip
+                  color="primary"
+                  variant="bordered"
+                  size="lg"
+                  endContent={<PointIcon />}
+                  className="text-xl py-4"
+                >
+                  {x.points}
+                </Chip>
+              </TableCell>
+            </TableRow>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );
