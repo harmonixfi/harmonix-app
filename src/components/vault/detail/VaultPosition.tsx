@@ -6,7 +6,7 @@ import { Card } from '@nextui-org/react';
 import { useChains } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
-import { Point } from '@/@types/vault';
+import { Point } from '@/@types/portfolio';
 import { VaultPositionCoinIcon, VaultPositionCurveIcon } from '@/components/shared/icons';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
@@ -52,7 +52,7 @@ const VaultPosition = (props: VaultPositionProps) => {
         value: `${withCommas(toFixedNumber(totalBalance))} USDC`,
       },
       {
-        label: 'Initial deposit amount',
+        label: 'Initial deposit',
         value: `${withCommas(toFixedNumber(depositAmount))} USDC`,
       },
       {

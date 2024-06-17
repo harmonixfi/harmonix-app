@@ -30,3 +30,4 @@ export { default as VaultPositionCoinIcon } from './VaultPositionCoin';
 export { default as VaultTransferArrowDownIcon } from './VaultTransferArrowDown';
 export { default as VaultWorksIcon } from './VaultWorks';
 export { default as VerichainIcon } from './Verichain';
+export { default as FlatLogoIcon } from './FlatLogo';

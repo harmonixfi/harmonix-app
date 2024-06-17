@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Bars3Icon, ChartPieIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { Bars3Icon, ChartPieIcon, GiftIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
+import { LOCAL_STORAGE_INVITE_CODE_KEY } from '@/constants/common';
 import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
@@ -47,15 +48,30 @@ const items = [
   {
     icon: ReferralMenuIcon,
     text: 'Referral program',
-    link: '#',
-    disabled: true,
+    link: Urls.Referral,
+    disabled: false,
+  },
+  {
+    icon: GiftIcon,
+    text: 'Points reward',
+    link: Urls.PointsReward,
+    disabled: false,
   },
 ];
 
 const Sidebar = () => {
   const pathname = usePathname();
 
+  const searchParams = useSearchParams();
+  const refCode = searchParams.get('ref');
+
   const [openMobileSidebar, setOpenMobileSidebar] = useState(false);
+
+  useEffect(() => {
+    if (refCode) {
+      localStorage.setItem(LOCAL_STORAGE_INVITE_CODE_KEY, refCode);
+    }
+  }, [refCode]);
 
   const handleOpenMobileSidebar = () => {
     setOpenMobileSidebar(true);
@@ -101,6 +117,7 @@ const Sidebar = () => {
                   onClick={handleCloseMobileSidebar}
                   className={`w-full flex items-center gap-4 px-4 py-2 rounded-xl ${
                     pathname === x.link ||
+                    (pathname === '/' && x.link === Urls.Products) ||
                     (pathname.startsWith(Urls.Vaults) && x.link === Urls.Products)
                       ? 'bg-[#10272B] text-secondary'
                       : 'bg-transparent text-[#F1F1EB]'

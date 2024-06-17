@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { useAccount, useSwitchChain } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
-import { getUserPortfolio } from '@/api/vault';
+import { getUserPortfolio } from '@/api/portfolio';
 import { useChainContext } from '@/app/_providers/ChainProvider';
 import { supportedChainMapping } from '@/constants/chain';
 import { FLOAT_REGEX } from '@/constants/regex';

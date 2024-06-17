@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 
 import { NextUIProvider } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import { SnackbarProvider } from 'notistack';
 
 import { ChainProvider } from './ChainProvider';
 import { WalletProvider } from './WalletProvider';
@@ -18,7 +19,9 @@ const Providers = ({ children }: ProviderType) => {
   return (
     <WalletProvider>
       <ChainProvider>
-        <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
+        <SnackbarProvider>
+          <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
+        </SnackbarProvider>
       </ChainProvider>
     </WalletProvider>
   );
