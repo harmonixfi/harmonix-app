@@ -12,7 +12,7 @@ import { joinUser } from '@/api/referral';
 import { LOCAL_STORAGE_INVITE_CODE_KEY } from '@/constants/common';
 
 async function updateUser(url: string, { arg }: { arg: JoinUserPayload }) {
-  await joinUser(arg);
+  return await joinUser(arg);
 }
 
 type ReferralActionProps = {
@@ -35,13 +35,20 @@ const ReferralAction = (props: ReferralActionProps) => {
     trigger(
       { walletAddress, referralCode: value },
       {
-        onSuccess: () => {
-          enqueueSnackbar('Invite code submitted successfully. Thank you!', {
-            variant: 'success',
-            anchorOrigin: { horizontal: 'right', vertical: 'top' },
-          });
-          onRefetchUser();
-          localStorage.removeItem(LOCAL_STORAGE_INVITE_CODE_KEY);
+        onSuccess(data) {
+          if (data.valid) {
+            enqueueSnackbar('Invite code submitted successfully. Thank you!', {
+              variant: 'success',
+              anchorOrigin: { horizontal: 'right', vertical: 'top' },
+            });
+            onRefetchUser();
+            localStorage.removeItem(LOCAL_STORAGE_INVITE_CODE_KEY);
+          } else {
+            enqueueSnackbar('Invalid invite code.', {
+              variant: 'error',
+              anchorOrigin: { horizontal: 'right', vertical: 'top' },
+            });
+          }
         },
         onError: () => {
           enqueueSnackbar('Failed to submit invite code.', {
