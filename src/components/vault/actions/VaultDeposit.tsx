@@ -63,7 +63,6 @@ const VaultDeposit = (props: VaultDepositProps) => {
   const { isOpen, type, url, onOpenDialog, onCloseDialog } =
     useTransactionStatusDialog(vaultNetwork);
 
-  const { status } = useAccount();
   const {
     balanceOf,
     pricePerShare,
@@ -207,7 +206,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
     }
   };
 
-  const isConnectedWallet = status === 'connected';
+  const isConnectedWallet = account.status === 'connected';
   const isDisableDeposit = vaultDisableDepositMapping(vaultVariant);
   const whitelistWallets = vaultWhitelistWalletsMapping(vaultVariant);
   const isWalletAllowed = account.address && whitelistWallets.split(',').includes(account.address);

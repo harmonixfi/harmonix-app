@@ -1,7 +1,13 @@
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const apiFetch = async <T>(url: string) => {
-  const res = await fetch(`${baseUrl}${url}`, { cache: 'no-store' });
+const apiFetch = async <T>(url: string, options?: RequestInit) => {
+  const res = await fetch(`${baseUrl}${url}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-store',
+    ...options,
+  });
 
   if (!res.ok) {
     throw new Error('Failed to fetch data');

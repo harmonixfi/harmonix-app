@@ -1,4 +1,4 @@
-import { Point } from '@/@types/vault';
+import { Point } from '@/@types/portfolio';
 import { EigenLayerIcon, KelpDaoIcon, RenzoIcon, ZircuitIcon } from '@/components/shared/icons';
 
 export const getDisplayedPoint = (point: Point) => {

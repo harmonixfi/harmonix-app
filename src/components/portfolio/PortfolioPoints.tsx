@@ -1,6 +1,6 @@
 import { Card } from '@nextui-org/react';
 
-import { Point } from '@/@types/vault';
+import { Point } from '@/@types/portfolio';
 import { toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint } from '@/utils/vault';
 
