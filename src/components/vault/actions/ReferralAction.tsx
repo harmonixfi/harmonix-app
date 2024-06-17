@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Button, Input } from '@nextui-org/react';
+import { enqueueSnackbar } from 'notistack';
 import useSWRMutation from 'swr/mutation';
 
 import { Address } from '@/@types/common';
@@ -35,8 +36,18 @@ const ReferralAction = (props: ReferralActionProps) => {
       { walletAddress, referralCode: value },
       {
         onSuccess: () => {
+          enqueueSnackbar('Invite code submitted successfully. Thank you!', {
+            variant: 'success',
+            anchorOrigin: { horizontal: 'right', vertical: 'top' },
+          });
           onRefetchUser();
           localStorage.removeItem(LOCAL_STORAGE_INVITE_CODE_KEY);
+        },
+        onError: () => {
+          enqueueSnackbar('Failed to submit invite code.', {
+            variant: 'error',
+            anchorOrigin: { horizontal: 'right', vertical: 'top' },
+          });
         },
       },
     );
