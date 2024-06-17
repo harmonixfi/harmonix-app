@@ -11,17 +11,19 @@ const ReferralDetail = () => {
 
   if (!address) {
     return (
-      <Card className="p-8">
-        <p className="text-primary opacity-50 text-xl">Connect your wallet to check more</p>
-      </Card>
+      <div>
+        <Card className="p-8">
+          <p className="text-primary opacity-50 text-xl">Connect your wallet to check more</p>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="space-y-8">
       <ReferralReward />
       <ReferralLinks />
-    </>
+    </div>
   );
 };
 

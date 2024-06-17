@@ -13,13 +13,17 @@ const ReferralLinks = () => {
     getUserReferralCodes(address || '0x00'),
   );
 
+  if (!data || !data[0]) {
+    return null;
+  }
+
   return (
     <Card className="flex flex-col gap-4 p-8 text-primary">
       <div>
         <p className="text-xl">Share your referral link</p>
         <p className="text-sm opacity-80">Copy and paste it or send it directly to your friends</p>
       </div>
-      {!data || isLoading ? (
+      {isLoading ? (
         <Skeleton className="w-full h-10 rounded-xl" />
       ) : (
         <InviteLink link={`https://app.harmonix.fi/?ref=${data?.[0]}`} />

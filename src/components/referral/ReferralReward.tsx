@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Card, Skeleton } from '@nextui-org/react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
@@ -14,29 +16,38 @@ const ReferralReward = () => {
 
   const loading = !data || isLoading;
 
+  const stats = useMemo(() => {
+    return [
+      {
+        label: 'Commission',
+        value: `${data?.reward_percentage}%`,
+      },
+      {
+        label: 'Active users',
+        value: data?.depositors,
+      },
+      {
+        label: 'Earned users',
+        value: data?.depositors,
+      },
+    ];
+  }, [data]);
+
   return (
-    <div className="grid lg:grid-cols-2 gap-6 text-primary">
-      <Card className="p-8 space-y-3">
-        <p className="text-xl font-medium">Your earn</p>
-        {loading ? (
-          <Skeleton className="w-3/5 h-12 rounded-xl" />
-        ) : (
-          <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-5xl font-bold">
-            {data.reward_percentage}% <span className="font-semibold">fee</span>
-          </p>
-        )}
-      </Card>
-      <Card className="p-8 space-y-3">
-        <p className="text-xl font-medium">Your invited users</p>
-        {loading ? (
-          <Skeleton className="w-3/5 h-12 rounded-xl" />
-        ) : (
-          <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-5xl font-bold">
-            {withCommas(data.depositors)} <span className="font-semibold">users</span>
-          </p>
-        )}
-      </Card>
-    </div>
+    <Card className="flex flex-row flex-wrap justify-between gap-4 p-8 text-primary">
+      {stats.map((x) => (
+        <div className="basis-1/3 md:basis-1/4 space-y-2">
+          <p className="text-base font-medium">{x.label}</p>
+          {loading ? (
+            <Skeleton className="w-3/5 h-12 rounded-xl" />
+          ) : (
+            <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-4xl font-bold">
+              {x.value}
+            </p>
+          )}
+        </div>
+      ))}
+    </Card>
   );
 };
 
