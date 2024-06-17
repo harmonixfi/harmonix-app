@@ -43,7 +43,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
           'Swap 50% of the fund deposit to stablecoin and initiate a 1x short position on derivatives DEXes.',
         ],
         profit:
-          'You benefit from compounded yields and accumulate valuable rewards, including EigenLayer points, and Zircuit points.',
+          'You benefit from compounded yields and accumulate valuable rewards, including EigenLayer points, and Kelp miles.',
       };
     }
 
