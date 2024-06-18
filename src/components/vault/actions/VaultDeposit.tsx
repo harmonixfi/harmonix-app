@@ -135,10 +135,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
   }, [walletBalance]);
 
   const currencyOptions = useMemo(() => {
-    if (
-      !vaultVariant ||
-      [VaultVariant.OptionsWheel, VaultVariant.DeltaNeutral].includes(vaultVariant)
-    ) {
+    if (!vaultVariant || vaultVariant === VaultVariant.DeltaNeutral) {
       return [SupportedCurrency.Usdc];
     }
 
@@ -169,15 +166,13 @@ const VaultDeposit = (props: VaultDepositProps) => {
   };
 
   const handleDeposit = async (amount: string) => {
-    const isRestakingVault =
-      vaultVariant === VaultVariant.KelpdaoRestaking ||
-      vaultVariant === VaultVariant.RenzoRestaking;
+    const isDeltaNeutral = vaultVariant === VaultVariant.DeltaNeutral;
 
     let decimals = 6;
     let tokenIn = undefined;
     let transitToken = undefined;
 
-    if (isRestakingVault) {
+    if (!isDeltaNeutral) {
       if (selectedCurrency === SupportedCurrency.Usdc) {
         tokenIn = usdcAddress;
         transitToken = usdcAddress;

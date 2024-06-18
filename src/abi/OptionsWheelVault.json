@@ -3,8 +3,33 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_usdc",
         "type": "address"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_decimals",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minimumSupply",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_cap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_networkCost",
+        "type": "uint256"
       },
       {
         "internalType": "address",
@@ -28,12 +53,17 @@
       },
       {
         "internalType": "address",
-        "name": "_optionsVendorProxy",
+        "name": "_perpDexAddress",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_optionsReceiver",
+        "name": "_perpDexReceiver",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_perpDexConnector",
         "type": "address"
       },
       {
@@ -60,6 +90,26 @@
         "internalType": "uint256",
         "name": "_initialPPS",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_uniSwapProxy",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_token0s",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_token1s",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint24[]",
+        "name": "_fees",
+        "type": "uint24[]"
       }
     ],
     "stateMutability": "nonpayable",
@@ -445,17 +495,17 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "ethLPRatio",
+        "name": "",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "usdLPRatio",
+        "name": "",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "optionsRatio",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -482,7 +532,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      }
+    ],
     "name": "claimFee",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -575,6 +631,16 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "transitToken",
+        "type": "address"
       }
     ],
     "name": "deposit",
@@ -583,7 +649,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "gasLimit",
+        "type": "uint32"
+      }
+    ],
     "name": "depositToVendor",
     "outputs": [],
     "stateMutability": "payable",
@@ -610,6 +682,289 @@
     "name": "emergencyShutdown",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "exportVaultState",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "shares",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "depositAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct DepositReceipt",
+            "name": "depositReceipt",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct DepositReceiptArr[]",
+        "name": "",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "shares",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct Withdrawal",
+            "name": "withdrawal",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct WithdrawalArr[]",
+        "name": "",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "asset",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minimumSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "performanceFeeRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "managementFeeRate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct VaultParams",
+        "name": "",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "performanceFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "managementFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "currentRoundFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawPoolAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingDepositAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalShares",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastLockedAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct VaultState",
+        "name": "",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "ethLPRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "usdLPRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "optionsRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "decimals",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct AllocateRatio",
+        "name": "",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint128",
+            "name": "liquidity",
+            "type": "uint128"
+          },
+          {
+            "internalType": "int24",
+            "name": "lowerTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "upperTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct EthLPState",
+        "name": "",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint128",
+            "name": "liquidity",
+            "type": "uint128"
+          },
+          {
+            "internalType": "int24",
+            "name": "lowerTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "upperTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdceBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct UsdLPState",
+        "name": "",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "allocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unsettledProfit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unsettledLoss",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct OptionsStrategyState",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -698,6 +1053,24 @@
   },
   {
     "inputs": [],
+    "name": "getFeeInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getPnL",
     "outputs": [
       {
@@ -736,6 +1109,19 @@
   {
     "inputs": [],
     "name": "getRoundWithdrawAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUnallocatedUsdcBalance",
     "outputs": [
       {
         "internalType": "uint256",
@@ -907,6 +1293,289 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_currentRound",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_roundWithdrawalShares",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_roundPricePerShares",
+        "type": "uint256[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "shares",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "depositAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct DepositReceipt",
+            "name": "depositReceipt",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct DepositReceiptArr[]",
+        "name": "_depositReceiptArr",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "shares",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct Withdrawal",
+            "name": "withdrawal",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct WithdrawalArr[]",
+        "name": "_withdrawalArr",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "asset",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minimumSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "performanceFeeRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "managementFeeRate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct VaultParams",
+        "name": "_vaultParams",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "performanceFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "managementFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "currentRoundFeeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawPoolAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingDepositAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalShares",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastLockedAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct VaultState",
+        "name": "_vaultState",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "ethLPRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "usdLPRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "optionsRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "decimals",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct AllocateRatio",
+        "name": "_allocateRatio",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint128",
+            "name": "liquidity",
+            "type": "uint128"
+          },
+          {
+            "internalType": "int24",
+            "name": "lowerTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "upperTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct EthLPState",
+        "name": "_ethLPState",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint128",
+            "name": "liquidity",
+            "type": "uint128"
+          },
+          {
+            "internalType": "int24",
+            "name": "lowerTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "upperTick",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdceBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct UsdLPState",
+        "name": "_usdLPState",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "allocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unAllocatedUsdcBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unsettledProfit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unsettledLoss",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct OptionsStrategyState",
+        "name": "_optionsState",
+        "type": "tuple"
+      }
+    ],
+    "name": "importVaultState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1194,7 +1863,7 @@
         "type": "uint256"
       }
     ],
-    "name": "updateProfitFromVender",
+    "name": "updateProfitFromVendor",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
