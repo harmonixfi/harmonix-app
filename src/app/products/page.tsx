@@ -24,13 +24,12 @@ export default async function Products() {
               Crypto investment on autopilot. Secure your wealth, earn more with automated hedging.
             </p>
           </div>
-          <div className="w-full lg:w-auto flex items-center justify-center gap-12 bg-secondary rounded-2xl px-8 lg:px-12 py-4">
-            <div className="flex flex-col items-center gap-2">
+          <div className="w-full lg:w-auto lg:min-w-72 xl:min-w-96 grid grid-cols-2 bg-secondary rounded-2xl px-0 py-4">
+            <div className="flex flex-col items-center justify-center gap-2 border-r border-rock-g80 border-opacity-30">
               <p className="text-base text-primary opacity-60">TVL</p>
               <p className="text-lg text-primary font-bold">{toCurrency(tvl_in_all_vaults)}</p>
             </div>
-            <span className="w-[1px] h-10 bg-rock-g80 bg-opacity-30" />
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center justify-center gap-2">
               <p className="text-base text-primary opacity-60">Depositors</p>
               <p className="text-lg text-primary font-bold">{withCommas(total_depositors)}</p>
             </div>

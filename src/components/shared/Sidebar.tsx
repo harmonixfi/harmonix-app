@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import { Bars3Icon, ChartPieIcon, GiftIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/16/solid';
+import { ChartPieIcon, GiftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
