@@ -54,13 +54,13 @@ const ReferralGuide = () => {
             content: 'text-base text-opacity-80 text-primary mb-6',
           }}
         >
-          <AccordionItem key="1" aria-label="Activation Requirement" title="Activation Requirement">
+          <AccordionItem key="1" aria-label="Activation requirement" title="Activation requirement">
             Referral links must be used by new users for eligibility.
           </AccordionItem>
           <AccordionItem
             key="2"
-            aria-label="Terms and Conditions Apply"
-            title="Terms and Conditions Apply"
+            aria-label="Terms and conditions apply"
+            title="Terms and conditions apply"
           >
             Harmonix reserves the right to modify or terminate this program at any time.
           </AccordionItem>
