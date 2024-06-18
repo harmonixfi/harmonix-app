@@ -20,7 +20,7 @@ const ReferralReward = () => {
     return [
       {
         label: 'Commission',
-        value: `${data?.reward_percentage}%`,
+        value: `${data?.reward_percentage ? data.reward_percentage * 100 : 0}%`,
       },
       {
         label: 'Active users',
@@ -28,7 +28,7 @@ const ReferralReward = () => {
       },
       {
         label: 'Earned users',
-        value: data?.depositors,
+        value: data?.high_balance_depositors,
       },
     ];
   }, [data]);
@@ -36,7 +36,7 @@ const ReferralReward = () => {
   return (
     <Card className="flex flex-row flex-wrap justify-between gap-4 p-8 text-primary">
       {stats.map((x) => (
-        <div className="basis-1/3 md:basis-1/4 space-y-2">
+        <div key={x.label} className="basis-1/3 md:basis-1/4 space-y-2">
           <p className="text-base font-medium">{x.label}</p>
           {loading ? (
             <Skeleton className="w-3/5 h-12 rounded-xl" />

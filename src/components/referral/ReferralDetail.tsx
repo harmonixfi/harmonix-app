@@ -13,7 +13,9 @@ const ReferralDetail = () => {
     return (
       <div>
         <Card className="p-8">
-          <p className="text-primary opacity-50 text-xl">Connect your wallet to check more</p>
+          <p className="text-primary opacity-50 text-base lg:text-xl">
+            Connect your wallet to check more
+          </p>
         </Card>
       </div>
     );

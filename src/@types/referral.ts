@@ -16,4 +16,5 @@ export type JoinUserResponse = {
 export type ReferralReward = {
   reward_percentage: number;
   depositors: number;
+  high_balance_depositors: number;
 };

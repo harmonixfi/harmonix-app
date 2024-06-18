@@ -39,7 +39,9 @@ const PointRewardTable = () => {
   if (!address) {
     return (
       <Card className="p-8">
-        <p className="text-primary opacity-50 text-xl">Connect your wallet to check more</p>
+        <p className="text-primary opacity-50 text-base lg:text-xl">
+          Connect your wallet to check more
+        </p>
       </Card>
     );
   }
@@ -67,41 +69,39 @@ const PointRewardTable = () => {
               <p>Loading</p>
             </div>
           ) : (
-            'No rows to display.'
+            'No data.'
           )
         }
         items={data}
       >
         {(x) => (
           <TableRow key={x.session_name}>
-            <TableRow key={x.session_name}>
-              <TableCell>{x.session_name}</TableCell>
-              <TableCell>
-                {x.start_date ? (
-                  <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
-                ) : (
-                  <span className="opacity-60">N/A</span>
-                )}
-              </TableCell>
-              <TableCell>
-                {x.end_date ? (
-                  <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
-                ) : (
-                  <span className="opacity-60">N/A</span>
-                )}
-              </TableCell>
-              <TableCell>
-                <Chip
-                  color="primary"
-                  variant="bordered"
-                  size="lg"
-                  endContent={<PointIcon />}
-                  className="text-xl py-4"
-                >
-                  {x.points}
-                </Chip>
-              </TableCell>
-            </TableRow>
+            <TableCell>{x.session_name}</TableCell>
+            <TableCell>
+              {x.start_date ? (
+                <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
+              ) : (
+                <span className="opacity-60">N/A</span>
+              )}
+            </TableCell>
+            <TableCell>
+              {x.end_date ? (
+                <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
+              ) : (
+                <span className="opacity-60">N/A</span>
+              )}
+            </TableCell>
+            <TableCell>
+              <Chip
+                color="primary"
+                variant="bordered"
+                size="lg"
+                endContent={<PointIcon />}
+                className="text-base lg:text-xl py-4"
+              >
+                {x.points}
+              </Chip>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>
