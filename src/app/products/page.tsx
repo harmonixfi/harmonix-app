@@ -12,7 +12,7 @@ async function getData() {
 }
 
 export default async function Products() {
-  const { tvl_in_all_vaults } = await getData();
+  const { tvl_in_all_vaults, total_depositors } = await getData();
 
   return (
     <Page title="Vaults">
@@ -32,7 +32,7 @@ export default async function Products() {
             <span className="w-[1px] h-10 bg-rock-g80 bg-opacity-30" />
             <div className="flex flex-col items-center gap-2">
               <p className="text-base text-primary opacity-60">Depositors</p>
-              <p className="text-lg text-primary font-bold">{withCommas(20)}+</p>
+              <p className="text-lg text-primary font-bold">{withCommas(total_depositors)}</p>
             </div>
           </div>
         </Card>
