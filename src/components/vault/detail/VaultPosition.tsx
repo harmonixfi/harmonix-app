@@ -52,7 +52,7 @@ const VaultPosition = (props: VaultPositionProps) => {
         value: `${withCommas(toFixedNumber(totalBalance))} USDC`,
       },
       {
-        label: 'Initial deposit amount',
+        label: 'Initial deposit',
         value: `${withCommas(toFixedNumber(depositAmount))} USDC`,
       },
       {
