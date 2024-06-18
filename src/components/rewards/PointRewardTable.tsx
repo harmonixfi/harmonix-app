@@ -16,6 +16,7 @@ import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import { getPointReward } from '@/api/point';
+import { getUser } from '@/api/referral';
 import { NA_STRING } from '@/constants/common';
 
 import { FlatLogoIcon } from '../shared/icons';
@@ -31,11 +32,15 @@ const PointIcon = () => {
 const PointRewardTable = () => {
   const { address } = useAccount();
 
-  const { data = [], isLoading } = useSWR(address ? ['get-point-reward', address] : null, () =>
-    getPointReward(address || '0x00'),
+  const { data: user, isLoading: isLoadingUser } = useSWR(
+    address ? ['get-user', address] : null,
+    () => getUser(address ?? '0x00'),
   );
 
-  const loading = !data || isLoading;
+  const { data = [], isLoading: isLoadingPointReward } = useSWR(
+    address && user?.joined ? ['get-point-reward', address] : null,
+    () => getPointReward(address || '0x00'),
+  );
 
   if (!address) {
     return (
@@ -47,15 +52,27 @@ const PointRewardTable = () => {
     );
   }
 
+  if (isLoadingUser || isLoadingPointReward) {
+    return (
+      <Card className="items-center p-8 space-y-2">
+        <Spinner />
+        <p>Loading</p>
+      </Card>
+    );
+  }
+
+  if (!user?.joined) {
+    return (
+      <Card className="p-8">
+        <p className="text-base sm:text-xl opacity-60">Join Harmonix to check more.</p>
+      </Card>
+    );
+  }
+
   return (
     <div>
       <div className="flex lg:hidden flex-col gap-4">
-        {loading ? (
-          <Card className="items-center p-8 space-y-2">
-            <Spinner />
-            <p>Loading</p>
-          </Card>
-        ) : data.length === 0 ? (
+        {data.length === 0 ? (
           <Card className="p-8 text-opacity-60">No data.</Card>
         ) : (
           data.map((x) => (
@@ -94,7 +111,7 @@ const PointRewardTable = () => {
         </TableHeader>
         <TableBody
           emptyContent={
-            loading ? (
+            isLoadingPointReward ? (
               <div className="space-y-2">
                 <Spinner />
                 <p>Loading</p>
