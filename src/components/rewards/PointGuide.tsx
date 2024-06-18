@@ -13,7 +13,7 @@ const PointGuide = () => {
             <p className="text-xl font-medium">Deposit and Earn</p>
           </div>
           <p className="text-primary opacity-70">
-            For every $100 deposited within an hour, you earn 1 point. It's that simple! Keep
+            For every $100 deposited within an hour, you earn 1 point. It&apos;s that simple! Keep
             depositing to accumulate more points and enjoy exclusive benefits.
           </p>
         </div>
