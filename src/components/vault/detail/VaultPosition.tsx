@@ -48,10 +48,6 @@ const VaultPosition = (props: VaultPositionProps) => {
   const displayedFields = useMemo(() => {
     return [
       {
-        label: 'Total balance',
-        value: `${withCommas(toFixedNumber(totalBalance))} USDC`,
-      },
-      {
         label: 'Initial deposit',
         value: `${withCommas(toFixedNumber(depositAmount))} USDC`,
       },
@@ -86,18 +82,24 @@ const VaultPosition = (props: VaultPositionProps) => {
       <div className="p-8 z-20">
         <p className="text-xl font-medium capitalize opacity-50">Your position</p>
         <p className="flex flex-col xl:flex-row text-4xl font-bold mt-4">
-          <span>{`${formatPnl(toFixedNumber(netYield))} USDC`}</span>
-          <span
-            className={`ml-2 ${
-              Number(toFixedNumber(netYield)) >= 0 ? 'text-rock-green' : 'text-red-600'
-            }`}
-          >{`(${formatPnl(toFixedNumber(pnl * 100))}%)`}</span>
+          {`${withCommas(toFixedNumber(totalBalance))} USDC`}
         </p>
+        <div className="flex items-center gap-2 mt-2">
+          <p className="text-sm sm:text-base opacity-60">PnL</p>
+          <p className="flex items-center text-lg font-bold">
+            <span>{`${formatPnl(toFixedNumber(netYield))} USDC`}</span>
+            <span
+              className={`ml-2 ${
+                Number(toFixedNumber(netYield)) >= 0 ? 'text-rock-green' : 'text-red-600'
+              }`}
+            >{`(${formatPnl(toFixedNumber(pnl * 100))}%)`}</span>
+          </p>
+        </div>
         <div className="flex flex-wrap items-center gap-4 mt-12">
           {displayedFields.map((x) => (
             <div
               key={x.label}
-              className="shrink-0 basis-1/2 xl:basis-1/3 2xl:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
+              className="shrink-0 basis-1/3 lg:basis-1/4 2xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
             >
               <p className="text-sm sm:text-base opacity-60">{x.label}</p>
               <p className="text-lg font-bold">{x.value}</p>
@@ -107,7 +109,6 @@ const VaultPosition = (props: VaultPositionProps) => {
       </div>
       {points && points.length > 0 && (
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-12 py-6 border-t border-[#E8EDEC]">
-          {' '}
           {points.map((x) => {
             const { label, icon: Icon } = getDisplayedPoint(x);
             return (

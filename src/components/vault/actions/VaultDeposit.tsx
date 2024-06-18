@@ -250,7 +250,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
               size="md"
               variant="bordered"
               classNames={{
-                base: 'w-28 2xl:w-32 shrink-0',
+                base: 'w-32 shrink-0',
                 trigger: 'rounded-full bg-white border border-[#F1F1EB] translate-y-2.5',
               }}
               selectedKeys={[selectedCurrency]}
@@ -265,7 +265,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
                         : DaiAssetIcon;
                   return (
                     <div key={x.key} className="flex items-center gap-2">
-                      <Icon className="w-6 h-6" />
+                      <Icon className="w-6 h-6 shrink-0" />
                       <span>{x.textValue}</span>
                     </div>
                   );
@@ -282,7 +282,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
                 return (
                   <SelectItem key={x} textValue={x.toUpperCase()}>
                     <div className="flex items-center gap-2">
-                      <Icon className="w-6 h-6" /> {x.toUpperCase()}
+                      <Icon className="w-6 h-6 shrink-0" /> {x.toUpperCase()}
                     </div>
                   </SelectItem>
                 );
