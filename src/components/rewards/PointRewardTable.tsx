@@ -16,6 +16,7 @@ import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import { getPointReward } from '@/api/point';
+import { NA_STRING } from '@/constants/common';
 
 import { FlatLogoIcon } from '../shared/icons';
 
@@ -47,65 +48,96 @@ const PointRewardTable = () => {
   }
 
   return (
-    <Table
-      aria-label="Reward point table"
-      isStriped
-      classNames={{
-        th: 'bg-secondary text-primary text-base font-medium py-3',
-        td: 'py-4 text-base',
-      }}
-    >
-      <TableHeader>
-        <TableColumn>Epoch</TableColumn>
-        <TableColumn>Start date</TableColumn>
-        <TableColumn>End date</TableColumn>
-        <TableColumn>Epoch points</TableColumn>
-      </TableHeader>
-      <TableBody
-        emptyContent={
-          loading ? (
-            <div className="space-y-2">
-              <Spinner />
-              <p>Loading</p>
-            </div>
-          ) : (
-            'No data.'
-          )
-        }
-        items={data}
-      >
-        {(x) => (
-          <TableRow key={x.session_name}>
-            <TableCell>{x.session_name}</TableCell>
-            <TableCell>
-              {x.start_date ? (
-                <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
-              ) : (
-                <span className="opacity-60">N/A</span>
-              )}
-            </TableCell>
-            <TableCell>
-              {x.end_date ? (
-                <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
-              ) : (
-                <span className="opacity-60">N/A</span>
-              )}
-            </TableCell>
-            <TableCell>
-              <Chip
-                color="primary"
-                variant="bordered"
-                size="lg"
-                endContent={<PointIcon />}
-                className="text-base lg:text-xl py-4"
-              >
+    <div>
+      <div className="flex lg:hidden flex-col gap-4">
+        {loading ? (
+          <Card className="items-center p-8 space-y-2">
+            <Spinner />
+            <p>Loading</p>
+          </Card>
+        ) : data.length === 0 ? (
+          <Card className="p-8 text-opacity-60">No data.</Card>
+        ) : (
+          data.map((x) => (
+            <Card key={x.session_name} className="gap-4 p-8 text-primary">
+              <p className="text-xl font-medium">{x.session_name}</p>
+              <div className="flex items-center justify-between">
+                <p className="opacity-60">Start date</p>
+                <p>{x.start_date ? format(x.start_date, 'MMM dd, yyyy hh:mm aa') : NA_STRING}</p>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="opacity-60">End date</p>
+                <p>{x.end_date ? format(x.end_date, 'MMM dd, yyyy hh:mm aa') : NA_STRING}</p>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-xl font-medium bg-secondary rounded-full py-1.5">
                 {x.points}
-              </Chip>
-            </TableCell>
-          </TableRow>
+                <PointIcon />
+              </div>
+            </Card>
+          ))
         )}
-      </TableBody>
-    </Table>
+      </div>
+      <Table
+        aria-label="Reward point table"
+        isStriped
+        classNames={{
+          base: 'hidden lg:flex',
+          th: 'bg-secondary text-primary text-base font-medium py-3',
+          td: 'py-4 text-base',
+        }}
+      >
+        <TableHeader>
+          <TableColumn>Epoch</TableColumn>
+          <TableColumn>Start date</TableColumn>
+          <TableColumn>End date</TableColumn>
+          <TableColumn>Epoch points</TableColumn>
+        </TableHeader>
+        <TableBody
+          emptyContent={
+            loading ? (
+              <div className="space-y-2">
+                <Spinner />
+                <p>Loading</p>
+              </div>
+            ) : (
+              'No data.'
+            )
+          }
+          items={data}
+        >
+          {(x) => (
+            <TableRow key={x.session_name}>
+              <TableCell>{x.session_name}</TableCell>
+              <TableCell>
+                {x.start_date ? (
+                  <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                ) : (
+                  <span className="opacity-60">N/A</span>
+                )}
+              </TableCell>
+              <TableCell>
+                {x.end_date ? (
+                  <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                ) : (
+                  <span className="opacity-60">N/A</span>
+                )}
+              </TableCell>
+              <TableCell>
+                <Chip
+                  color="primary"
+                  variant="bordered"
+                  size="lg"
+                  endContent={<PointIcon />}
+                  className="text-base lg:text-xl py-4"
+                >
+                  {x.points}
+                </Chip>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
