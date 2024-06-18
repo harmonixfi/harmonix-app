@@ -9,6 +9,7 @@ import { VaultNetwork } from '@/@types/enum';
 import { getUser } from '@/api/referral';
 
 import ReferralAction from './ReferralAction';
+import SwapTab from './SwapTab';
 import VaultDeposit from './VaultDeposit';
 import VaultWithdraw from './VaultWithdraw';
 
@@ -96,6 +97,9 @@ const VaultActionCard = (props: VaultActionCardProps) => {
             withdrawalTime={withdrawalTime}
             withdrawalStep2={withdrawalStep2}
           />
+        </Tab>
+        <Tab key="swap" title="Swap">
+          <SwapTab />
         </Tab>
       </Tabs>
     </Card>
