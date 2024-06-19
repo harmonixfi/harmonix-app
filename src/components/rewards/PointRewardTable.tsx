@@ -18,6 +18,7 @@ import { useAccount } from 'wagmi';
 import { getPointReward } from '@/api/point';
 import { getUser } from '@/api/referral';
 import { NA_STRING } from '@/constants/common';
+import { toFixedNumber, withCommas } from '@/utils/number';
 
 import { FlatLogoIcon } from '../shared/icons';
 
@@ -129,14 +130,14 @@ const PointRewardTable = () => {
                 {x.start_date ? (
                   <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
                 ) : (
-                  <span className="opacity-60">N/A</span>
+                  <span className="opacity-60">{NA_STRING}</span>
                 )}
               </TableCell>
               <TableCell>
                 {x.end_date ? (
                   <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
                 ) : (
-                  <span className="opacity-60">N/A</span>
+                  <span className="opacity-60">{NA_STRING}</span>
                 )}
               </TableCell>
               <TableCell>
@@ -147,7 +148,7 @@ const PointRewardTable = () => {
                   endContent={<PointIcon />}
                   className="text-base lg:text-xl py-4"
                 >
-                  {x.points}
+                  {withCommas(toFixedNumber(x.points, 1))}
                 </Chip>
               </TableCell>
             </TableRow>
