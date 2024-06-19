@@ -88,7 +88,7 @@ const PointRewardTable = () => {
                 <p>{x.end_date ? format(x.end_date, 'MMM dd, yyyy hh:mm aa') : NA_STRING}</p>
               </div>
               <div className="flex items-center justify-center gap-2 text-xl font-medium bg-secondary rounded-full py-1.5">
-                {x.points}
+                {withCommas(toFixedNumber(x.points, 1))}
                 <PointIcon />
               </div>
             </Card>
