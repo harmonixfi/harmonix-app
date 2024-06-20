@@ -11,14 +11,14 @@ const VaultTransferArrowDown = ({ className }: IconProps) => {
         rx="14.125"
         fill="#F5F6F6"
         stroke="white"
-        stroke-width="3.75"
+        strokeWidth="3.75"
       />
       <path
         d="M14 21L20 27M20 27L26 21M20 27L20 16"
         stroke="#33363F"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

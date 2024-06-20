@@ -1,5 +1,12 @@
-import { Point } from '@/@types/vault';
-import { EigenLayerIcon, KelpDaoIcon, RenzoIcon, ZircuitIcon } from '@/components/shared/icons';
+import { PointProvider } from '@/@types/enum';
+import { Point } from '@/@types/portfolio';
+import {
+  EigenLayerIcon,
+  KelpDaoIcon,
+  LogoCircleIcon,
+  RenzoIcon,
+  ZircuitIcon,
+} from '@/components/shared/icons';
 
 export const getDisplayedPoint = (point: Point) => {
   let data = {
@@ -8,23 +15,29 @@ export const getDisplayedPoint = (point: Point) => {
   };
 
   switch (point.name) {
-    case 'eigenlayer':
+    case PointProvider.EigenLayer:
       data = {
         label: 'EigenLayer points',
         icon: EigenLayerIcon,
       };
       break;
 
-    case 'kelpdao':
+    case PointProvider.KelpDao:
       data = {
         label: 'Kelp Miles',
         icon: KelpDaoIcon,
       };
       break;
-    case 'zircuit':
+    case PointProvider.Zircuit:
       data = {
         label: 'Zircuit points',
         icon: ZircuitIcon,
+      };
+      break;
+    case PointProvider.Harmonix:
+      data = {
+        label: 'Harmonix points',
+        icon: LogoCircleIcon,
       };
       break;
     default:

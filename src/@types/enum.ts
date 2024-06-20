@@ -31,3 +31,11 @@ export enum Strategy {
   OptionsWheel = 'options_wheel_strategy',
   DeltaNeutral = 'delta_neutral_strategy',
 }
+
+export enum PointProvider {
+  Renzo = 'renzo',
+  EigenLayer = 'eigenlayer',
+  Zircuit = 'zircuit',
+  KelpDao = 'kelpdao',
+  Harmonix = 'Harmonix',
+}

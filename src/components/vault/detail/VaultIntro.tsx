@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Card } from '@nextui-org/react';
 import Link from 'next/link';
 
-import { Point } from '@/@types/vault';
+import { Point } from '@/@types/portfolio';
 import { toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint } from '@/utils/vault';
 
@@ -37,7 +37,7 @@ const VaultIntro = (props: VaultIntroProps) => {
   }, [name]);
 
   return (
-    <Card className="flex flex-col xl:flex-row items-center gap-12 rounded-2xl p-8">
+    <Card className="flex flex-col 2xl:flex-row items-center gap-12 rounded-2xl p-8">
       <div className="space-y-3">
         <p className="text-3xl sm:text-4xl font-bold">{name}</p>
         <p className="text-base sm:text-lg font-light">
@@ -52,18 +52,18 @@ const VaultIntro = (props: VaultIntroProps) => {
         </p>
       </div>
       {points && points.length > 0 && (
-        <div className="w-full xl:w-1/2 3xl:w-2/5 shrink-0 flex flex-wrap items-center justify-center gap-8 xl:gap-4 2xl:gap-8 bg-secondary text-primary rounded-2xl py-8">
+        <div className="shrink-0 w-full 2xl:w-auto flex flex-col md:flex-row flex-wrap items-center justify-between gap-12 bg-secondary text-primary rounded-2xl px-6 py-8">
           {points.map((x) => {
             const { label, icon: Icon } = getDisplayedPoint(x);
             return (
               <div
                 key={x.name}
-                className="shrink-0 basis-1/2 lg:basis-1/4 3xl:basis-0 grow flex flex-col items-center justify-center gap-2 px-12 md:px-6 xl:px-2 2xl:px-8"
+                className="shrink-0 flex flex-col items-center justify-center gap-2"
               >
-                <p className="text-base capitalize opacity-60">{`Total ${label}`}</p>
+                <p className="text-base capitalize opacity-60">{label}</p>
                 <div className="flex items-center justify-center gap-2">
                   <Icon className="w-8 h-8" />
-                  <span className="font-bold text-2xl">
+                  <span className="font-semibold text-xl">
                     {withCommas(toFixedNumber(x.point, 1))}
                   </span>
                 </div>

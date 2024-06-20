@@ -9,7 +9,7 @@ const DashboardMenu = ({ className }: IconProps) => {
         width="8"
         height="8"
         rx="1.33333"
-        stroke="#F1F1EB"
+        stroke="currentColor"
         strokeWidth="2.66667"
         strokeLinejoin="round"
       />
@@ -19,7 +19,7 @@ const DashboardMenu = ({ className }: IconProps) => {
         width="8"
         height="8"
         rx="1.33333"
-        stroke="#F1F1EB"
+        stroke="currentColor"
         strokeWidth="2.66667"
         strokeLinejoin="round"
       />
@@ -29,7 +29,7 @@ const DashboardMenu = ({ className }: IconProps) => {
         width="8"
         height="8"
         rx="1.33333"
-        stroke="#F1F1EB"
+        stroke="currentColor"
         strokeWidth="2.66667"
         strokeLinejoin="round"
       />
@@ -39,7 +39,7 @@ const DashboardMenu = ({ className }: IconProps) => {
         width="8"
         height="8"
         rx="1.33333"
-        stroke="#F1F1EB"
+        stroke="currentColor"
         strokeWidth="2.66667"
         strokeLinejoin="round"
       />

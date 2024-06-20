@@ -10,7 +10,8 @@ import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 
 import { VaultNetwork } from '@/@types/enum';
-import { getVaultPerformance, getVaultStatistic, getVaultTvlHistory } from '@/api/vault';
+import { getVaultStatistic, getVaultTvlHistory } from '@/api/statistic';
+import { getVaultPerformance } from '@/api/vault';
 import Page from '@/components/shared/Page';
 import { Urls } from '@/constants/urls';
 import { toCurrency } from '@/utils/currency';

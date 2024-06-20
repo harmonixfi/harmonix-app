@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
-import { Point } from '@/@types/vault';
-import { getUserPortfolio } from '@/api/vault';
+import { Point } from '@/@types/portfolio';
+import { getUserPortfolio } from '@/api/portfolio';
 import ActivePositions from '@/components/portfolio/ActivePositions';
 import PortfolioOverview from '@/components/portfolio/PortfolioOverview';
 
