@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/16/solid';
 import { ChartPieIcon, GiftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-import { LOCAL_STORAGE_INVITE_CODE_KEY } from '@/constants/common';
 import { SOCIAL_URLS } from '@/constants/socials';
 import { Urls } from '@/constants/urls';
 
@@ -64,16 +63,7 @@ const items = [
 const Sidebar = () => {
   const pathname = usePathname();
 
-  const searchParams = useSearchParams();
-  const refCode = searchParams.get('ref');
-
   const [openMobileSidebar, setOpenMobileSidebar] = useState(false);
-
-  useEffect(() => {
-    if (refCode) {
-      localStorage.setItem(LOCAL_STORAGE_INVITE_CODE_KEY, refCode);
-    }
-  }, [refCode]);
 
   const handleOpenMobileSidebar = () => {
     setOpenMobileSidebar(true);

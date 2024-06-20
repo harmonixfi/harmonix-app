@@ -1,7 +1,6 @@
 'use client';
 
-import { Button, Card, Skeleton, Tab, Tabs } from '@nextui-org/react';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { Card, Skeleton, Tab, Tabs } from '@nextui-org/react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
@@ -22,8 +21,6 @@ type VaultActionCardProps = {
 
 const VaultActionCard = (props: VaultActionCardProps) => {
   const { apr, networkChain, withdrawalTime, withdrawalStep2 } = props;
-
-  const { openConnectModal } = useConnectModal();
 
   const { address } = useAccount();
 
@@ -47,24 +44,6 @@ const VaultActionCard = (props: VaultActionCardProps) => {
           <Skeleton className="rounded-xl w-full h-32" />
           <Skeleton className="rounded-xl w-full h-10 mt-12" />
         </div>
-      </Card>
-    );
-  }
-
-  if (!address) {
-    return (
-      <Card className="p-4 sm:p-8">
-        <p className="text-center text-xl font-medium">
-          Connect your wallet to begin your deposit.
-        </p>
-        <Button
-          color="secondary"
-          size="lg"
-          className="mt-8 px-6 text-primary"
-          onClick={openConnectModal}
-        >
-          Connect wallet
-        </Button>
       </Card>
     );
   }
