@@ -14,6 +14,7 @@ import { Urls } from '@/constants/urls';
 import {
   BetaLogoIcon,
   DashboardMenuIcon,
+  DiscordIcon,
   GithubLineIcon,
   PortfolioMenuIcon,
   ReferralMenuIcon,
@@ -168,6 +169,15 @@ const Sidebar = () => {
                   className="text-secondary block rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
                 >
                   <TelegramIcon />
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SOCIAL_URLS.Discord}
+                  target="_blank"
+                  className="w-10 h-10 text-secondary block rounded-full px-2 py-2 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
+                >
+                  <DiscordIcon />
                 </a>
               </li>
               <li>

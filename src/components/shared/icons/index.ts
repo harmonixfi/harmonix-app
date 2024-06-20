@@ -8,6 +8,7 @@ export { default as ErrorIcon } from './Error';
 export { default as WarningIcon } from './Warning';
 export { default as ExternalLinkIcon } from './ExternalLink';
 export { default as TelegramIcon } from './Telegram';
+export { default as DiscordIcon } from './Discord';
 export { default as CamelotIcon } from './Camelot';
 export { default as AevoIcon } from './Aevo';
 export { default as LidoIcon } from './Lido';
