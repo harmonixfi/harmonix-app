@@ -90,7 +90,7 @@ const ReferralAction = (props: ReferralActionProps) => {
           <Link href={SOCIAL_URLS.Discord} target="_blank" className="text-indigo-500">
             Discord
           </Link>{' '}
-          and get one in the <span className="font-semibold">#invite-requests</span> channel
+          and get one in the <span className="font-semibold">#ref-invites</span> channel
         </p>
       </div>
 
