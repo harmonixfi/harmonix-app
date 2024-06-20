@@ -22,10 +22,10 @@ const PortfolioPoints = (props: PortfolioPointsProps) => {
               <div key={x.name} className="flex flex-col items-center justify-center gap-2 px-6">
                 <p className="text-base capitalize opacity-60">{label}</p>
                 <div className="flex items-center justify-center gap-2">
-                  <Icon className="w-8 h-8" />
                   <span className="font-bold text-2xl">
                     {withCommas(toFixedNumber(x.point, 1))}
                   </span>
+                  <Icon className="w-8 h-8" />
                 </div>
               </div>
             );

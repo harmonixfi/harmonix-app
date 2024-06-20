@@ -99,10 +99,10 @@ const VaultPosition = (props: VaultPositionProps) => {
           {displayedFields.map((x) => (
             <div
               key={x.label}
-              className="shrink-0 basis-1/3 lg:basis-1/4 2xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
+              className="shrink-0 self-stretch basis-1/3 lg:basis-1/4 2xl:basis-0 grow flex flex-col items-center justify-center gap-2 bg-rock-grey01 rounded-2xl px-4 py-6"
             >
               <p className="text-sm sm:text-base opacity-60">{x.label}</p>
-              <p className="text-lg font-bold">{x.value}</p>
+              <p className="text-base lg:text-lg font-bold text-center">{x.value}</p>
             </div>
           ))}
         </div>

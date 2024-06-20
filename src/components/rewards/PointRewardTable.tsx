@@ -20,15 +20,7 @@ import { getUser } from '@/api/referral';
 import { NA_STRING } from '@/constants/common';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
-import { FlatLogoIcon } from '../shared/icons';
-
-const PointIcon = () => {
-  return (
-    <span className="relative w-6 h-6 bg-primary rounded-full">
-      <FlatLogoIcon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4" />
-    </span>
-  );
-};
+import { LogoCircleIcon } from '../shared/icons';
 
 const PointRewardTable = () => {
   const { address } = useAccount();
@@ -89,7 +81,7 @@ const PointRewardTable = () => {
               </div>
               <div className="flex items-center justify-center gap-2 text-xl font-medium bg-secondary rounded-full py-1.5">
                 {withCommas(toFixedNumber(x.points, 1))}
-                <PointIcon />
+                <LogoCircleIcon className="w-6 h-6" />
               </div>
             </Card>
           ))
@@ -105,7 +97,7 @@ const PointRewardTable = () => {
         }}
       >
         <TableHeader>
-          <TableColumn>Epoch</TableColumn>
+          <TableColumn>Session</TableColumn>
           <TableColumn>Start date</TableColumn>
           <TableColumn>End date</TableColumn>
           <TableColumn>Epoch points</TableColumn>
@@ -145,8 +137,8 @@ const PointRewardTable = () => {
                   color="primary"
                   variant="bordered"
                   size="lg"
-                  endContent={<PointIcon />}
-                  className="text-base lg:text-xl py-4"
+                  endContent={<LogoCircleIcon className="w-6 h-6 ml-1" />}
+                  className="text-base lg:text-xl px-4 py-4"
                 >
                   {withCommas(toFixedNumber(x.points, 1))}
                 </Chip>

@@ -177,14 +177,14 @@ const VaultCard = (props: VaultCardProps) => {
 
         {points && points.length > 0 && (
           <div className="bg-rock-grey01 p-4 rounded-2xl">
-            <div className="flex items-center justify-around gap-6">
+            <div className="flex flex-wrap items-center justify-around gap-6">
               {points.map((x) => {
                 const { label, icon: Icon } = getDisplayedPoint(x);
 
                 return (
                   <div key={x.name} className="flex flex-col items-center gap-1">
                     <div className="flex items-center gap-1">
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6 shrink-0" />
                       <span className="text-sm opacity-60">{label}</span>
                     </div>
                     <p className="font-semibold">

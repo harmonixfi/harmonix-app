@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 
-import { Card, Skeleton } from '@nextui-org/react';
+import { Card, Skeleton, Tooltip } from '@nextui-org/react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import { getReferralReward, getUser } from '@/api/referral';
 import { withCommas } from '@/utils/number';
+
+import { InformationIcon } from '../shared/icons';
 
 const ReferralReward = () => {
   const { address } = useAccount();
@@ -29,10 +31,13 @@ const ReferralReward = () => {
       {
         label: 'Active users',
         value: withCommas(data?.depositors),
+        tooltip: 'The total number of users who have used your referral code.',
       },
       {
         label: 'Earned users',
         value: withCommas(data?.high_balance_depositors),
+        tooltip:
+          'The number of users who have used your referral code and have made a minimum deposit of $50.',
       },
     ];
   }, [data]);
@@ -62,7 +67,22 @@ const ReferralReward = () => {
     <Card className="flex flex-row flex-wrap justify-between gap-4 p-8 text-primary">
       {stats.map((x) => (
         <div key={x.label} className="basis-1/3 md:basis-1/4 space-y-2">
-          <p className="text-base font-medium">{x.label}</p>
+          <p className="flex items-center gap-2 text-base font-medium">
+            {x.label}
+            {x.tooltip && (
+              <Tooltip
+                showArrow
+                color="foreground"
+                closeDelay={100}
+                classNames={{ base: 'w-64' }}
+                content={x.tooltip}
+              >
+                <span>
+                  <InformationIcon className="block w-4 h-4" />
+                </span>
+              </Tooltip>
+            )}
+          </p>
           <p className="bg-gradient-to-r from-[#4BB4B1] to-[#171918] text-transparent bg-clip-text text-4xl font-bold">
             {x.value}
           </p>

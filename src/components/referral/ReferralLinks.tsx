@@ -6,6 +6,11 @@ import { getUser, getUserReferralCodes } from '@/api/referral';
 
 import InviteLink from './InviteLink';
 
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_ENV === 'production'
+    ? 'https://app.harmonix.fi'
+    : 'https://testnet.harmonix.fi';
+
 const ReferralLinks = () => {
   const { address } = useAccount();
 
@@ -31,7 +36,7 @@ const ReferralLinks = () => {
       {isLoading ? (
         <Skeleton className="w-full h-10 rounded-xl" />
       ) : (
-        <InviteLink link={`https://app.harmonix.fi/?ref=${data?.[0]}`} />
+        <InviteLink link={`${APP_URL}/?ref=${data?.[0]}`} />
       )}
     </Card>
   );

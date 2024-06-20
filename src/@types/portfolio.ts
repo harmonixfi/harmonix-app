@@ -1,9 +1,9 @@
 import { Address } from 'viem';
 
-import { VaultNetwork } from './enum';
+import { PointProvider, VaultNetwork } from './enum';
 
 export type Point = {
-  name: 'renzo' | 'eigenlayer' | 'zircuit' | 'kelpdao';
+  name: PointProvider;
   point: number;
 };
 
