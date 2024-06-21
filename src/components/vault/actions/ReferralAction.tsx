@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Button, Input } from '@nextui-org/react';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import Link from 'next/link';
 import { enqueueSnackbar } from 'notistack';
 import useSWRMutation from 'swr/mutation';
@@ -25,7 +26,10 @@ type ReferralActionProps = {
 const ReferralAction = (props: ReferralActionProps) => {
   const { walletAddress, onRefetchUser } = props;
 
-  const storageInviteCode = localStorage.getItem(LOCAL_STORAGE_INVITE_CODE_KEY);
+  const { openConnectModal } = useConnectModal();
+
+  const storageInviteCode =
+    typeof window !== 'undefined' ? window.localStorage.getItem(LOCAL_STORAGE_INVITE_CODE_KEY) : '';
 
   const [value, setValue] = useState(storageInviteCode || '');
 
@@ -64,16 +68,20 @@ const ReferralAction = (props: ReferralActionProps) => {
 
   return (
     <div className="flex flex-col gap-8 text-primary">
-      <p className="text-center text-3xl 2xl:text-4xl font-semibold">Enter your invite code</p>
+      <p className="text-center text-2xl sm:text-3xl 2xl:text-4xl font-semibold">
+        Enter your invite code
+      </p>
       <div className="flex flex-col gap-2">
         <Input
           classNames={{
-            inputWrapper: 'h-16',
-            input: 'text-center text-6xl lg:text-5xl 2xl:text-6xl font-semibold uppercase',
+            inputWrapper: 'h-16 sm:h-20',
+            innerWrapper: 'py-2',
+            input:
+              'text-center text-5xl sm:text-6xl lg:text-5xl 2xl:text-6xl font-semibold uppercase',
           }}
           type="text"
           size="lg"
-          variant="underlined"
+          variant="faded"
           color="secondary"
           value={value}
           onValueChange={setValue}
@@ -94,17 +102,29 @@ const ReferralAction = (props: ReferralActionProps) => {
         </p>
       </div>
 
-      <Button
-        fullWidth
-        size="lg"
-        color="secondary"
-        className="text-primary"
-        isDisabled={!value}
-        isLoading={isMutating}
-        onClick={handleSubmit}
-      >
-        Submit
-      </Button>
+      {!walletAddress ? (
+        <Button
+          fullWidth
+          color="secondary"
+          size="lg"
+          className="text-primary"
+          onClick={openConnectModal}
+        >
+          Connect wallet
+        </Button>
+      ) : (
+        <Button
+          fullWidth
+          size="lg"
+          color="secondary"
+          className="text-primary"
+          isDisabled={!value}
+          isLoading={isMutating}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+      )}
     </div>
   );
 };

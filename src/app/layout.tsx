@@ -7,6 +7,7 @@ import { Outfit } from 'next/font/google';
 
 import GoogleAnalytics from '@/components/scripts/GoogleAnalytics';
 import FeedbackButton from '@/components/shared/FeedbackButton';
+import ReferralDialog from '@/components/shared/ReferralDialog';
 import Sidebar from '@/components/shared/Sidebar';
 
 import Providers from './_providers/Providers';
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="h-full">{children}</div>
               </div>
               <FeedbackButton />
+              <ReferralDialog />
             </main>
           </Suspense>
         </Providers>
