@@ -74,13 +74,14 @@ const ReferralAction = (props: ReferralActionProps) => {
       <div className="flex flex-col gap-2">
         <Input
           classNames={{
-            inputWrapper: 'h-14 sm:h-16',
+            inputWrapper: 'h-16 sm:h-20',
+            innerWrapper: 'py-2',
             input:
               'text-center text-5xl sm:text-6xl lg:text-5xl 2xl:text-6xl font-semibold uppercase',
           }}
           type="text"
           size="lg"
-          variant="underlined"
+          variant="faded"
           color="secondary"
           value={value}
           onValueChange={setValue}
