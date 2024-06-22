@@ -46,7 +46,7 @@ const InviteLink = (props: InviteLinkProps) => {
           size="sm"
           color="primary"
           variant="ghost"
-          className="w-full lg:w-auto rounded-full text-sm"
+          className="rounded-full text-sm"
           startContent={<TwitterLineIcon className="w-4 h-4" />}
           onClick={handleShareTwitter}
         >
