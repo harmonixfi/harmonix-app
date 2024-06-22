@@ -18,6 +18,7 @@ import { useAccount } from 'wagmi';
 import { getPointReward } from '@/api/point';
 import { getUser } from '@/api/referral';
 import { NA_STRING } from '@/constants/common';
+import { formatToUTC } from '@/utils/date';
 import { toFixedNumber, withCommas } from '@/utils/number';
 
 import { LogoCircleIcon } from '../shared/icons';
@@ -73,11 +74,11 @@ const PointRewardTable = () => {
               <p className="text-xl font-medium">{x.session_name}</p>
               <div className="flex items-center justify-between">
                 <p className="opacity-60">Start date</p>
-                <p>{x.start_date ? format(x.start_date, 'MMM dd, yyyy hh:mm aa') : NA_STRING}</p>
+                <p>{x.start_date ? `${formatToUTC(x.start_date)} UTC` : NA_STRING}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="opacity-60">End date</p>
-                <p>{x.end_date ? format(x.end_date, 'MMM dd, yyyy hh:mm aa') : NA_STRING}</p>
+                <p>{x.end_date ? `${formatToUTC(x.end_date)} UTC` : NA_STRING}</p>
               </div>
               <div className="flex items-center justify-center gap-2 text-xl font-medium bg-secondary rounded-full py-1.5">
                 {withCommas(toFixedNumber(x.points, 1))}
@@ -120,14 +121,14 @@ const PointRewardTable = () => {
               <TableCell>{x.session_name}</TableCell>
               <TableCell>
                 {x.start_date ? (
-                  <span>{format(x.start_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                  <span>{`${formatToUTC(x.start_date)} UTC`}</span>
                 ) : (
                   <span className="opacity-60">{NA_STRING}</span>
                 )}
               </TableCell>
               <TableCell>
                 {x.end_date ? (
-                  <span>{format(x.end_date, 'MMM dd, yyyy hh:mm aa')}</span>
+                  <span>{`${formatToUTC(x.end_date)} UTC`}</span>
                 ) : (
                   <span className="opacity-60">{NA_STRING}</span>
                 )}

@@ -160,3 +160,17 @@
 .kelpdao-capacity {
   background-color: #075a5a;
 }
+
+.blinking-cursor {
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

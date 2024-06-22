@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, Input } from '@nextui-org/react';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -32,6 +32,11 @@ const ReferralAction = (props: ReferralActionProps) => {
     typeof window !== 'undefined' ? window.localStorage.getItem(LOCAL_STORAGE_INVITE_CODE_KEY) : '';
 
   const [value, setValue] = useState(storageInviteCode || '');
+  const [isSSR, setIsSSR] = useState(true);
+
+  useEffect(() => {
+    setIsSSR(false);
+  }, []);
 
   const { trigger, isMutating } = useSWRMutation('join-user', updateUser);
 
@@ -71,7 +76,7 @@ const ReferralAction = (props: ReferralActionProps) => {
       <p className="text-center text-2xl sm:text-3xl 2xl:text-4xl font-semibold">
         Enter your invite code
       </p>
-      <div className="flex flex-col gap-2">
+      <div className="relative flex flex-col gap-2">
         <Input
           classNames={{
             inputWrapper: 'h-16 sm:h-20',
@@ -86,6 +91,9 @@ const ReferralAction = (props: ReferralActionProps) => {
           value={value}
           onValueChange={setValue}
         />
+        {!isSSR && !value && (
+          <span className="absolute top-2 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-primary bg-opacity-90 blinking-cursor" />
+        )}
         <p className="text-sm">
           *An invite code is required to make a deposit. Please enter your code or reach out to
           support if you need assistance.

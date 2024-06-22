@@ -16,9 +16,33 @@ import Loading from './loading';
 
 const outfit = Outfit({ subsets: ['latin'] });
 
+const metaTitle = 'Harmonix Finance';
+const metaDescription =
+  'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.';
+const metaImageUrl = '/twitter-banner.jpeg';
+
 export const metadata: Metadata = {
-  title: 'Harmonix',
+  metadataBase:
+    process.env.NEXT_PUBLIC_APP_ENV === 'production'
+      ? new URL('https://app.harmonix.fi')
+      : new URL('https://testnet.harmonix.fi'),
+  title: 'Harmonix Finance',
   description: 'Automatic Hedging Vaults While Earning Good Yields With Low Risk',
+  twitter: {
+    site: '@harmonixfi',
+    title: metaTitle,
+    description: metaDescription,
+    card: 'summary_large_image',
+    images: {
+      url: metaImageUrl,
+    },
+  },
+  openGraph: {
+    title: metaTitle,
+    description: metaDescription,
+    type: 'website',
+    images: { url: metaImageUrl },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

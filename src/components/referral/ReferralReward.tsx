@@ -66,7 +66,7 @@ const ReferralReward = () => {
   return (
     <Card className="flex flex-row flex-wrap justify-between gap-4 p-8 text-primary">
       {stats.map((x) => (
-        <div key={x.label} className="basis-1/3 md:basis-1/4 space-y-2">
+        <div key={x.label} className="space-y-2">
           <p className="flex items-center gap-2 text-base font-medium">
             {x.label}
             {x.tooltip && (
