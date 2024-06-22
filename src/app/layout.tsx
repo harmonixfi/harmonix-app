@@ -17,8 +17,24 @@ import Loading from './loading';
 const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Harmonix',
+  title: 'Harmonix Finance',
   description: 'Automatic Hedging Vaults While Earning Good Yields With Low Risk',
+  twitter: {
+    title: 'Harmonix Finance',
+    description:
+      'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.',
+    card: 'summary_large_image',
+    images: {
+      url: '/images/twitter-banner.jpeg',
+    },
+  },
+  openGraph: {
+    title: 'Harmonix Finance',
+    description:
+      'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.',
+    type: 'website',
+    images: { url: '/images/twitter-banner.jpeg' },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

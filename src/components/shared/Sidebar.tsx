@@ -87,7 +87,7 @@ const Sidebar = () => {
       <div
         className={`${
           openMobileSidebar ? 'flex absolute bg-opacity-100 z-50' : 'hidden'
-        } md:relative md:flex flex-col justify-between min-w-72 w-72 h-full p-6 bg-rock-g80 overflow-hidden`}
+        } md:relative md:flex flex-col justify-between min-w-72 w-72 h-full p-6 bg-rock-g80 overflow-x-hidden overflow-y-auto`}
       >
         <div className="z-40">
           <div className="flex items-center justify-between mt-2 ">
@@ -100,7 +100,7 @@ const Sidebar = () => {
             />
           </div>
 
-          <ul className="space-y-2 mt-12">
+          <ul className="space-y-2 mt-8">
             {items.map((x) => (
               <li key={x.text}>
                 <Link
@@ -131,7 +131,7 @@ const Sidebar = () => {
         </div>
 
         <div className="space-y-3 z-40">
-          <div className="flex flex-col items-center gap-4 bg-rock-g70 px-6 py-5 rounded-3xl">
+          <div className="flex flex-col items-center gap-4 bg-rock-g70 px-6 py-3 rounded-3xl">
             <p className="font-light text-secondary">Audited by</p>
             <Link
               href="https://github.com/harmonixfi/core-smart-contract/blob/main/audits/Verichains%20Public%20Report%20-%20HarmonixFinance.pdf"

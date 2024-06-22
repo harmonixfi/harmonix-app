@@ -2,12 +2,14 @@ import { UTCDate } from '@date-fns/utc';
 import {
   addHours,
   addWeeks,
+  parseISO,
   setDay,
   setHours,
   setMilliseconds,
   setMinutes,
   setSeconds,
 } from 'date-fns';
+import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
 export const getOptionsWheelWithdrawalDate = () => {
   // Get the current date
@@ -34,4 +36,14 @@ export const getOptionsWheelWithdrawalDate = () => {
 
 export const getDeltaNeutralWithdrawalDate = (initDate: string) => {
   return addHours(new Date(initDate), 4);
+};
+
+export const formatToUTC = (dateString: string, format = 'MMM dd, yyyy hh:mm aa') => {
+  // Parse the ISO string to a Date object
+  const date = parseISO(dateString);
+
+  // Format the date in UTC timezone
+  const formattedDate = formatTz(toZonedTime(date, 'UTC'), format, { timeZone: 'UTC' });
+
+  return formattedDate;
 };

@@ -3,7 +3,12 @@ import { Card } from '@nextui-org/react';
 const PointGuide = () => {
   return (
     <Card className="flex flex-col items-center gap-12 p-8 text-primary">
-      <p className="text-2xl text-center">Earn Points and Unlock Rewards Effortlessly</p>
+      <div>
+        <p className="text-2xl text-center">Earn Points and Unlock Rewards Effortlessly</p>
+        <p className="text-sm md:text-base text-center opacity-60">
+          Each session will run for 69 days, 4 hours and 20 minutes
+        </p>
+      </div>
       <div className="grid xl:grid-cols-2 gap-12">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
