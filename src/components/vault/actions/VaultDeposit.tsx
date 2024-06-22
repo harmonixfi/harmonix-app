@@ -169,8 +169,7 @@ const VaultDeposit = (props: VaultDepositProps) => {
   };
 
   const handleDeposit = async (amount: string) => {
-    const isAllowOnlyUsdc =
-      vaultVariant === VaultVariant.DeltaNeutral || vaultVariant === VaultVariant.RenzoRestaking;
+    const isAllowOnlyUsdc = vaultVariant === VaultVariant.DeltaNeutral;
 
     let decimals = 6;
     let tokenIn = undefined;
