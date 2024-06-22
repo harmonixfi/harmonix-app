@@ -17,6 +17,10 @@ import Loading from './loading';
 const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase:
+    process.env.NEXT_PUBLIC_APP_ENV === 'production'
+      ? new URL('https://app.harmonix.fi')
+      : new URL('https://testnet.harmonix.fi'),
   title: 'Harmonix Finance',
   description: 'Automatic Hedging Vaults While Earning Good Yields With Low Risk',
   twitter: {
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
       'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.',
     card: 'summary_large_image',
     images: {
-      url: '/images/twitter-banner.jpeg',
+      url: '/twitter-banner.jpeg',
     },
   },
   openGraph: {
@@ -33,7 +37,7 @@ export const metadata: Metadata = {
     description:
       'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.',
     type: 'website',
-    images: { url: '/images/twitter-banner.jpeg' },
+    images: { url: '/twitter-banner.jpeg' },
   },
 };
 
