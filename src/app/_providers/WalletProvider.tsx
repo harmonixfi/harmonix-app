@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from '@rainbow-me/rainbowkit';
 import {
+  bitgetWallet,
   coinbaseWallet,
   gateWallet,
   metaMaskWallet,
@@ -22,7 +23,14 @@ const config = getDefaultConfig({
   wallets: [
     {
       groupName: 'Popular',
-      wallets: [walletConnectWallet, metaMaskWallet, coinbaseWallet, gateWallet, okxWallet],
+      wallets: [
+        walletConnectWallet,
+        metaMaskWallet,
+        coinbaseWallet,
+        gateWallet,
+        okxWallet,
+        bitgetWallet,
+      ],
     },
   ],
   chains:
