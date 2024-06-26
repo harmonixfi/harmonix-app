@@ -1,6 +1,7 @@
 import { PointProvider } from '@/@types/enum';
 import { Point } from '@/@types/portfolio';
 import {
+  BsxIcon,
   EigenLayerIcon,
   KelpDaoIcon,
   LogoCircleIcon,
@@ -9,10 +10,7 @@ import {
 } from '@/components/shared/icons';
 
 export const getDisplayedPoint = (point: Point) => {
-  let data = {
-    label: 'Renzo points',
-    icon: RenzoIcon,
-  };
+  let data;
 
   switch (point.name) {
     case PointProvider.EigenLayer:
@@ -40,11 +38,20 @@ export const getDisplayedPoint = (point: Point) => {
         icon: LogoCircleIcon,
       };
       break;
-    default:
+    case PointProvider.Bsx:
+      data = {
+        label: 'Bsx points',
+        icon: BsxIcon,
+      };
+      break;
+    case PointProvider.Renzo:
       data = {
         label: 'Renzo points',
         icon: RenzoIcon,
       };
+      break;
+    default:
+      data = undefined;
       break;
   }
 

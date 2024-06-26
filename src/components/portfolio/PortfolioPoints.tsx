@@ -17,7 +17,11 @@ const PortfolioPoints = (props: PortfolioPointsProps) => {
       {points.length > 0 && (
         <div className="w-full xl:w-auto shrink-0 flex flex-wrap items-center justify-around gap-8 bg-secondary text-primary rounded-2xl py-6 mt-6">
           {[...points].map((x) => {
-            const { label, icon: Icon } = getDisplayedPoint(x);
+            const point = getDisplayedPoint(x);
+            if (!point) {
+              return null;
+            }
+            const { label, icon: Icon } = point;
             return (
               <div key={x.name} className="flex flex-col items-center justify-center gap-2 px-6">
                 <p className="text-base capitalize opacity-60">{label}</p>
