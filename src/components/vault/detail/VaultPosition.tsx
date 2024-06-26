@@ -110,7 +110,11 @@ const VaultPosition = (props: VaultPositionProps) => {
       {points && points.length > 0 && (
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-12 py-6 border-t border-[#E8EDEC]">
           {points.map((x) => {
-            const { label, icon: Icon } = getDisplayedPoint(x);
+            const point = getDisplayedPoint(x);
+            if (!point) {
+              return null;
+            }
+            const { label, icon: Icon } = point;
             return (
               <div key={x.name} className="flex items-center gap-1 sm:gap-2">
                 <Icon className="w-4 h-4 sm:w-8 sm:h-8" />

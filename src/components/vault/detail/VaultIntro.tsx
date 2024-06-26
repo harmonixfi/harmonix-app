@@ -55,7 +55,11 @@ const VaultIntro = (props: VaultIntroProps) => {
       {points && points.length > 0 && (
         <div className="shrink-0 w-full 2xl:w-auto flex flex-col md:flex-row flex-wrap items-center justify-between gap-12 bg-secondary text-primary rounded-2xl px-6 py-8">
           {points.map((x) => {
-            const { label, icon: Icon } = getDisplayedPoint(x);
+            const point = getDisplayedPoint(x);
+            if (!point) {
+              return null;
+            }
+            const { label, icon: Icon } = point;
             return (
               <div
                 key={x.name}

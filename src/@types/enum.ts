@@ -41,4 +41,5 @@ export enum PointProvider {
   Zircuit = 'zircuit',
   KelpDao = 'kelpdao',
   Harmonix = 'Harmonix',
+  Bsx = 'bsx',
 }
