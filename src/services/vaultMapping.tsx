@@ -40,6 +40,13 @@ export const vaultCardMapping = (
     };
   }
 
+  if (name.toLowerCase().includes('base')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.baseDeltaNeutralVaultAbi,
+    };
+  }
+
   return {
     color: 'secondary',
     vaultAbi: contracts.deltaNeutralVaultAbi,
@@ -98,6 +105,10 @@ export const vaultWhitelistWalletsMapping = (vaultVariant?: VaultVariant) => {
     return process.env.NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS ?? '';
   }
 
+  if (vaultVariant === VaultVariant.BaseDeltaNeutral) {
+    return process.env.NEXT_PUBLIC_BASE_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
+  }
+
   return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
 };
 
@@ -114,6 +125,10 @@ export const vaultDisableDepositMapping = (vaultVariant?: VaultVariant) => {
 
   if (vaultVariant === VaultVariant.RenzoRestaking) {
     return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT === 'true';
+  }
+
+  if (vaultVariant === VaultVariant.BaseDeltaNeutral) {
+    return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_BASE_DELTA_NEUTRAL_VAULT === 'true';
   }
 
   return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT === 'true';

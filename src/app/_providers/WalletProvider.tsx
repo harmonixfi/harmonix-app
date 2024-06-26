@@ -9,11 +9,12 @@ import {
   gateWallet,
   metaMaskWallet,
   okxWallet,
+  rabbyWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
-import { arbitrum, mainnet, sepolia } from 'wagmi/chains';
+import { arbitrum, base, mainnet, sepolia } from 'wagmi/chains';
 
 const projectId = process.env.NEXT_PUBLIC_W3C_PROJECT_ID ?? '';
 
@@ -30,13 +31,14 @@ const config = getDefaultConfig({
         gateWallet,
         okxWallet,
         bitgetWallet,
+        rabbyWallet,
       ],
     },
   ],
   chains:
     process.env.NEXT_PUBLIC_APP_ENV === 'production'
-      ? [arbitrum, mainnet]
-      : [arbitrum, mainnet, sepolia],
+      ? [arbitrum, mainnet, base]
+      : [arbitrum, mainnet, base, sepolia],
   ssr: true,
 });
 

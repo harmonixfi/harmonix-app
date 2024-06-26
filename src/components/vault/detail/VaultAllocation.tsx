@@ -3,7 +3,14 @@ import { ethers } from 'ethers';
 import { useChains } from 'wagmi';
 
 import { VaultNetwork, VaultVariant } from '@/@types/enum';
-import { AevoIcon, CamelotIcon, KelpDaoIcon, LidoIcon, RenzoIcon } from '@/components/shared/icons';
+import {
+  AevoIcon,
+  BsxIcon,
+  CamelotIcon,
+  KelpDaoIcon,
+  LidoIcon,
+  RenzoIcon,
+} from '@/components/shared/icons';
 import { supportedChainMapping } from '@/constants/chain';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
@@ -40,6 +47,8 @@ const VaultAllocation = (props: VaultAllocationProps) => {
           {vaultVariant === VaultVariant.RenzoRestaking && renderRenzoRestaking(allocatedRatioData)}
           {vaultVariant === VaultVariant.KelpdaoRestaking &&
             renderKelpdaoRestaking(allocatedRatioData)}
+          {vaultVariant === VaultVariant.BaseDeltaNeutral &&
+            renderBaseDeltaNeutral(allocatedRatioData)}
         </tbody>
       </table>
     </Card>
@@ -172,6 +181,38 @@ const renderKelpdaoRestaking = (allocatedRatioData: unknown) => {
       <tr>
         <td className="flex items-center justify-start gap-2 pl-4">
           <AevoIcon className="w-6 h-6" />
+          <span className="text-sm font-bold">USDC</span>
+        </td>
+        <td className="text-sm font-bold text-center">{`${
+          Array.isArray(allocatedRatioData) && allocatedRatioData[1]
+            ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[1], 2)))
+            : 0
+        }%`}</td>
+      </tr>
+    </>
+  );
+};
+
+const renderBaseDeltaNeutral = (allocatedRatioData: unknown) => {
+  return (
+    <>
+      <tr>
+        <td className="flex items-center justify-start gap-2 pl-4">
+          <LidoIcon className="w-6 h-6 -mr-2" />
+          <span className="text-sm font-bold">wstEth</span>
+        </td>
+        <td className="text-sm font-bold text-center">
+          {' '}
+          <span className="text-sm font-bold">{`${
+            Array.isArray(allocatedRatioData) && allocatedRatioData[0]
+              ? toFixedNumber(Number(ethers.utils.formatUnits(allocatedRatioData[0], 2)))
+              : 0
+          }%`}</span>
+        </td>
+      </tr>
+      <tr>
+        <td className="flex items-center justify-start gap-2 pl-4">
+          <BsxIcon className="shrink-0 w-auto h-6 text-primary" />
           <span className="text-sm font-bold">USDC</span>
         </td>
         <td className="text-sm font-bold text-center">{`${

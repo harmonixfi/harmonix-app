@@ -33,3 +33,5 @@ export { default as VaultWorksIcon } from './VaultWorks';
 export { default as VerichainIcon } from './Verichain';
 export { default as FlatLogoIcon } from './FlatLogo';
 export { default as LogoCircleIcon } from './LogoCircle';
+export { default as BaseIcon } from './Base';
+export { default as BsxIcon } from './Bsx';

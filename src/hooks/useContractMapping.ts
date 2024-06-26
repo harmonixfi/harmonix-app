@@ -2,15 +2,19 @@ import { Abi } from 'viem';
 
 import { Address } from '@/@types/common';
 import { SupportedChain } from '@/@types/enum';
+import baseDeltaNeutralVaultAbi from '@/abi/BaseDeltaNeutralVault.json';
 import daiArbitrumAbi from '@/abi/DaiArbitrum.json';
+import daiBaseAbi from '@/abi/DaiBase.json';
 import daiEthereumAbi from '@/abi/DaiEthereum.json';
 import deltaNeutralKelpDaoVaultAbi from '@/abi/DeltaNeutralKelpDaoVault.json';
 import deltaNeutralRenzoVaultAbi from '@/abi/DeltaNeutralRenzoVault.json';
 import deltaNeutralVaultAbi from '@/abi/DeltaNeutralVault.json';
 import optionsWheelVaultAbi from '@/abi/OptionsWheelVault.json';
 import usdcArbitrumAbi from '@/abi/UsdcArbitrum.json';
+import usdcBaseAbi from '@/abi/UsdcBase.json';
 import usdcEthereumAbi from '@/abi/UsdcEthereum.json';
 import usdtArbitrumAbi from '@/abi/UsdtArbitrum.json';
+import usdtBaseAbi from '@/abi/UsdtBase.json';
 import usdtEthereumAbi from '@/abi/UsdtEthereum.json';
 import { useChainContext } from '@/app/_providers/ChainProvider';
 
@@ -29,6 +33,11 @@ const ethereumUsdcAddress = process.env.NEXT_PUBLIC_ETHEREUM_USDC_ADDRESS;
 const ethereumUsdtAddress = process.env.NEXT_PUBLIC_ETHEREUM_USDT_ADDRESS;
 const ethereumDaiAddress = process.env.NEXT_PUBLIC_ETHEREUM_DAI_ADDRESS;
 
+// BASE Contract address
+const baseUsdcAddress = process.env.NEXT_PUBLIC_BASE_USDC_ADDRESS;
+const baseUsdtAddress = process.env.NEXT_PUBLIC_BASE_USDT_ADDRESS;
+const baseDaiAddress = process.env.NEXT_PUBLIC_BASE_DAI_ADDRESS;
+
 export type ContractMapping = {
   usdcAbi: Abi;
   usdcAddress: Address;
@@ -37,13 +46,10 @@ export type ContractMapping = {
   daiAbi: Abi;
   daiAddress: Address;
   optionsWheelVaultAbi: Abi;
-  optionsWheelVaultAddress: Address;
   deltaNeutralVaultAbi: Abi;
-  deltaNeutralVaultAddress: Address;
   deltaNeutralRenzoVaultAbi: Abi;
-  deltaNeutralRenzoVaultAddress: Address;
   deltaNeutralKelpDaoVaultAbi: Abi;
-  deltaNeutralKelpDaoVaultAddress: Address;
+  baseDeltaNeutralVaultAbi: Abi;
 };
 const useContractMapping = () => {
   const { selectedChain } = useChainContext();
@@ -60,6 +66,7 @@ const useContractMapping = () => {
       deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
       deltaNeutralKelpDaoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
+      baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
     };
   }
 
@@ -75,6 +82,23 @@ const useContractMapping = () => {
       deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
       deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
+      baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
+    };
+  }
+
+  if (selectedChain === SupportedChain.Base) {
+    return {
+      usdcAbi: usdcBaseAbi as Abi,
+      usdcAddress: baseUsdcAddress,
+      usdtAbi: usdtBaseAbi as Abi,
+      usdtAddress: baseUsdtAddress,
+      daiAbi: daiBaseAbi as Abi,
+      daiAddress: baseDaiAddress,
+      optionsWheelVaultAbi: optionsWheelVaultAbi as Abi,
+      deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
+      deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
+      deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
+      baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
     };
   }
 
@@ -89,6 +113,7 @@ const useContractMapping = () => {
     deltaNeutralVaultAbi: deltaNeutralVaultAbi as Abi,
     deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
     deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
+    baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
   };
 };
 

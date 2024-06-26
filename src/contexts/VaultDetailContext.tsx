@@ -28,6 +28,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
     deltaNeutralVaultAbi,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
+    baseDeltaNeutralVaultAbi,
   } = useContractMapping();
 
   const { vaultVariant, vaultAbi }: VaultDetailContextData = useMemo(() => {
@@ -49,6 +50,13 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
       return {
         vaultVariant: VaultVariant.KelpdaoRestaking,
         vaultAbi: deltaNeutralKelpDaoVaultAbi,
+      };
+    }
+
+    if (name.toLowerCase().includes('base')) {
+      return {
+        vaultVariant: VaultVariant.BaseDeltaNeutral,
+        vaultAbi: baseDeltaNeutralVaultAbi,
       };
     }
 

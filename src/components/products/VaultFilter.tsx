@@ -6,12 +6,13 @@ import { Select, SelectItem } from '@nextui-org/react';
 
 import { VaultNetwork } from '@/@types/enum';
 
-import { ArbitrumIcon, EthereumIcon } from '../shared/icons';
+import { ArbitrumIcon, BaseIcon, EthereumIcon } from '../shared/icons';
 
 const CHAIN_OPTIONS = [
   { label: 'All chains', value: 'all' },
   { label: 'Arbitrum One', value: VaultNetwork.ArbitrumOne },
   { label: 'Ethereum', value: VaultNetwork.Ethereum },
+  { label: 'Base', value: VaultNetwork.Base },
 ];
 
 const SORT_OPTIONS = [
@@ -45,9 +46,11 @@ const VaultFilter = (props: VaultFilterProps) => {
           <SelectItem key={x.value} textValue={x.label}>
             <div className="flex items-center gap-2">
               {x.value === VaultNetwork.ArbitrumOne ? (
-                <ArbitrumIcon className="w-5 h-5" />
+                <ArbitrumIcon className="w-6 h-6" />
               ) : x.value === VaultNetwork.Ethereum ? (
-                <EthereumIcon className="w-5 h-5" />
+                <EthereumIcon className="w-6 h-6 -mx-1" />
+              ) : x.value === VaultNetwork.Base ? (
+                <BaseIcon className="w-5 h-5" />
               ) : null}
               {x.label}
             </div>
