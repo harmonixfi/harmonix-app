@@ -16,27 +16,34 @@ export type VaultDetailMapping = {
 };
 
 export const vaultCardMapping = (
-  name: string,
+  slug: string,
   contracts: Partial<ContractMapping>,
 ): VaultCardMapping => {
-  if (name.toLowerCase().includes('option')) {
+  if (slug.includes('option')) {
     return {
       color: 'default',
       vaultAbi: contracts.optionsWheelVaultAbi,
     };
   }
 
-  if (name.toLowerCase().includes('renzo')) {
+  if (slug.includes('renzo')) {
     return {
       color: 'secondary',
       vaultAbi: contracts.deltaNeutralRenzoVaultAbi,
     };
   }
 
-  if (name.toLowerCase().includes('kelpdao')) {
+  if (slug.includes('kelpdao')) {
     return {
       color: 'secondary',
       vaultAbi: contracts.deltaNeutralKelpDaoVaultAbi,
+    };
+  }
+
+  if (slug.includes('base')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.baseDeltaNeutralVaultAbi,
     };
   }
 
@@ -46,31 +53,13 @@ export const vaultCardMapping = (
   };
 };
 
-export const vaultDetailMapping = (vaultName: string): VaultDetailMapping => {
-  if (vaultName.toLowerCase().includes('option')) {
+export const vaultDetailMapping = (slug: string): VaultDetailMapping => {
+  if (slug.includes('option')) {
     return {
       withdrawal: {
         time: '8am UTC Friday',
         step2:
           'You can claim your withdrawal every Friday at 8am UTC after our options positions have expired.',
-      },
-    };
-  }
-
-  if (vaultName.toLowerCase().includes('renzo')) {
-    return {
-      withdrawal: {
-        time: '1 - 4 hours',
-        step2: 'You can claim your withdrawal after 1-4 hours.',
-      },
-    };
-  }
-
-  if (vaultName.toLowerCase().includes('kelpdao')) {
-    return {
-      withdrawal: {
-        time: '1 - 4 hours',
-        step2: 'You can claim your withdrawal after 1-4 hours.',
       },
     };
   }
@@ -98,6 +87,10 @@ export const vaultWhitelistWalletsMapping = (vaultVariant?: VaultVariant) => {
     return process.env.NEXT_PUBLIC_RENZO_RESTAKING_WHITELIST_WALLETS ?? '';
   }
 
+  if (vaultVariant === VaultVariant.BaseDeltaNeutral) {
+    return process.env.NEXT_PUBLIC_BASE_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
+  }
+
   return process.env.NEXT_PUBLIC_DELTA_NEUTRAL_WHITELIST_WALLETS ?? '';
 };
 
@@ -114,6 +107,10 @@ export const vaultDisableDepositMapping = (vaultVariant?: VaultVariant) => {
 
   if (vaultVariant === VaultVariant.RenzoRestaking) {
     return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_RENZO_RESTAKING_VAULT === 'true';
+  }
+
+  if (vaultVariant === VaultVariant.BaseDeltaNeutral) {
+    return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_BASE_DELTA_NEUTRAL_VAULT === 'true';
   }
 
   return process.env.NEXT_PUBLIC_DISABLE_DEPOSIT_DELTA_NEUTRAL_VAULT === 'true';

@@ -2,14 +2,7 @@ import { IconProps } from '@/@types/common';
 
 const Telegram = ({ className }: IconProps) => {
   return (
-    <svg
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      width="23"
-      height="20"
-      viewBox="0 0 23 20"
-      fill="none"
-    >
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 20" fill="none">
       <g>
         <path
           d="M5.46484 11.289L7.92502 18.0984C7.92502 18.0984 8.2326 18.7356 8.56196 18.7356C8.89132 18.7356 13.7901 13.6393 13.7901 13.6393L19.2376 3.11743L5.55263 9.5313L5.46484 11.289Z"

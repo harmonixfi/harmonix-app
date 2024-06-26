@@ -15,40 +15,48 @@ type VaultDetailContextData = {
 const VaultDetailContext = createContext<VaultDetailContextData>({});
 
 type VaultDetailProviderProps = {
-  name: string;
+  slug: string;
   contractAddress: Address;
   children: ReactNode;
 };
 
 export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
-  const { name, contractAddress, children } = props;
+  const { slug, contractAddress, children } = props;
 
   const {
     optionsWheelVaultAbi,
     deltaNeutralVaultAbi,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
+    baseDeltaNeutralVaultAbi,
   } = useContractMapping();
 
   const { vaultVariant, vaultAbi }: VaultDetailContextData = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return {
         vaultVariant: VaultVariant.OptionsWheel,
         vaultAbi: optionsWheelVaultAbi,
       };
     }
 
-    if (name.toLowerCase().includes('renzo')) {
+    if (slug.includes('renzo')) {
       return {
         vaultVariant: VaultVariant.RenzoRestaking,
         vaultAbi: deltaNeutralRenzoVaultAbi,
       };
     }
 
-    if (name.toLowerCase().includes('kelpdao')) {
+    if (slug.includes('kelpdao')) {
       return {
         vaultVariant: VaultVariant.KelpdaoRestaking,
         vaultAbi: deltaNeutralKelpDaoVaultAbi,
+      };
+    }
+
+    if (slug.includes('base')) {
+      return {
+        vaultVariant: VaultVariant.BaseDeltaNeutral,
+        vaultAbi: baseDeltaNeutralVaultAbi,
       };
     }
 
@@ -57,7 +65,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
       vaultAbi: deltaNeutralVaultAbi,
     };
   }, [
-    name,
+    slug,
     optionsWheelVaultAbi,
     deltaNeutralVaultAbi,
     deltaNeutralRenzoVaultAbi,

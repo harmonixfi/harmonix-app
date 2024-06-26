@@ -5,14 +5,14 @@ import { useMemo } from 'react';
 import { Card } from '@nextui-org/react';
 
 type VaultWithdrawalProps = {
-  name: string;
+  slug: string;
 };
 
 const VaultWithdrawal = (props: VaultWithdrawalProps) => {
-  const { name } = props;
+  const { slug } = props;
 
   const contents = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return [
         `Once user funds have been used in the vault’s weekly strategy they cannot be withdrawn until
         the vault closes it’s position the following Friday at 8am UTC.`,
@@ -34,7 +34,7 @@ const VaultWithdrawal = (props: VaultWithdrawalProps) => {
       vendor and transferred back to the vault, users can then claim their funds from the Harmonix
       website.`,
     ];
-  }, [name]);
+  }, [slug]);
 
   return (
     <Card className="h-full p-8 space-y-6 text-primary">
@@ -42,9 +42,7 @@ const VaultWithdrawal = (props: VaultWithdrawalProps) => {
 
       <div className="flex flex-col gap-2">
         {contents.map((x) => (
-          <p key={x} className="">
-            {x}
-          </p>
+          <p key={x}>{x}</p>
         ))}
       </div>
     </Card>

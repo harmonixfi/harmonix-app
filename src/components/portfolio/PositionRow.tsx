@@ -21,6 +21,7 @@ const PositionRow = (props: PositionRowProps) => {
 
   const {
     vault_name,
+    slug,
     total_balance,
     init_deposit,
     pnl,
@@ -38,19 +39,22 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralVaultAbi,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
+    baseDeltaNeutralVaultAbi,
   } = useContractMapping();
 
   const vaultAbi = useMemo(() => {
-    if (vault_name.toLowerCase().includes('option')) return optionsWheelVaultAbi;
-    if (vault_name.toLowerCase().includes('renzo')) return deltaNeutralRenzoVaultAbi;
-    if (vault_name.toLowerCase().includes('kelpdao')) return deltaNeutralKelpDaoVaultAbi;
+    if (slug.includes('option')) return optionsWheelVaultAbi;
+    if (slug.includes('renzo')) return deltaNeutralRenzoVaultAbi;
+    if (slug.includes('kelpdao')) return deltaNeutralKelpDaoVaultAbi;
+    if (slug.includes('base')) return baseDeltaNeutralVaultAbi;
     return deltaNeutralVaultAbi;
   }, [
-    vault_name,
+    slug,
     optionsWheelVaultAbi,
     deltaNeutralVaultAbi,
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
+    baseDeltaNeutralVaultAbi,
   ]);
 
   const configuredChains = useChains();

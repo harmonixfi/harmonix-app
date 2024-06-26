@@ -8,14 +8,14 @@ import Link from 'next/link';
 import { VaultWorksIcon } from '@/components/shared/icons';
 
 type VaultHowItWorksProps = {
-  name: string;
+  slug: string;
 };
 
 const VaultHowItWorks = (props: VaultHowItWorksProps) => {
-  const { name } = props;
+  const { slug } = props;
 
   const { rebalance, profit } = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return {
         rebalance: [
           'Allocates USDC deposits to WETH/wstETH and USDC/USDC.e liquidity positions',
@@ -25,7 +25,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
       };
     }
 
-    if (name.toLowerCase().includes('renzo')) {
+    if (slug.includes('renzo')) {
       return {
         rebalance: [
           'Convert 50% of the fund deposit to ETH and engage in re-staking on the platform.',
@@ -36,7 +36,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
       };
     }
 
-    if (name.toLowerCase().includes('kelpdao')) {
+    if (slug.includes('kelpdao')) {
       return {
         rebalance: [
           'Convert 50% of the fund deposit to ETH and engage in re-staking on the platform.',
@@ -44,6 +44,16 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
         ],
         profit:
           'You benefit from compounded yields and accumulate valuable rewards, including EigenLayer points and Kelp miles.',
+      };
+    }
+
+    if (slug.includes('base')) {
+      return {
+        rebalance: [
+          'Short ETH on perpetual markets with a favorable funding rate',
+          'Holding ETH in spot or yield to maintain a neutral delta against USD.',
+        ],
+        profit: 'Earning yield through funding fees on Perp DEXes and staked ETH.',
       };
     }
 
@@ -55,7 +65,7 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
       profit:
         'Earning yield through funding fees on Perp DEXes, staked ETH, and borrow APY on Radiant Capital.',
     };
-  }, [name]);
+  }, [slug]);
 
   return (
     <Card className="text-primary rounded-2xl p-8">

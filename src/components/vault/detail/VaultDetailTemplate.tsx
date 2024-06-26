@@ -58,8 +58,8 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
   const userPoints = currentVaultPortfolio?.points;
 
   return (
-    <VaultDetailProvider name={name} contractAddress={contractAddress}>
-      <VaultIntro name={name} points={vaultPoints} />
+    <VaultDetailProvider slug={slug} contractAddress={contractAddress}>
+      <VaultIntro name={name} slug={slug} points={vaultPoints} />
       <div className="relative w-full flex flex-col-reverse xl:grid xl:grid-cols-5 gap-6 mt-6 z-20">
         <div className="xl:col-span-3">
           <div className="flex flex-col gap-6">
@@ -81,7 +81,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
               onyxData={onyxData}
             />
 
-            <VaultHowItWorks name={name} />
+            <VaultHowItWorks slug={slug} />
 
             <div className="grid grid-cols-12 items-stretch gap-6">
               <div className="h-full col-span-12 2xl:col-span-5">
@@ -92,7 +92,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
               </div>
             </div>
 
-            <VaultWithdrawal name={name} />
+            <VaultWithdrawal slug={slug} />
           </div>
         </div>
 

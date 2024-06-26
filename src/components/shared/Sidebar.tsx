@@ -60,6 +60,13 @@ const items = [
   },
 ];
 
+const socials = [
+  { icon: TwitterLineIcon, link: SOCIAL_URLS.Twitter },
+  { icon: TelegramIcon, link: SOCIAL_URLS.Telegram },
+  { icon: DiscordIcon, link: SOCIAL_URLS.Discord },
+  { icon: GithubLineIcon, link: SOCIAL_URLS.Github },
+];
+
 const Sidebar = () => {
   const pathname = usePathname();
 
@@ -100,7 +107,7 @@ const Sidebar = () => {
             />
           </div>
 
-          <ul className="space-y-2 mt-8">
+          <ul className="space-y-2 mt-10">
             {items.map((x) => (
               <li key={x.text}>
                 <Link
@@ -110,9 +117,10 @@ const Sidebar = () => {
                   className={`w-full flex items-center gap-4 px-4 py-2 rounded-xl ${
                     pathname === x.link ||
                     (pathname === '/' && x.link === Urls.Products) ||
-                    (pathname.startsWith(Urls.Vaults) && x.link === Urls.Products)
+                    (pathname.startsWith(Urls.Vaults) && x.link === Urls.Products) ||
+                    (pathname.startsWith(Urls.Dashboard) && x.link === Urls.Dashboard)
                       ? 'bg-[#10272B] text-secondary'
-                      : 'bg-transparent text-[#F1F1EB]'
+                      : 'bg-transparent text-[#F1F1EB] text-opacity-90'
                   } ${x.disabled ? 'opacity-60 pointer-events-none' : 'hover:bg-[#10272B]'}`}
                 >
                   <x.icon className="w-7 h-7" />
@@ -137,53 +145,28 @@ const Sidebar = () => {
               href="https://github.com/harmonixfi/core-smart-contract/blob/main/audits/Verichains%20Public%20Report%20-%20HarmonixFinance.pdf"
               target="_blank"
             >
-              <VerichainIcon className="w-auto h-12 text-secondary" />
+              <VerichainIcon className="w-auto h-10 text-secondary" />
             </Link>
           </div>
-          <div className="flex flex-col items-center gap-2 w-full bg-rock-g70 py-5 rounded-3xl">
-            <p className="font-light text-secondary">Follow us on</p>
+          <div className="flex flex-col items-center gap-2 w-full bg-rock-g70 py-1.5 rounded-full">
+            {/* <p className="font-light text-secondary">Follow us on</p> */}
             <ul className="flex gap-3">
-              <li>
-                <a
-                  href={SOCIAL_URLS.Twitter}
-                  target="_blank"
-                  className="text-secondary block rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
-                >
-                  <TwitterLineIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SOCIAL_URLS.Telegram}
-                  target="_blank"
-                  className="text-secondary block rounded-full px-2 py-2.5 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
-                >
-                  <TelegramIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SOCIAL_URLS.Discord}
-                  target="_blank"
-                  className="w-10 h-10 text-secondary block rounded-full px-2 py-2 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
-                >
-                  <DiscordIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SOCIAL_URLS.Github}
-                  target="_blank"
-                  className="text-secondary block rounded-full p-2.5 transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
-                >
-                  <GithubLineIcon />
-                </a>
-              </li>
+              {socials.map((x) => (
+                <li key={x.link}>
+                  <a
+                    href={x.link}
+                    target="_blank"
+                    className="flex items-center justify-center w-10 h-10 text-secondary rounded-full transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
+                  >
+                    <x.icon className="w-6 h-6" />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <SidebarCurveIcon className="absolute bottom-0 left-0 w-[160%] h-auto opacity-30" />
+        <SidebarCurveIcon className="absolute bottom-0 left-0 w-[160%] h-auto opacity-20" />
       </div>
     </div>
   );

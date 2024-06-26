@@ -8,6 +8,7 @@ export enum SupportedChain {
   Sepolia = 'Sepolia',
   Arbitrum = 'Arbitrum One',
   Ethereum = 'Ethereum',
+  Base = 'Base',
 }
 
 export enum VaultVariant {
@@ -15,6 +16,7 @@ export enum VaultVariant {
   DeltaNeutral = 'DELTA_NEUTRAL',
   KelpdaoRestaking = 'KELPDAO_RESTAKING',
   RenzoRestaking = 'RENZO_RESTAKING',
+  BaseDeltaNeutral = 'BASE_DELTA_NEUTRAL',
 }
 
 export enum VaultCategory {
@@ -25,6 +27,7 @@ export enum VaultCategory {
 export enum VaultNetwork {
   ArbitrumOne = 'arbitrum_one',
   Ethereum = 'ethereum',
+  Base = 'base',
 }
 
 export enum Strategy {

@@ -148,6 +148,22 @@
       calc(100% - var(--b)) calc(100% - var(--b)) border-box;
 }
 
+.base-card {
+  --c: #437bff; /* the color */
+
+  color: var(--c);
+  background:
+    conic-gradient(
+        at left var(--d) bottom var(--d),
+        #0000 90deg,
+        rgb(255 255 255 /0.3) 0 225deg,
+        rgb(255 255 255 /0.6) 0
+      )
+      border-box,
+    conic-gradient(at left var(--_s) bottom var(--_s), #ffff 90deg, var(--c) 0) 0 100% /
+      calc(100% - var(--b)) calc(100% - var(--b)) border-box;
+}
+
 .options-wheel-capacity {
   background-color: #ffaf1d;
 }
@@ -159,6 +175,9 @@
 }
 .kelpdao-capacity {
   background-color: #075a5a;
+}
+.base-capacity {
+  background-color: #437bff;
 }
 
 .blinking-cursor {

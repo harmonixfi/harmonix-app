@@ -2,14 +2,7 @@ import { IconProps } from '@/@types/common';
 
 const GithubLine = ({ className }: IconProps) => {
   return (
-    <svg
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-    >
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
       <g clipPath="url(#clip0_68_626)">
         <path
           fillRule="evenodd"
