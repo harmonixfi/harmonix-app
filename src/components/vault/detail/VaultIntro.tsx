@@ -11,30 +11,31 @@ import { getDisplayedPoint } from '@/utils/vault';
 
 type VaultIntroProps = {
   name: string;
+  slug: string;
   points?: Point[];
 };
 
 const VaultIntro = (props: VaultIntroProps) => {
-  const { name, points } = props;
+  const { name, slug, points } = props;
 
   const description = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return `This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not only
       exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns by up
       to 50% during bearish/downward market
       trends.`;
     }
 
-    if (name.toLowerCase().includes('renzo')) {
+    if (slug.includes('renzo')) {
       return 'Generate yield by swapping 50% of the fund deposit into ETH and re-staking it on Renzo, while converting the remaining 50% into stablecoins and shorting at 1x leverage on decentralized derivative exchanges.';
     }
 
-    if (name.toLowerCase().includes('kelpdao')) {
+    if (slug.includes('kelpdao')) {
       return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
     }
 
     return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
-  }, [name]);
+  }, [slug]);
 
   return (
     <Card className="flex flex-col 2xl:flex-row items-center gap-12 rounded-2xl p-8">

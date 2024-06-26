@@ -43,13 +43,13 @@ type VaultCardProps = {
 const MAX_CAPACITY = 50 * 1000;
 
 const VaultCard = (props: VaultCardProps) => {
-  const { name, link = '#', apy = 0, points, strategy, contractAddress, network } = props;
+  const { name, slug, link = '#', apy = 0, points, strategy, contractAddress, network } = props;
 
   const configuredChains = useChains();
 
   const contracts = useContractMapping();
 
-  const { vaultAbi } = vaultCardMapping(name, contracts);
+  const { vaultAbi } = vaultCardMapping(slug, contracts);
 
   const chainId = configuredChains.find((x) => x.name === supportedChainMapping[network])?.id;
 
@@ -64,43 +64,43 @@ const VaultCard = (props: VaultCardProps) => {
   }, [strategy]);
 
   const description = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return `This vault/strategy is designed to capitalize on the upward trend of ETH, aiming to not only
       exceed the performance of holding ETH alone by 20%-50% but also to minimize drawdowns by up
       to 50% during bearish/downward market
       trends.`;
     }
 
-    if (name.toLowerCase().includes('renzo')) {
+    if (slug.includes('renzo')) {
       return 'Generate yield by swapping 50% of the fund deposit into ETH and re-staking it on Renzo, while converting the remaining 50% into stablecoins and shorting at 1x leverage on decentralized derivative exchanges.';
     }
 
-    if (name.toLowerCase().includes('kelpdao')) {
+    if (slug.includes('kelpdao')) {
       return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
     }
 
     return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
-  }, [name]);
+  }, [slug]);
 
   const { vaultCardClass, capacityBarClass } = useMemo(() => {
-    if (name.toLowerCase().includes('option')) {
+    if (slug.includes('option')) {
       return { vaultCardClass: 'options-wheel-card', capacityBarClass: 'options-wheel-capacity' };
     }
 
-    if (name.toLowerCase().includes('renzo')) {
+    if (slug.includes('renzo')) {
       return { vaultCardClass: 'renzo-card', capacityBarClass: 'renzo-capacity' };
     }
 
-    if (name.toLowerCase().includes('kelpdao')) {
+    if (slug.includes('kelpdao')) {
       return { vaultCardClass: 'kelpdao-card', capacityBarClass: 'kelpdao-capacity' };
     }
 
-    if (name.toLowerCase().includes('base')) {
+    if (slug.includes('base')) {
       return { vaultCardClass: 'base-card', capacityBarClass: 'base-capacity' };
     }
 
     return { vaultCardClass: 'delta-neutral-card', capacityBarClass: 'delta-neutral-capacity' };
-  }, [name]);
+  }, [slug]);
 
   return (
     <Card className={`rounded-none vault-card ${vaultCardClass}`}>
@@ -121,7 +121,7 @@ const VaultCard = (props: VaultCardProps) => {
                   <BaseIcon className="w-5 h-5" />
                 )}
                 <p className="text-sm capitalize">{displayedStrategy}</p>
-                {name.toLowerCase().includes('option') && (
+                {slug.includes('option') && (
                   <Chip variant="flat" color="warning" className="animate-pulse">
                     <div className="flex items-center gap-1">
                       <span className="inline-block bg-orange-300 w-1.5 h-1.5 rounded-full" />
