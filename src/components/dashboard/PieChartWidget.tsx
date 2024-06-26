@@ -9,7 +9,7 @@ type PieChartWidgetProps = {
   title: string;
   data: { name: string; value: number }[];
 };
-const COLORS = ['#0E8484', '#A3C7D6', '#F6995C', '#E95793'];
+const COLORS = ['#0E8484', '#A3C7D6', '#F6995C', '#E95793', '#402E7A', '#FF204E', '#35374B'];
 
 const RADIAN = Math.PI / 180;
 
