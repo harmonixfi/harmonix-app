@@ -25,7 +25,7 @@ const VaultTabs = () => {
         aria-label="Category"
         color="primary"
         variant="bordered"
-        classNames={{ tabList: 'border-primary mb-4', tabContent: 'text-base px-4' }}
+        classNames={{ tabList: 'border-primary mb-8', tabContent: 'text-base px-4' }}
       >
         <Tab key="all" title="All">
           <div>

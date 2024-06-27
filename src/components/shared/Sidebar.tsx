@@ -107,7 +107,7 @@ const Sidebar = () => {
             />
           </div>
 
-          <ul className="space-y-2 mt-10">
+          <ul className="space-y-2 mt-12">
             {items.map((x) => (
               <li key={x.text}>
                 <Link

@@ -2,7 +2,9 @@
 
 import { useMemo } from 'react';
 
-import { Card, Chip, Tooltip } from '@nextui-org/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Chip, Tooltip } from '@nextui-org/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useChains } from 'wagmi';
 
@@ -20,8 +22,10 @@ import { getDisplayedPoint } from '@/utils/vault';
 import {
   ArbitrumIcon,
   BaseIcon,
+  BsxIcon,
   DaiAssetIcon,
   EthereumIcon,
+  FlatLogoIcon,
   InformationIcon,
   UsdcAssetIcon,
   UsdtAssetIcon,
@@ -79,6 +83,10 @@ const VaultCard = (props: VaultCardProps) => {
       return 'Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.';
     }
 
+    if (slug.includes('base')) {
+      return 'Generating yield by shorting ETH on BSX with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+    }
+
     return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
   }, [slug]);
 
@@ -103,10 +111,15 @@ const VaultCard = (props: VaultCardProps) => {
   }, [slug]);
 
   return (
-    <Card className={`rounded-none vault-card ${vaultCardClass}`}>
+    <div className="relative">
+      {slug.includes('base') && (
+        <span className="absolute -top-4 right-8 w-14 h-14 z-30 animate-appearance-in">
+          <Image src="/hot.png" fill sizes="100%" alt="bsx-hot-vault" className="object-cover" />
+        </span>
+      )}
       <Link
         href={link}
-        className="h-full flex flex-col justify-between gap-6 p-8 text-primary relative"
+        className={`h-full flex flex-col justify-between gap-6 p-5 sm:p-8 vault-card ${vaultCardClass} !text-primary relative `}
       >
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-between bg-rock-grey01 px-6 py-4 rounded-2xl">
@@ -139,6 +152,20 @@ const VaultCard = (props: VaultCardProps) => {
           </div>
 
           <p className="text-base font-light">{description}</p>
+
+          {slug.includes('base') && (
+            <div className="flex items-center justify-center gap-4 bg-primary rounded-lg p-6">
+              <div className="flex items-center gap-2">
+                <span className="text-xl lg:text-2xl text-secondary">Harmonix</span>
+                <FlatLogoIcon className="w-8 h-8 lg:w-12 lg:h-12" />
+              </div>
+              <XMarkIcon className="shrink-0 w-6 h-6 lg:w-8 lg:h-8 text-secondary" />
+              <div className="flex items-center gap-2">
+                <BsxIcon className="w-8 h-8 lg:w-12 lg:h-12" />
+                <span className="text-xl lg:text-2xl text-white">BSX</span>
+              </div>
+            </div>
+          )}
 
           <div
             className={`grid ${points && points.length > 0 ? 'grid-cols-2' : 'grid-cols-1'} gap-6`}
@@ -197,13 +224,20 @@ const VaultCard = (props: VaultCardProps) => {
                   const { label, icon: Icon } = point;
                   return (
                     <div key={x.name} className="flex flex-col items-center gap-1">
-                      <div className="flex items-center gap-1">
-                        <Icon className="w-6 h-6 shrink-0" />
+                      <div>
+                        {slug.includes('base') && x.name === 'Harmonix' && (
+                          <span className="bg-secondary border-2 border-primary rounded-md text-base font-semibold px-2.5 py-0.5 mr-2">
+                            2x
+                          </span>
+                        )}
                         <span className="text-sm opacity-60">{label}</span>
                       </div>
-                      <p className="font-semibold">
-                        {x.point ? withCommas(toFixedNumber(x.point, 1)) : 'Variable'}
-                      </p>
+                      <div className="flex items-center gap-1">
+                        <p className="font-semibold">
+                          {x.point ? withCommas(toFixedNumber(x.point, 1)) : 'Variable'}
+                        </p>
+                        <Icon className="w-6 h-6 shrink-0" />
+                      </div>
                     </div>
                   );
                 })}
@@ -225,7 +259,12 @@ const VaultCard = (props: VaultCardProps) => {
           </div>
         </div>
       </Link>
-    </Card>
+      <div className="hidden">
+        <a href="https://www.flaticon.com/free-icons/sell" title="sell icons">
+          Sell icons created by Freepik - Flaticon
+        </a>
+      </div>
+    </div>
   );
 };
 
