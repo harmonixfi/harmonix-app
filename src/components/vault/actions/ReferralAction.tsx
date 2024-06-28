@@ -92,7 +92,7 @@ const ReferralAction = (props: ReferralActionProps) => {
           onValueChange={setValue}
         />
         {!isSSR && !value && (
-          <span className="absolute top-2 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-primary bg-opacity-90 blinking-cursor" />
+          <span className="absolute top-2 left-1/2 -translate-x-1/2 w-[1px] h-12 sm:h-16 bg-primary bg-opacity-90 blinking-cursor" />
         )}
         <p className="text-sm">
           *An invite code is required to make a deposit. Please enter your code or reach out to
