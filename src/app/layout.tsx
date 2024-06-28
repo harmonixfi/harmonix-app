@@ -13,13 +13,18 @@ import Sidebar from '@/components/shared/Sidebar';
 import Providers from './_providers/Providers';
 import './globals.css';
 import Loading from './loading';
+import {
+  metaImageUrl,
+  metaOpenGraphType,
+  metaTwitterCard,
+  metaTwitterSite,
+} from './shared-metadata';
 
 const outfit = Outfit({ subsets: ['latin'] });
 
 const metaTitle = 'Harmonix Finance';
 const metaDescription =
   'Building efficient hedge fund on-chain derivatives pools. Delta neutral. Option Wheel. Restaking. Juicy Yield. Low Risk.';
-const metaImageUrl = '/twitter-banner.jpg';
 
 export const metadata: Metadata = {
   metadataBase:
@@ -29,10 +34,10 @@ export const metadata: Metadata = {
   title: 'Harmonix Finance',
   description: 'Automatic Hedging Vaults While Earning Good Yields With Low Risk',
   twitter: {
-    site: '@harmonixfi',
+    site: metaTwitterSite,
     title: metaTitle,
     description: metaDescription,
-    card: 'summary_large_image',
+    card: metaTwitterCard,
     images: {
       url: metaImageUrl,
     },
@@ -40,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: metaTitle,
     description: metaDescription,
-    type: 'website',
+    type: metaOpenGraphType,
     images: { url: metaImageUrl },
   },
 };
