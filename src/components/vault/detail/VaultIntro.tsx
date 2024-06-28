@@ -44,7 +44,7 @@ const VaultIntro = (props: VaultIntroProps) => {
 
   return (
     <Card className="flex flex-col 2xl:flex-row items-center gap-12 rounded-2xl p-8">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-center gap-3">
         {slug.includes('base') && (
           <span className="shrink-0 flex items-center justify-center w-32 h-32 bg-indigo-200 rounded-full partner-intro">
             <BsxIcon className="w-20 h-20" />
