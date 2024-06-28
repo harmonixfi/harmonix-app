@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import { Card } from '@nextui-org/react';
 
 import { getVaultsOverview } from '@/api/statistic';
@@ -5,6 +7,36 @@ import VaultTabs from '@/components/products/VaultTabs';
 import Page from '@/components/shared/Page';
 import { toCurrency } from '@/utils/currency';
 import { withCommas } from '@/utils/number';
+
+import {
+  metaImageUrl,
+  metaOpenGraphType,
+  metaTwitterCard,
+  metaTwitterSite,
+} from '../shared-metadata';
+
+const metaTitle = 'Harmonix Vaults';
+const metaDescription = `Explore our range of innovative DeFi products designed to enhance your crypto investment journey. From automated hedge fund vaults to restaking strategies, we've got you covered.`;
+
+export const metadata: Metadata = {
+  title: metaTitle,
+  description: metaDescription,
+  twitter: {
+    site: metaTwitterSite,
+    title: metaTitle,
+    description: metaDescription,
+    card: metaTwitterCard,
+    images: {
+      url: metaImageUrl,
+    },
+  },
+  openGraph: {
+    title: metaTitle,
+    description: metaDescription,
+    type: metaOpenGraphType,
+    images: { url: metaImageUrl },
+  },
+};
 
 async function getData() {
   const response = await getVaultsOverview();
