@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/16/solid';
 import { ChartPieIcon, GiftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -138,32 +139,52 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className="space-y-3 z-40">
-          <div className="flex flex-col items-center gap-4 bg-rock-g70 px-6 py-3 rounded-3xl">
-            <p className="font-light text-secondary">Audited by</p>
+        <div className="bg-rock-g70 rounded-xl p-2 space-y-2 z-40">
+          <div className="flex items-center justify-between gap-2 bg-rock-g60 px-4 py-3 rounded-xl">
+            <p className="text-sm font-light text-secondary">Audited by</p>
             <Link
               href="https://github.com/harmonixfi/core-smart-contract/blob/main/audits/Verichains%20Public%20Report%20-%20HarmonixFinance.pdf"
               target="_blank"
             >
-              <VerichainIcon className="w-auto h-10 text-secondary" />
+              <VerichainIcon className="w-auto h-9 text-white" />
             </Link>
           </div>
-          <div className="flex flex-col items-center gap-2 w-full bg-rock-g70 py-1.5 rounded-full">
-            {/* <p className="font-light text-secondary">Follow us on</p> */}
-            <ul className="flex gap-3">
-              {socials.map((x) => (
-                <li key={x.link}>
-                  <a
-                    href={x.link}
-                    target="_blank"
-                    className="flex items-center justify-center w-10 h-10 text-secondary rounded-full transition duration-150 ease-in-out hover:bg-primary hover:border-primary hover:text-secondary"
-                  >
-                    <x.icon className="w-6 h-6" />
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-col items-center gap-4 bg-rock-g60 p-4 rounded-xl">
+            <p className="text-secondary text-sm font-light">Backed By</p>
+            <div className="flex items-center justify-center gap-4">
+              <div className="relative aspect-[1.8] h-14">
+                <Image
+                  src="/solanium-ventures.png"
+                  fill
+                  sizes="100%"
+                  alt="Solanium Ventures"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-[1.2] h-14">
+                <Image
+                  src="/sqrdao-white.png"
+                  fill
+                  sizes="100%"
+                  alt="sqrDAO"
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
+          <ul className="flex items-center justify-around bg-rock-g60 px-2 py-3 rounded-xl">
+            {socials.map((x) => (
+              <li key={x.link}>
+                <a
+                  href={x.link}
+                  target="_blank"
+                  className="flex items-center justify-center text-white transition duration-150 ease-in-out hover:text-secondary"
+                >
+                  <x.icon className="w-5 h-5" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <SidebarCurveIcon className="absolute bottom-0 left-0 w-[160%] h-auto opacity-20" />

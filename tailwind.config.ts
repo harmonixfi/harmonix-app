@@ -38,6 +38,7 @@ const config: Config = {
           'light-blue': '#4281FF',
           g80: '#07161D',
           g70: '#0B1E24',
+          g60: '#10272B',
           grey01: '#F5F6F6',
         },
       },

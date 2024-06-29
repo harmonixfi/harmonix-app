@@ -2,12 +2,15 @@
 
 import { useMemo } from 'react';
 
+import { Button } from '@nextui-org/react';
 import { format } from 'date-fns';
+import Link from 'next/link';
 import { useChains } from 'wagmi';
 
 import { Position } from '@/@types/portfolio';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
+import { Urls } from '@/constants/urls';
 import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
@@ -70,7 +73,7 @@ const PositionRow = (props: PositionRowProps) => {
 
   return (
     <>
-      <div className="hidden lg:grid grid-cols-7 p-6 bg-white rounded-2xl text-sm lg:text-base font-semibold">
+      <div className="hidden lg:grid grid-cols-8 items-center gap-2 p-6 bg-white rounded-2xl text-sm lg:text-base font-semibold">
         <p className="col-span-2">{vault_name}</p>
         <p>{withCommas(toFixedNumber(total_balance))} USDC</p>
         <p>{withCommas(toFixedNumber(init_deposit))} USDC</p>
@@ -93,8 +96,13 @@ const PositionRow = (props: PositionRowProps) => {
             Number(toFixedNumber(apy)) >= 0 ? 'text-rock-green' : 'text-red-600'
           }`}
         >{`${formatPnl(toFixedNumber(apy), true)}`}</p>
+        <div className="flex justify-end">
+          <Button as={Link} href={`${Urls.Vaults}/${slug}`} size="sm" color="primary">
+            View
+          </Button>
+        </div>
 
-        <div className="col-span-7">
+        <div className="col-span-8">
           <div className="grid grid-cols-2 3xl:gap-16 bg-rock-grey01 rounded-lg px-6 py-4 mt-6 text-sm 2xl:text-base font-normal">
             <div className="col-span-2 md:col-auto grid grid-cols-2 3xl:grid-cols-3 gap-y-2">
               <p>Trade Start Date:</p>
@@ -142,7 +150,7 @@ const PositionRow = (props: PositionRowProps) => {
       </div>
 
       {/* Mobile */}
-      <div className="lg:hidden bg-white rounded-2xl p-6">
+      <div className="lg:hidden bg-white rounded-2xl p-4 sm:p-6">
         <div className="grid grid-cols-2 gap-x-2 gap-y-4">
           <p className="text-base font-semibold">Vault name</p>
           <p className="text-base font-semibold">{vault_name}</p>
@@ -229,6 +237,16 @@ const PositionRow = (props: PositionRowProps) => {
             </p>
           </div>
         </div>
+        <Button
+          as={Link}
+          href={`${Urls.Vaults}/${slug}`}
+          fullWidth
+          size="sm"
+          color="primary"
+          className="mt-4"
+        >
+          View
+        </Button>
       </div>
     </>
   );

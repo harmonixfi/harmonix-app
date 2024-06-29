@@ -17,7 +17,7 @@ import useContractMapping from '@/hooks/useContractMapping';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { vaultCardMapping } from '@/services/vaultMapping';
 import { toCompactNumber, toFixedNumber, withCommas } from '@/utils/number';
-import { getDisplayedPoint } from '@/utils/vault';
+import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 import {
   ArbitrumIcon,
@@ -216,7 +216,7 @@ const VaultCard = (props: VaultCardProps) => {
           {points && points.length > 0 && (
             <div className="bg-rock-grey01 p-4 rounded-2xl">
               <div className="flex flex-wrap items-center justify-around gap-6">
-                {points.map((x) => {
+                {sortPoints(points).map((x) => {
                   const point = getDisplayedPoint(x);
                   if (!point) {
                     return null;
