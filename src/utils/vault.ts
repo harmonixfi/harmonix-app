@@ -57,3 +57,16 @@ export const getDisplayedPoint = (point: Point) => {
 
   return data;
 };
+
+export const sortPoints = (points: Point[]) => {
+  const sortedPoints = [...points];
+
+  const harmonixIndex = sortedPoints.findIndex((x) => x.name === PointProvider.Harmonix);
+
+  if (harmonixIndex !== -1) {
+    const [item] = sortedPoints.splice(harmonixIndex, 1);
+    sortedPoints.unshift(item);
+  }
+
+  return sortedPoints;
+};

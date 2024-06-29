@@ -22,15 +22,15 @@ const ActivePositions = (props: ActivePositionsProps) => {
   }
 
   return (
-    <Card className="p-8 text-primary">
+    <Card className="p-6 sm:p-8 text-primary">
       <p className="text-xl font-medium opacity-50 capitalize">Your active positions</p>
 
       {positions.length === 0 ? (
         <p className="mt-4">You have no positions</p>
       ) : (
         <>
-          <div className="w-full p-6 bg-rock-grey01 rounded-2xl mt-6">
-            <div className="hidden sm:grid grid-cols-7 gap-2 px-6 text-left text-sm xl:text-base 2xl:text-lg font-semibold mb-6">
+          <div className="w-full p-4 sm:p-6 bg-rock-grey01 rounded-2xl mt-2 sm:mt-6">
+            <div className="hidden lg:grid grid-cols-8 gap-2 px-6 text-left text-sm xl:text-base 2xl:text-lg font-semibold mb-6">
               <p className="col-span-2 ">Vault name</p>
               <p className="text-left">Total balance</p>
               <p className="text-left">Initial deposit</p>

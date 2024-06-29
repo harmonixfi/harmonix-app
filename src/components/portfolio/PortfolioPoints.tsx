@@ -2,7 +2,7 @@ import { Card } from '@nextui-org/react';
 
 import { Point } from '@/@types/portfolio';
 import { toFixedNumber, withCommas } from '@/utils/number';
-import { getDisplayedPoint } from '@/utils/vault';
+import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 type PortfolioPointsProps = {
   points: Point[];
@@ -16,7 +16,7 @@ const PortfolioPoints = (props: PortfolioPointsProps) => {
       <p className="text-xl font-medium capitalize opacity-50">Your points</p>
       {points.length > 0 && (
         <div className="w-full xl:w-auto shrink-0 flex flex-wrap items-center justify-around gap-8 bg-secondary text-primary rounded-2xl py-6 mt-6">
-          {[...points].map((x) => {
+          {sortPoints(points).map((x) => {
             const point = getDisplayedPoint(x);
             if (!point) {
               return null;

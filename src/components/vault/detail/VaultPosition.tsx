@@ -13,7 +13,7 @@ import { NA_STRING } from '@/constants/common';
 import { useVaultDetailContext } from '@/contexts/VaultDetailContext';
 import useVaultQueries from '@/hooks/useVaultQueries';
 import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
-import { getDisplayedPoint } from '@/utils/vault';
+import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 type VaultPositionProps = {
   points?: Point[];
@@ -109,7 +109,7 @@ const VaultPosition = (props: VaultPositionProps) => {
       </div>
       {points && points.length > 0 && (
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-12 py-6 border-t border-[#E8EDEC]">
-          {points.map((x) => {
+          {sortPoints(points).map((x) => {
             const point = getDisplayedPoint(x);
             if (!point) {
               return null;

@@ -47,14 +47,10 @@ const LineChart = (props: LineChartProps) => {
           style: 2,
         },
       },
-      leftPriceScale: {
+      rightPriceScale: {
         visible: true,
         borderColor: '#E3E3E3',
       },
-      rightPriceScale: {
-        visible: false,
-      },
-
       localization: {
         priceFormatter: (v: string | number) => `${Math.round(Number(v) * 100) / 100}%`,
       },

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Point } from '@/@types/portfolio';
 import { BsxIcon } from '@/components/shared/icons';
 import { toFixedNumber, withCommas } from '@/utils/number';
-import { getDisplayedPoint } from '@/utils/vault';
+import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 type VaultIntroProps = {
   name: string;
@@ -66,7 +66,7 @@ const VaultIntro = (props: VaultIntroProps) => {
       </div>
       {points && points.length > 0 && (
         <div className="shrink-0 w-full 2xl:w-auto flex flex-col md:flex-row flex-wrap items-center justify-around gap-12 bg-secondary text-primary rounded-2xl px-6 py-8">
-          {points.map((x) => {
+          {sortPoints(points).map((x) => {
             const point = getDisplayedPoint(x);
             if (!point) {
               return null;
