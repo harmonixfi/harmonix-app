@@ -71,7 +71,7 @@ const VaultIntro = (props: VaultIntroProps) => {
             if (!point) {
               return null;
             }
-            const { label, icon: Icon } = point;
+            const { label, icon: Icon, formattedPoint } = point;
             return (
               <div
                 key={x.name}
@@ -80,9 +80,7 @@ const VaultIntro = (props: VaultIntroProps) => {
                 <p className="text-base capitalize opacity-60">{label}</p>
                 <div className="flex items-center justify-center gap-2">
                   <Icon className="w-8 h-8" />
-                  <span className="font-semibold text-xl">
-                    {withCommas(toFixedNumber(x.point, 1))}
-                  </span>
+                  <span className="font-semibold text-xl">{formattedPoint}</span>
                 </div>
               </div>
             );

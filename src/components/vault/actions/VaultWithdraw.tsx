@@ -274,7 +274,7 @@ const VaultWithdraw = (props: VaultWithdrawProps) => {
       </div>
 
       <div className="space-y-1">
-        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-4 rounded-2xl">
+        <div className="flex flex-col gap-4 bg-rock-grey01 px-6 pt-4 pb-12 rounded-2xl">
           <p className="opacity-50 capitalize font-medium">You withdraw</p>
           <div className="flex items-start justify-between gap-4">
             <div className="grow space-y-1">

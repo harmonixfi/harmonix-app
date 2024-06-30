@@ -221,7 +221,7 @@ const VaultCard = (props: VaultCardProps) => {
                   if (!point) {
                     return null;
                   }
-                  const { label, icon: Icon } = point;
+                  const { label, icon: Icon, formattedPoint } = point;
                   return (
                     <div key={x.name} className="flex flex-col items-center gap-1">
                       <div>
@@ -233,9 +233,7 @@ const VaultCard = (props: VaultCardProps) => {
                         <span className="text-sm opacity-60">{label}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <p className="font-semibold">
-                          {x.point ? withCommas(toFixedNumber(x.point, 1)) : 'Variable'}
-                        </p>
+                        <p className="font-semibold">{x.point ? formattedPoint : 'Variable'}</p>
                         <Icon className="w-6 h-6 shrink-0" />
                       </div>
                     </div>
