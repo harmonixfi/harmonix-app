@@ -1,7 +1,6 @@
 import { Card } from '@nextui-org/react';
 
 import { Point } from '@/@types/portfolio';
-import { toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 type PortfolioPointsProps = {
@@ -21,14 +20,12 @@ const PortfolioPoints = (props: PortfolioPointsProps) => {
             if (!point) {
               return null;
             }
-            const { label, icon: Icon } = point;
+            const { label, icon: Icon, formattedPoint } = point;
             return (
               <div key={x.name} className="flex flex-col items-center justify-center gap-2 px-6">
                 <p className="text-base capitalize opacity-60">{label}</p>
                 <div className="flex items-center justify-center gap-2">
-                  <span className="font-bold text-2xl">
-                    {withCommas(toFixedNumber(x.point, 1))}
-                  </span>
+                  <span className="font-bold text-2xl">{formattedPoint}</span>
                   <Icon className="w-8 h-8" />
                 </div>
               </div>

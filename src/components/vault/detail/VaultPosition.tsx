@@ -5,8 +5,8 @@ import { useMemo } from 'react';
 import { Card } from '@nextui-org/react';
 import { useChains } from 'wagmi';
 
-import { VaultNetwork, VaultVariant } from '@/@types/enum';
-import { Point } from '@/@types/portfolio';
+import { VaultNetwork } from '@/@types/enum';
+import { Position } from '@/@types/portfolio';
 import { VaultPositionCoinIcon, VaultPositionCurveIcon } from '@/components/shared/icons';
 import { supportedChainMapping } from '@/constants/chain';
 import { NA_STRING } from '@/constants/common';
@@ -16,40 +16,34 @@ import { formatPnl, toFixedNumber, withCommas } from '@/utils/number';
 import { getDisplayedPoint, sortPoints } from '@/utils/vault';
 
 type VaultPositionProps = {
-  points?: Point[];
+  position?: Position;
   vaultNetwork: VaultNetwork;
 };
 
 const VaultPosition = (props: VaultPositionProps) => {
-  const { points, vaultNetwork } = props;
+  const { position, vaultNetwork } = props;
 
   const { vaultAbi, vaultAddress, vaultVariant } = useVaultDetailContext();
+
+  const {
+    init_deposit = 0,
+    total_balance = 0,
+    pending_withdrawal = 0,
+    pnl = 0,
+    points,
+  } = position || {};
 
   const configuredChains = useChains();
 
   const chainId = configuredChains.find((x) => x.name === supportedChainMapping[vaultNetwork])?.id;
 
-  const {
-    depositAmount,
-    pricePerShare,
-    balanceOf,
-    deltaNeutralShares,
-    availableWithdrawalAmount,
-    profit,
-    loss,
-  } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant, chainId);
-
-  const totalBalance = (balanceOf + availableWithdrawalAmount) * pricePerShare;
-  const netYield = totalBalance - depositAmount;
-  const pnl = loss !== 0 ? Number(`-${loss}`) : profit;
-
-  const isOptionsWheelVault = vaultVariant === VaultVariant.OptionsWheel;
+  const { balanceOf } = useVaultQueries(vaultAbi, vaultAddress, vaultVariant, chainId);
 
   const displayedFields = useMemo(() => {
     return [
       {
         label: 'Initial deposit',
-        value: `${withCommas(toFixedNumber(depositAmount))} USDC`,
+        value: `${withCommas(toFixedNumber(init_deposit))} USDC`,
       },
       {
         label: 'Total share',
@@ -58,22 +52,14 @@ const VaultPosition = (props: VaultPositionProps) => {
       {
         label: 'Pending withdrawal',
         value:
-          availableWithdrawalAmount !== 0
-            ? `${withCommas(toFixedNumber(availableWithdrawalAmount))} roUSD`
+          pending_withdrawal !== 0
+            ? `${withCommas(toFixedNumber(pending_withdrawal))} roUSD`
             : NA_STRING,
       },
     ];
-  }, [totalBalance, depositAmount, balanceOf, availableWithdrawalAmount]);
+  }, [init_deposit, balanceOf, pending_withdrawal]);
 
-  if (
-    (!isOptionsWheelVault &&
-      depositAmount === 0 &&
-      deltaNeutralShares === 0 &&
-      availableWithdrawalAmount === 0) ||
-    (isOptionsWheelVault && depositAmount === 0 && availableWithdrawalAmount === 0)
-  ) {
-    return null;
-  }
+  if (!position || (!init_deposit && !pending_withdrawal)) return null;
 
   return (
     <Card className="text-primary relative">
@@ -82,17 +68,17 @@ const VaultPosition = (props: VaultPositionProps) => {
       <div className="p-8 z-20">
         <p className="text-xl font-medium capitalize opacity-50">Your position</p>
         <p className="flex flex-col xl:flex-row text-4xl font-bold mt-4">
-          {`${withCommas(toFixedNumber(totalBalance))} USDC`}
+          {`${withCommas(toFixedNumber(total_balance))} USDC`}
         </p>
         <div className="flex items-center gap-2 mt-2">
           <p className="text-sm sm:text-base opacity-60">PnL</p>
           <p className="flex items-center text-lg font-bold">
-            <span>{`${formatPnl(toFixedNumber(netYield))} USDC`}</span>
+            <span>{`${formatPnl(toFixedNumber(pnl))} USDC`}</span>
             <span
               className={`ml-2 ${
-                Number(toFixedNumber(netYield)) >= 0 ? 'text-rock-green' : 'text-red-600'
+                Number(toFixedNumber(pnl)) >= 0 ? 'text-rock-green' : 'text-red-600'
               }`}
-            >{`(${formatPnl(toFixedNumber(pnl * 100))}%)`}</span>
+            >{`(${formatPnl(toFixedNumber((pnl / init_deposit) * 100))}%)`}</span>
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-4 mt-12">
@@ -114,13 +100,11 @@ const VaultPosition = (props: VaultPositionProps) => {
             if (!point) {
               return null;
             }
-            const { label, icon: Icon } = point;
+            const { label, icon: Icon, formattedPoint } = point;
             return (
               <div key={x.name} className="flex items-center gap-1 sm:gap-2">
                 <Icon className="w-4 h-4 sm:w-8 sm:h-8" />
-                <p className="text-sm sm:text-base font-normal opacity-60">{`${withCommas(
-                  toFixedNumber(x.point, 1),
-                )} ${label}`}</p>
+                <p className="text-sm sm:text-base font-normal opacity-60">{`${formattedPoint} ${label}`}</p>
               </div>
             );
           })}

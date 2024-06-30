@@ -54,8 +54,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
     getUserPortfolio(userAddress as Address, vaultId),
   );
 
-  const currentVaultPortfolio = portfolioData?.positions?.find((x) => x.slug === slug);
-  const userPoints = currentVaultPortfolio?.points;
+  const currentVaultPosition = portfolioData?.positions?.find((x) => x.slug === slug);
 
   return (
     <VaultDetailProvider slug={slug} contractAddress={contractAddress}>
@@ -63,7 +62,7 @@ const VaultDetailTemplate = (props: VaultDetailTemplateProps) => {
       <div className="relative w-full flex flex-col-reverse xl:grid xl:grid-cols-5 gap-6 mt-6 z-20">
         <div className="xl:col-span-3">
           <div className="flex flex-col gap-6">
-            <VaultPosition points={userPoints} vaultNetwork={networkChain} />
+            <VaultPosition position={currentVaultPosition} vaultNetwork={networkChain} />
 
             <div className="lg:hidden">
               <VaultActionCard
