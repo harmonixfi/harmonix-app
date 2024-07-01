@@ -57,6 +57,16 @@ const VaultHowItWorks = (props: VaultHowItWorksProps) => {
       };
     }
 
+    if (slug.includes('etherfi')) {
+      return {
+        rebalance: [
+          'Short ETH on perpetual markets with a favorable funding rate',
+          'Holding ETH in spot or yield to maintain a neutral delta against USD.',
+        ],
+        profit: 'Earning yield through funding fees on Perp DEXes and staked ETH.',
+      };
+    }
+
     return {
       rebalance: [
         'Short ETH on perpetual markets with a favorable funding rate',

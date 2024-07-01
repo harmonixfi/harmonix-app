@@ -6,6 +6,7 @@ import { Point } from '@/@types/portfolio';
 import {
   BsxIcon,
   EigenLayerIcon,
+  EtherfiIcon,
   KelpDaoIcon,
   LogoCircleIcon,
   RenzoIcon,
@@ -60,6 +61,13 @@ export const getDisplayedPoint = (point: Point) => {
       data = {
         label: 'Bsx points',
         icon: BsxIcon,
+        formattedPoint,
+      };
+      break;
+    case PointProvider.Etherfi:
+      data = {
+        label: 'Etherfi points',
+        icon: EtherfiIcon,
         formattedPoint,
       };
       break;

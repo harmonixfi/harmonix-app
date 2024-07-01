@@ -9,6 +9,7 @@ import daiEthereumAbi from '@/abi/DaiEthereum.json';
 import deltaNeutralKelpDaoVaultAbi from '@/abi/DeltaNeutralKelpDaoVault.json';
 import deltaNeutralRenzoVaultAbi from '@/abi/DeltaNeutralRenzoVault.json';
 import deltaNeutralVaultAbi from '@/abi/DeltaNeutralVault.json';
+import etherfiDeltaNeutralVaultAbi from '@/abi/EtherfiDeltaNeutralVault.json';
 import optionsWheelVaultAbi from '@/abi/OptionsWheelVault.json';
 import usdcArbitrumAbi from '@/abi/UsdcArbitrum.json';
 import usdcBaseAbi from '@/abi/UsdcBase.json';
@@ -50,6 +51,7 @@ export type ContractMapping = {
   deltaNeutralRenzoVaultAbi: Abi;
   deltaNeutralKelpDaoVaultAbi: Abi;
   baseDeltaNeutralVaultAbi: Abi;
+  etherfiDeltaNeutralVaultAbi: Abi;
 };
 const useContractMapping = () => {
   const { selectedChain } = useChainContext();
@@ -67,6 +69,7 @@ const useContractMapping = () => {
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
       deltaNeutralKelpDaoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
       baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
+      etherfiDeltaNeutralVaultAbi: etherfiDeltaNeutralVaultAbi as Abi,
     };
   }
 
@@ -83,6 +86,7 @@ const useContractMapping = () => {
       deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
       baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
+      etherfiDeltaNeutralVaultAbi: etherfiDeltaNeutralVaultAbi as Abi,
     };
   }
 
@@ -99,6 +103,7 @@ const useContractMapping = () => {
       deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
       deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
       baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
+      etherfiDeltaNeutralVaultAbi: etherfiDeltaNeutralVaultAbi as Abi,
     };
   }
 
@@ -114,6 +119,7 @@ const useContractMapping = () => {
     deltaNeutralKelpDaoVaultAbi: deltaNeutralKelpDaoVaultAbi as Abi,
     deltaNeutralRenzoVaultAbi: deltaNeutralRenzoVaultAbi as Abi,
     baseDeltaNeutralVaultAbi: baseDeltaNeutralVaultAbi as Abi,
+    etherfiDeltaNeutralVaultAbi: etherfiDeltaNeutralVaultAbi as Abi,
   };
 };
 

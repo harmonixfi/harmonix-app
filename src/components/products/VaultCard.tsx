@@ -87,6 +87,10 @@ const VaultCard = (props: VaultCardProps) => {
       return 'Generating yield by shorting ETH on BSX with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
     }
 
+    if (slug.includes('etherfi')) {
+      return 'Generating yield by shorting ETH on Etherfi with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+    }
+
     return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
   }, [slug]);
 
@@ -105,6 +109,10 @@ const VaultCard = (props: VaultCardProps) => {
 
     if (slug.includes('base')) {
       return { vaultCardClass: 'base-card', capacityBarClass: 'base-capacity' };
+    }
+
+    if (slug.includes('etherfi')) {
+      return { vaultCardClass: 'etherfi-card', capacityBarClass: 'etherfi-capacity' };
     }
 
     return { vaultCardClass: 'delta-neutral-card', capacityBarClass: 'delta-neutral-capacity' };

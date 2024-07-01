@@ -47,6 +47,13 @@ export const vaultCardMapping = (
     };
   }
 
+  if (slug.includes('etherfi')) {
+    return {
+      color: 'secondary',
+      vaultAbi: contracts.etherfiDeltaNeutralVaultAbi,
+    };
+  }
+
   return {
     color: 'secondary',
     vaultAbi: contracts.deltaNeutralVaultAbi,

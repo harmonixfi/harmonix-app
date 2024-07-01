@@ -29,6 +29,7 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
     baseDeltaNeutralVaultAbi,
+    etherfiDeltaNeutralVaultAbi,
   } = useContractMapping();
 
   const { vaultVariant, vaultAbi }: VaultDetailContextData = useMemo(() => {
@@ -57,6 +58,13 @@ export const VaultDetailProvider = (props: VaultDetailProviderProps) => {
       return {
         vaultVariant: VaultVariant.BaseDeltaNeutral,
         vaultAbi: baseDeltaNeutralVaultAbi,
+      };
+    }
+
+    if (slug.includes('etherfi')) {
+      return {
+        vaultVariant: VaultVariant.EtherfiDeltaNeutral,
+        vaultAbi: etherfiDeltaNeutralVaultAbi,
       };
     }
 

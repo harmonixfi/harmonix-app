@@ -39,6 +39,10 @@ const VaultIntro = (props: VaultIntroProps) => {
       return 'Generating yield by shorting ETH on BSX with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
     }
 
+    if (slug.includes('etherfi')) {
+      return 'Generating yield by shorting ETH on Etherfi with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
+    }
+
     return 'Generating yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.';
   }, [slug]);
 

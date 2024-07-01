@@ -17,6 +17,7 @@ export enum VaultVariant {
   KelpdaoRestaking = 'KELPDAO_RESTAKING',
   RenzoRestaking = 'RENZO_RESTAKING',
   BaseDeltaNeutral = 'BASE_DELTA_NEUTRAL',
+  EtherfiDeltaNeutral = 'ETHERFI_DELTA_NEUTRAL',
 }
 
 export enum VaultCategory {
@@ -42,4 +43,5 @@ export enum PointProvider {
   KelpDao = 'kelpdao',
   Harmonix = 'Harmonix',
   Bsx = 'bsx',
+  Etherfi = 'etherfi',
 }

@@ -38,7 +38,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     metaDescription = `Increase yield by converting half of the fund deposit into ETH and re-staking it on KelpDAO. Meanwhile, exchange the other half for stablecoins and open a 1x short position on decentralized derivative exchanges.`;
   } else if (slug.includes('base')) {
     metaTitle = 'Harmonix - BSX';
-    metaDescription = `Generate yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.`;
+    metaDescription = `Generate yield by shorting ETH on BSX with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.`;
+  } else if (slug.includes('etherfi')) {
+    metaTitle = 'Harmonix - Etherfi';
+    metaDescription = `Generate yield by shorting ETH on Etherfi with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.`;
   } else {
     metaTitle = 'Harmonix - Delta Neutral';
     metaDescription = `Generate yield by shorting ETH on a perp markets with a favorable funding rate, while holding ETH in spot or yield to be neutral delta against USD.`;

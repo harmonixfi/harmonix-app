@@ -35,3 +35,4 @@ export { default as FlatLogoIcon } from './FlatLogo';
 export { default as LogoCircleIcon } from './LogoCircle';
 export { default as BaseIcon } from './Base';
 export { default as BsxIcon } from './Bsx';
+export { default as EtherfiIcon } from './Etherfi';

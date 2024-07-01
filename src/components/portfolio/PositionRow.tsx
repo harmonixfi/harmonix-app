@@ -43,6 +43,7 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
     baseDeltaNeutralVaultAbi,
+    etherfiDeltaNeutralVaultAbi,
   } = useContractMapping();
 
   const vaultAbi = useMemo(() => {
@@ -50,6 +51,7 @@ const PositionRow = (props: PositionRowProps) => {
     if (slug.includes('renzo')) return deltaNeutralRenzoVaultAbi;
     if (slug.includes('kelpdao')) return deltaNeutralKelpDaoVaultAbi;
     if (slug.includes('base')) return baseDeltaNeutralVaultAbi;
+    if (slug.includes('etherfi')) return etherfiDeltaNeutralVaultAbi;
     return deltaNeutralVaultAbi;
   }, [
     slug,
@@ -58,6 +60,7 @@ const PositionRow = (props: PositionRowProps) => {
     deltaNeutralRenzoVaultAbi,
     deltaNeutralKelpDaoVaultAbi,
     baseDeltaNeutralVaultAbi,
+    etherfiDeltaNeutralVaultAbi,
   ]);
 
   const configuredChains = useChains();
