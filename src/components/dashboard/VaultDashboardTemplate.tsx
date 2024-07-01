@@ -133,11 +133,6 @@ const VaultDashboardTemplate = () => {
               value: maskAddress(data?.vault_address ?? ''),
               link: `${explorerUrl}/address/${data?.vault_address}`,
             },
-            {
-              label: 'Manager address',
-              value: maskAddress(data?.manager_address ?? ''),
-              link: `${explorerUrl}/address/${data?.manager_address}`,
-            },
             { label: 'Risk factor', value: toFixedNumber(data?.risk_factor ?? 0) },
             { label: 'All-time high', value: toCurrency(data?.all_time_high_per_share ?? 0, 4) },
             { label: 'Total shares', value: withCommas(toFixedNumber(data?.total_shares ?? 0)) },
